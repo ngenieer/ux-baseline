@@ -1,0 +1,62 @@
+id: COPY-043
+category: COPY
+title: 도움 패널 사용 조건
+stage: platformed
+status:
+  value: confirmed
+type: guide
+strength: MAY
+statement: 간단한 안내·도움 정보에는 도움 패널 대신 맥락적 도움말을 쓰고, 작업 방법을 단계별로 안내할 때는 도움 패널 대신 따라하기 패널과 코치마크를 쓴다.
+measurement:
+  criteria: '점검 질문: 도움 패널의 각 콘텐츠가 (1) 한두 문장으로 끝나는 간단한 안내인가(그렇다면 맥락적 도움말 후보), (2) 순서 있는 단계 안내인가(그렇다면 따라하기 패널·코치마크
+    후보)? 둘 다 아니고 양이 많거나 복잡한 과업의 화면 단위 도움말일 때만 도움 패널에 둔다.'
+  method: 도움 패널 콘텐츠 목록을 놓고 점검 질문으로 분류한다.
+automation:
+  feasibility: none
+  checks: []
+  note: 콘텐츠 성격 판단은 사람이 한다.
+rationale: 도움 수단마다 적합한 콘텐츠 분량과 형태가 다르다. 도움 패널은 도움말 양이 많거나 복잡한 과업용이다(KRDS 도움 패턴·도움 패널).
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 도움 패널 > 용례 (가이드라인 PDF 2025.08 598쪽)
+  note: https://www.krds.go.kr/html/site/component/component_08_01.html
+- ref: KRDS
+  locator: 기본 패턴 > 도움 > 도움 패널·코치마크와 따라하기 패널 (가이드라인 PDF 2025.08 789·790쪽)
+  note: https://www.krds.go.kr/html/site/global/global_02.html — 도움말 양이 많거나 복잡한 과업에 도움 패널, 단계별 안내가 필요한 복잡한 과업에 코치마크·따라하기
+    패널
+scope:
+  level: component
+  targets:
+  - 도움 패널
+exceptions: []
+relations:
+- type: depends
+  id: COPY-044
+  note: 따라하기 패널을 쓰는 조건은 COPY-044
+examples:
+  good:
+  - lang: html
+    code: '<!-- 한 문장 안내는 맥락적 도움말로 -->
+
+      <label for="n">이름</label><button type="button" aria-expanded="false" aria-controls="n-help">도움말</button>
+
+      <div id="n-help" hidden>개명했다면 회원 정보에서 이름을 먼저 바꾸세요.</div>
+
+      '
+    note: 한 문장 안내를 맥락적 도움말로 제공한다
+  bad:
+  - lang: html
+    code: '<!-- 한 문장 안내를 위해 도움 패널 전체를 연다 -->
+
+      <aside class="help-panel"><h2>이름</h2><p>개명했다면 회원 정보에서 이름을 먼저 바꾸세요.</p></aside>
+
+      '
+    note: 한 문장 안내를 위해 도움 패널을 쓴다
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(curl로 KRDS 페이지 HTML을 받아 텍스트로 직접 읽음): 도움 패널(component_08_01) 용례 ''사용하기 적합하지
+  않은 경우: 안내/도움 정보가 간단한 경우 — 맥락적 도움말 컴포넌트를 사용하는 것이 적합하다; 단계별 안내 — 도움 패널 대신 따라하기 패널과 코치 마크 컴포넌트를 사용한다'' 확인. 용례(적합
+  여부) 서술이라 강도: KRDS ''적합하다·바람직하다·이상적'' 등 권장 표현 → MAY(정책 2). ''간단한''의 판단이 필요해 type: guide.'
+korean_specific: false
+tags:
+- krds
+- krds-component

@@ -1,0 +1,57 @@
+id: LAYOUT-032
+category: LAYOUT
+title: 디스클로저
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 디스클로저는 부가 정보를 제공하려는 대상 정보·컨트롤·섹션 바로 아래에 둔다.
+measurement:
+  criteria: 디스클로저(details 또는 aria-expanded 버튼+영역)가 대상 요소의 다음 형제(DOM)이며 화면에서도 대상 요소 바로 아래에 있다(사이에 다른 콘텐츠 블록 없음).
+  method: 디스클로저마다 대상 요소를 정하고 DOM·화면 위치를 확인한다.
+automation:
+  feasibility: none
+  checks: []
+  note: 대상 요소 지정이 필요해 수동. 4단계 규격에서 aria-describedby 등으로 대상 연결 시 커스텀 검사 가능.
+rationale: 디스클로저가 대상과 떨어져 있으면 어떤 정보를 보충하는지 알 수 없다.
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 디스클로저 > 사용성 가이드라인 (가이드라인 PDF 2025.08 382·383쪽)
+  note: https://www.krds.go.kr/html/site/component/component_04_04.html
+scope:
+  level: component
+  targets:
+  - details
+  - 디스클로저
+exceptions: []
+relations:
+- type: depends
+  id: STATE-010
+  note: 디스클로저 초기 상태(접힘)는 STATE-010.
+examples:
+  good:
+  - lang: html
+    code: '<label for="rrn">주민등록번호</label><input id="rrn" inputmode="numeric">
+
+      <details><summary>주민등록번호가 없는 경우</summary>…</details>
+
+      '
+    note: 디스클로저가 대상 입력 필드 바로 아래에 있다.
+  bad:
+  - lang: html
+    code: '<label for="rrn">주민등록번호</label><input id="rrn" inputmode="numeric">
+
+      <label for="addr">주소</label><input id="addr" autocomplete="street-address">
+
+      <details><summary>주민등록번호가 없는 경우</summary>…</details>
+
+      '
+    note: 대상 필드와 디스클로저 사이에 다른 필드가 끼어 있다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(curl로 KRDS 페이지 HTML을 받아 본문 텍스트를 직접 확인): 디스클로저(component_04_04) ''디스클로저를 통해
+  제공하고자 하는 부가 정보와 관련된 정보/컨트롤/섹션 아래에 배치한다.'' 확인. 지시형 → SHOULD.'
+korean_specific: false
+tags:
+- krds
+- krds-component

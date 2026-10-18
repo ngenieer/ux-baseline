@@ -1,0 +1,92 @@
+id: masthead
+title: 공식 배너
+status: confirmed
+summary: 대한민국 정부의 공식 디지털 서비스임을 알리는 한 줄 배너를 모든 화면 최상단에 둘 때 쓴다.
+use_instead:
+- when: 운영 주체가 정부기관이 아닌 사이트
+  use: 공식 배너를 쓰지 않는다
+  rule: COPY-012
+krds:
+  page: component_02_01.html
+  kit: html/code/masthead.html
+  kit_classes:
+    masthead: '#krds-masthead'
+    masthead__inner: toggle-head inner
+    masthead__text: nuri-txt
+anatomy:
+- part: 루트
+  class: masthead
+  element: div
+  required: true
+  note: 건너뛰기 링크 바로 다음, 헤더(header) 앞에 둔다. 헤더 요소 밖에 두어 헤더를 고정해도 함께 고정되지 않게 한다(LAYOUT-009, LAYOUT-013).
+- part: 안쪽 영역
+  class: masthead__inner
+  element: div
+  required: true
+  note: 본문 콘텐츠 최대 너비에 맞춘다.
+- part: 국가 상징 아이콘
+  class: masthead__icon
+  element: svg
+  note: 장식이다. aria-hidden="true", focusable="false" 로 보조기술에서 뺀다(A11Y-001).
+- part: 안내 문구
+  class: masthead__text
+  element: p
+  required: true
+  note: 문구는 '이 누리집은 대한민국 공식 전자정부 누리집입니다.' 그대로 쓴다.
+markup: |-
+  <div class="masthead">
+    <div class="masthead__inner">
+      <svg class="masthead__icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><use href="/images/icons.svg#flag"></use></svg>
+      <p class="masthead__text">이 누리집은 대한민국 공식 전자정부 누리집입니다.</p>
+    </div>
+  </div>
+css: |-
+  .masthead {
+    background-color: var(--color-surface-secondary-subtler);
+  }
+  .masthead__inner {
+    display: flex;
+    align-items: center;
+    gap: var(--space-gap-3);
+    max-inline-size: var(--layout-content-max);
+    min-block-size: var(--size-height-5);
+    margin-inline: auto;
+    padding-block: var(--space-padding-2);
+    padding-inline: var(--layout-screen-margin-small);
+  }
+  .masthead__icon {
+    flex: none;
+    inline-size: var(--size-height-1);
+    block-size: var(--size-height-1);
+  }
+  .masthead__text {
+    color: var(--color-text-basic);
+    font-size: var(--font-size-body-small);
+    word-break: keep-all;
+    overflow-wrap: anywhere;
+  }
+  @media (min-width: 768px) {
+    .masthead__inner {
+      padding-inline: var(--layout-screen-margin-medium);
+    }
+  }
+behavior:
+- 모든 페이지의 최상단에 렌더링한다. DOM 에서 공식 배너 앞에는 건너뛰기 링크만 둔다(LAYOUT-009, NAV-001).
+- 헤더를 상단에 고정(sticky·fixed)할 때 공식 배너는 고정하지 않고 스크롤과 함께 화면 밖으로 나가게 한다(LAYOUT-013).
+- 배경은 컨테이너 배경색 범위의 옅은 색, 글자는 본문 작은 글자 크기로 두어 헤더의 내비게이션·기능 버튼보다 주목도를 낮춘다(COLOR-012). 글자와 배경의 대비는 4.5:1 이상이다(COLOR-002).
+- 한국어 문구는 어절 단위로 줄바꿈하고 좁은 화면에서 넘치지 않게 overflow-wrap anywhere 를 함께 쓴다(TYPO-017).
+- 공식 정부 서비스가 아닌 사이트에서는 이 컴포넌트와 문구를 쓰지 않는다(COPY-012).
+rules:
+- A11Y-001
+- COLOR-002
+- COLOR-012
+- COPY-012
+- LAYOUT-009
+- LAYOUT-013
+- NAV-001
+- TYPO-017
+kit_differences:
+- KRDS 키트는 안내 문구에 word-break break-all 을 쓴다 — 이 규격은 한국어 어절 단위 줄바꿈(word-break keep-all + overflow-wrap anywhere)을 쓴다(TYPO-017).
+- KRDS 키트는 안내 문구를 span 으로 쓰고 국가 상징 아이콘을 CSS 배경 이미지로 넣는다 — 이 규격은 문구를 p 로, 아이콘을 aria-hidden 인 인라인 svg 로 넣는다(A11Y-001).
+notes:
+- svg 의 use href(/images/icons.svg#flag)는 예시 경로다. 프로젝트의 아이콘 스프라이트 경로로 바꾼다.

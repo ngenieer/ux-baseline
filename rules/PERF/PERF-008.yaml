@@ -1,0 +1,50 @@
+id: PERF-008
+category: PERF
+title: CLS 0.1 이하(p75)
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 실사용자 측정(RUM) 기준 75번째 백분위 CLS를 모바일과 데스크톱 각각 0.1 이하로 유지한다.
+measurement:
+  criteria: 최근 28일 RUM 데이터(web-vitals onCLS)를 모바일·데스크톱으로 나눠 집계한 p75 CLS가 각각 0.1 이하이다.
+  method: web-vitals onCLS로 수집해 기기군별 p75로 집계한다. Lighthouse CI cumulative-layout-shift ≤ 0.1은 로드 구간만 잡는 대리 지표.
+automation:
+  feasibility: partial
+  checks:
+  - tool: lighthouse
+    rule: cumulative-layout-shift
+    method: Lighthouse CI assert ≤ 0.1(로드 구간만, 실험실 대리 지표)
+  note: 스크롤·지연 로딩 중 생기는 로드 후 이동은 실험실에서 잡히지 않아 실측보다 낮게 나올 수 있다 — 판정은 RUM.
+rationale: 읽던 텍스트나 누르려던 버튼이 갑자기 밀려나면 사용자가 위치를 잃거나 잘못 누른다.
+sources:
+- ref: WEBDEV_CLS
+  locator: What is a good CLS score?
+  note: ≤0.1 good, >0.25 poor. 세션 윈도(간격 <1s, 최대 5s) 중 최대값, 사용자 입력 후 500ms 이내 이동 제외
+- ref: WEBDEV_VITALS
+  locator: Core Web Vitals 목록
+scope:
+  level: global
+  targets:
+  - 모든 페이지
+exceptions: []
+relations: []
+examples:
+  good:
+  - lang: js
+    code: 'import { onCLS } from ''web-vitals'';
+
+      onCLS(m => navigator.sendBeacon(''/rum'', JSON.stringify({ name: m.name, value: m.value })));'
+    note: web-vitals onCLS로 실사용자 CLS를 수집한다.
+  bad:
+  - lang: text
+    code: '판정: 모바일·데스크톱을 합친 평균 CLS 0.06 → 통과 처리. 모바일만 본 p75는 0.18.'
+    note: 평균값과 기기 합산으로 판정해 모바일 p75 0.1 초과를 놓친다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(web.dev CLS·Web Vitals curl): ''Good CLS values are 0.1 or less. Poor values
+  are greater than 0.25'', 세션 윈도 ''<1-second … maximum of 5 seconds'', ''within 500 milliseconds of user input …
+  hadRecentInput'' 확인. 28일 집계 창은 체계 선택.'
+korean_specific: false
+tags:
+- research-motion_perf

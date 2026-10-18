@@ -1,0 +1,50 @@
+id: NAV-016
+category: NAV
+title: 헤더 유틸리티 링크 5개 이상
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 헤더 유틸리티 링크가 5개 이상 필요하면 드롭다운 메뉴를 쓴다.
+measurement:
+  criteria: 헤더 유틸리티 영역에 펼쳐 보이는 링크가 4개 이하이고, 5번째 이후 링크는 aria-expanded를 가진 버튼으로 여닫는 드롭다운 목록 안에 있다.
+  method: 헤더 유틸리티 영역의 a 요소 수와 드롭다운 구조를 DOM에서 확인한다.
+automation:
+  feasibility: none
+  note: '4단계 커스텀 검사 가능: 헤더 규격 셀렉터 안 직접 노출 링크 수 ≤4 검사.'
+rationale: 헤더 상단 공간이 좁아 링크가 많으면 줄바꿈되거나 변별이 어려워진다.
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 헤더 > 사용성 가이드라인 (가이드라인 PDF 2025.08 235·238쪽)
+  note: https://www.krds.go.kr/html/site/component/component_02_03.html — '유틸리티 링크가 5개 이상 필요한 경우 드롭다운 메뉴를 사용한다.'
+scope:
+  level: component
+  targets:
+  - 헤더 유틸리티 링크 그룹
+exceptions: []
+relations:
+- type: depends
+  id: NAV-015
+  note: 같은 유틸리티 그룹의 위치·구분 규칙
+examples:
+  good:
+  - lang: html
+    code: "<ul class=\"utility\">\n  <li><a href=\"/login\">로그인</a></li><li><a href=\"/join\">회원가입</a></li><li><a\
+      \ href=\"/sitemap\">사이트맵</a></li>\n  <li><button aria-expanded=\"false\" aria-controls=\"more\">더보기</button><ul\
+      \ id=\"more\" hidden>…</ul></li>\n</ul>\n"
+    note: 링크 3개만 펼쳐 두고 나머지는 '더보기' 드롭다운에 넣는다.
+  bad:
+  - lang: html
+    code: '<ul class="utility"><li>…</li><li>…</li><li>…</li><li>…</li><li>…</li><li>…</li></ul>  <!-- 6개 모두 노출
+      -->
+
+      '
+    note: 유틸리티 링크 6개를 모두 펼쳐 둔다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(KRDS component_02_03 WebFetch): 문장·수치(5개 이상) 확인. 원문은 단정형 ''사용한다''(의무·권장 표현
+  없음) — SHOULD로 둠. 원문은 일부만 드롭다운으로 넣는지 전체를 넣는지 밝히지 않음 — 측정 기준의 ''노출 4개 이하''는 이 체계의 해석.'
+korean_specific: false
+tags:
+- krds
+- krds-component

@@ -1,0 +1,54 @@
+id: RESP-008
+category: RESP
+title: 좁은 화면 브레드크럼 축약
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 브레드크럼이 한 줄에 다 들어가지 않는 너비에서는 첫 번째 경로(메인 화면 링크)와 마지막 경로(현재 화면의 상위 화면 링크)만 표시하고 그 사이에 말줄임표를 둔다.
+measurement:
+  criteria: '브레드크럼 전체 항목이 한 줄을 넘는 너비에서: 표시된 링크가 정확히 2개이고, 첫 링크 href가 메인 화면, 마지막 링크 href가 현재 화면의 상위 화면이며, 두 링크 사이에
+    말줄임표(…) 표시가 있다.'
+  method: '모바일 너비(예: 360px)와 경로가 긴 페이지로 렌더링해 보이는 링크 수·href·말줄임표를 확인한다.'
+automation:
+  feasibility: none
+  checks: []
+  note: 4단계 커스텀 Playwright 검사.
+rationale: 좁은 화면에서 경로가 여러 줄로 늘어나는 것을 막으면서, 말줄임표로 경로가 축약됐음을 알린다.
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 브레드크럼 > 플랫폼에 대한 고려 사항 (가이드라인 PDF 2025.08 289쪽)
+  note: https://www.krds.go.kr/html/site/component/component_03_03.html
+scope:
+  level: component
+  targets:
+  - 브레드크럼
+  - nav[aria-label*=경로]
+exceptions: []
+relations:
+- type: depends
+  id: NAV-030
+  note: 브레드크럼은 한 줄로 표시한다 — 축약 조건의 전제.
+- type: depends
+  id: NAV-029
+  note: 첫 항목은 메인 화면 링크.
+examples:
+  good:
+  - lang: html
+    code: "<nav aria-label=\"현재 위치\"><ol>\n  <li><a href=\"/\">홈</a></li>\n  <li aria-hidden=\"true\">…</li>\n \
+      \ <li><a href=\"/svc/apply\">신청</a></li>\n</ol></nav>"
+    note: 좁은 화면에서 홈과 상위 화면 링크만 남기고 사이에 말줄임표를 둔다.
+  bad:
+  - lang: html
+    code: <!-- 360px에서 6개 경로가 3줄로 줄바꿈 -->
+    note: 좁은 화면에서 경로 6개를 그대로 둬 3줄로 줄바꿈된다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(curl로 KRDS 페이지 HTML을 받아 텍스트로 직접 읽음): ''화면 너비가 충분하지 않은 경우 첫 번째 경로와 마지막 경로만 표시한다'',
+  ''첫 번째 경로는 메인 화면 링크, 마지막 링크는 현재 화면의 상위 화면 링크로 일관성 있게 제공한다'', ''말줄임표를 제공함으로써 … 인지할 수 있도록 해야 한다'' 확인. 1단계 statement에
+  없던 ''마지막 경로 = 상위 화면''을 원문대로 추가. 너비 수치가 없어 NAV-030(한 줄 표시)과 맞물리는 ''한 줄을 넘는 너비''를 조건으로 씀. → SHOULD + public-sector-must.'
+korean_specific: false
+tags:
+- krds
+- krds-component
+- public-sector-must

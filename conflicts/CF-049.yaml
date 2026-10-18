@@ -1,0 +1,18 @@
+id: CF-049
+rules:
+- TYPO-017
+- TYPO-020
+- COLOR-022
+- TYPO-032
+against: 'KRDS 사이트·키트 CSS(word-break: break-all 다수 사용)'
+summary: KRDS 사이트 CSS는 break-all을 많이 쓰는데 TYPO-020은 한국어 본문에 break-all을 쓰지 말라고 한다.
+principle: 3
+decision: 'TYPO-017·020을 유지한다. KRDS 키트를 쓰는 프로젝트는 키트 CSS를 검사 대상에서 빼고 프로젝트 CSS에만 적용한다: 선언을 보는 검사(stylelint — TYPO-020·COLOR-022·TYPO-032)는
+  키트 CSS 파일을 실행 대상(.stylelintignore)에서 빼고, 계산 스타일로 판정하는 검사(TYPO-017·TYPO-020)는 키트 CSS 파일을 불러오지 않은 상태로 페이지를 렌더링해
+  판정한다.'
+reason: 체계 규칙은 프로젝트가 작성한 코드에 적용한다. 외부 키트 코드는 별도로 관리한다.
+deviates_from_priority: false
+date: '2026-10-18'
+rule_changes:
+- 'TYPO-017·TYPO-020: 측정 기준에 키트 CSS 적용 요소의 계산 스타일 판정 방법 추가 (2026-10-18 독립 검토)'
+- 'COLOR-022·TYPO-032: rules에 추가, decisions에 CF-049 추가, 측정 기준에 키트 CSS 파일 제외 명시 (2026-10-18 독립 검토)'

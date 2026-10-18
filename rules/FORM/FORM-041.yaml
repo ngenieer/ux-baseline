@@ -1,0 +1,64 @@
+id: FORM-041
+category: FORM
+title: 토글 스위치 사용 조건
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 토글 스위치는 부울(켜짐·꺼짐) 두 상태를 전환하고 그 결과가 별도 제출 없이 즉시 반영되는 설정에만 쓰고, 상태가 부울이 아니거나 상호 배타 옵션이 3개 이상이면 라디오 버튼을,
+  제출·적용 동작을 거쳐야 반영되는 선택이면 체크박스나 라디오 버튼을 쓴다.
+measurement:
+  criteria: 토글 스위치(role="switch" 또는 토글 컴포넌트)마다 (1) 상태가 켜짐·꺼짐 정확히 2개이고 (2) 상태를 바꾸면 제출·적용 버튼을 누르지 않아도 변경이 저장·반영된다.
+    옵션이 3개 이상이거나 부울이 아닌 선택, 제출 후에야 반영되는 선택에 토글을 쓰면 위반.
+  method: '수동: 화면의 토글마다 상태 수를 확인하고, 상태를 바꾼 뒤 제출 버튼을 누르지 않고 새로고침하거나 다른 화면에 갔다가 돌아와 변경이 반영돼 있는지 확인한다.'
+automation:
+  feasibility: none
+  checks: []
+  note: '기존 검사기 규칙 없음. 4단계 커스텀 휴리스틱: type=submit 버튼이 있는 form 안의 role=switch를 경고로 표시(최종 판정은 수동).'
+rationale: KRDS는 토글을 '상호 배타적인 두 가지 상태를 전환하는 요소'로 정의하고, 상태 전환 결과가 즉각 반영되는 경우를 적합한 경우로, 부울 상태 전환이 아닌 경우·상호 배타 옵션이
+  여러 개인 경우·별도 제출/적용 과정이 필요한 경우를 부적합한 경우로 든다.
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 토글 스위치 > 개요·용례(사용하기 적합한 경우) (가이드라인 PDF 2025.08 570쪽)
+  note: 'https://www.krds.go.kr/html/site/component/component_06_07.html — 원문: ''토글 스위치를 사용할 수 있다'', ''상태 전환의 결과가
+    즉각적으로 반영되는 경우 ... 적절하다'''
+- ref: KRDS
+  locator: '컴포넌트 > 토글 스위치 > 용례(사용하기 적합하지 않은 경우: 두 상태가 서로 반대되는 상태가 아닌 경우·여러 개의 상호 배타적인 선택 옵션) (가이드라인 PDF 2025.08 571쪽)'
+  note: 'https://www.krds.go.kr/html/site/component/component_06_07.html — FORM-045에서 병합. 원문: ''라디오 버튼을 사용한다'''
+- ref: KRDS
+  locator: '컴포넌트 > 토글 스위치 > 용례(사용하기 적합하지 않은 경우: 별도 제출/적용 과정이 필요한 경우) (가이드라인 PDF 2025.08 571쪽)'
+  note: 'https://www.krds.go.kr/html/site/component/component_06_07.html — FORM-046에서 병합. 원문: ''체크박스나 라디오 버튼을 사용한다'''
+scope:
+  level: component
+  targets:
+  - '[role="switch"]'
+  - 토글 스위치
+exceptions: []
+relations:
+- type: refines
+  id: FORM-035
+  note: '일부 겹침: FORM-035(체크박스 페이지)는 ''즉시 적용 설정에는 체크박스 대신 토글''을, 이 룰은 ''토글은 즉시 반영 설정에만''을 요구. 두 룰을 합치면 즉시 반영=토글,
+    제출 후 반영=체크박스·라디오'
+examples:
+  good:
+  - lang: html
+    code: '<!-- 바꾸는 즉시 저장되는 설정 -->
+
+      <label><input type="checkbox" role="switch" checked> 알림 수신</label>
+
+      '
+    note: 켜고 끄는 즉시 반영되는 부울 설정에 토글을 썼다.
+  bad:
+  - lang: html
+    code: "<!-- 저장 버튼을 눌러야 반영되는 선택에 토글 -->\n<form>\n  <label><input type=\"checkbox\" role=\"switch\"> 마케팅 정보 수신</label>\n\
+      \  <button type=\"submit\">저장</button>\n</form>\n"
+    note: 제출해야 반영되는 선택에 토글을 썼다. 체크박스를 써야 한다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(curl로 KRDS 페이지 HTML을 받아 본문 텍스트와 대조): 용례의 적합·부적합 문장과 대응 컴포넌트(라디오 버튼, 체크박스) 일치
+  확인. 강도: 적합한 경우는 ''적절하다''(MAY 수준)지만 부적합한 경우의 대안은 ''사용한다''(지시문)라 병합 룰을 SHOULD로 둠. ''해야 한다'' 표현은 없어 public-sector-must
+  태그는 붙이지 않음.'
+korean_specific: false
+tags:
+- krds
+- krds-component

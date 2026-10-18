@@ -1,0 +1,49 @@
+id: AI-016
+category: AI
+title: 피드백 전송 데이터 고지
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: AI 결과에 대한 피드백을 보내는 화면에는 피드백과 함께 전송되는 데이터(대화 내용 포함 여부)와 그 데이터의 사용 목적을 제출 버튼 앞에 텍스트로 알린다.
+measurement:
+  criteria: 피드백 제출 폼(또는 대화상자)에 (1) 대화 내용·결과물이 함께 전송되는지 여부, (2) 전송 데이터의 사용 목적을 밝힌 텍스트가 있고, 그 텍스트가 DOM 순서상 제출 버튼보다
+    앞에 있다.
+  method: 'E2E: 피드백 폼을 열어 [data-feedback-data-notice] 텍스트와 DOM 순서를 확인한다.'
+automation:
+  feasibility: none
+  checks: []
+  note: 기존 검사기 규칙 없음. 4단계 커스텀 E2E.
+rationale: 피드백에 대화 내용이 포함되는 줄 모르면 민감한 정보가 의도치 않게 전송된다.
+sources:
+- ref: APPLE_WWDC25_248
+  locator: 피드백 UI
+  note: '''When doing that, make sure people understand what data is collected from your app and how it is used.'''
+- ref: HAX_GUIDELINES_POSTER
+  locator: G16 Convey the consequences of user actions
+  note: '''Immediately update or convey how user actions will impact future behaviors of the AI system.'''
+scope:
+  level: component
+  targets:
+  - AI 피드백 폼
+  - 좋아요·싫어요 상세 의견 대화상자
+exceptions: []
+relations: []
+examples:
+  good:
+  - lang: html
+    code: "<form aria-labelledby=\"fb-t\">\n  <h2 id=\"fb-t\">의견 보내기</h2>\n  <textarea aria-label=\"의견\"></textarea>\n\
+      \  <p data-feedback-data-notice>의견과 함께 이 대화 내용이 전송되며, AI 답변 품질 개선에만 사용됩니다.</p>\n  <button>보내기</button>\n</form>"
+    note: 보내기 버튼 앞에 대화 내용 전송 여부와 사용 목적을 적었다.
+  bad:
+  - lang: html
+    code: <form><textarea aria-label="의견"></textarea><button>보내기</button></form>
+    note: 무엇이 함께 전송되는지 알리지 않고 의견을 보낸다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조: WWDC25 248 세션 페이지(curl) ''make sure people understand what data is collected
+  from your app and how it is used'' 확인, HAX 포스터 G16 확인. 개인정보 보호법상 수집·이용 고지 의무와의 관계는 미조사 — 법적 고지 요건은 이 룰 범위 밖이며
+  별도 검토 필요.'
+korean_specific: false
+tags:
+- research-ai

@@ -1,0 +1,96 @@
+id: FORM-012
+category: FORM
+title: 필수·선택 표시 통일
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 입력폼(form 요소와 form 밖의 독립 fieldset)의 필수 항목과 선택 항목을 레이블의 '필수'·'선택' 텍스트, 필수 항목의 별표(*), 또는 '모든 항목이 필수'라는 폼
+  상단 안내 중 하나로 구분하고, 같은 서비스 안에서는 한 가지 방식만 쓴다.
+measurement:
+  criteria: '판정 단위: form 요소, 그리고 form 안에 있지 않은 fieldset(독립 컨트롤 그룹). 필수 항목은 required 또는 aria-required="true" 인 컨트롤(라디오·체크박스
+    그룹은 그룹 안 컨트롤 하나라도 required 이거나 그룹에 aria-required="true"), 선택 항목은 그 밖의 컨트롤이다. 기본값(checked·selected·value)이 있어도
+    이 속성으로만 나눈다. (1) 필수 항목이 1개 이상인 단위는 다음 중 하나가 성립한다: (가) 텍스트 방식 — ''필수''는 필수 항목의 레이블·legend 에만, ''선택''은 선택 항목의
+    레이블·legend 에만 있고, 필수 항목 전부 또는 선택 항목 전부에 빠짐없이 있다. (나) 별표 방식 — 필수 항목의 레이블·legend 전부에 ''*''가 있고 선택 항목에는 없다. (다)
+    모든 항목이 필수이고 단위 상단 설명(첫 컨트롤 앞)에 그 사실이 텍스트로 있다. (2) 필수 항목이 없는 단위는 표시를 하지 않거나, 서비스가 (가)를 쓰면 선택 항목에 ''선택'' 텍스트만
+    쓴다. (3) 한 단위 안에서 별표와 ''필수''·''선택'' 텍스트를 섞지 않는다. (4) 표시가 이미지·아이콘이면 대체 텍스트(''필수'')가 있다. (5) 서비스의 모든 단위가 (가)·(나)
+    중 같은 레이블 방식을 쓴다. (다)는 모든 항목이 필수인 단위에서 (가)·(나)와 함께 쓸 수 있다.'
+  method: 단위마다 필수·선택 항목을 속성으로 나누고 (1)~(4)를 확인한다. html-validate 규칙이 (3)을 판정하고, (1)·(2)·(4)와 서비스 전체 일관성(5)은 서비스의 단위
+    목록을 만들어 표시 방식을 기록해 확인한다(수동).
+automation:
+  feasibility: partial
+  checks:
+  - tool: custom
+    method: required·aria-required="true" 필드의 레이블에 표시 문자열('필수' 또는 '*')이 있는지 DOM 검사 — (1)(가)의 필수 쪽 표시와 (나)만 판정
+  - tool: html-validate
+    rule: ux-baseline/required-marker-consistency
+    method: form 과 form 밖 fieldset 단위로 레이블·legend 에 별표와 '(필수)'·'(선택)' 표시를 섞었는지 검사 — (3) (lint/plugins/html-ux-baseline.mjs)
+  note: (1)·(2)의 표시 위치, (4), 서비스 전체 일관성(5)은 수동.
+rationale: 필수 여부를 미리 알아야 불필요한 입력을 줄이고 제출 오류를 피한다. 방식이 바뀌면 사용자가 매번 다시 해석해야 한다.
+sources:
+- ref: KRDS
+  locator: 기본 패턴 > 입력폼 > 사용성 가이드라인
+  note: 'https://www.krds.go.kr/html/site/global/global_08.html — ''필수 입력 항목과 선택 입력 항목을 명확하게 구분한다.'' / ''필수 또는 선택
+    입력 항목은 일관성 있는 방식으로 구분한다. ... 동일한 유형의 입력폼 또는 전체 웹사이트에서 일관되어야 한다.'' 방식: ''필수''·''선택'' 텍스트, 별표, 모든 항목 필수면 상단 안내.'
+- ref: KRDS
+  locator: 기본 패턴 > 입력폼 > 접근성 가이드라인
+  note: global_08 — '필수 입력 항목 정보를 이미지 형식으로 표시한 경우, 이미지에 대한 대체 텍스트를 제공'
+scope:
+  level: component
+  targets:
+  - form
+  - 입력 필드 레이블
+exceptions: []
+relations:
+- type: depends
+  id: FORM-004
+  note: 필수·선택 표시는 레이블(또는 폼 안내)에 붙는다.
+examples:
+  good:
+  - lang: html
+    code: '<label for="nm">이름 <span class="req">(필수)</span></label>
+
+      <input id="nm" required autocomplete="name">
+
+      <label for="nick">별명</label>
+
+      <input id="nick">
+
+      '
+    note: 필수 항목 레이블에만 '(필수)' 텍스트를 붙이는 한 가지 방식을 쓴다.
+  - lang: html
+    code: "<form action=\"/apply\" method=\"post\">\n  <label for=\"doc\">민원 안내 문서 (필수)</label>\n  <textarea id=\"\
+      doc\" name=\"doc\" required></textarea>\n</form>\n<!-- form 밖 독립 fieldset: 필수 항목이 없어 (선택) 텍스트만 쓴다(같은 텍스트 방식)\
+      \ -->\n<fieldset>\n  <legend>재현할 응답 상황 (선택)</legend>\n  <label><input type=\"radio\" name=\"mode\" value=\"\
+      normal\" checked> 정상 요약</label>\n  <label><input type=\"radio\" name=\"mode\" value=\"error\"> 서비스 오류</label>\n\
+      </fieldset>\n"
+    note: form 과 독립 fieldset 이 각각 판정 단위이고, 둘 다 '필수'·'선택' 텍스트 방식이라 서비스 안에서 한 방식이다.
+  bad:
+  - lang: html
+    code: '<label for="nm" class="is-required">이름</label>
+
+      <input id="nm" required autocomplete="name">
+
+      <!-- .is-required { color: var(--color-text-danger); } — 글자색만 다르다 -->
+
+      '
+    note: 필수 여부를 글자색으로만 표시해 텍스트·별표가 없다.
+  - lang: html
+    code: "<fieldset>\n  <legend>약관 동의</legend>\n  <label><input type=\"checkbox\" name=\"terms\" required> 이용약관\
+      \ 동의 *</label>\n  <label><input type=\"checkbox\" name=\"ads\"> 마케팅 정보 수신 동의 (선택)</label>\n</fieldset>\n"
+    note: 한 판정 단위(독립 fieldset) 안에서 별표와 '(선택)' 텍스트를 섞었다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(KRDS global_08 HTML curl): ''구분해야 한다'', ''일관되어야 한다'' 확인 → SHOULD + public-sector-must.
+  원문의 선택 기준(''대부분의 항목이 필수인 경우 선택 입력 항목만 표시, 대부분이 선택이면 필수 필드 레이블만 표시'')은 ''대부분''의 수치가 없어 측정 기준에서 제외 — 세 방식 중 무엇을
+  고를지는 체계의 4단계 선택. (2026-10-18 T5 검토 반영) form 요소 밖의 컨트롤 그룹(fieldset)이 ''폼''인지, 기본값이 있는 그룹에 붙은 ''(선택)''이 무엇을 뜻하는지
+  판정이 갈렸다 → 판정 단위를 ''form 요소와 form 밖 독립 fieldset''으로, 필수·선택을 required·aria-required 속성으로만 나누도록 정했다(기본값 유무와 무관).
+  KRDS 원문(global_08, 2026-10-18 curl 재확인)의 구분 방식 셋(''필수''·''선택'' 텍스트 / 별표 / 모두 필수면 상단 안내)을 (가)·(나)·(다)로 옮겼다 — 원문에서
+  ''필수''·''선택'' 텍스트는 한 방식이므로, 한 서비스에서 필수 쪽에 ''필수'', 선택 쪽에 ''선택''을 쓰는 것은 같은 방식이다. 검토 제안의 ''기본값이 있는 그룹에는 표시하지 않음''은
+  KRDS ''필수·선택을 명확하게 구분'' 요구보다 약해져 채택하지 않았다. (다)를 레이블 방식과 함께 허용한 것은, 상단 안내는 모두 필수인 폼에서만 쓸 수 있어 서비스 전체를 (다) 하나로 통일할
+  수 없다는 체계 해석이다. html-validate required-marker-consistency 를 같은 단위(form + 독립 fieldset)로 바꾸고, 별표·''(필수)''·''(선택)''
+  표시만 세도록 좁혔다(''선택 안 함'' 옵션 레이블 오검출 방지).'
+korean_specific: false
+tags:
+- krds
+- public-sector-must

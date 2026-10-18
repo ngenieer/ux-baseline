@@ -1,0 +1,58 @@
+id: PERF-011
+category: PERF
+title: 상호작용 없는 콘텐츠 삽입 금지
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 사용자 상호작용 없이 기존 콘텐츠 위나 사이에 배너·폼·목록 항목을 끼워 넣지 않고, 필요하면 공간을 미리 예약하거나 문서 흐름 밖 오버레이로 띄우거나 '더 보기' 같은 사용자 조작으로
+  불러온다.
+measurement:
+  criteria: '페이지 로드부터 사용자 입력 없이 10초 동안 관찰했을 때, hadRecentInput=false인 layout-shift 엔트리의 원인(sources)이 새로 삽입된 요소 때문에
+    밀려난 기존 콘텐츠인 경우가 없다. 쿠키 동의·앱 설치 유도 배너는 예약 공간 안에 있거나 position: fixed/sticky 오버레이다.'
+  method: PerformanceObserver(layout-shift)로 엔트리와 sources를 수집하고 DOM 변이 기록과 대조한다.
+automation:
+  feasibility: none
+  checks: []
+  note: 정적 검사 어려움. 4단계 커스텀 런타임 검사(위 method). RUM의 layout-shift attribution으로 원인 요소 추적.
+rationale: 사용자가 보고 있던 콘텐츠 위에 무언가가 끼어들면 위치를 잃거나 잘못 누른다. 사용자 입력 뒤 500ms 안의 이동은 예상된 것으로 보아 CLS에서 빠진다.
+sources:
+- ref: WEBDEV_OPT_CLS
+  locator: Avoid inserting new content without a user interaction
+  note: '''reserve sufficient space … in advance (for example, using a placeholder or skeleton UI)'', ''ensure the
+    element is not part of the document flow by overlaying'', ''Have the user initiate the load of new content …
+    "Load more"'''
+- ref: WEBDEV_CLS
+  locator: hadRecentInput 500ms
+scope:
+  level: global
+  targets:
+  - 쿠키 동의 배너
+  - 앱 설치 유도 배너
+  - 동적 목록
+  - 실시간 피드
+exceptions:
+- 사용자 입력 후 500ms 안에 생기는 이동(CLS에서 제외 — web.dev). 네트워크 요청 등으로 500ms를 넘길 것 같으면 500ms 안에 공간을 먼저 예약한다.
+relations:
+- type: refines
+  id: PERF-008
+- type: depends
+  id: PERF-010
+  note: 공간 예약 방법.
+examples:
+  good:
+  - lang: css
+    code: '.cookie-banner { position: fixed; inset-block-end: 0; inset-inline: 0; }'
+    note: 쿠키 배너를 문서 흐름 밖 고정 오버레이로 띄운다.
+  bad:
+  - lang: js
+    code: setTimeout(() => document.querySelector('main').prepend(promoBanner), 3000); // 읽던 본문을 밀어냄
+    note: 3초 뒤 본문 앞에 배너를 끼워 읽던 내용을 밀어낸다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(web.dev Optimize CLS·CLS curl): ''Avoid inserting new content without a user
+  interaction'', ''reserve sufficient space … placeholder or skeleton UI'', ''overlaying the content'', ''Load more'',
+  500ms 문장 확인. 관찰 시간 10초는 판정 절차용 체계 선택. 새 콘텐츠로 교체하는 동안 링크·컨트롤 비활성화 권고(오클릭 방지)는 FORM-013과 다른 요구라 별도 후보로 제안 파일 notes.'
+korean_specific: false
+tags:
+- research-motion_perf

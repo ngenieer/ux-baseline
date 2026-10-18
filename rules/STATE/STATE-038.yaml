@@ -1,0 +1,54 @@
+id: STATE-038
+category: STATE
+title: 스낵바 1개
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 한 페이지에 스낵바를 1개만 표시하고, 여러 스낵바를 겹치거나 쌓지 않는다.
+measurement:
+  criteria: 어느 시점에도 화면에 보이는 스낵바가 1개 이하다. 새 스낵바가 뜨면 기존 스낵바는 닫히거나 대기열에서 기다린다.
+  method: 스낵바를 연달아 일으키는 동작을 빠르게 반복해 동시에 보이는 수를 센다.
+automation:
+  feasibility: none
+  checks: []
+  note: 'E2E: 보이는 .snackbar(규격 셀렉터) 수 ≤ 1.'
+rationale: 여러 스낵바는 주의를 분산시킨다(KRDS 스낵바).
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 스낵바 > 사용성 가이드라인
+  note: https://www.krds.go.kr/html/site/component/component_12_06.html
+scope:
+  level: component
+  targets:
+  - 스낵바
+exceptions: []
+relations: []
+examples:
+  good:
+  - lang: js
+    code: 'let current;
+
+      function showSnackbar(msg) { current?.close(); current = createSnackbar(msg); }
+
+      '
+    note: 새 스낵바를 띄우기 전에 기존 스낵바를 닫는다.
+  bad:
+  - lang: html
+    code: '<div class="snackbar" role="status">파일 1을 삭제했습니다</div>
+
+      <div class="snackbar" role="status">파일 2를 삭제했습니다</div>
+
+      <div class="snackbar" role="status">파일 3을 삭제했습니다</div>
+
+      '
+    note: 스낵바 3개를 쌓아 표시한다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(curl로 KRDS 페이지 HTML을 받아 텍스트로 직접 읽음): 스낵바 component_12_06 ''한 페이지에 하나의 스낵바만
+  표시 한다. 여러개의 스낵바를 한 페이지에서 겹치거나 쌓아서 표시하지 않는다'' 확인.'
+korean_specific: false
+tags:
+- krds
+- krds-component
+- public-sector-must

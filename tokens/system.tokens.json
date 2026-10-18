@@ -1,0 +1,407 @@
+{
+  "$description": "ux-baseline 체계 토큰 — KRDS 토큰 파일에 없거나 형식이 맞지 않아 이 체계가 정의한 값. 1rem = 16px. 각 토큰의 $extensions.ux-baseline.source 에 근거를 적는다.",
+  "font": {
+    "family": {
+      "$type": "fontFamily",
+      "base": {
+        "$value": [
+          "Pretendard GOV",
+          "Pretendard",
+          "sans-serif"
+        ],
+        "$extensions": {
+          "ux-baseline.source": "KRDS primitive.typo.font.type(Pretendard GOV) + TYPO-030(마지막에 generic family)"
+        }
+      }
+    },
+    "weight": {
+      "$type": "fontWeight",
+      "regular": {
+        "$value": 400,
+        "$extensions": {
+          "ux-baseline.source": "KRDS 타이포그래피: 표준형 regular 400 (TYPO-006)"
+        }
+      },
+      "bold": {
+        "$value": 700,
+        "$extensions": {
+          "ux-baseline.source": "KRDS 타이포그래피: 표준형 bold 700 (TYPO-006)"
+        }
+      }
+    },
+    "line-height": {
+      "$type": "number",
+      "base": {
+        "$value": 1.5,
+        "$extensions": {
+          "ux-baseline.source": "KRDS --krds-line-height-base: 1.5, TYPO-004(본문 행간 1.5배 이상)"
+        }
+      },
+      "none": {
+        "$value": 1,
+        "$extensions": {
+          "ux-baseline.source": "KRDS --krds-line-height-none: 1 (아이콘·한 줄 컨트롤 전용)"
+        }
+      }
+    }
+  },
+  "shadow": {
+    "$type": "shadow",
+    "1": {
+      "$value": {
+        "color": "{theme.light.color.alpha.shadow1}",
+        "offsetX": {
+          "value": 0,
+          "unit": "rem"
+        },
+        "offsetY": {
+          "value": 0,
+          "unit": "rem"
+        },
+        "blur": {
+          "value": 0.125,
+          "unit": "rem"
+        },
+        "spread": {
+          "value": 0,
+          "unit": "rem"
+        }
+      },
+      "$extensions": {
+        "ux-baseline.source": "PREFERENCE — KRDS 키트에 shadow1 기하 값이 없어 shadow2의 첫 레이어를 씀 (SHAPE-004)"
+      }
+    },
+    "2": {
+      "$value": [
+        {
+          "color": "{theme.light.color.alpha.shadow1}",
+          "offsetX": {
+            "value": 0,
+            "unit": "rem"
+          },
+          "offsetY": {
+            "value": 0,
+            "unit": "rem"
+          },
+          "blur": {
+            "value": 0.125,
+            "unit": "rem"
+          },
+          "spread": {
+            "value": 0,
+            "unit": "rem"
+          }
+        },
+        {
+          "color": "{theme.light.color.alpha.shadow2}",
+          "offsetX": {
+            "value": 0,
+            "unit": "rem"
+          },
+          "offsetY": {
+            "value": 0.25,
+            "unit": "rem"
+          },
+          "blur": {
+            "value": 0.5,
+            "unit": "rem"
+          },
+          "spread": {
+            "value": 0,
+            "unit": "rem"
+          }
+        }
+      ],
+      "$extensions": {
+        "ux-baseline.source": "KRDS 키트 --krds-dropdown--menu-color-alpha-shadow (셀렉트·드롭다운, SHAPE-004)"
+      }
+    },
+    "3": {
+      "$value": [
+        {
+          "color": "{theme.light.color.alpha.shadow2}",
+          "offsetX": {
+            "value": 0,
+            "unit": "rem"
+          },
+          "offsetY": {
+            "value": 0,
+            "unit": "rem"
+          },
+          "blur": {
+            "value": 0.125,
+            "unit": "rem"
+          },
+          "spread": {
+            "value": 0,
+            "unit": "rem"
+          }
+        },
+        {
+          "color": "{theme.light.color.alpha.shadow3}",
+          "offsetX": {
+            "value": 0,
+            "unit": "rem"
+          },
+          "offsetY": {
+            "value": 0.5,
+            "unit": "rem"
+          },
+          "blur": {
+            "value": 1,
+            "unit": "rem"
+          },
+          "spread": {
+            "value": 0,
+            "unit": "rem"
+          }
+        }
+      ],
+      "$extensions": {
+        "ux-baseline.source": "KRDS 키트 --krds-contextual-help--popover-shadow (툴팁·팝오버·패널, SHAPE-004)"
+      }
+    },
+    "4": {
+      "$value": [
+        {
+          "color": "{theme.light.color.alpha.shadow2}",
+          "offsetX": {
+            "value": 0,
+            "unit": "rem"
+          },
+          "offsetY": {
+            "value": 0,
+            "unit": "rem"
+          },
+          "blur": {
+            "value": 0.125,
+            "unit": "rem"
+          },
+          "spread": {
+            "value": 0,
+            "unit": "rem"
+          }
+        },
+        {
+          "color": "{theme.light.color.alpha.shadow3}",
+          "offsetX": {
+            "value": 0,
+            "unit": "rem"
+          },
+          "offsetY": {
+            "value": 1,
+            "unit": "rem"
+          },
+          "blur": {
+            "value": 1.5,
+            "unit": "rem"
+          },
+          "spread": {
+            "value": 0,
+            "unit": "rem"
+          }
+        }
+      ],
+      "$extensions": {
+        "ux-baseline.source": "KRDS 키트 --krds-modal--wrap-shadow (모달, SHAPE-004)"
+      }
+    }
+  },
+  "motion": {
+    "duration": {
+      "$type": "duration",
+      "instant": {
+        "$value": {
+          "value": 100,
+          "unit": "ms"
+        },
+        "$extensions": {
+          "ux-baseline.source": "MOTION-011: 단순 상태 피드백 100ms"
+        }
+      },
+      "fast": {
+        "$value": {
+          "value": 200,
+          "unit": "ms"
+        },
+        "$extensions": {
+          "ux-baseline.source": "MOTION-011: 큰 전환 하한 200ms"
+        }
+      },
+      "base": {
+        "$value": {
+          "value": 300,
+          "unit": "ms"
+        },
+        "$extensions": {
+          "ux-baseline.source": "MOTION-011: 큰 전환 상한 300ms"
+        }
+      },
+      "slow": {
+        "$value": {
+          "value": 400,
+          "unit": "ms"
+        },
+        "$extensions": {
+          "ux-baseline.source": "KRDS --krds-transition-base 0.4s"
+        }
+      },
+      "max": {
+        "$value": {
+          "value": 500,
+          "unit": "ms"
+        },
+        "$extensions": {
+          "ux-baseline.source": "MOTION-011: 전환 상한 500ms"
+        }
+      }
+    },
+    "easing": {
+      "$type": "cubicBezier",
+      "standard": {
+        "$value": [
+          0.42,
+          0,
+          0.58,
+          1
+        ],
+        "$extensions": {
+          "ux-baseline.source": "CSS ease-in-out 정의값, KRDS transition-base 이징"
+        }
+      },
+      "enter": {
+        "$value": [
+          0,
+          0,
+          0.58,
+          1
+        ],
+        "$extensions": {
+          "ux-baseline.source": "CSS ease-out 정의값"
+        }
+      },
+      "exit": {
+        "$value": [
+          0.42,
+          0,
+          1,
+          1
+        ],
+        "$extensions": {
+          "ux-baseline.source": "CSS ease-in 정의값"
+        }
+      },
+      "linear": {
+        "$value": [
+          0,
+          0,
+          1,
+          1
+        ],
+        "$extensions": {
+          "ux-baseline.source": "CSS linear 와 같은 곡선"
+        }
+      },
+      "emphasized": {
+        "$value": [
+          0.4,
+          0,
+          0.23,
+          1
+        ],
+        "$extensions": {
+          "ux-baseline.source": "KRDS 컴포넌트 CSS transition: 0.4s cubic-bezier(0.4, 0, 0.23, 1)"
+        }
+      }
+    }
+  },
+  "breakpoint": {
+    "$type": "dimension",
+    "small": {
+      "$value": {
+        "value": 360,
+        "unit": "px"
+      },
+      "$extensions": {
+        "ux-baseline.source": "KRDS 레이아웃 표준형 (RESP-004)"
+      }
+    },
+    "medium": {
+      "$value": {
+        "value": 768,
+        "unit": "px"
+      },
+      "$extensions": {
+        "ux-baseline.source": "KRDS 레이아웃 표준형 (RESP-004)"
+      }
+    },
+    "large": {
+      "$value": {
+        "value": 1024,
+        "unit": "px"
+      },
+      "$extensions": {
+        "ux-baseline.source": "KRDS 레이아웃 표준형 (RESP-004)"
+      }
+    },
+    "xlarge": {
+      "$value": {
+        "value": 1280,
+        "unit": "px"
+      },
+      "$extensions": {
+        "ux-baseline.source": "KRDS 레이아웃 표준형 (RESP-004)"
+      }
+    }
+  },
+  "layout": {
+    "$type": "dimension",
+    "content-max": {
+      "$value": {
+        "value": 75,
+        "unit": "rem"
+      },
+      "$extensions": {
+        "ux-baseline.source": "KRDS 표준형 콘텐츠 최대 1200px (LAYOUT-007)"
+      }
+    },
+    "screen-margin": {
+      "small": {
+        "$value": {
+          "value": 1,
+          "unit": "rem"
+        },
+        "$extensions": {
+          "ux-baseline.source": "KRDS 최소 스크린 마진 16px (LAYOUT-004)"
+        }
+      },
+      "medium": {
+        "$value": {
+          "value": 1.5,
+          "unit": "rem"
+        },
+        "$extensions": {
+          "ux-baseline.source": "KRDS 최소 스크린 마진 24px, 768px 이상 (LAYOUT-004)"
+        }
+      }
+    },
+    "target-min": {
+      "$value": {
+        "value": 24,
+        "unit": "px"
+      },
+      "$extensions": {
+        "ux-baseline.source": "WCAG 2.5.8 24×24 CSS px (LAYOUT-002, CF-019)"
+      }
+    },
+    "in-page-navigation-width": {
+      "$value": {
+        "value": 10,
+        "unit": "rem"
+      },
+      "$extensions": {
+        "ux-baseline.source": "KRDS 키트 v1.1.0 --krds-in-page-navigation--width: 16rem(루트 10px) = 160px (LAYOUT-018)"
+      }
+    }
+  }
+}

@@ -1,0 +1,61 @@
+id: TYPO-031
+category: TYPO
+title: 본문 한 줄 길이 상한
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: '한국어 본문 텍스트 블록의 한 줄 길이를 전각 40자 이하로 제한한다(max-inline-size: 40ic 이하).'
+measurement:
+  criteria: 본문 단락(p, li, dd 등 본문 텍스트 블록)의 계산된 inline-size가 40ic 이하이다.
+  method: 브라우저에서 본문 텍스트 블록의 실제 너비를 같은 요소의 1ic 값으로 나눈 값이 40 이하인지 확인한다.
+automation:
+  feasibility: partial
+  checks:
+  - tool: stylelint
+    method: 본문 블록 클래스(기본 .prose)에 max-inline-size ≤ 40ic 필수 (lint/plugins/ux-baseline.mjs)
+    rule: ux-baseline/prose-max-inline-size
+  - tool: custom
+    method: E2E에서 계산된 너비 측정
+  note: 선언값만으로는 실제 줄 길이를 알 수 없어 E2E 측정을 함께 쓴다. 선택자 범위 규칙은 체계 기본 클래스 이름을 기준으로 하며, 프로젝트 클래스 이름이 다르면 classNames 옵션으로
+    바꾼다.
+rationale: 한 줄이 길면 줄 끝에서 다음 줄 시작을 찾기 어렵다. WCAG 1.4.8은 CJK 텍스트 너비를 40자 이하로 두고, 신·박(2003)은 30자를 가장 선호하고 50자에서 읽기 속도가
+  가장 빨랐다고 보고했다.
+sources:
+- ref: WCAG22
+  locator: SC 1.4.8 Visual Presentation (Level AAA)
+  note: width is no more than 80 characters or glyphs (40 if CJK)
+- ref: WCAG22_UNDERSTANDING
+  locator: https://www.w3.org/WAI/WCAG22/Understanding/visual-presentation.html
+- ref: SHIN_PARK_2003
+  locator: 줄 길이 10/30/50자 실험
+  note: 30자 선호, 50자 최고 속도 — 상한은 접근성 기준(40자)을 따른다
+scope:
+  level: global
+  targets:
+  - 본문 텍스트 블록(p, li, dd)
+exceptions:
+- 표 셀, 코드 블록, 한 줄짜리 제목
+relations:
+- type: refines
+  id: LAYOUT-007
+  note: LAYOUT-007은 콘텐츠 영역 최대 너비, 이 룰은 본문 줄 길이
+decisions:
+- CF-033
+needs_verification: false
+verification_note: '2026-10-18 3단계 CF-033으로 신설. WCAG 1.4.8 문장은 정규화 때 Understanding으로 확인됐다는 TYPO 묶음 보고에 따름 — 4단계
+  전에 원문 문장 재확인. 2026-10-18 W3C WCAG 2.2 권고안(w3.org/TR/WCAG22) 1.4.8 원문 재확인: ''Width is no more than 80 characters
+  or glyphs (40 if CJK)'' — 단 SC는 그렇게 바꿀 ''수단''이 있으면 충족(Note 1). 기본 줄 길이를 40자로 두는 것은 CF-033의 체계 결정.'
+korean_specific: true
+tags:
+- research-typo
+examples:
+  good:
+  - lang: css
+    code: :lang(ko) main p{max-inline-size:40ic}
+    note: 본문 한 줄이 전각 40자 이하다
+  bad:
+  - lang: css
+    code: :lang(ko) main p{max-inline-size:none} /* 1280px 화면에서 한 줄 70자 이상 */
+    note: 줄 길이 상한이 없어 넓은 화면에서 40자를 넘는다

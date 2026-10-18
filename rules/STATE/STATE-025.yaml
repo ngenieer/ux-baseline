@@ -1,0 +1,56 @@
+id: STATE-025
+category: STATE
+title: 따라하기 중단은 사용자만
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 사용자가 '중단하기' 버튼을 누르기 전까지 따라하기 패널의 콘텐츠를 다른 콘텐츠로 바꾸거나 따라하기 절차를 끝내지 않는다.
+measurement:
+  criteria: 따라하기 진행 중 페이지 안 다른 조작(다른 링크·버튼 사용, 도움 패널 전환, 패널 닫기)을 해도 따라하기 절차가 유지되고, '중단하기'를 눌렀을 때만 절차가 끝난다.
+  method: 따라하기를 시작한 뒤 위 조작을 각각 해 보고 다시 패널을 연다.
+automation:
+  feasibility: none
+  checks: []
+  note: E2E 시나리오 테스트로 검사 가능.
+rationale: 사용자 의도 없이 따라하기가 바뀌거나 끝나면 진행 중인 과업 안내를 잃는다(KRDS 따라하기 패널).
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 따라하기 패널 > 사용성 가이드라인 (가이드라인 PDF 2025.08 615쪽)
+  note: https://www.krds.go.kr/html/site/component/component_08_02.html
+- ref: KRDS
+  locator: 컴포넌트 > 따라하기 패널 > 사용성 가이드라인 (사용자가 중단하기 버튼을 누르기 전까지 따라하기 프로세스가 중단되지 않아야 한다 — 근거 문단) (가이드라인 PDF 2025.08 615쪽)
+  note: https://www.krds.go.kr/html/site/component/component_08_02.html — 원문 '사용자는 본문과 코치마크에 집중하기 위해 패널을 일시적으로 접은
+    상태에서 서비스를 이용할 수 있다. 패널 닫기 동작을 수행하였다고 하여 사용자의 의도와 상관없이 따라하기 절차가 중단되면 사용자는 이용 맥락을 잃어버리게 된다.' (NAV-061에서 이동). STATE-025
+    measurement에 '패널을 접거나 닫아도 따라하기 진행 상태가 유지된다'를 판정 조건으로 넣기를 권함.
+scope:
+  level: component
+  targets:
+  - 따라하기 패널
+exceptions: []
+relations:
+- type: depends
+  id: STATE-024
+examples:
+  good:
+  - lang: html
+    code: "<aside aria-labelledby=\"wt\">\n  <h2 id=\"wt\">따라하기: 전입신고 (2/5)</h2> …\n  <button type=\"button\">중단하기</button>\n\
+      </aside>\n"
+    note: '"중단하기"를 누를 때만 따라하기 절차가 끝난다.'
+  bad:
+  - lang: js
+    code: '// 본문의 다른 링크·버튼을 누르면 따라하기를 자동 종료
+
+      document.addEventListener(''click'', () => walkthrough.end());
+
+      '
+    note: 사용자가 중단하지 않았는데 절차를 끝낸다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(curl로 KRDS 페이지 HTML을 받아 텍스트로 직접 읽음): 따라하기 패널 component_08_02 ''사용자가 중단하기 버튼을
+  누르기 전까지 콘텐츠가 변경되지 않아야 한다'', ''… 따라하기 프로세스가 중단되지 않아야 한다'' 확인.'
+korean_specific: false
+tags:
+- krds
+- krds-component
+- public-sector-must

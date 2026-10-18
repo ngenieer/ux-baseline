@@ -1,0 +1,84 @@
+[
+  {
+    "name": "T4-A",
+    "errors": 0,
+    "warnings": 0,
+    "stylelint": 0,
+    "html": 0,
+    "axe": 0,
+    "browser": 0,
+    "rules": [],
+    "findings": []
+  },
+  {
+    "name": "T4-B",
+    "errors": 3,
+    "warnings": 1,
+    "stylelint": 4,
+    "html": 0,
+    "axe": 0,
+    "browser": 0,
+    "rules": [
+      "A11Y-016",
+      "COLOR-022",
+      "MOTION-010",
+      "MOTION-012",
+      "SHAPE-001",
+      "SHAPE-004",
+      "SPACE-001",
+      "TYPO-032"
+    ],
+    "findings": [
+      {
+        "tool": "stylelint",
+        "rule": "scale-unlimited/declaration-strict-value",
+        "severity": "error",
+        "message": "토큰(CSS 변수)만 쓴다 — tokens/build/tokens.css 의 var(--…) 를 쓸 것 (SPACE-001·SHAPE-001·MOTION-010·COLOR-022·TYPO-032) (scale-unlimited/declaration-strict-value)",
+        "where": "style.css:153",
+        "rules": [
+          "COLOR-022",
+          "MOTION-010",
+          "SHAPE-001",
+          "SHAPE-004",
+          "SPACE-001",
+          "TYPO-032"
+        ]
+      },
+      {
+        "tool": "stylelint",
+        "rule": "scale-unlimited/declaration-strict-value",
+        "severity": "error",
+        "message": "토큰(CSS 변수)만 쓴다 — tokens/build/tokens.css 의 var(--…) 를 쓸 것 (SPACE-001·SHAPE-001·MOTION-010·COLOR-022·TYPO-032) (scale-unlimited/declaration-strict-value)",
+        "where": "style.css:607",
+        "rules": [
+          "COLOR-022",
+          "MOTION-010",
+          "SHAPE-001",
+          "SHAPE-004",
+          "SPACE-001",
+          "TYPO-032"
+        ]
+      },
+      {
+        "tool": "stylelint",
+        "rule": "ux-baseline/no-outline-none-without-replacement",
+        "severity": "error",
+        "message": "\"main:focus\" 에서 outline 을 없앴는데 대체 초점 표시가 없다 (A11Y-016) (ux-baseline/no-outline-none-without-replacement)",
+        "where": "style.css:63",
+        "rules": [
+          "A11Y-016"
+        ]
+      },
+      {
+        "tool": "stylelint",
+        "rule": "ux-baseline/no-animated-position-props",
+        "severity": "warning",
+        "message": "left 를 애니메이션하지 말고 transform 을 쓸 것 (MOTION-012) (ux-baseline/no-animated-position-props)",
+        "where": "style.css:261",
+        "rules": [
+          "MOTION-012"
+        ]
+      }
+    ]
+  }
+]

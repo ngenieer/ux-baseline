@@ -1,0 +1,57 @@
+id: LAYOUT-043
+category: LAYOUT
+title: 표
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 아코디언·모달처럼 공간이 제한된 영역에서 표 데이터가 잘리거나 가로 스크롤이 생기면 표를 쓰지 않고 각 열을 세로로 떨어뜨려 배치한다.
+measurement:
+  criteria: 아코디언 패널·모달 안 table마다 scrollWidth ≤ 부모 컨테이너 clientWidth이고 잘린 셀 텍스트가 없다. 아니면 table 대신 열 항목을 세로로 쌓은 구조(dl·카드
+    등)를 쓴다.
+  method: 뷰포트 320 CSS px 너비에서 아코디언·모달 안 표를 열어 가로 넘침과 잘림을 확인한다.
+automation:
+  feasibility: none
+  checks: []
+  note: '4단계 커스텀 검사: .accordion-panel table, dialog table의 scrollWidth 비교.'
+rationale: 좁은 영역의 표는 데이터가 잘리거나 이중 스크롤을 만들어 정보를 비교하기 어렵다.
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 표 > 사용성 가이드라인 (가이드라인 PDF 2025.08 462·463·468쪽)
+  note: https://www.krds.go.kr/html/site/component/component_04_11.html
+scope:
+  level: situation
+  targets:
+  - .accordion-panel table
+  - dialog table
+exceptions:
+- '일반 본문 영역의 데이터 표: 표 영역 안 가로 스크롤을 허용한다(RESP-003 예외, CF-012). 이때 스크롤 컨테이너는 tabindex="0"으로 키보드 초점을 받고, role="region"과
+  aria-label(또는 표 제목을 가리키는 aria-labelledby)로 접근 가능한 이름을 가진다(WCAG 2.1.1, axe scrollable-region-focusable).'
+relations:
+- type: conflicts
+  id: RESP-003
+  note: 양립. LAYOUT-043은 아코디언·모달처럼 공간이 제한된 영역에만 적용한다. 일반 본문의 데이터 표는 표 영역 안에서만 가로 스크롤을 허용하고 페이지 전체 가로 스크롤은 만들지 않는다.
+  decision: CF-012
+examples:
+  good:
+  - lang: html
+    code: "<dialog aria-labelledby=\"fee-title\">\n  <h2 id=\"fee-title\">수수료 내역</h2>\n  <dl class=\"stacked\"><dt>항목</dt><dd>여권\
+      \ 발급</dd><dt>수수료</dt><dd>53,000원</dd><dt>납부 방법</dt><dd>카드·현금</dd></dl>\n</dialog>\n"
+    note: 모달 안에서는 표 대신 열 항목을 세로로 쌓는다.
+  bad:
+  - lang: html
+    code: "<dialog aria-labelledby=\"fee-title\">\n  <h2 id=\"fee-title\">수수료 내역</h2>\n  <table style=\"min-inline-size:\
+      \ 720px\">…</table> <!-- 320 CSS px 화면에서 모달 안 표에 가로 스크롤 -->\n</dialog>\n"
+    note: 모달 안 표가 넘쳐 가로 스크롤이 생긴다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(curl로 KRDS 페이지 HTML을 받아 본문 텍스트를 직접 확인): 표(component_04_11) ''표는 데이터 잘림 없이 표시될
+  수 있는 영역에 사용한다.'', ''아코디언, 모달과 같이 공간의 제한으로 인해 데이터가 잘리거나 데이터 확인을 위해 가로 스크롤을 사용해야 하는 영역에는 표를 사용하지 않아야 한다. 필요한 경우,
+  각각의 열이 아래로 떨어지도록 배치한다.'' 확인. 같은 페이지 플랫폼 고려 사항은 ''화면 너비가 충분하지 않은 경우 표 영역에 가로 스크롤을 사용하는 방안을 고려'' — 대상(좁은 화면 일반)이
+  달라 모순은 아님. ''않아야 한다'' → SHOULD + public-sector-must. 2026-10-18 독립 검토: 측정 너비를 RESP-003 기준 320 CSS px로 맞추고, 본문
+  표 가로 스크롤 예외에 키보드 초점·접근 가능한 이름 조건 추가(CF-012).'
+korean_specific: false
+tags:
+- krds
+- krds-component
+- public-sector-must

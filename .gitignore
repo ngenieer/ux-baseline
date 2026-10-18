@@ -1,0 +1,8 @@
+__pycache__/
+*.pyc
+.venv/
+.DS_Store
+node_modules/
+lint/node_modules/
+trials/node_modules/
+.claude/worktrees/

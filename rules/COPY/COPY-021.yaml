@@ -1,0 +1,57 @@
+id: COPY-021
+category: COPY
+title: 긴급 공지 문장 길이
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 긴급 공지 문장은 1줄로 쓰고, 화면 너비가 1줄을 담지 못하는 좁은 화면에서만 2줄까지 허용한다.
+measurement:
+  criteria: 긴급 공지 본문 텍스트의 줄 수가 프로젝트의 가장 넓은 레이아웃 구간에서 1, 모든 지원 화면 너비에서 2 이하다.
+  method: 지원 중단점마다 긴급 공지 텍스트 요소의 줄 수(높이 ÷ line-height 또는 getClientRects)를 측정한다.
+automation:
+  feasibility: none
+  checks: []
+  note: '4단계 커스텀 검사(Playwright): 중단점별 긴급 공지 텍스트 줄 수 측정.'
+rationale: 긴급 공지는 본문 맨 앞에 화면 전체 너비로 표시돼 핵심 과업을 가리므로, 1줄로 써서 인지 부하를 줄인다. 상세 내용은 링크로 연결한다(KRDS 긴급 공지).
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 긴급 공지 > 사용성 가이드라인 / 플랫폼에 대한 고려 사항 (가이드라인 PDF 2025.08 364·366쪽)
+  note: https://www.krds.go.kr/html/site/component/component_04_02.html
+scope:
+  level: component
+  targets:
+  - 긴급 공지
+exceptions: []
+relations:
+- type: depends
+  id: COPY-022
+  note: 상세 내용은 링크 1개로 연결(COPY-022)
+- type: depends
+  id: LAYOUT-029
+  note: 긴급 공지 배치는 LAYOUT-029
+examples:
+  good:
+  - lang: html
+    code: '<div class="emergency" role="region" aria-label="긴급 공지"><p>10월 20일 02:00~06:00 시스템 점검으로 신청이 중단됩니다. <a
+      href="/notice/31">점검 안내</a></p></div>
+
+      '
+    note: 긴급 공지를 한 문장, 한 줄로 쓴다
+  bad:
+  - lang: html
+    code: '<div class="emergency" role="region" aria-label="긴급 공지"><p>10월 20일 02:00~06:00 서버 교체 작업으로 신청·조회·증명서 발급
+      등 모든 서비스를 이용할 수 없으며, 작업 상황에 따라 중단 시간이 늘어날 수 있으니 이용에 참고하시기 바랍니다. <a href="/notice/31">점검 안내</a></p></div>
+
+      '
+    note: 긴급 공지 한 문장이 길어 넓은 화면에서도 여러 줄이 된다
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(curl로 KRDS 페이지 HTML을 받아 텍스트로 직접 읽음): 긴급 공지(component_04_02) ''문장은 1줄 이내로 작성하여
+  사용자의 인지적 부하를 최소화해야 한다. 만약 화면 너비가 충분하지 않다면 2줄까지 사용할 수 있다'', 플랫폼 고려 사항 ''최대 2줄까지'' 확인. 강도: KRDS ''해야 한다·않는다'' 표현
+  → SHOULD + public-sector-must(정책 2). ''화면 너비가 충분하지 않다''의 경계 수치는 원문에 없어 ''가장 넓은 레이아웃 구간에서 1줄''로 판정 조건을 정함.'
+korean_specific: false
+tags:
+- krds
+- krds-component
+- public-sector-must

@@ -1,0 +1,55 @@
+id: FORM-067
+category: FORM
+title: 슬라이더 선택 값 위치
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 범위 슬라이더의 선택 값은 핸들 위나 슬라이더 끝에 표시하고 핸들 아래에는 두지 않는다.
+measurement:
+  criteria: 선택 값 텍스트의 박스가 핸들 박스보다 위(값 박스 bottom ≤ 핸들 top)에 있거나 슬라이더 트랙의 왼쪽·오른쪽 끝 바깥에 있다. 값 박스 top이 핸들 bottom 이상이면
+    위반.
+  method: 'E2E: getBoundingClientRect로 선택 값 요소와 핸들의 위치를 비교한다.'
+automation:
+  feasibility: none
+  checks: []
+  note: 기존 검사기 규칙 없음. 4단계 커스텀 E2E로 판정 가능.
+rationale: KRDS는 손가락으로 값을 고르는 플랫폼 특성 때문에 선택 값을 핸들 아래에 두면 안 되며 핸들 위나 슬라이더 끝에 두어 항상 인지할 수 있게 해야 한다고 한다.
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 범위 슬라이더 > 사용성 가이드라인(사용자의 선택 값은 항상 인지할 수 있는 곳에 표기 한다)
+  note: 'https://www.krds.go.kr/html/site/component/component_12_01.html — 원문: ''표기하여야 한다'', ''하단에 배치하여서는 안 된다'''
+scope:
+  level: component
+  targets:
+  - input[type=range]
+  - '[role="slider"]'
+exceptions: []
+relations:
+- type: refines
+  id: FORM-068
+  note: 선택 값 상시 표시(FORM-068)의 표시 위치를 정함
+examples:
+  good:
+  - lang: html
+    code: "<style>.slider output { display: block; }</style>\n<div class=\"slider\">\n  <label for=\"vol\">음량</label>\n\
+      \  <output id=\"volOut\" for=\"vol\">40</output>\n  <span aria-hidden=\"true\">0</span>\n  <input id=\"vol\"\
+      \ type=\"range\" min=\"0\" max=\"100\" step=\"10\" value=\"40\" oninput=\"volOut.value = this.value\">\n \
+      \ <span aria-hidden=\"true\">100</span>\n</div>\n"
+    note: 선택 값(output)을 블록으로 슬라이더 위에 둔다.
+  bad:
+  - lang: html
+    code: "<div class=\"slider\">\n  <label for=\"vol\">음량</label>\n  <span aria-hidden=\"true\">0</span>\n  <input\
+      \ id=\"vol\" type=\"range\" min=\"0\" max=\"100\" step=\"10\" value=\"40\" oninput=\"volOut.value = this.value\"\
+      >\n  <span aria-hidden=\"true\">100</span>\n  <output id=\"volOut\" for=\"vol\" style=\"display: block; margin-top:\
+      \ var(--space-gap-2)\">40</output>\n</div>\n"
+    note: 선택 값을 핸들 아래에 둬 손가락·포인터에 가린다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(curl로 KRDS 페이지 HTML을 받아 본문 텍스트와 대조): 문장·근거(''손가락을 이용하여 값을 선택'') 일치 확인. 원문 강도
+  ''표기하여야 한다/배치하여서는 안 된다'' → SHOULD + public-sector-must. 1단계 컴포넌트 이름 ''범위 슬라이드''는 원문 ''범위 슬라이더''로 고침.'
+korean_specific: false
+tags:
+- krds
+- krds-component
+- public-sector-must

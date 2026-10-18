@@ -1,0 +1,49 @@
+id: LAYOUT-022
+category: LAYOUT
+title: 플로팅 버튼
+stage: platformed
+status:
+  value: confirmed
+type: guide
+strength: MAY
+statement: 플로팅 버튼은 사용자가 반복하는 주요 행동이 하나일 때만 쓰고, 주요 행동이 여럿이거나 지도·캘린더·이미지 편집처럼 제스처 조작이 많은 화면에서는 쓰지 않는다.
+measurement:
+  criteria: '점검 질문: 이 화면에서 사용자가 반복 수행하는 주요 행동이 하나인가? 화면이 지도·캘린더·이미지 편집 등 제스처 중심인가? 주요 행동이 여럿이면 메뉴·탭바를 검토했는가?'
+automation:
+  feasibility: none
+  checks: []
+  note: 사용 적합성 판단 가이드.
+rationale: 여러 행동을 플로팅 버튼에 넣으면 혼란스럽고, 제스처 화면에서는 손동작과 콘텐츠를 가린다.
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 플로팅 버튼 > 용례
+  note: https://www.krds.go.kr/html/site/component/component_05_03.html
+scope:
+  level: component
+  targets:
+  - 플로팅 버튼
+exceptions: []
+relations:
+- type: depends
+  id: LAYOUT-024
+examples:
+  good:
+  - lang: text
+    code: '민원 목록 화면에 반복 주요 행동인 ''새 민원 작성'' 플로팅 버튼 하나만 둔다.
+
+      '
+    note: 반복되는 주요 행동이 하나인 화면에만 플로팅 버튼을 쓴다.
+  bad:
+  - lang: text
+    code: '지도 기반 시설 찾기 화면에 ''현재 위치'' 플로팅 버튼을 띄워 지도 드래그·확대 영역을 가린다.
+
+      '
+    note: 제스처 조작이 많은 지도 화면에 플로팅 버튼을 썼다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(curl로 KRDS 페이지 HTML을 받아 본문 텍스트를 직접 확인): 플로팅 버튼(component_05_03) 용례 ''사용자가 반복적으로
+  수행하는 주요 단일 행동이 있는 경우'', 부적합 ''자주 사용하는 행동이 다수인 경우에는 메뉴, 탭바 등 … 더 적합하다'', ''지도, 캘린더, 이미지 편집 등 … 제스처 조작이 많은 화면 …
+  적합하지 않다'' 확인. 적합성 표현 → MAY, ''주요 행동'' 판단이 필요해 guide.'
+korean_specific: false
+tags:
+- krds
+- krds-component

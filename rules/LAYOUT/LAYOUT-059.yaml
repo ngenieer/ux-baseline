@@ -1,0 +1,57 @@
+id: LAYOUT-059
+category: LAYOUT
+title: 음성지원
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 페이지 단위 음성지원 버튼은 페이지 상단 또는 주요 제목(h1) 옆에, 영역 단위 음성지원 버튼은 해당 카드·소제목·약관 등 정보 단위의 제목 옆에 둔다.
+measurement:
+  criteria: (1) 페이지 단위 버튼이 h1과 같은 헤딩 영역(같은 부모 컨테이너) 안 또는 main 첫 블록에 있다. (2) 영역 단위 버튼이 낭독 대상 영역 안에 있고 그 영역 제목 요소의
+    다음 형제(또는 제목 줄 안)에 있다.
+  method: 음성지원 버튼이 있는 화면에서 DOM 위치를 확인한다.
+automation:
+  feasibility: none
+  checks: []
+  note: 4단계 컴포넌트 규격으로 고정.
+rationale: 버튼이 낭독 대상 가까이에 있어야 무엇을 읽어 주는지 알 수 있다.
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 음성지원 > 유형
+  note: https://www.krds.go.kr/html/site/component/component_08_06.html
+scope:
+  level: component
+  targets:
+  - 음성지원 버튼
+exceptions: []
+relations:
+- type: depends
+  id: A11Y-057
+  note: 낭독 내용(요약)은 A11Y-057.
+examples:
+  good:
+  - lang: html
+    code: '<div class="page-title"><h1>전입신고 안내</h1><button type="button" class="tts">이 페이지 듣기</button></div>
+
+      '
+    note: 페이지 단위 음성지원 버튼이 h1 옆에 있다.
+  bad:
+  - lang: html
+    code: '<h1>전입신고 안내</h1>
+
+      …
+
+      <footer><button type="button" class="tts">이 페이지 듣기</button></footer>
+
+      '
+    note: 페이지 단위 음성지원 버튼이 푸터에 있다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(curl로 KRDS 페이지 HTML을 받아 본문 텍스트를 직접 확인): 음성지원(component_08_06) 유형 ''페이지 단위 음성지원:
+  페이지 상단 또는 주요 타이틀 근처에 배치하여 …'', ''영역 단위 음성 지원: 카드, 서브 타이틀, 약관 등 독립된 정보 단위 옆에 배치하여 …'' 확인. 원문 ''근처''를 ''같은 헤딩 영역
+  안''으로 판정 가능하게 바꿈. 유형 서술 → SHOULD(krds-descriptive).'
+korean_specific: false
+tags:
+- krds
+- krds-component
+- krds-descriptive

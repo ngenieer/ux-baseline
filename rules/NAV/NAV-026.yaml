@@ -1,0 +1,77 @@
+id: NAV-026
+category: NAV
+title: 메인 메뉴 펼침·접힘 조작
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 1수준 메뉴는 Click 또는 Enter로 하위 메뉴를 펼치고, 다시 Click·Enter하거나 헤더 밖을 클릭하거나 Esc를 누르면 접으며, Esc로 접으면 초점을 그 1수준 메뉴로
+  옮긴다.
+measurement:
+  criteria: '1수준 메뉴 버튼: Click·Enter로 aria-expanded가 false→true, 다시 Click·Enter로 true→false. 펼친 상태에서 헤더(드롭다운 포함)
+    밖을 클릭하면 aria-expanded=false. 드롭다운 안 어디에서든 Esc를 누르면 모든 드롭다운이 닫히고 document.activeElement가 해당 1수준 메뉴 버튼이다.'
+  method: 마우스와 키보드로 각각 조작해 aria-expanded 값과 초점 위치를 확인한다(수동 또는 Playwright).
+automation:
+  feasibility: none
+  note: '4단계 커스텀 E2E 검사 가능: 각 1수준 버튼에 click/Enter/Escape 이벤트를 보내고 aria-expanded·activeElement 확인.'
+rationale: 마우스와 키보드 모두 같은 방식으로 메뉴를 여닫을 수 있어야 하고, 닫은 뒤 초점이 사라지지 않아야 키보드 사용자가 이어서 탐색한다.
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 메인 메뉴 > 상호작용 가이드라인(메뉴 영역 확장 및 축소) (가이드라인 PDF 2025.08 279쪽)
+  note: 'https://www.krds.go.kr/html/site/component/component_03_02.html — ''메뉴 링크를 Click 하였을 때 하위 수준 메뉴가 펼쳐진다.''
+    / ''활성화된 1수준 메뉴를 다시 Click 하거나 헤더와 메인 영역을 벗어나는 화면영역을 Click 하였을 때 메뉴가 접힌다.'' / Enter 동일 / ESC: ''펼쳐진 드롭다운 메뉴가
+    모두 축소되며 펼쳐졌던 메뉴의 상위 수준에 속하는 1수준 메뉴로 초점이 이동한다.'''
+- ref: ARIA_APG
+  locator: https://www.w3.org/WAI/ARIA/apg/patterns/disclosure/examples/disclosure-navigation/
+  note: 'Disclosure Navigation Menu 예시: 버튼에 aria-expanded·aria-controls, Escape는 드롭다운을 닫고 그 버튼으로 초점. aria-current="page"는
+    현재 페이지 링크에만.'
+scope:
+  level: component
+  targets:
+  - 메인 메뉴 1수준 버튼
+  - 메인 메뉴 드롭다운
+exceptions: []
+relations:
+- type: depends
+  id: A11Y-011
+  note: 모든 기능 키보드 조작(WCAG 2.1.1)
+- type: depends
+  id: A11Y-025
+  note: 펼침 상태를 aria-expanded로 보조기술에 전달(WCAG 4.1.2)
+examples:
+  good:
+  - lang: html
+    code: "<button id=\"gnb-civil\" aria-expanded=\"false\" aria-controls=\"menu-civil\">민원</button>\n<div id=\"\
+      menu-civil\" class=\"gnb-dropdown\" hidden>…</div>\n<script>\nconst btn = document.getElementById('gnb-civil'),\
+      \ panel = document.getElementById('menu-civil');\nconst setOpen = (open) => { btn.setAttribute('aria-expanded',\
+      \ open); panel.hidden = !open; };\nbtn.addEventListener('click', () => setOpen(btn.getAttribute('aria-expanded')\
+      \ !== 'true')); // button이라 Enter도 click\n[btn, panel].forEach((el) => el.addEventListener('keydown', (e)\
+      \ => {\n  if (e.key === 'Escape') { setOpen(false); btn.focus(); }\n}));\ndocument.addEventListener('click',\
+      \ (e) => { if (!e.target.closest('header')) setOpen(false); });\n</script>\n"
+    note: Click·Enter로 여닫고, 헤더 밖 클릭과 Esc로 닫으며, Esc 후 초점을 1수준 메뉴 버튼으로 돌린다.
+  bad:
+  - lang: html
+    code: '<button id="gnb-civil" aria-expanded="false" aria-controls="menu-civil">민원</button>
+
+      <div id="menu-civil" class="gnb-dropdown" hidden>…</div>
+
+      <script>
+
+      // 호버로만 열리고 Click·Enter·Esc 처리가 없다
+
+      btn.addEventListener(''mouseenter'', () => { btn.setAttribute(''aria-expanded'', true); panel.hidden = false;
+      });
+
+      </script>
+
+      '
+    note: 마우스 호버로만 열리고 Click·Enter·Esc로 조작할 수 없다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(KRDS component_03_02, APG disclosure-navigation WebFetch): Click·Enter·ESC
+  동작 확인. 1단계 statement에 없던 ESC 동작을 같은 표에서 추가. 원문 ''헤더와 메인 영역을 벗어나는 화면영역''은 ''메인 메뉴 영역''으로 해석해 ''헤더(드롭다운 포함) 밖''으로
+  씀. 원문은 표 서술로 강도 표현 없음 — SHOULD로 둠. BACKLOG(KRDS aria-current 불일치): 펼침 상태는 aria-expanded로 표시(APG).'
+korean_specific: false
+tags:
+- krds
+- krds-component

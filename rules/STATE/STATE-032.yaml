@@ -1,0 +1,64 @@
+id: STATE-032
+category: STATE
+title: 입력 유실 전 경고
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 작성 중인 입력 내용이 사라지는 이동(뒤로가기 버튼, 시스템 뒤로가기, 페이지 이탈) 전에는 내용이 사라진다고 경고하고, 계속 이동할지 머무를지 사용자가 고르게 한다.
+measurement:
+  criteria: 입력 필드 값을 1개 이상 바꾼 뒤 (1) 앱 내 뒤로가기 버튼을 누르면 '이동'·'머무르기' 선택이 있는 확인 대화상자가 뜨고, (2) 브라우저 뒤로가기·새로 고침·탭 닫기 시
+    beforeunload 확인이 뜬다. 입력이 없거나 저장한 뒤에는 경고가 뜨지 않는다.
+  method: 입력 화면에서 위 이동을 각각 시도한다.
+automation:
+  feasibility: partial
+  checks:
+  - tool: ux-baseline-check
+    rule: leave-warning
+    method: 'ux-baseline check: 입력 폼(textarea 또는 한 줄 입력 2개 이상, 검색 폼 제외)에 값을 입력하고 새로 고침 → beforeunload 확인이 뜬다 — 경고. (1) 앱 내 뒤로가기 버튼 대화상자는 수동'
+  note: 'E2E: 값 입력 후 page.goBack() 시 dialog 이벤트 발생 여부 검사.'
+rationale: 신청·입력 중 이동으로 내용이 사라지면 사용자가 처음부터 다시 입력해야 한다(KRDS 뒤로가기 버튼).
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 뒤로가기 버튼 > 사용성 가이드라인
+  note: https://www.krds.go.kr/html/site/component/component_12_02.html
+scope:
+  level: situation
+  targets:
+  - 작성 중인 form이 있는 화면
+  - 뒤로가기 버튼
+exceptions: []
+relations:
+- type: depends
+  id: STATE-003
+  note: 경고 대화상자는 확인 대화상자 규격을 따른다
+examples:
+  good:
+  - lang: js
+    code: 'let dirty = false;
+
+      form.addEventListener(''input'', () => { dirty = true; });
+
+      form.addEventListener(''submit'', () => { dirty = false; });
+
+      addEventListener(''beforeunload'', (e) => { if (dirty) e.preventDefault(); });
+
+      '
+    note: 입력이 있으면 이탈 전에 브라우저 확인을 띄운다.
+  bad:
+  - lang: html
+    code: '<!-- 입력 중 눌러도 경고 없이 이전 화면으로 이동 -->
+
+      <button type="button" onclick="history.back()">이전 화면</button>
+
+      '
+    note: 작성 내용이 사라지는 이동 전에 경고하지 않는다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(curl로 KRDS 페이지 HTML을 받아 텍스트로 직접 읽음): 뒤로가기 버튼 component_12_02 ''작성 중인 내용이 사라지는
+  경우에는 항상 경고하여야 한다 … 유실될 가능성이 있는 모든 상황에서, 반드시 사전 경고를 제공하여 … 하여야 한다'' 확인. 원문 범위가 ''모든 상황''이라 뒤로가기 버튼에 한정하지 않음.'
+korean_specific: false
+tags:
+- krds
+- krds-component
+- public-sector-must

@@ -1,0 +1,139 @@
+id: text-field
+title: 텍스트 입력 필드
+status: confirmed
+summary: 한 줄 텍스트(이름·이메일·전화번호·검색어 등)를 입력받을 때 쓴다.
+use_instead:
+- when: 여러 줄 텍스트가 예상되는 경우
+  use: textarea
+  rule: FORM-054
+- when: 응답 내용이나 양식이 미리 정해진 경우
+  use: 라디오 버튼·체크박스·셀렉트
+  rule: FORM-057
+krds:
+  page: component_09_03.html
+  kit: html/code/text_input_state.html
+  kit_classes:
+    text-field: form-group
+    text-field__label: form-tit label
+    text-field__input: krds-input
+    text-field__message: form-hint-invalid
+anatomy:
+- part: 루트
+  class: text-field
+  element: div
+  required: true
+  note: 구성 요소를 위에서 아래로 레이블 → 부가 설명 → 입력 박스 → 시스템 메시지 순서로 쌓는다(FORM-009).
+- part: 레이블
+  class: text-field__label
+  element: label
+  required: true
+  note: for 로 입력 박스 id 와 연결한다. 필수·선택 표시는 서비스 전체에서 한 방식만 쓴다(FORM-012).
+- part: 부가 설명
+  class: text-field__hint
+  element: p
+  note: 형식 힌트는 플레이스홀더가 아니라 여기에 쓴다(FORM-017). 입력 박스의 aria-describedby 로 연결한다.
+- part: 입력 박스
+  class: text-field__input
+  element: input
+  required: true
+  note: 본인 정보 필드는 autocomplete 값을 지정한다(FORM-001). 복사·붙여넣기를 막지 않는다(FORM-018).
+- part: 시스템 메시지(오류)
+  class: text-field__message
+  element: p
+  note: 제출 시 오류가 있을 때만 넣는다(FORM-080). 입력 박스의 aria-describedby 에 id 를 더한다.
+markup: |-
+  <div class="text-field">
+    <label class="text-field__label" for="applicant-name">이름 (필수)</label>
+    <p class="text-field__hint" id="applicant-name-hint">주민등록상 이름을 입력해 주세요.</p>
+    <input class="text-field__input" type="text" id="applicant-name" name="name" autocomplete="name" required aria-describedby="applicant-name-hint">
+  </div>
+  <div class="text-field text-field--error">
+    <label class="text-field__label" for="applicant-email">이메일 (필수)</label>
+    <p class="text-field__hint" id="applicant-email-hint">결과를 받을 이메일 주소를 입력해 주세요.</p>
+    <input class="text-field__input" type="email" id="applicant-email" name="email" autocomplete="email" required aria-invalid="true" aria-describedby="applicant-email-hint applicant-email-error" value="hong@">
+    <p class="text-field__message" id="applicant-email-error">이메일 주소의 @ 뒤에 도메인을 입력해 주세요. 예: hong@example.com</p>
+  </div>
+css: |-
+  .text-field {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-gap-3);
+  }
+  .text-field__label {
+    color: var(--color-text-basic);
+    font-size: var(--font-size-label-medium);
+    font-weight: var(--font-weight-bold);
+  }
+  .text-field__hint {
+    color: var(--color-text-subtle);
+    font-size: var(--font-size-body-small);
+  }
+  .text-field__input {
+    inline-size: 100%;
+    min-block-size: var(--size-height-8);
+    padding-inline: var(--space-padding-6);
+    border: var(--space-scale-1) solid var(--color-input-border);
+    border-radius: var(--radius-medium3);
+    background-color: var(--color-input-surface);
+    color: var(--color-text-basic);
+    font-size: var(--font-size-body-medium);
+  }
+  .text-field__input:focus-visible {
+    outline: var(--space-scale-2) solid var(--color-input-border-active);
+    outline-offset: var(--space-scale-1);
+  }
+  .text-field__input:disabled {
+    border-color: var(--color-input-border-disabled);
+    background-color: var(--color-input-surface-disabled);
+    color: var(--color-text-disabled);
+  }
+  .text-field--error .text-field__input {
+    border-color: var(--color-input-border-error);
+  }
+  .text-field__message {
+    color: var(--color-text-danger);
+    font-size: var(--font-size-body-small);
+  }
+states:
+- name: 오류
+  markup_change: 루트에 text-field--error, 입력 박스에 aria-invalid="true", 시스템 메시지 p 를 넣고 그 id 를 aria-describedby 에 더한다.
+    메시지는 항목 이름·문제·고치는 방법을 담는다(FORM-003·005, COPY-005).
+  rule: FORM-003
+- name: 비활성
+  markup_change: 입력 박스에 disabled. 값을 바꿀 수 없다는 이유를 부가 설명에 쓴다.
+- name: 읽기 전용
+  markup_change: 입력 박스에 readonly. 값은 선택·복사할 수 있어야 한다(FORM-018).
+keyboard:
+- key: Tab
+  action: 입력 박스로 초점을 옮긴다. 초점 표시가 보인다(A11Y-016).
+behavior:
+- 오류는 필드를 벗어날 때(blur)가 아니라 다음 단계·제출 버튼을 눌렀을 때 표시한다(FORM-080).
+- 오류를 표시한 뒤에도 사용자가 입력한 값을 지우지 않는다(FORM-016).
+- 값을 바꾸는 것만으로 제출·페이지 이동·새 창 열기를 하지 않는다(FORM-002).
+- 너비는 섹션 너비를 채우고, 최대 길이를 예측할 수 있는 필드(우편번호 등)만 그 길이에 맞춘다(LAYOUT-054, FORM-056).
+- 휴대전화 번호는 type="tel" autocomplete="tel" 로 받는다. tel-national 같은 세부 토큰은 type="text" 에서만 유효하다(FORM-001, html-validate
+  valid-autocomplete).
+rules:
+- A11Y-011
+- A11Y-016
+- A11Y-025
+- COLOR-003
+- COPY-005
+- FORM-001
+- FORM-002
+- FORM-003
+- FORM-004
+- FORM-005
+- FORM-009
+- FORM-012
+- FORM-016
+- FORM-017
+- FORM-018
+- FORM-056
+- FORM-057
+- FORM-080
+- LAYOUT-054
+- SPACE-003
+kit_differences:
+- KRDS 키트는 오류·안내 메시지(form-hint-invalid)를 입력 박스와 aria-describedby 로 연결하지 않는다 — 이 규격은 연결한다(A11Y-025, FORM-003).
+- KRDS 키트 예시는 플레이스홀더에 '플레이스홀더' 문구를 넣는다 — 이 규격은 형식 힌트를 부가 설명에 쓰고 플레이스홀더를 쓰지 않는다(FORM-017).

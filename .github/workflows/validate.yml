@@ -1,0 +1,97 @@
+name: validate
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - run: pip install -r requirements.txt
+
+      - name: 검증기 테스트
+        run: python -m unittest discover -s tests -v
+
+      - name: ID 비교 기준 커밋 결정
+        id: base
+        run: |
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            echo "ref=${{ github.event.pull_request.base.sha }}" >> "$GITHUB_OUTPUT"
+          elif [ -n "${{ github.event.before }}" ] && [ "${{ github.event.before }}" != "0000000000000000000000000000000000000000" ]; then
+            echo "ref=${{ github.event.before }}" >> "$GITHUB_OUTPUT"
+          else
+            echo "ref=" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: 토큰 산출물 최신 여부
+        run: python scripts/build_tokens.py --check
+
+      - name: AI 산출물(dist) 최신 여부
+        run: python scripts/build_dist.py --check
+
+      - name: 룰 저장소 검증
+        run: |
+          if [ -n "${{ steps.base.outputs.ref }}" ]; then
+            python scripts/validate.py --base "${{ steps.base.outputs.ref }}"
+          else
+            python scripts/validate.py
+          fi
+
+  lint-config:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: lint
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: lint/package-lock.json
+      - run: npm ci
+      - name: 검사기 설정 픽스처 테스트
+        run: npm test
+      - name: 룰 ↔ 검사 대응표(rule-map) 최신 여부
+        run: npm run rulemap:check
+
+  browser-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: 검사기 의존성
+        working-directory: lint
+        run: npm ci
+      - name: 브라우저 의존성
+        working-directory: trials
+        run: |
+          npm ci
+          npx playwright-core install --with-deps chromium
+      - name: 컴포넌트 규격 실제 브라우저 검사 (색 대비·320px 리플로·초점 표시)
+        working-directory: trials
+        run: node check-components.mjs
+
+  kit-e2e:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: 브라우저 (playwright-core 버전은 package.json 과 같게)
+        run: npx --yes playwright-core@1.56.1 install --with-deps chromium
+      - name: 꾸러미 도입 시험 (npm pack → 설치 → init → check → update)
+        run: node kit/test/e2e.mjs

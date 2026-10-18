@@ -1,0 +1,50 @@
+id: A11Y-052
+category: A11Y
+title: 코치마크 그만보기 후 초점
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 코치마크의 '그만보기'를 Click·Enter·Space로 실행하면 코치마크 팝오버를 숨기고 키보드 초점을 따라하기 패널의 따라하기 실행 버튼으로 옮긴다.
+measurement:
+  criteria: '''그만보기'' 버튼을 클릭하거나 Enter·Space로 실행한 직후 코치마크 팝오버가 숨겨지고 document.activeElement가 따라하기 실행 버튼이다.'
+  method: 코치마크를 실행하고 '그만보기'를 마우스·Enter·Space로 각각 실행해 확인한다.
+automation:
+  feasibility: none
+  checks: []
+  note: '4단계 커스텀 검사: Playwright 시나리오.'
+rationale: 코치마크를 연 지점(따라하기 실행 버튼)으로 초점을 돌려 키보드 사용자가 흐름을 이어 가게 한다.
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 코치마크 > 상호작용 가이드라인 (가이드라인 PDF 2025.08 648쪽)
+  note: https://www.krds.go.kr/html/site/component/component_08_04.html
+scope:
+  level: component
+  targets:
+  - 코치마크
+exceptions: []
+relations:
+- type: refines
+  id: A11Y-015
+examples:
+  good:
+  - lang: html
+    code: '<!-- stopBtn click: coachmark.hidden = true; runGuideBtn.focus(); -->
+
+      '
+    note: 그만보기 후 따라하기 실행 버튼으로 초점 이동
+  bad:
+  - lang: html
+    code: '<!-- 그만보기 후 초점이 사라짐 -->
+
+      '
+    note: 그만보기 후 초점이 사라짐
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(WebFetch로 KRDS 페이지 재조회, 요약 모델 인용 확인): 상호작용 가이드라인 ''그만보기 버튼을 Click 하면 코치마크 팝오버가
+  숨겨진다.'' ''키보드 초점은 따라하기 패널에서 따라하기를 실행하는 버튼으로 이동한다.''(Enter·Space 행 동일) 확인. 서술형 → SHOULD.'
+korean_specific: false
+tags:
+- krds
+- krds-component
+- krds-descriptive

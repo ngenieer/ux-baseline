@@ -1,0 +1,58 @@
+id: FORM-030
+category: FORM
+title: 옵션 많은 단일 선택은 셀렉트
+stage: platformed
+status:
+  value: confirmed
+type: guide
+strength: MAY
+statement: '단일 선택 옵션이 7개 이상이고 사용자가 그 옵션 목록(예: 시·도, 연도)에 익숙하면 라디오 버튼 대신 셀렉트나 콤보 상자를 쓴다.'
+measurement:
+  criteria: '옵션 수 조건은 판정 가능(라디오 그룹의 옵션 7개 이상, CF-009). 점검 질문: 이 목록은 사용자가 이미 아는 목록(행정구역·연도·국가 등)인가? 둘 다 ''예''이면 라디오
+    그룹 대신 select 또는 콤보 상자를 쓰는가?'
+  method: 라디오 그룹의 옵션 수를 세고(DOM), 7개 이상인 그룹에 대해 설계 검토로 점검 질문에 답한다.
+automation:
+  feasibility: partial
+  checks:
+  - tool: custom
+    method: fieldset/role=radiogroup의 라디오 수가 8 이상이면 검토 대상으로 경고
+  note: '''목록에 익숙한지''는 사람 판단.'
+rationale: 익숙한 긴 목록을 라디오로 모두 펼치면 화면 공간을 많이 쓰고 훑어보는 부담이 커진다. 익숙한 목록은 셀렉트에서 바로 찾을 수 있다.
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 라디오 버튼 > 용례(사용하기 적합하지 않은 경우) (가이드라인 PDF 2025.08 524쪽)
+  note: https://www.krds.go.kr/html/site/component/component_06_01.html — '옵션의 개수가 7개를 초과하며 사용자가 옵션 목록에 친숙한 경우에
+    라디오 버튼이 아니라 셀렉트나 콤보 상자를 사용하면 사용자의 인지적 부담을 줄이고 활용할 수 있는 공간을 확보하는 데 도움이 된다.'
+scope:
+  level: component
+  targets:
+  - input[type=radio]
+  - select
+exceptions: []
+relations:
+- type: conflicts
+  id: FORM-036
+  note: '판단 순서를 고정한다: ① 옵션을 서로 비교해야 하거나 선택 속도가 중요하면 라디오(FORM-029) ② 옵션 목록을 펼칠 영역이 부족하거나 모바일 웹 이용 비중이 크면 네이티브 select(FORM-039)
+    ③ 옵션이 7개 이상이고 사용자가 익숙한 목록이면 셀렉트(FORM-030·FORM-036), 단 옵션이 20개를 넘으면 콤보 상자를 쓰거나 셀렉트를 여러 개로 나눈다 ④ 그 밖(옵션 6개 이하,
+    또는 익숙하지 않은 목록)은 라디오. 경계 7개는 셀렉트로 통일한다.'
+  decision: CF-009
+examples:
+  good:
+  - lang: html
+    code: "<label for=\"sido\">시·도</label>\n<select id=\"sido\" name=\"sido\" required>\n  <option value=\"\">선택하세요</option>\n\
+      \  <option>강원특별자치도</option><option>경기도</option>…<option>충청북도</option>\n</select>\n"
+    note: 사용자가 아는 17개 시·도 목록을 셀렉트로 받는다.
+  bad:
+  - lang: text
+    code: '시·도 17개를 라디오 버튼 17개로 모두 펼쳐 나열한다.
+
+      '
+    note: 익숙한 긴 목록을 라디오로 펼쳐 화면을 길게 차지한다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(KRDS component_06_01 HTML curl): ''7개를 초과'', ''도움이 된다'' 확인 → MAY. ''익숙한 목록''
+  판정 불가 → guide(옵션 수만 자동 경고). 2026-10-18 측정 기준을 3단계 결정(statement 변경)에 맞춰 고침. 2026-10-18 독립 검토: 원문 ''7개를 초과''(8개
+  이상)와 statement ''7개 이상''의 차이는 CF-009의 경계 통일(체계 선택). 관계 note를 CF-009 새 판단 순서로 갱신.'
+korean_specific: false
+tags:
+- krds
+- krds-component

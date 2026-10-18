@@ -1,0 +1,22 @@
+id: CF-024
+rules:
+- COLOR-022
+- MOTION-010
+- SHAPE-001
+- SPACE-001
+- TYPO-032
+against: '프로젝트 지침: 색·간격·타이포·반경·그림자·모션 값은 토큰으로만 정의하고 토큰에 없는 값을 직접 쓰지 않는 것을 MUST로 둔다'
+summary: 출처(KRDS 등) 강도로는 SHOULD인 '토큰 값만 사용' 룰을 체계 지침은 MUST로 요구한다.
+principle: 3
+decision: SPACE-001, SHAPE-001, MOTION-010을 MUST로 올린다. 색·타이포 토큰 강제 룰은 COLOR-022·TYPO-032(MUST)로 새로 만든다(4단계 토큰 정의
+  후). 다섯 룰 모두 프로젝트가 작성한 CSS·JS에만 적용하고, 외부 라이브러리·KRDS 키트 원본 CSS는 검사 대상에서 뺀다(CF-049).
+reason: 토큰 강제는 이 체계가 AI 산출물을 자동 검사하기 위한 전제다(일관성, 원칙 3). 출처 강도보다 체계 지침을 따른다.
+deviates_from_priority: false
+date: '2026-10-18'
+rule_changes:
+- 'SPACE-001: 강도 SHOULD → MUST'
+- 'SHAPE-001: 강도 SHOULD → MUST'
+- 'MOTION-010: 강도 SHOULD → MUST'
+- 'COLOR-022: 신설(MUST)'
+- 'TYPO-032: 신설(MUST)'
+- 'SPACE-001·SHAPE-001·MOTION-010: 예외 추가 — 외부 라이브러리·KRDS 키트 원본 CSS(CF-049) (2026-10-18 독립 검토)'

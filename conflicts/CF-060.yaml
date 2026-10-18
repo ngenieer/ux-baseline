@@ -1,0 +1,28 @@
+id: CF-060
+rules:
+- FORM-072
+- A11Y-039
+- STATE-020
+- COPY-048
+- SHAPE-004
+- SPACE-001
+against: 컴포넌트 규격(4단계) 작성 중 발견한 룰의 빈틈·모호함
+summary: '규격을 마크업으로 옮기면서 룰이 정하지 않았거나 두 가지로 읽히는 곳이 나왔다: 수량 토글 경계 버튼의 disabled(초점 손실), 첫 태그 삭제 시 초점, 진행 표시의 네이티브 요소,
+  이름 툴팁과 COPY-048 범위, 플로팅 버튼·긴급 공지 그림자 단계, 화면 여백 토큰의 간격 허용.'
+principle: 3
+decision: 'FORM-072: aria-disabled 만 쓰고 disabled 금지, aria-disabled 상태에서 클릭·Enter·Space를 해도 값은 경계값 그대로. A11Y-039:
+  첫 태그를 지우면 새 첫 태그로 초점. STATE-020: 네이티브 progress 우선(html-validate prefer-native-element 와 일치). COPY-048: 아이콘 버튼
+  이름 툴팁은 대상 아님. SHAPE-004: 플로팅 버튼 2(KRDS에 없는 체계 선택), 긴급 공지 2, 모달 4. KRDS 그림자 단계 설명(PDF 183쪽)의 ''4단계: 모달, 긴급 알림''과
+  엘리베이션 적용(PDF 191쪽)의 ''긴급 공지 shadow2''는 같은 컴포넌트(KRDS 컴포넌트 목록에는 ''긴급 알림''이 없고 ''긴급 공지(Critical alerts)''만 있다)로 보고,
+  컴포넌트별로 지정한 적용 절(2단계)을 따른다. SPACE-001: var(--layout-screen-margin-*) 도 간격 값으로 허용.'
+reason: 룰마다 AI·사람이 다르게 해석하면 규격과 결과물이 갈라진다(일관성, 원칙 3). FORM-072의 disabled 금지는 누른 버튼에서 초점이 사라지는 문제(A11Y-015, 원칙 1)를
+  막는다. 나머지는 기존 결정·출처를 바꾸지 않고 빈칸을 채운다.
+deviates_from_priority: false
+date: '2026-10-18'
+rule_changes:
+- 'FORM-072: statement·측정 기준'
+- 'A11Y-039: statement·측정 기준'
+- 'STATE-020·COPY-048·SHAPE-004·SPACE-001: 측정 기준'
+- 'FORM-072: 측정 기준에 ''aria-disabled="true" 상태에서 클릭·Enter·Space 후에도 값이 경계값 그대로'' 추가 (2026-10-18 독립 검토)'
+- 'SHAPE-004: 플로팅 버튼 단계 출처에 UXB_SYSTEM_CHOICE(CF-060) 추가, 긴급 공지(2)와 KRDS 단계 설명의 긴급 알림(4) 관계 명시 (2026-10-18 독립 검토)'
+- 'STATE-020: 측정 기준 (1)을 (1a) 네이티브 progress, (1b) role=progressbar로 나눔 (2026-10-18 독립 검토)'

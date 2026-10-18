@@ -1,0 +1,58 @@
+id: FORM-060
+category: FORM
+title: 허용 파일 형식과 확장자 변형
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: '업로드 허용 파일 형식은 제출 서류가 실제로 쓰이는 형식을 모두 포함하고, 허용한 형식마다 그 형식의 확장자 변형을 모두 받는다(예: JPEG는 .jpg·.jpeg·.jpe).'
+measurement:
+  criteria: '(1) accept 속성과 서버 허용 목록에 있는 각 형식에 대해 확장자 변형이 모두 포함된다(JPEG: .jpg, .jpeg, .jpe — 또는 MIME 타입 image/jpeg로
+    지정). (2) 허용 형식 목록이 업무 담당자가 확인한 그 서류의 실제 제출 형식을 모두 포함한다(확인 근거를 문서로 남김).'
+  method: '(1) accept 속성·서버 설정 검토 (2) 수동: 실제 제출 파일 표본의 형식과 허용 목록을 대조한다.'
+automation:
+  feasibility: none
+  checks: []
+  note: 기존 검사기 규칙 없음. 4단계 커스텀 lint로 (1)을 판정 가능(형식별 확장자 변형 표를 두고 accept 값 검사).
+rationale: KRDS는 모든 사람이 같은 소프트웨어를 쓰지 않으므로 제출 파일의 일반적인 형식을 확인해 다양한 형식을 허용하고, 확장자에도 부적절한 제한이 없게 하라고 한다(JPEG의 .jpg,
+  .jpeg, .jpe 예).
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 파일 업로드 > 사용성 가이드라인(가능한 한 파일 형식을 제한하지 않는다) (가이드라인 PDF 2025.08 704쪽)
+  note: 'https://www.krds.go.kr/html/site/component/component_09_04.html — 원문: ''업로드 파일 형식을 유연하게 구성해야 한다'', 예: .jpg,
+    .jpeg, .jpe'
+scope:
+  level: component
+  targets:
+  - input[type=file]
+  - 파일 업로드
+exceptions: []
+relations: []
+examples:
+  good:
+  - lang: html
+    code: '<label for="photo">현장 사진</label>
+
+      <input id="photo" type="file" accept="image/jpeg,image/png">
+
+      '
+    note: MIME 타입으로 지정해 JPEG의 확장자 변형(.jpg·.jpeg·.jpe)을 모두 받는다.
+  bad:
+  - lang: html
+    code: '<!-- .jpeg·.jpe 파일을 거부 -->
+
+      <label for="photo">현장 사진</label>
+
+      <input id="photo" type="file" accept=".jpg,.png">
+
+      '
+    note: JPEG를 .jpg로만 받아 같은 형식의 다른 확장자 파일을 거부한다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(curl로 KRDS 페이지 HTML을 받아 본문 텍스트와 대조): 원문 문장·확장자 예 확인. 1단계 statement(''업무에 필요한
+  형식으로만 좁히고'')는 원문(''가능한 한 파일 형식을 제한하지 않는다'')과 방향이 반대라 바로잡음. 원문 강도 ''구성해야 한다'' → SHOULD + public-sector-must.'
+korean_specific: false
+tags:
+- krds
+- krds-component
+- public-sector-must

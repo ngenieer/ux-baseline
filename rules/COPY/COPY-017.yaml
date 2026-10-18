@@ -1,0 +1,53 @@
+id: COPY-017
+category: COPY
+title: '''개인정보 처리방침'' 명칭'
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 푸터에 개인정보 처리방침 링크를 두고 링크 텍스트를 '개인정보 처리방침'이라는 명칭 그대로 쓴다.
+measurement:
+  criteria: 모든 페이지 푸터에 텍스트가 정확히 '개인정보 처리방침'(띄어쓰기 포함)인 링크가 1개 있다. '개인정보 보호정책', '개인정보취급방침', 'Privacy' 같은 다른 명칭은 실패.
+  method: 푸터 링크 텍스트를 문자열 비교로 확인한다.
+automation:
+  feasibility: none
+  checks: []
+  note: '4단계 커스텀 검사: footer a 텍스트 중 ''개인정보 처리방침''과 완전히 일치하는 링크가 있는지.'
+rationale: 개인정보 처리의 투명성을 알리려면 처리방침을 공개해야 하며, 같은 명칭을 써야 사용자가 서비스마다 찾을 수 있다(KRDS 푸터).
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 푸터 > 사용성 가이드라인 (가이드라인 PDF 2025.08 249쪽)
+  note: https://www.krds.go.kr/html/site/component/component_02_04.html
+scope:
+  level: component
+  targets:
+  - footer
+  - 개인정보 처리방침 링크
+exceptions: []
+relations:
+- type: depends
+  id: TYPO-012
+  note: 다른 고지 링크와 시각적으로 구분하는 요구는 TYPO-012
+examples:
+  good:
+  - lang: html
+    code: '<footer><ul><li><a href="/privacy"><strong>개인정보 처리방침</strong></a></li><li><a href="/terms">이용약관</a></li></ul></footer>
+
+      '
+    note: 푸터 링크 텍스트가 정확히 '개인정보 처리방침'이다
+  bad:
+  - lang: html
+    code: '<footer><ul><li><a href="/privacy">개인정보보호정책</a></li></ul></footer>
+
+      '
+    note: 명칭이 '개인정보보호정책'으로 다르다
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(curl로 KRDS 페이지 HTML을 받아 텍스트로 직접 읽음): 푸터(component_02_04) ''개인정보처리방침을 반드시 표시한다
+  ... 반드시 웹사이트에 공개해야 한다. 또한 반드시 개인정보 처리방침이라는 명칭을 사용'' 확인. 강도: KRDS ''해야 한다·않는다'' 표현 → SHOULD + public-sector-must(정책
+  2). 공개 의무 자체는 개인정보 보호법 제30조가 근거일 가능성이 높으나 조문 원문을 열지 않았다 — 제안 파일 new_sources에 적음(법 근거 확인 시 MUST 검토).'
+korean_specific: false
+tags:
+- krds
+- krds-component
+- public-sector-must

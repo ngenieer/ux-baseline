@@ -1,0 +1,61 @@
+id: A11Y-035
+category: A11Y
+title: Space 키로 선택
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 라디오 버튼·체크박스·토글 스위치에 초점이 있을 때 Space 키를 누르면 값을 선택(체크박스·토글은 상태 전환)하게 한다.
+measurement:
+  criteria: 각 라디오·체크박스·토글에 초점을 두고 Space를 누르면 checked 또는 aria-checked 값이 바뀐다(라디오는 선택됨).
+  method: Tab으로 각 컨트롤에 초점을 두고 Space를 눌러 상태 변화를 확인한다. 네이티브 input은 브라우저가 이 동작을 제공한다.
+automation:
+  feasibility: none
+  checks: []
+  note: '4단계 커스텀 검사: Playwright로 [role=radio],[role=checkbox],[role=switch], input[type=radio|checkbox]에 Space 입력
+    후 상태 비교.'
+rationale: Space로 선택·전환하는 것은 선택형 컨트롤의 표준 키보드 동작이다.
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 라디오 버튼 > 상호작용 가이드라인 (가이드라인 PDF 2025.08 537쪽)
+  note: https://www.krds.go.kr/html/site/component/component_06_01.html
+scope:
+  level: component
+  targets:
+  - input[type=radio]
+  - input[type=checkbox]
+  - '[role=switch]'
+  - 라디오 버튼
+  - 체크박스
+  - 토글 스위치
+exceptions: []
+relations:
+- type: refines
+  id: A11Y-011
+examples:
+  good:
+  - lang: html
+    code: '<label><input type="checkbox" role="switch"> 알림 수신</label>
+
+      '
+    note: 네이티브 체크박스 기반 스위치는 Space로 상태가 바뀜
+  bad:
+  - lang: html
+    code: '<span id="l1">알림 수신</span>
+
+      <span role="switch" aria-checked="false" aria-labelledby="l1" tabindex="0" onclick="toggle(this)"></span>
+
+      <!-- Space keydown 처리 없음 -->
+
+      '
+    note: 커스텀 스위치가 Space 키에 반응하지 않음
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(WebFetch로 KRDS 페이지 재조회, 요약 모델 인용 확인): 라디오 버튼 ''…Space 키를 누르면 값이 선택되어야 한다.''(해야),
+  체크박스 ''체크박스 양식에 초점이 있는 상태에서 Space 키를 누르면 값이 선택된다.''(서술형), 토글 스위치 ''스위치에 초점이 있는 상태에서 Space 키를 누르면 값이 선택된다.''(서술형)
+  확인. 세 컴포넌트 강도가 달라 SHOULD로 두고 public-sector-must 태그는 붙이지 않음(라디오 부분만 해당).'
+korean_specific: false
+tags:
+- krds
+- krds-component
+- krds-descriptive

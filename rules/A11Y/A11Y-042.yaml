@@ -1,0 +1,52 @@
+id: A11Y-042
+category: A11Y
+title: 수어 대체 콘텐츠 검토
+stage: platformed
+status:
+  value: confirmed
+type: guide
+strength: SHOULD
+statement: 모든 사용자가 알아야 할 중요 정보를 멀티미디어로만 제공하면 수어 대체 콘텐츠 제공을 검토하고 그 결정을 기록한다.
+measurement:
+  criteria: '점검 질문: 이 미디어가 전달하는 정보가 서비스 이용에 필수인가? 필수라면 수어 영상 제공 여부와 그 이유가 기록되어 있는가?'
+  method: 미디어 목록을 검토하는 사람의 판단.
+automation:
+  feasibility: none
+  checks: []
+  note: 판정 불가(guide).
+rationale: 수어를 제1언어로 쓰는 농인에게는 한국어 자막보다 수어가 정보 이해에 유리하다.
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 접근 가능한 미디어 > 접근성 (가이드라인 PDF 2025.08 739쪽)
+  note: https://www.krds.go.kr/html/site/component/component_11_01.html
+scope:
+  level: situation
+  targets:
+  - 중요 정보를 담은 멀티미디어
+exceptions: []
+relations:
+- type: depends
+  id: A11Y-003
+  note: 수어는 자막(A11Y-003)을 대신하지 않고 더한다
+examples:
+  good:
+  - lang: html
+    code: '<video controls src="disaster-guide.mp4"></video>
+
+      <a href="disaster-guide-ksl.mp4">수어 영상으로 보기</a>
+
+      '
+    note: 필수 재난 안내 영상에 수어 영상을 함께 제공
+  bad:
+  - lang: html
+    code: '<!-- 재난 대피 안내를 영상으로만 제공, 수어 제공 여부 검토 기록 없음 -->
+
+      '
+    note: 필수 정보를 영상으로만 제공하고 수어 검토 기록이 없음
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(WebFetch로 KRDS 페이지 재조회, 요약 모델 인용 확인): 대체 정보 > 수어 ''수어를 대체 콘텐츠로 제공하는 방안을 고려해야
+  한다.'' 확인. 요구 대상이 ''검토''라 판정 불가 → guide·SHOULD. public-sector-must 태그는 붙이지 않음(검토 행위를 MUST로 읽을 수 없음).'
+korean_specific: false
+tags:
+- krds
+- krds-component

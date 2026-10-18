@@ -1,0 +1,112 @@
+id: A11Y-001
+category: A11Y
+title: 대체 텍스트
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: MUST
+statement: 텍스트가 아닌 콘텐츠(이미지·아이콘·그래프·차트 등)에는 같은 목적을 전달하는 텍스트 대체를 제공하고, 장식용·서식용 콘텐츠는 보조기술이 무시하도록 처리한다.
+measurement:
+  criteria: (1) 모든 <img>에 alt 속성이 있다. (2) 정보를 전달하는 이미지·role="img"·<svg role="img">·<input type="image">·<area>·<object>의
+    접근 가능한 이름이 비어 있지 않고, 이미지가 전달하는 정보와 같은 내용이다. (3) 장식용 <img>는 alt="", 장식용 인라인 SVG·아이콘 글꼴 요소는 요소 자신 또는 조상에 aria-hidden="true"가
+    있으며, CSS 배경 이미지로 넣은 경우 정보가 없다. (4) 같은 의미의 텍스트 레이블이 바로 옆에 보이는 아이콘은 장식으로 처리한다. (5) 컨트롤 역할 이미지는 목적을 설명하는 이름을 가진다(4.1.2와
+    함께). (6) CAPTCHA는 목적을 설명하는 텍스트와 다른 감각 방식의 대안을 제공한다.
+  method: axe-core로 (1)(2)의 이름 존재를 검사하고, 수동으로 각 이미지의 대체 텍스트가 이미지 정보와 같은지, 장식 판정이 맞는지 확인한다(이미지 목록을 뽑아 대체 텍스트와 나란히
+    비교).
+automation:
+  feasibility: partial
+  checks:
+  - tool: axe-core
+    rule: image-alt
+    method: axe-core 실행 결과 위반 0건
+  - tool: axe-core
+    rule: input-image-alt
+    method: axe-core 실행 결과 위반 0건
+  - tool: axe-core
+    rule: role-img-alt
+    method: axe-core 실행 결과 위반 0건
+  - tool: axe-core
+    rule: svg-img-alt
+    method: axe-core 실행 결과 위반 0건
+  - tool: axe-core
+    rule: object-alt
+    method: axe-core 실행 결과 위반 0건
+  - tool: axe-core
+    rule: aria-meter-name
+    method: axe-core 실행 결과 위반 0건
+  - tool: axe-core
+    rule: aria-progressbar-name
+    method: axe-core 실행 결과 위반 0건
+  - tool: html-validate
+    rule: wcag/h37
+    method: img 요소에 alt 속성 (정적 HTML 검사, lint/.htmlvalidate.json)
+  note: axe-core는 이름의 존재·비어 있음만 판정한다. 대체 텍스트가 같은 목적을 전달하는지, 장식 판정이 맞는지는 수동.
+rationale: 화면을 볼 수 없는 사용자는 스크린 리더가 읽는 텍스트 대체로만 이미지 정보를 얻는다. 장식 이미지까지 읽으면 불필요한 소음이 된다.
+sources:
+- ref: WCAG22
+  locator: SC 1.1.1 Non-text Content (Level A)
+  note: https://www.w3.org/TR/WCAG22/#non-text-content
+- ref: WCAG22_UNDERSTANDING
+  locator: https://www.w3.org/WAI/WCAG22/Understanding/non-text-content.html
+- ref: KWCAG22
+  locator: 검사항목 5.1.1
+- ref: KRDS
+  locator: 기본 패턴 > 목록 탐색 > 접근성 가이드라인 (가이드라인 PDF 2025.08 802쪽)
+  note: https://www.krds.go.kr/html/site/global/global_04.html — 정보 아이콘·첨부파일 아이콘의 대체 텍스트(첨부파일은 정확한 파일명)
+- ref: KRDS
+  locator: 컴포넌트 (여러 페이지) (가이드라인 PDF 2025.08 232·252·291·367·376·420·422·518·607쪽)
+  note: '같은 요구를 다루는 KRDS 컴포넌트: 긴급 공지, 달력, 도움 패널, 버튼, 브레드크럼, 운영기관 식별자, 이미지, 푸터 — 상세는 sources/extracts/KRDS-components.yaml'
+scope:
+  level: global
+  targets:
+  - img
+  - svg
+  - '[role=img]'
+  - input[type=image]
+  - area
+  - object
+  - canvas
+exceptions:
+- 컨트롤이거나 사용자 입력을 받는 비텍스트 콘텐츠는 목적을 설명하는 이름만 요구한다(4.1.2 참조).
+- 시간 기반 미디어, 텍스트로 제시하면 무효가 되는 시험·연습, 특정 감각 경험이 목적인 콘텐츠는 내용을 식별하는 설명만 요구한다.
+- CAPTCHA는 목적을 식별·설명하는 텍스트와 다른 감각 방식의 대안을 요구한다.
+- '바로 옆 텍스트가 같은 정보를 전하는 아이콘(예: 긴급 공지 아이콘)은 장식으로 처리한다: <img>는 alt="", 인라인 SVG와 아이콘 글꼴 요소(글자로 넣은 아이콘을 감싼 span·i 등)는
+  aria-hidden="true"(CF-031).'
+relations: []
+examples:
+  good:
+  - lang: html
+    code: '<img src="chart.png" alt="2026년 분기별 민원 접수 건수: 1분기 120건, 2분기 98건">
+
+      <button type="button"><svg aria-hidden="true" focusable="false">…</svg>검색</button>
+
+      <img src="divider.png" alt="">
+
+      '
+    note: 정보 이미지는 내용을 담은 alt, 장식 이미지는 alt="", 아이콘은 옆 텍스트가 있어 숨김
+  bad:
+  - lang: html
+    code: '<img src="chart.png">
+
+      <img src="chart.png" alt="이미지">
+
+      <button type="button"><svg>…</svg></button>
+
+      '
+    note: alt 누락, 의미 없는 alt, 이름 없는 아이콘 버튼
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(sources/extracts/WCAG22-A-AA.yaml): statement·수치가 SC 원문과 일치함을 확인. KWCAG 2.2
+  대응 항목 번호는 비공식 HTML 판 기준 매핑 — 공식 원문 대조 전(registry KWCAG22 verified=false). 룰의 요구·수치는 WCAG 원문만으로 성립. 1단계에 이 룰로 병합된
+  KRDS 컴포넌트 항목(sources/extracts/KRDS-components.yaml)은 개별 페이지를 다시 열지 않았다 — 룰의 요구는 WCAG 원문 기준. BACKLOG ''긴급 공지 아이콘에
+  대체 텍스트 금지''(KRDS B:21)는 같은 뜻의 레이블이 함께 보이는 아이콘을 장식으로 처리하라는 뜻으로, 측정 기준 (4)로 양립 — 3단계에서 확인. 2026-10-18 독립 검토: 장식
+  처리 방법을 요소별로 분리(<img>는 alt="", 인라인 SVG·아이콘 글꼴은 aria-hidden="true") — 예외·측정 기준 (3)(CF-031).'
+korean_specific: false
+tags:
+- wcag22
+- level-a
+- new-in-2.0
+- kwcag22
+- krds
+decisions:
+- CF-031

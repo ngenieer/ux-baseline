@@ -1,0 +1,61 @@
+id: TYPO-018
+category: TYPO
+title: min-content 계산에는 anywhere
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 'flex·grid 항목과 표 셀처럼 min-content 너비로 크기가 정해지는 컨테이너 안 텍스트의 넘침 방지에는 overflow-wrap: break-word 대신 overflow-wrap:
+  anywhere를 쓴다.'
+measurement:
+  criteria: 'display가 flex·grid인 요소의 자식, td·th 셀렉터에 overflow-wrap(word-wrap): break-word 선언이 0건. 넘침 방지가 필요한 곳은 overflow-wrap:
+    anywhere.'
+  method: stylelint 커스텀(셀렉터 문맥 판단 필요) 또는 런타임 검사로 scrollWidth > clientWidth 인 flex·grid 항목·셀을 찾는다.
+automation:
+  feasibility: partial
+  checks:
+  - tool: stylelint
+    rule: ux-baseline/flex-grid-child-no-break-word
+    method: 'td·th 와, 같은 파일에서 display: flex|grid 로 선언된 선택자의 직계 자식(>) 규칙에 overflow-wrap: break-word 금지 (lint/plugins/ux-baseline.mjs)'
+  note: 컨테이너 문맥(flex·grid 자식 여부)은 정적 분석이 어렵다. 결과(넘침)는 런타임 scrollWidth 검사로 확인. 선택자 범위 규칙은 체계 기본 클래스 이름을 기준으로 하며,
+    프로젝트 클래스 이름이 다르면 classNames 옵션으로 바꾼다.
+rationale: break-word가 만든 줄바꿈 기회는 min-content 계산에 들어가지 않아, flex 항목·표 셀이 긴 URL·영문 토큰 길이만큼 늘어나 레이아웃을 넘친다. anywhere는
+  min-content 계산에 반영된다.
+sources:
+- ref: CSS_TEXT_3
+  locator: 5.4 overflow-wrap (anywhere vs break-word)
+  note: anywhere가 만든 줄바꿈 기회는 min-content 계산에 반영되고 break-word는 반영되지 않음
+- ref: MDN_BCD
+  locator: css.properties.overflow-wrap.anywhere
+  note: Chrome 80, Firefox 65, Safari 15.4
+scope:
+  level: situation
+  targets:
+  - flex 항목
+  - grid 항목
+  - td
+  - th
+exceptions: []
+relations: []
+examples:
+  good:
+  - lang: css
+    code: '.card{display:flex}
+
+      .card__body{min-width:0;overflow-wrap:anywhere}'
+    note: anywhere는 min-content 계산에 반영되어 flex 항목이 줄어든다
+  bad:
+  - lang: css
+    code: '.card{display:flex}
+
+      .card__body{overflow-wrap:break-word}'
+    note: break-word는 min-content에 반영되지 않아 긴 URL이 카드 밖으로 넘친다
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(CSS Text 3 §5.4 HTML, MDN BCD 8.1.6 data.json): ''Soft wrap opportunities introduced
+  by anywhere are considered when calculating min-content intrinsic sizes. break-word As for anywhere except … not
+  considered'' 확인. 지원: Chrome/Edge 80, Firefox 65, Safari 15.4, Samsung 13.0 확인. 명세는 동작만 정의하고 권고 문장은 없음 — 강도 SHOULD는
+  명세 동작에서 도출한 체계 판단(3단계 재검토 가능).'
+korean_specific: false
+tags:
+- research-typo

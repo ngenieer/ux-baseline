@@ -1,0 +1,70 @@
+id: FORM-017
+category: FORM
+title: 플레이스홀더를 레이블로 쓰지 않음
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 플레이스홀더를 레이블이나 도움말 대신 쓰지 않고, 플레이스홀더에 입력 형식 힌트나 예시를 넣을 때는 같은 내용을 입력 필드 밖의 보이는 텍스트(도움말)로도 제공한다.
+measurement:
+  criteria: placeholder 속성이 있는 input·textarea마다 (1) 별도의 보이는 레이블이 있고(FORM-004), (2) placeholder 문자열의 형식·예시 정보가 레이블
+    또는 aria-describedby로 연결된 보이는 도움말 텍스트에도 있다. placeholder가 레이블·도움말과 같은 문장을 그대로 반복하는 것은 허용.
+  method: placeholder가 있는 필드를 모두 찾아 레이블·도움말 텍스트와 대조한다.
+automation:
+  feasibility: partial
+  checks:
+  - tool: custom
+    method: '[placeholder] 필드에 label 연결 또는 aria-labelledby가 있는지 DOM 검사(placeholder만으로 이름이 계산되면 실패)'
+  note: placeholder 내용이 도움말에도 있는지는 수동 비교. axe label 규칙은 placeholder를 이름으로 인정하지 않지만 title·aria-label로 통과할 수 있음.
+rationale: 플레이스홀더는 입력을 시작하면 사라지고 기본 색이 대비 기준보다 낮아, 입력 도중 무엇을 어떤 형식으로 넣어야 하는지 잊게 된다.
+sources:
+- ref: KRDS
+  locator: 기본 패턴 > 도움 > 플레이스홀더 (가이드라인 PDF 2025.08 785쪽)
+  note: https://www.krds.go.kr/html/site/global/global_02.html — '플레이스홀더를 레이블이나 도움말의 대체 수단으로 사용하지 않는다.' / 형식 힌트·예시·자릿수
+    표시에 적합하나 '이 경우에도 플레이스홀더 텍스트가 인라인 텍스트로 제공되어야 한다.'
+- ref: KRDS
+  locator: 컴포넌트 > 텍스트 입력 필드·텍스트 영역 > 사용성 가이드라인 (가이드라인 PDF 2025.08 681, 692쪽)
+  note: component_09_02.html, component_09_03.html — '플레이스홀더가 레이블이나 도움말의 대체 수단으로 사용되어서는 안 된다.' 상세는 sources/extracts/KRDS-components.yaml
+- ref: KRDS
+  locator: 컴포넌트 > 날짜 입력 필드 > 사용성 가이드라인 (가이드라인 PDF 2025.08 670쪽)
+  note: https://www.krds.go.kr/html/site/component/component_09_01.html — '입력 필드 하단의 도움말 텍스트를 사용하여 입력해야 할 날짜의 양식을
+    정확하게 안내해야 한다. ... 플레이스홀더에는 'YYYY-MM-DD'와 같은 형식에 대한 자리 표시자를 제공하고 도움말 텍스트에는 입력 자릿수에 대한 안내 문구와 작성 예시를 제공한다.'
+scope:
+  level: component
+  targets:
+  - input[placeholder]
+  - textarea[placeholder]
+exceptions: []
+relations:
+- type: depends
+  id: FORM-004
+  note: 보이는 레이블 요구
+examples:
+  good:
+  - lang: html
+    code: '<label for="start">시작일</label>
+
+      <input id="start" placeholder="YYYY-MM-DD" aria-describedby="start-help">
+
+      <p id="start-help">연-월-일 순서의 숫자로 입력하세요. 예: 2026-10-18</p>
+
+      '
+    note: 플레이스홀더의 형식 힌트를 필드 밖 도움말에도 보이게 두었다.
+  bad:
+  - lang: html
+    code: '<label for="start">시작일</label>
+
+      <input id="start" placeholder="YYYY-MM-DD">
+
+      '
+    note: 형식 힌트가 플레이스홀더에만 있어 입력을 시작하면 사라진다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(KRDS global_02·component_09_01·09_02·09_03 HTML curl): ''사용하지 않는다'', ''사용되어서는
+  안 된다'', ''제공되어야 한다'' → SHOULD + public-sector-must. BACKLOG ''FORM-017 vs KRDS 날짜 입력 필드'': 원문을 다시 보니 날짜 페이지도 형식은
+  도움말 텍스트로 안내하고 플레이스홀더는 자리 표시자만 두라고 함 — 이 룰과 양립(충돌 아님). BACKLOG 항목 정리를 제안 파일 notes에 적음. KRDS 텍스트 입력 필드 페이지의 ''플레이스홀더는
+  행동 유도 수단으로만 사용''은 global_02의 ''형식 힌트·예시에 적합''과 표현이 다름 — 이 룰은 global_02 기준.'
+korean_specific: false
+tags:
+- krds
+- public-sector-must

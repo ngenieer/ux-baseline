@@ -1,0 +1,52 @@
+id: A11Y-049
+category: A11Y
+title: 숨긴 텍스트도 서비스 언어로
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 서비스 제공 언어를 바꾸면 숨긴 콘텐츠(스크린 리더 전용 텍스트·aria-label)의 텍스트도 같은 언어로 바꾼다.
+measurement:
+  criteria: 언어를 바꾼 화면에서 .sr-only 텍스트와 aria-label·aria-description 값이 모두 새 언어로 되어 있다(번역 리소스 키를 쓰고 하드코딩 문자열이 없다).
+  method: 언어를 바꾼 뒤 숨긴 텍스트·ARIA 문자열을 뽑아 언어를 확인하거나, 코드에서 숨긴 텍스트가 번역 리소스를 거치는지 검사한다.
+automation:
+  feasibility: none
+  checks: []
+  note: '4단계 커스텀 검사: i18n 린트(하드코딩 문자열 검출)를 aria-label·.sr-only에도 적용.'
+rationale: 화면은 영어인데 숨긴 텍스트만 한국어면 스크린 리더 사용자는 정보를 이해하지 못한다.
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 숨긴 콘텐츠 > 사용성 가이드라인 (가이드라인 PDF 2025.08 751쪽)
+  note: https://www.krds.go.kr/html/site/component/component_11_02.html
+scope:
+  level: situation
+  targets:
+  - 다국어 서비스
+  - 숨긴 콘텐츠
+exceptions: []
+relations:
+- type: depends
+  id: A11Y-022
+- type: depends
+  id: A11Y-023
+examples:
+  good:
+  - lang: html
+    code: '<html lang="en"> … <button aria-label="Close">×</button>
+
+      '
+    note: 영어 화면에서 aria-label도 영어
+  bad:
+  - lang: html
+    code: '<html lang="en"> … <button aria-label="닫기">×</button>
+
+      '
+    note: 영어 화면에 한국어 aria-label이 남음
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(WebFetch로 KRDS 페이지 재조회, 요약 모델 인용 확인): 사용성 가이드라인 ''서비스 제공 언어를 변경할 때 숨긴 콘텐츠에
+  포함된 텍스트의 언어도 변경되도록 한다.'' 확인. ''~하도록 한다''(지시형, 해야 아님) → SHOULD.'
+korean_specific: false
+tags:
+- krds
+- krds-component

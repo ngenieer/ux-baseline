@@ -1,0 +1,12 @@
+id: CF-004
+rules:
+- COPY-050
+- STATE-037
+summary: KRDS 토스트 페이지 안에서 긴 메시지의 대안이 스낵바(COPY-050)와 모달(STATE-037)로 다르다.
+principle: 2
+decision: '메시지 종류는 중요도로 먼저 나눈다: 반드시 읽고 확인해야 하는 내용 → 모달, 그렇지 않은 두 줄 이상 또는 추가 행동이 필요한 결과 알림 → 스낵바, 한 줄 결과 알림 → 토스트.'
+reason: 사용자가 놓치면 안 되는 내용만 흐름을 막는 모달로 보내야 과업이 덜 끊긴다(원칙 2). 길이만으로 모달을 고르면 불필요한 중단이 생긴다.
+deviates_from_priority: false
+date: '2026-10-18'
+rule_changes:
+- 'STATE-037: statement 수정'

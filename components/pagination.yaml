@@ -1,0 +1,213 @@
+id: pagination
+title: 페이지네이션
+status: confirmed
+summary: 20개를 넘는 목록을 페이지(화면) 단위로 나누고, 목록 아래에서 이전·다음·첫·마지막·번호 페이지로 이동하게 할 때 쓴다.
+use_instead:
+- when: 항목 수 추정치가 있고 사용자가 목록 끝으로 갈 필요가 없는 피드형 목록
+  use: 무한 스크롤(페이지네이션과 함께 쓰지 않는다)
+  rule: NAV-041
+krds:
+  page: component_03_06.html
+  kit: html/code/pagination.html
+  kit_classes:
+    pagination: krds-pagination
+    pagination__nav: page-navi
+    pagination__nav--prev: page-navi prev
+    pagination__nav--next: page-navi next
+    pagination__list: page-links
+    pagination__link: page-link
+    pagination__ellipsis: page-link link-dot
+anatomy:
+- part: 루트
+  class: pagination
+  element: nav
+  required: true
+  note: 목록 바로 아래 가운데에 하나만 둔다(LAYOUT-019). aria-label 로 어느 목록의 페이지인지 밝힌다.
+- part: 이전·다음 링크
+  class: pagination__nav
+  element: a
+  required: true
+  note: 보이는 텍스트 '이전'·'다음'. 접근 가능한 이름은 '이전 페이지'·'다음 페이지'로 보이는 텍스트를 앞에 포함한다(A11Y-019).
+- part: 이전 링크
+  class: pagination__nav--prev
+  element: a
+  required: true
+- part: 다음 링크
+  class: pagination__nav--next
+  element: a
+  required: true
+- part: 번호 목록
+  class: pagination__list
+  element: ul
+  required: true
+  note: 숫자 링크와 말줄임표를 합쳐 10개 이하, 1024px 미만에서는 7개 이하로 보인다(NAV-044). 첫 페이지(1)와 마지막 페이지 번호는 항상 보인다(NAV-042, NAV-043).
+- part: 번호 항목
+  class: pagination__item
+  element: li
+  required: true
+- part: 번호 링크
+  class: pagination__link
+  element: a
+  required: true
+  note: 접근 가능한 이름은 'N페이지'. 현재 페이지에는 aria-current="page".
+- part: 말줄임표
+  class: pagination__ellipsis
+  element: li
+  required: true
+  note: 장식이라 aria-hidden="true".
+markup: |-
+  <nav class="pagination" aria-label="공지사항 목록 페이지">
+    <a class="pagination__nav pagination__nav--prev" href="?page=3" aria-label="이전 페이지">이전</a>
+    <ul class="pagination__list">
+      <li class="pagination__item"><a class="pagination__link" href="?page=1">1</a></li>
+      <li class="pagination__item pagination__item--wide"><a class="pagination__link" href="?page=2">2</a></li>
+      <li class="pagination__ellipsis pagination__ellipsis--narrow" aria-hidden="true">…</li>
+      <li class="pagination__item"><a class="pagination__link" href="?page=3">3</a></li>
+      <li class="pagination__item"><a class="pagination__link" href="?page=4" aria-current="page">4</a></li>
+      <li class="pagination__item"><a class="pagination__link" href="?page=5">5</a></li>
+      <li class="pagination__item pagination__item--wide"><a class="pagination__link" href="?page=6">6</a></li>
+      <li class="pagination__item pagination__item--wide"><a class="pagination__link" href="?page=7">7</a></li>
+      <li class="pagination__item pagination__item--wide"><a class="pagination__link" href="?page=8">8</a></li>
+      <li class="pagination__ellipsis" aria-hidden="true">…</li>
+      <li class="pagination__item"><a class="pagination__link" href="?page=20">20</a></li>
+    </ul>
+    <a class="pagination__nav pagination__nav--next" href="?page=5" aria-label="다음 페이지">다음</a>
+  </nav>
+css: |-
+  .pagination {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: var(--space-gap-7) var(--space-gap-3);
+    margin-block-start: var(--gap-layout-h2-h3);
+    color: var(--color-text-subtle);
+  }
+  .pagination__nav,
+  .pagination__link {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    min-block-size: var(--size-height-6);
+    border-radius: var(--radius-medium1);
+    background-color: var(--color-action-secondary);
+    color: var(--color-text-subtle);
+    font-size: var(--font-size-label-medium);
+  }
+  .pagination__nav {
+    padding-inline: var(--space-padding-3);
+  }
+  .pagination__nav:hover,
+  .pagination__link:hover {
+    background-color: var(--color-action-secondary-hover);
+  }
+  .pagination__nav:active,
+  .pagination__link:active {
+    background-color: var(--color-action-secondary-pressed);
+  }
+  .pagination__nav:focus-visible,
+  .pagination__link:focus-visible {
+    outline: var(--space-scale-2) solid var(--color-border-primary);
+    outline-offset: var(--space-scale-1);
+  }
+  .pagination__list {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: var(--space-gap-1);
+  }
+  .pagination__link {
+    min-inline-size: var(--size-height-5);
+    padding-inline: var(--space-padding-2);
+  }
+  .pagination__link[aria-current="page"] {
+    background-color: var(--color-action-secondary-active);
+    color: var(--color-text-inverse-static);
+    font-weight: var(--font-weight-bold);
+  }
+  .pagination__ellipsis {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    min-inline-size: var(--size-height-5);
+    color: var(--color-text-subtle);
+  }
+  .pagination__item--wide {
+    display: none;
+  }
+  @media (min-width: 1024px) {
+    .pagination__list {
+      gap: var(--space-gap-3);
+    }
+    .pagination__link,
+    .pagination__ellipsis {
+      min-inline-size: var(--size-height-6);
+    }
+    .pagination__item--wide {
+      display: list-item;
+    }
+    .pagination__ellipsis--narrow {
+      display: none;
+    }
+  }
+states:
+- name: 첫 페이지·마지막 페이지
+  markup_change: 첫 페이지에서는 '이전'을, 마지막 페이지에서는 '다음'을 href 없는 a 에 aria-disabled="true" 로 바꾸고 비활성 색(color-text-disabled)으로
+    표시한다. 현재 위치 번호(aria-current)가 첫·마지막 이동을 대신한다(NAV-042).
+  rule: NAV-042
+- name: 좁은 화면(1024px 미만)
+  markup_change: 마크업 변화 없음. pagination__item--wide 항목을 숨기고 pagination__ellipsis--narrow 말줄임표를 보여 번호 목록을 7개 이하로 줄인다.
+    이전·다음 링크를 위 줄에, 번호 목록을 아래 줄에 둔다(NAV-044, RESP-010).
+  rule: RESP-010
+keyboard:
+- key: Tab / Shift+Tab
+  action: 이전 → 다음 → 번호 링크 순서로 이동한다. 숨긴 번호 항목에는 초점이 가지 않는다(A11Y-015).
+- key: Enter
+  action: 해당 페이지로 이동한다.
+behavior:
+- 페이지네이션은 목록 바로 아래 가운데에 두고, 한 화면에 하나만 쓴다(LAYOUT-019).
+- 전체 항목이 20개를 넘거나 목록 높이가 뷰포트 높이의 2배를 넘으면 페이지로 나누고, 페이지당 기본 10개 이상 항목을 보인다(NAV-007).
+- 어느 페이지에서든 첫 페이지(1), 마지막 페이지 번호, 이전, 다음으로 갈 수 있다. 말줄임표가 1과 마지막 번호를 가리지 않는다(NAV-042, NAV-044).
+- 전체 페이지 수는 마지막 페이지 번호 텍스트로 화면에 보인다(NAV-043).
+- 번호 목록은 말줄임표 포함 10개 이하, 1024px 미만에서는 7개 이하다. 서버가 넓은 화면용 전체 항목을 렌더링하고, 좁은 화면에서 숨길 항목에 pagination__item--wide, 좁은
+  화면에서만 보일 말줄임표에 pagination__ellipsis--narrow 를 붙인다(NAV-044, RESP-004).
+- 화면 크기가 바뀌어도 전체 페이지 수와 페이지당 항목 수는 바꾸지 않는다(RESP-011).
+- 숫자만 보이는 링크에는 'N페이지' 접근 가능한 이름을 주고(보이는 숫자를 앞에 포함), 현재 페이지는 aria-current="page" 로 알린다(COPY-002, A11Y-019, A11Y-025).
+- 현재 페이지는 배경 명도·굵기 차이로 표시해 색상 계열만으로 구분하지 않는다(COLOR-001).
+- 링크의 포인터 대상은 24×24 CSS px 이상이다(LAYOUT-002).
+- 시각적 번호 목록은 ul·li 로 마크업한다(A11Y-007).
+- 무한 스크롤 목록에는 페이지네이션을 함께 두지 않는다(NAV-041).
+- 모든 화면에서 DOM 순서(이전 → 번호 목록 → 다음)와 화면 순서가 같다. 1024px 미만에서 한 줄에 들어가지 않으면 flex-wrap 으로 같은 순서대로 다음 줄에 넘긴다(CF-058, RESP-010,
+  A11Y-008, A11Y-015).
+rules:
+- A11Y-007
+- A11Y-008
+- A11Y-015
+- A11Y-016
+- A11Y-019
+- A11Y-025
+- COLOR-001
+- COPY-002
+- LAYOUT-002
+- LAYOUT-019
+- NAV-007
+- NAV-041
+- NAV-042
+- NAV-043
+- NAV-044
+- RESP-003
+- RESP-004
+- RESP-010
+- RESP-011
+kit_differences:
+- KRDS 키트는 좁은 화면에서 이전·다음을 번호 위에 두도록 CSS order 로 배치한다 — 이 규격은 DOM 순서(이전 → 번호 → 다음)를 화면에서도 유지하고 순서를 바꾸지 않는다(CF-058,
+  A11Y-008, A11Y-015).
+- KRDS 키트는 비활성 '이전'을 href 속성이 붙은 span 으로 쓴다 — 이 규격은 href 없는 a 에 aria-disabled="true" 를 쓴다(A11Y-025).
+- KRDS 키트는 번호 링크를 목록(ul·li) 없이 나열하고 현재 페이지를 active 클래스 + 숨긴 텍스트로 표시한다 — 이 규격은 ul·li 와 aria-current="page" 를 쓴다(A11Y-007,
+  A11Y-025).
+- KRDS 키트의 말줄임표는 aria-hidden 이 없는 빈 span 이다 — 이 규격은 aria-hidden="true" 인 li 로 둔다(A11Y-007).
+notes:
+- 'CF-058: DOM 순서(이전 → 숫자 목록 → 다음)를 모든 화면에서 유지한다. 좁은 화면에서는 숫자 항목을 7개 이하(말줄임 포함)로 줄이고(NAV-044), 그래도 넘치면 flex-wrap
+  으로 같은 순서대로 다음 줄로 넘긴다. CSS order·grid 배치로 순서를 바꾸지 않는다.'
+- 좁은 화면에서는 번호 링크 최소 너비를 2rem(32px, LAYOUT-002 24px 이상)·간격을 줄여 320px 너비에서도 7개 항목이 넘치지 않게 한다(RESP-003). 번호 링크에는 aria-label
+  을 붙이지 않는다 — 보이는 숫자가 이름이고, 내비게이션 이름(aria-label)과 aria-current 가 맥락을 준다(A11Y-019).

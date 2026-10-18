@@ -1,0 +1,56 @@
+id: FORM-068
+category: FORM
+title: 슬라이더 값 상시 표시
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 사용자가 범위 슬라이더 값을 조절하는 동안 현재 선택 값을 텍스트로 계속 화면에 표시한다.
+measurement:
+  criteria: 핸들을 끌거나 방향키로 값을 바꾸는 동안 input 이벤트마다 화면의 선택 값 텍스트가 현재 값과 같고, 그 요소가 display:none·visibility:hidden·opacity:0
+    상태가 되지 않는다.
+  method: 'E2E: 키보드 방향키와 포인터 드래그로 값을 바꾸며 매 단계 표시 텍스트와 값을 비교한다.'
+automation:
+  feasibility: none
+  checks: []
+  note: 기존 검사기 규칙 없음. 4단계 커스텀 E2E로 판정 가능.
+rationale: KRDS는 범위 슬라이더 개요에서 사용자가 선택한 값은 선택하는 동안 계속 보이도록 표시하여야 한다고 한다.
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 범위 슬라이더 > 개요
+  note: 'https://www.krds.go.kr/html/site/component/component_12_01.html — 원문: ''사용자가 선택한 값은 선택하는 동안 계속 보이도록 표시하여야
+    한다'''
+scope:
+  level: component
+  targets:
+  - input[type=range]
+  - '[role="slider"]'
+exceptions: []
+relations:
+- type: depends
+  id: A11Y-025
+  note: 보조기술에 값을 전달하는 요구(aria-valuenow 등)는 A11Y-025(WCAG 4.1.2)
+examples:
+  good:
+  - lang: html
+    code: "<style>.slider output { display: block; }</style>\n<div class=\"slider\">\n  <label for=\"vol\">음량</label>\n\
+      \  <output id=\"volOut\" for=\"vol\">40</output>\n  <span aria-hidden=\"true\">0</span>\n  <input id=\"vol\"\
+      \ type=\"range\" min=\"0\" max=\"100\" step=\"10\" value=\"40\" oninput=\"volOut.value = this.value\">\n \
+      \ <span aria-hidden=\"true\">100</span>\n</div>\n"
+    note: input 이벤트마다 선택 값 텍스트를 갱신해 조절하는 동안 계속 보인다.
+  bad:
+  - lang: html
+    code: "<div class=\"slider\">\n  <label for=\"vol\">음량</label>\n  <output id=\"volOut\" for=\"vol\" hidden></output>\n\
+      \  <span aria-hidden=\"true\">0</span>\n  <input id=\"vol\" type=\"range\" min=\"0\" max=\"100\" step=\"10\"\
+      \ value=\"40\" onchange=\"volOut.hidden = false; volOut.value = this.value\">\n  <span aria-hidden=\"true\"\
+      >100</span>\n</div>\n"
+    note: 손을 뗀 뒤(change)에만 값을 보여 조절하는 동안 값을 알 수 없다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(curl로 KRDS 페이지 HTML을 받아 본문 텍스트와 대조): 개요 문장 일치 확인(1단계 locator ''개요/상호작용'' 중
+  상호작용 절은 페이지에 없음 — ''개요''로 고침). 원문 강도 ''표시하여야 한다'' → SHOULD + public-sector-must.'
+korean_specific: false
+tags:
+- krds
+- krds-component
+- public-sector-must

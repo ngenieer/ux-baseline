@@ -1,0 +1,22 @@
+id: STATE-018
+category: STATE
+title: 표
+stage: collected
+status:
+  value: deprecated
+  reason: STATE-005로 병합
+  superseded_by: STATE-005
+statement: 표의 빈 셀에는 대시(-)를 표시한다.
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 표 > 사용성 가이드라인
+  note: https://www.krds.go.kr/html/site/component/component_04_11.html
+scope:
+  level: component
+  targets:
+  - 표
+needs_verification: true
+verification_note: 'statement 는 KRDS 컴포넌트 페이지를 요약 도구로 읽고 정리한 것 — 원문 강도 표현: "제공한다 / 안내해야 한다". 원문 수치·속성: -. 2단계에서 원문 대조.'
+tags:
+- krds
+- krds-component

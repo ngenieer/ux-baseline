@@ -1,0 +1,52 @@
+id: NAV-020
+category: NAV
+title: 건너뛰기 링크를 두지 않는 경우
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 정보 구조 없이 단일 화면으로 된 사이트나, 문서 시작 부분에 메뉴 탐색용 내비게이션이 없는 페이지에는 건너뛰기 링크를 두지 않는다.
+measurement:
+  criteria: 'main 앞(DOM 순서)에 nav 요소나 여러 페이지에 반복되는 블록이 없는 페이지에는 같은 페이지 #id로 가는 건너뛰기 링크가 없다.'
+  method: 페이지 DOM에서 main 앞 요소를 확인하고 건너뛰기 링크 유무를 확인한다.
+automation:
+  feasibility: none
+  note: '4단계 커스텀 검사 가능: main 앞에 nav가 없는데 .skip-link가 있으면 경고.'
+rationale: 반복 영역이 없는 페이지의 건너뛰기 링크는 혼동을 주고 탐색할 요소만 늘린다.
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 건너뛰기 링크 > 용례 (가이드라인 PDF 2025.08 254쪽)
+  note: https://www.krds.go.kr/html/site/component/component_03_01.html — '정보 구조 없이 단일 화면으로 구성된 사이트나 정보 구조상 문서 시작
+    부분에 메뉴 탐색을 위한 내비게이션이 제공되지 않는 페이지에서는 건너뛰기 링크를 사용하지 않아야 한다.'
+scope:
+  level: situation
+  targets:
+  - main 앞에 내비게이션이 없는 페이지
+  - 단일 화면 사이트
+exceptions: []
+relations:
+- type: refines
+  id: NAV-001
+  note: NAV-001이 요구되지 않는 상황을 구체화(반복 블록 없음)
+examples:
+  good:
+  - lang: html
+    code: '<body><main><h1>설문 참여</h1>…</main></body>  <!-- 반복 메뉴 없음, 건너뛰기 링크 없음 -->
+
+      '
+    note: 반복 메뉴가 없는 단일 화면이라 건너뛰기 링크를 두지 않는다.
+  bad:
+  - lang: html
+    code: '<body><a href="#content">본문 바로가기</a><main id="content"><h1>설문 참여</h1>…</main></body>
+
+      '
+    note: 건너뛸 반복 블록이 없는데 건너뛰기 링크를 둔다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(KRDS component_03_01 WebFetch): ''사용하지 않아야 한다'' 확인 → SHOULD + public-sector-must.
+  모바일 앱 ''제공하지 않을 수 있다''는 플랫폼 고려 사항(웹 범위 밖).'
+korean_specific: false
+tags:
+- krds
+- krds-component
+- public-sector-must

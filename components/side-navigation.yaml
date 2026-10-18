@@ -1,0 +1,216 @@
+id: side-navigation
+title: 사이드 메뉴
+status: confirmed
+summary: 다단 레이아웃에서 현재 1수준 메뉴에 속한 하위 화면(최대 2수준)을 본문 왼쪽 목록으로 보이고 이동하게 할 때 쓴다.
+use_instead:
+- when: 화면이 5개 미만이거나, 탐색 계층이 2수준 이내이고 메인 메뉴만으로 모든 화면에 도달할 수 있는 서비스
+  use: 메인 메뉴(main-menu)만 쓴다
+  rule: NAV-036
+- when: 한 페이지 안의 섹션 이동
+  use: 콘텐츠 내 탐색(in-page-navigation)
+  rule: NAV-039
+- when: 사이드 메뉴와 본문을 나란히 놓을 수 없는 1단 레이아웃
+  use: 햄버거 메뉴로 축소된 메인 메뉴(main-menu)
+  rule: RESP-009
+krds:
+  page: component_03_04.html
+  kit: html/code/side_navigation.html
+  kit_classes:
+    side-navigation: krds-side-navigation
+    side-navigation__title: lnb-tit
+    side-navigation__list: lnb-list
+    side-navigation__item: lnb-item
+    side-navigation__toggle: lnb-btn lnb-toggle
+    side-navigation__sublist: lnb-submenu ul
+    side-navigation__link: lnb-btn lnb-link
+anatomy:
+- part: 루트
+  class: side-navigation
+  element: nav
+  required: true
+  note: aria-labelledby 로 제목을 가리킨다. 본문 왼쪽 열에 두고, DOM 에서는 본문 바로가기 목적지보다 앞에 둔다(NAV-019).
+- part: 제목
+  class: side-navigation__title
+  element: h2
+  required: true
+  note: 현재 1수준 메뉴 이름.
+- part: 1수준 목록
+  class: side-navigation__list
+  element: ul
+  required: true
+- part: 항목
+  class: side-navigation__item
+  element: li
+  required: true
+- part: 하위 목록 버튼
+  class: side-navigation__toggle
+  element: button
+  required: true
+  note: 하위 목록이 있는 항목. aria-expanded 와 aria-controls(하위 목록 id)를 가진다(WAI-ARIA APG 디스클로저 패턴). 꺾쇠 아이콘은 CSS 의사 요소로 그리고 펼침 상태에 따라 회전한다.
+- part: 하위 목록
+  class: side-navigation__sublist
+  element: ul
+  required: true
+  note: 버튼 바로 다음에 둔다. 접혀 있으면 hidden 속성. 사이드 메뉴의 목록 중첩은 이 수준(2)까지다(NAV-034).
+- part: 메뉴 링크
+  class: side-navigation__link
+  element: a
+  required: true
+  note: 현재 화면 링크 1개에만 aria-current="page" 를 붙이고 왼쪽 식별자 막대·굵기로 표시한다(NAV-033).
+markup: |-
+  <nav class="side-navigation" aria-labelledby="side-navigation-title">
+    <h2 class="side-navigation__title" id="side-navigation-title">복지 서비스</h2>
+    <ul class="side-navigation__list">
+      <li class="side-navigation__item">
+        <button type="button" class="side-navigation__toggle" aria-expanded="true" aria-controls="side-navigation-child">아동·청소년</button>
+        <ul class="side-navigation__sublist" id="side-navigation-child">
+          <li><a class="side-navigation__link" href="/welfare/child/allowance" aria-current="page">아동수당</a></li>
+          <li><a class="side-navigation__link" href="/welfare/child/voucher">첫만남이용권</a></li>
+        </ul>
+      </li>
+      <li class="side-navigation__item">
+        <button type="button" class="side-navigation__toggle" aria-expanded="false" aria-controls="side-navigation-senior">노인</button>
+        <ul class="side-navigation__sublist" id="side-navigation-senior" hidden>
+          <li><a class="side-navigation__link" href="/welfare/senior/pension">기초연금</a></li>
+          <li><a class="side-navigation__link" href="/welfare/senior/jobs">노인일자리</a></li>
+        </ul>
+      </li>
+      <li class="side-navigation__item"><a class="side-navigation__link side-navigation__link--top" href="/welfare/disability">장애인</a></li>
+    </ul>
+  </nav>
+css: |-
+  .side-navigation {
+    display: none;
+  }
+  .side-navigation__title {
+    padding-block-end: var(--space-padding-5);
+    border-block-end: var(--border-width-static-medium) solid var(--color-divider-gray);
+    color: var(--color-text-bolder);
+    font-size: var(--font-size-navigation-title-medium);
+    font-weight: var(--font-weight-bold);
+    word-break: keep-all;
+  }
+  .side-navigation__item {
+    border-block-end: var(--border-width-static-regular) solid var(--color-divider-gray-light);
+  }
+  .side-navigation__toggle {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--space-gap-3);
+    inline-size: 100%;
+    min-block-size: var(--size-height-8);
+    padding-inline: var(--space-padding-3);
+    border: 0;
+    background-color: var(--color-action-secondary);
+    color: var(--color-text-basic);
+    font-size: var(--font-size-navigation-depth-medium-bold);
+    font-weight: var(--font-weight-bold);
+    text-align: start;
+  }
+  .side-navigation__toggle::after {
+    content: "";
+    flex: none;
+    inline-size: var(--space-scale-5);
+    block-size: var(--space-scale-5);
+    border-block-end: var(--border-width-static-medium) solid var(--color-icon-gray);
+    border-inline-end: var(--border-width-static-medium) solid var(--color-icon-gray);
+    transform: rotate(45deg);
+  }
+  .side-navigation__toggle[aria-expanded="true"]::after {
+    transform: rotate(-135deg);
+  }
+  .side-navigation__toggle:hover,
+  .side-navigation__link:hover {
+    background-color: var(--color-action-secondary-hover);
+  }
+  .side-navigation__toggle:active,
+  .side-navigation__link:active {
+    background-color: var(--color-action-secondary-pressed);
+  }
+  .side-navigation__sublist {
+    padding-block: var(--space-padding-2);
+  }
+  .side-navigation__link {
+    display: flex;
+    align-items: center;
+    min-block-size: var(--size-height-6);
+    padding-inline: var(--space-padding-6);
+    border-inline-start: var(--border-width-static-medium) solid transparent;
+    border-radius: var(--radius-medium2);
+    color: var(--color-text-basic);
+    font-size: var(--font-size-navigation-depth-medium);
+  }
+  .side-navigation__link--top {
+    min-block-size: var(--size-height-8);
+    padding-inline: var(--space-padding-3);
+    border-radius: 0;
+    font-size: var(--font-size-navigation-depth-medium-bold);
+    font-weight: var(--font-weight-bold);
+  }
+  .side-navigation__link[aria-current="page"] {
+    border-inline-start-color: var(--color-action-secondary-active);
+    background-color: var(--color-action-secondary-selected);
+    color: var(--color-text-secondary);
+    font-weight: var(--font-weight-bold);
+  }
+  .side-navigation__toggle:focus-visible,
+  .side-navigation__link:focus-visible {
+    outline: var(--space-scale-2) solid var(--color-border-primary);
+    outline-offset: calc(var(--space-scale-2) * -1);
+  }
+  @media (min-width: 1024px) {
+    .side-navigation {
+      display: block;
+    }
+  }
+states:
+- name: 하위 목록 펼침
+  markup_change: 버튼 aria-expanded="true", 하위 목록의 hidden 제거. 이미 펼친 다른 하위 목록은 그대로 둔다(NAV-037). 꺾쇠가 위를 향한다.
+  rule: NAV-037
+- name: 현재 화면
+  markup_change: 현재 화면 링크에 aria-current="page". 페이지를 불러올 때 그 링크가 든 하위 목록을 펼친 상태(aria-expanded="true")로 둔다(NAV-033, NAV-035).
+  rule: NAV-033
+- name: 1단 레이아웃(1024px 미만)
+  markup_change: 마크업 변화 없음. 사이드 메뉴를 display none 으로 숨기고 같은 링크를 햄버거 메뉴로 축소된 메인 메뉴에서 제공한다(RESP-009).
+  rule: RESP-009
+keyboard:
+- key: Tab / Shift+Tab
+  action: 버튼·링크를 화면 순서대로 이동한다. 접힌 하위 목록 안으로는 초점이 가지 않는다(A11Y-015).
+- key: Enter / Space
+  action: 하위 목록 버튼에서 목록을 펼치거나 접는다(NAV-037).
+behavior:
+- 하위 목록 버튼은 Click·Enter·Space 로 하위 목록을 펼치거나 접고, 상태를 aria-expanded 로 알린다. 한 목록을 펼쳐도 다른 펼친 목록은 접지 않는다(NAV-037, A11Y-011, A11Y-025).
+- 접힌 하위 목록은 hidden 속성으로 숨겨 초점이 들어가지 않게 한다(A11Y-015).
+- 현재 화면 링크 정확히 1개에 aria-current="page" 를 붙이고, 식별자 막대·굵기·배경으로 표시해 색에만 의존하지 않는다(NAV-033, COLOR-001).
+- 페이지를 불러올 때 현재 화면이 속한 하위 목록을 펼친 상태로 보인다(NAV-035).
+- 사이드 메뉴는 2수준까지만 쓴다. 더 깊은 화면은 본문 안 하위 탐색으로 제공한다(NAV-034).
+- 항목 순서는 모든 페이지에서 같다(NAV-004). 시각적 목록·제목은 ul·li·h2 로 마크업한다(A11Y-007).
+- 버튼·링크의 포인터 대상 높이는 24 CSS px 이상이다(LAYOUT-002).
+- 사이드 메뉴와 본문을 나란히 놓을 수 없는 1단 구간에서는 숨기고 하위 탐색을 햄버거 메뉴로 축소된 메인 메뉴에서 제공한다. 예시 CSS 의 전환 너비 1024px 는 레이아웃의 다단→1단 전환 브레이크포인트로 바꾼다(RESP-009).
+- 화면이 5개 미만이거나 메인 메뉴만으로 모든 화면에 도달하는 2수준 이하 서비스에는 두지 않는다(NAV-036).
+- 본문 바로가기 목적지에는 사이드 메뉴가 포함되지 않게 한다(NAV-019).
+rules:
+- A11Y-007
+- A11Y-011
+- A11Y-015
+- A11Y-016
+- A11Y-025
+- COLOR-001
+- COLOR-003
+- LAYOUT-002
+- NAV-004
+- NAV-019
+- NAV-033
+- NAV-034
+- NAV-035
+- NAV-036
+- NAV-037
+- NAV-039
+- RESP-009
+kit_differences:
+- KRDS 키트는 role="menubar"·"menu"·"menuitem" 을 쓰지만 방향키 탐색을 구현하지 않는다 — 이 규격은 사이트 내비게이션에 맞는 디스클로저 패턴(button + aria-expanded, 링크는 a)을 쓴다(A11Y-025, A11Y-011).
+- KRDS 키트는 3·4수준 팝업 하위 메뉴(lnb-submenu-lv2)를 둔다 — 이 규격은 2수준까지만 쓴다(NAV-034).
+- KRDS 키트는 펼침·현재 위치를 active 클래스로 따로 표시한다 — 이 규격은 aria-expanded·aria-current 값을 기준으로 스타일을 바꿔 보조기술에 전달되는 상태와 화면 표시가 어긋나지 않게 한다(A11Y-025).
+notes:
+- 꺾쇠 아이콘은 테두리 의사 요소로 그린다. 아이콘 색 토큰(color-icon-gray)과 버튼 배경의 대비 3:1 이상을 디자인 리뷰에서 확인한다(COLOR-003).

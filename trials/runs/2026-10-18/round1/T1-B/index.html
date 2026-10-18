@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- 제출 후 오류 상태: 제목 앞에 "오류 2건"을 붙여 화면낭독기·탭 제목에서 바로 알 수 있게 한다. -->
+  <title>오류 2건 - 주민등록 등본 우편 발급 신청 | 주민센터</title>
+  <link rel="stylesheet" href="tokens.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">본문 바로가기</a>
+
+  <header class="site-header">
+    <div class="container">
+      <p class="site-name"><a href="/">주민센터 민원</a></p>
+    </div>
+  </header>
+
+  <main id="main" class="container" tabindex="-1">
+    <h1>주민등록 등본 우편 발급 신청</h1>
+    <p class="lead">입력한 주소로 등본을 우편으로 보내 드립니다. 모든 항목은 필수이며, 선택 항목에는 <strong>(선택)</strong>이라고 표시했습니다.</p>
+
+    <!--
+      오류 요약
+      - 서버 검증 결과 오류가 있으면 페이지를 다시 그리면서 이 영역을 폼 위에 표시한다.
+      - 페이지 로드 직후 포커스를 이 영역(tabindex="-1")으로 옮긴다. role="alert" 로 화면낭독기가 즉시 읽는다.
+      - 각 링크를 누르면 해당 입력칸으로 이동해 포커스된다(href="#입력칸 id").
+      - 오류가 없으면 이 영역은 출력하지 않는다.
+    -->
+    <div class="error-summary" role="alert" aria-labelledby="error-summary-title" tabindex="-1" id="error-summary">
+      <h2 id="error-summary-title" class="error-summary__title">
+        <span class="icon-error" aria-hidden="true">!</span>
+        입력 내용 2건을 확인해 주세요
+      </h2>
+      <ul class="error-summary__list">
+        <li><a href="#applicant-name">신청인 이름을 입력해 주세요.</a></li>
+        <li><a href="#applicant-phone">휴대전화 번호 형식이 올바르지 않습니다. 예: 010-1234-5678</a></li>
+      </ul>
+    </div>
+
+    <!--
+      novalidate: 브라우저 기본 말풍선 대신 이 화면의 오류 표시 방식(요약 + 입력칸 아래 문구)을 쓴다.
+      신청하기 버튼은 입력이 덜 되어도 비활성화하지 않는다 — 누르면 무엇이 빠졌는지 알려 준다.
+      파일 첨부가 있으므로 multipart/form-data 로 보낸다.
+    -->
+    <form class="form" action="/apply/resident-copy" method="post" enctype="multipart/form-data" novalidate>
+
+      <!-- 1. 신청인 정보 -->
+      <fieldset class="section">
+        <legend class="section__title"><span>신청인 정보</span></legend>
+
+        <div class="field field--error">
+          <label class="field__label" for="applicant-name">이름</label>
+          <p class="field__error" id="applicant-name-error">
+            <span class="icon-error" aria-hidden="true">!</span>
+            <span class="visually-hidden">오류:</span> 신청인 이름을 입력해 주세요.
+          </p>
+          <input class="input input--name" type="text" id="applicant-name" name="name"
+                 autocomplete="name" required aria-required="true" aria-invalid="true"
+                 aria-describedby="applicant-name-error" value="">
+        </div>
+
+        <div class="field">
+          <label class="field__label" for="applicant-birth">생년월일</label>
+          <p class="field__hint" id="applicant-birth-hint">숫자 8자리로 입력해 주세요. 예: 19700315</p>
+          <input class="input input--birth" type="text" id="applicant-birth" name="birthdate"
+                 inputmode="numeric" autocomplete="bday" maxlength="8" pattern="[0-9]{8}"
+                 required aria-required="true" aria-describedby="applicant-birth-hint" value="19700315">
+        </div>
+
+        <div class="field field--error">
+          <label class="field__label" for="applicant-phone">휴대전화 번호</label>
+          <p class="field__hint" id="applicant-phone-hint">하이픈(-) 없이 입력해도 됩니다. 예: 010-1234-5678</p>
+          <p class="field__error" id="applicant-phone-error">
+            <span class="icon-error" aria-hidden="true">!</span>
+            <span class="visually-hidden">오류:</span> 휴대전화 번호 형식이 올바르지 않습니다. 010으로 시작하는 10~11자리 숫자로 입력해 주세요.
+          </p>
+          <!-- 사용자가 입력한 값은 지우지 않고 그대로 보여 주어 어디가 틀렸는지 고칠 수 있게 한다. -->
+          <input class="input input--phone" type="tel" id="applicant-phone" name="phone"
+                 inputmode="tel" autocomplete="tel-national" required aria-required="true"
+                 aria-invalid="true" aria-describedby="applicant-phone-hint applicant-phone-error"
+                 value="010-123-45">
+        </div>
+
+        <div class="field">
+          <label class="field__label" for="applicant-email">이메일 <span class="optional">(선택)</span></label>
+          <p class="field__hint" id="applicant-email-hint">입력하면 접수 확인 메일을 보내 드립니다.</p>
+          <input class="input" type="email" id="applicant-email" name="email"
+                 autocomplete="email" inputmode="email" spellcheck="false"
+                 aria-describedby="applicant-email-hint" value="">
+        </div>
+      </fieldset>
+
+      <!-- 2. 받을 주소 -->
+      <fieldset class="section">
+        <legend class="section__title"><span>받을 주소</span></legend>
+
+        <div class="field">
+          <label class="field__label" for="postcode">우편번호</label>
+          <div class="input-group">
+            <input class="input input--postcode" type="text" id="postcode" name="postcode"
+                   inputmode="numeric" autocomplete="postal-code" maxlength="5" pattern="[0-9]{5}"
+                   required aria-required="true" value="03630">
+            <!--
+              우편번호 찾기: 누르면 주소 검색 창(대화상자)을 연다.
+              대화상자가 열리면 포커스를 검색어 입력칸으로 옮기고, Esc 로 닫을 수 있으며, 닫히면 이 버튼으로 포커스를 돌려준다.
+              주소를 고르면 우편번호·기본 주소를 채우고 포커스를 상세 주소 입력칸으로 옮긴다.
+              검색 창을 쓸 수 없는 경우에도 우편번호·기본 주소를 직접 입력할 수 있도록 입력칸은 readonly 로 막지 않는다.
+            -->
+            <button type="button" class="button button--secondary">우편번호 찾기</button>
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="field__label" for="address-base">기본 주소</label>
+          <input class="input" type="text" id="address-base" name="address_base"
+                 autocomplete="address-line1" required aria-required="true"
+                 value="서울특별시 서대문구 통일로 484">
+        </div>
+
+        <div class="field">
+          <label class="field__label" for="address-detail">상세 주소</label>
+          <p class="field__hint" id="address-detail-hint">동·호수 등 나머지 주소를 입력해 주세요. 없으면 "없음"이라고 적어 주세요.</p>
+          <input class="input" type="text" id="address-detail" name="address_detail"
+                 autocomplete="address-line2" required aria-required="true"
+                 aria-describedby="address-detail-hint" value="101동 1001호">
+        </div>
+      </fieldset>
+
+      <!-- 3. 발급 내용 -->
+      <fieldset class="section">
+        <legend class="section__title"><span>발급 내용</span></legend>
+
+        <div class="field">
+          <label class="field__label" for="copies">발급 부수</label>
+          <p class="field__hint" id="copies-hint">한 번에 1부부터 5부까지 신청할 수 있습니다.</p>
+          <select class="input select input--copies" id="copies" name="copies"
+                  required aria-required="true" aria-describedby="copies-hint">
+            <option value="1" selected>1부</option>
+            <option value="2">2부</option>
+            <option value="3">3부</option>
+            <option value="4">4부</option>
+            <option value="5">5부</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label class="field__label" for="id-files">신분증 사본</label>
+          <ul class="field__hint field__hint--list" id="id-files-hint">
+            <li>최대 2개까지 올릴 수 있습니다.</li>
+            <li>파일 형식: JPG, PNG, PDF</li>
+            <li>파일 1개당 10MB 이하</li>
+            <li>주민등록번호 뒷자리는 가리고 올려 주세요.</li>
+          </ul>
+          <!--
+            파일 선택 후 동작(서버 또는 스크립트 도입 시):
+            - 3개 이상, 허용하지 않는 형식, 10MB 초과 파일은 이 입력칸 위에 오류 문구로 이유와 파일명을 알린다
+              (예: "주민등록증.heic — JPG, PNG, PDF 파일만 올릴 수 있습니다.").
+            - 선택한 파일은 아래 목록(aria-live="polite")에 파일명·크기와 "삭제" 버튼으로 보여 준다.
+              삭제 버튼의 이름은 "주민등록증.jpg 삭제"처럼 파일명을 포함한다.
+          -->
+          <input class="input input--file" type="file" id="id-files" name="id_files" multiple
+                 accept=".jpg,.jpeg,.png,.pdf,image/jpeg,image/png,application/pdf"
+                 required aria-required="true" aria-describedby="id-files-hint">
+          <ul class="file-list" aria-live="polite" aria-label="첨부한 파일"></ul>
+        </div>
+      </fieldset>
+
+      <!-- 4. 동의 및 알림 -->
+      <fieldset class="section">
+        <legend class="section__title"><span>동의 및 알림</span></legend>
+
+        <div class="field">
+          <!-- 개인정보 수집·이용 안내: 동의 전에 내용을 확인할 수 있도록 같은 화면에서 펼쳐 본다. -->
+          <details class="disclosure">
+            <summary>개인정보 수집·이용 안내 보기</summary>
+            <dl class="disclosure__body">
+              <dt>수집 목적</dt>
+              <dd>주민등록 등본 발급 및 우편 발송, 본인 확인</dd>
+              <dt>수집 항목</dt>
+              <dd>이름, 생년월일, 휴대전화 번호, 주소, 신분증 사본, 이메일(입력한 경우)</dd>
+              <dt>보유 기간</dt>
+              <dd>발급 완료 후 1년</dd>
+              <dt>동의를 거부할 권리</dt>
+              <dd>동의를 거부할 수 있으나, 거부하면 우편 발급 신청을 할 수 없습니다. 주민센터를 방문해 발급받을 수 있습니다.</dd>
+            </dl>
+          </details>
+
+          <div class="check">
+            <input class="check__input" type="checkbox" id="agree-privacy" name="agree_privacy"
+                   value="Y" required aria-required="true" checked>
+            <label class="check__label" for="agree-privacy">개인정보 수집·이용에 동의합니다. <span class="required-text">(필수)</span></label>
+          </div>
+
+          <div class="check">
+            <input class="check__input" type="checkbox" id="notify-sms" name="notify_sms"
+                   value="Y" aria-describedby="notify-sms-hint">
+            <label class="check__label" for="notify-sms">수령 알림 문자 받기 <span class="optional">(선택)</span></label>
+          </div>
+          <p class="field__hint field__hint--check" id="notify-sms-hint">등본이 발송되면 위 휴대전화 번호로 문자를 보내 드립니다.</p>
+        </div>
+      </fieldset>
+
+      <div class="form__actions">
+        <!-- 제출 중에는 버튼 문구를 "신청하는 중…"으로 바꾸고 중복 제출만 막는다(aria-disabled). -->
+        <button type="submit" class="button button--primary button--large">신청하기</button>
+      </div>
+    </form>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>문의: 주민센터 민원실 (평일 9시~18시)</p>
+    </div>
+  </footer>
+</body>
+</html>

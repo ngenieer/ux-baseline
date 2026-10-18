@@ -1,0 +1,61 @@
+id: STATE-031
+category: STATE
+title: 행동 요구 코치마크 자동 진행
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 사용자에게 특정 행동을 요구하는 코치마크는 지시문에 행동을 마치면 다음 단계로 넘어간다는 사실을 쓰고, 시스템이 그 행동의 완료를 확인해 다음 단계로 넘어가게 하며, 행동을 마치기
+  전에는 넘어가지 않고, 단계가 넘어갈 때 키보드 초점을 강제로 옮기지 않는 대신 새 단계 지시문을 보조기술에 알린다.
+measurement:
+  criteria: 행동 요구 단계에서 (0) 코치마크 지시문에 행동을 마치면 다음 단계로 넘어간다는 문장이 있고, (1) 요구한 행동을 하면 다음 단계 코치마크가 표시되며, (2) 행동을 하지 않은
+    상태에서는 다음 단계로 이동하는 수단이 없고(이때 '그만보기' 버튼은 있다), (3) 단계가 넘어갈 때 document.activeElement가 바뀌지 않는다. (4) 단계가 넘어갈 때 새 단계
+    지시문이 role="status"(aria-live="polite") 영역에 들어가 낭독되거나, 현재 초점 요소의 aria-describedby가 새 단계 지시문 요소를 가리킨다.
+  method: 행동 요구 단계마다 행동 전·후 상태를 확인하고, 화면 낭독 프로그램(또는 접근성 트리)으로 단계 전환 시 새 지시문이 알려지는지 확인한다.
+automation:
+  feasibility: none
+  checks: []
+  note: E2E 시나리오 테스트로 검사 가능.
+rationale: 사용자가 스스로 완료를 확인하게 하면 행동하지 않고 다음 단계로 가는 오류가 생긴다(KRDS).
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 코치마크 > 사용성 가이드라인 (가이드라인 PDF 2025.08 645쪽)
+  note: https://www.krds.go.kr/html/site/component/component_08_04.html
+- ref: WCAG22
+  locator: SC 4.1.3 Status Messages (Level AA)
+  note: 측정 기준 (4)의 근거 — 초점을 받지 않는 내용 변화는 role=status 등으로 보조기술에 알린다.
+scope:
+  level: component
+  targets:
+  - 코치마크
+exceptions:
+- '''그만보기'' 버튼을 제공하면 행동 요구 단계에서 ''다음'' 버튼을 생략할 수 있다(KRDS).'
+relations:
+- type: conflicts
+  id: FORM-002
+  note: 양립. 코치마크 지시문에 '행동을 마치면 다음 단계로 넘어간다'는 사실을 쓰고, 단계가 넘어갈 때 키보드 초점을 강제로 옮기지 않는다.
+  decision: CF-006
+examples:
+  good:
+  - lang: html
+    code: "<div class=\"coachmark\" role=\"dialog\" aria-labelledby=\"cm2\" aria-describedby=\"cm2-desc\">\n  <h2\
+      \ id=\"cm2\">이름 입력 (2/3)</h2>\n  <p id=\"cm2-desc\">이름을 입력하면 다음 단계로 넘어갑니다.</p>\n  <button type=\"button\"\
+      >그만보기</button>\n</div>\n<div role=\"status\" class=\"sr-only\" id=\"cm-live\"></div>\n<script>\n  nameInput.addEventListener('change',\
+      \ () => {\n    if (!nameInput.value) return;\n    coachmark.next(); // 초점은 옮기지 않는다\n    document.getElementById('cm-live').textContent\
+      \ = '3/3 단계: 연락처를 입력하면 안내가 끝납니다.';\n  });\n</script>\n"
+    note: 지시문에 진행 조건을 쓰고, 행동 완료를 확인해야 넘어가며, 새 단계 지시문을 role=status로 알린다.
+  bad:
+  - lang: html
+    code: "<!-- 입력하지 않아도 \"다음\"으로 넘어간다 -->\n<div class=\"coachmark\" role=\"dialog\" aria-labelledby=\"cm2\">\n\
+      \  <h2 id=\"cm2\">이름 입력 (2/3)</h2><p>이름을 입력하세요.</p>\n  <button type=\"button\">다음</button>\n</div>\n"
+    note: 요구한 행동 없이 다음 단계로 넘어갈 수 있다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(curl로 KRDS 페이지 HTML을 받아 텍스트로 직접 읽음): 코치마크 component_08_04 ''사용자가 해당 행동을 완수했을
+  때 자동으로 다음 단계의 코치마크로 넘어가도록 한다 … ''그만보기'' 버튼을 제공하는 한, 다음 버튼을 제공하지 않아도 된다'' 확인. 2026-10-18 측정 기준을 3단계 결정(statement
+  변경)에 맞춰 고침. 2026-10-18 독립 검토: 초점을 옮기지 않으므로 단계 전환을 보조기술에 알리는 측정 기준 (4)(WCAG 4.1.3) 추가, 좋은 예시 갱신.'
+korean_specific: false
+tags:
+- krds
+- krds-component
+- public-sector-must

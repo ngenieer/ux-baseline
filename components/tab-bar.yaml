@@ -1,0 +1,232 @@
+id: tab-bar
+title: 탭바
+status: confirmed
+summary: 뷰포트 1024px 미만 화면에서 서비스의 상위 수준 화면 5개 이하로 바로 이동하게 하는 하단 고정 내비게이션이다.
+use_instead:
+- when: 뷰포트 너비 1024px 이상
+  use: 메인 메뉴
+  rule: NAV-067
+- when: 한 화면 안의 콘텐츠 패널을 전환하는 경우(페이지 이동 없음)
+  use: 탭(role=tablist)
+- when: 이동할 상위 화면이 6개 이상
+  use: 탭바 4개 + 전체 메뉴 버튼, 또는 메인 메뉴
+  rule: NAV-069
+krds:
+  page: component_12_07.html
+  kit_classes: {}
+anatomy:
+- part: 컨테이너
+  class: tab-bar
+  element: nav
+  required: true
+  note: nav 와 aria-label 로 내비게이션 영역임을 알린다(A11Y-007). 화면 하단에 고정한다(NAV-071).
+- part: 메뉴 목록
+  class: tab-bar__list
+  element: ul
+  required: true
+  note: 항목은 5개 이하(NAV-069). 홈은 첫 항목, 전체 메뉴는 마지막 항목으로 모든 화면에서 같은 순서를 쓴다(NAV-004).
+- part: 메뉴 항목
+  class: tab-bar__item
+  element: li
+  required: true
+- part: 탭 메뉴(링크·버튼)
+  class: tab-bar__link
+  element: a 또는 button
+  required: true
+  note: 화면 이동은 a[href], 전체 메뉴 열기는 button(NAV-047). 모든 탭 메뉴는 같은 너비·높이(NAV-068). 현재 화면 링크에 aria-current="page".
+- part: 아이콘
+  class: tab-bar__icon
+  element: svg
+  required: true
+  note: 옆 레이블과 같은 뜻이라 aria-hidden="true"(A11Y-001). 선택 안 됨은 선 형식, 선택됨은 채운 형식(KRDS).
+- part: 레이블
+  class: tab-bar__label
+  element: span
+  required: true
+  note: 화면에 보이는 1~2어절(NAV-070, COPY-052). 말줄임표로 자르지 않는다.
+- part: 인디케이터
+  class: tab-bar__link
+  element: ::before
+  note: 선택된 탭 위쪽 막대. 색 외의 단서(막대·채운 아이콘·굵은 레이블)로 선택 상태를 구분한다(COLOR-001).
+markup: |-
+  <nav class="tab-bar" aria-label="주요 메뉴">
+    <ul class="tab-bar__list">
+      <li class="tab-bar__item">
+        <a class="tab-bar__link" href="/" aria-current="page">
+          <svg class="tab-bar__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 10.5 12 4l8 6.5V20h-5.5v-5.5h-5V20H4z"/></svg>
+          <span class="tab-bar__label">홈</span>
+        </a>
+      </li>
+      <li class="tab-bar__item">
+        <a class="tab-bar__link" href="/search">
+          <svg class="tab-bar__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M10.5 4a6.5 6.5 0 1 1 0 13 6.5 6.5 0 0 1 0-13zM15.5 15.5 20 20"/></svg>
+          <span class="tab-bar__label">검색</span>
+        </a>
+      </li>
+      <li class="tab-bar__item">
+        <a class="tab-bar__link" href="/applications">
+          <svg class="tab-bar__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h9l3 3v15H6zM9 10h6M9 14h6M9 18h4"/></svg>
+          <span class="tab-bar__label">신청 내역</span>
+        </a>
+      </li>
+      <li class="tab-bar__item">
+        <a class="tab-bar__link" href="/notifications">
+          <svg class="tab-bar__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 17V11a6 6 0 0 1 12 0v6l1.5 2h-15zM10 21h4"/></svg>
+          <span class="tab-bar__label">알림</span>
+        </a>
+      </li>
+      <li class="tab-bar__item">
+        <button class="tab-bar__link" type="button" aria-expanded="false">
+          <svg class="tab-bar__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+          <span class="tab-bar__label">전체 메뉴</span>
+        </button>
+      </li>
+    </ul>
+  </nav>
+css: |-
+  .tab-bar {
+    position: fixed;
+    inset-inline: 0;
+    inset-block-end: 0;
+    z-index: 10;
+    border-block-start: var(--border-width-static-regular) solid var(--color-divider-gray);
+    background-color: var(--color-surface-white);
+  }
+  .tab-bar__list {
+    display: grid;
+    grid-auto-columns: minmax(0, 1fr);
+    grid-auto-flow: column;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .tab-bar__item {
+    display: flex;
+  }
+  .tab-bar__link {
+    position: relative;
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-gap-1);
+    min-block-size: var(--size-height-9);
+    padding-block: var(--space-padding-2);
+    padding-inline: var(--space-padding-1);
+    border: 0;
+    background-color: transparent;
+    color: var(--color-text-subtle);
+    font-family: inherit;
+    font-size: var(--font-size-label-xsmall);
+    font-weight: var(--font-weight-regular);
+    line-height: var(--font-line-height-base);
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  .tab-bar__link:hover {
+    background-color: var(--color-button-text-fill-hover);
+  }
+  .tab-bar__link:active {
+    background-color: var(--color-button-text-fill-pressed);
+  }
+  .tab-bar__link:focus-visible {
+    outline: var(--space-scale-2) solid var(--color-border-primary);
+    outline-offset: calc(var(--space-scale-2) * -1);
+  }
+  .tab-bar__link[aria-current="page"] {
+    color: var(--color-text-primary);
+    font-weight: var(--font-weight-bold);
+  }
+  .tab-bar__link[aria-current="page"]::before {
+    position: absolute;
+    inset-block-start: 0;
+    inset-inline: var(--space-scale-7);
+    block-size: var(--space-scale-3);
+    border-radius: var(--radius-small1);
+    background-color: var(--color-element-primary);
+    content: "";
+  }
+  .tab-bar__icon {
+    inline-size: var(--space-scale-10);
+    block-size: var(--space-scale-10);
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .tab-bar__link[aria-current="page"] .tab-bar__icon {
+    fill: currentColor;
+  }
+  .tab-bar__label {
+    word-break: keep-all;
+    overflow-wrap: anywhere;
+  }
+  @media (max-width: 1023px) {
+    html:has(.tab-bar) {
+      scroll-padding-block-end: var(--space-scale-18);
+    }
+    body:has(.tab-bar) {
+      padding-block-end: var(--space-scale-18);
+    }
+  }
+  @media (min-width: 1024px) {
+    .tab-bar {
+      display: none;
+    }
+  }
+states:
+- name: 현재 화면(선택)
+  markup_change: 현재 화면 링크에 aria-current="page". 위쪽 인디케이터 막대·채운 아이콘·굵은 레이블로 색 외 단서를 함께 준다(COLOR-001, A11Y-025).
+  rule: A11Y-025
+- name: 전체 메뉴 열림
+  markup_change: 전체 메뉴 버튼의 aria-expanded="true", 열린 패널의 id 를 aria-controls 로 연결한다.
+  rule: A11Y-025
+- name: 하위 수준 화면
+  markup_change: 정보 구조상 하위 화면(상세·작성 화면 등)에서는 탭바를 렌더링하지 않을 수 있다 — NAV-071 의 예외. 대신 상단바 뒤로가기 버튼을 쓴다.
+  rule: NAV-071
+keyboard:
+- key: Tab / Shift+Tab
+  action: 탭 메뉴 사이를 DOM 순서대로 옮긴다. 초점 표시가 보인다(A11Y-011, A11Y-016). 방향키 이동(탭 패턴)은 쓰지 않는다 — 내비게이션 링크 목록이다.
+- key: Enter
+  action: 링크는 해당 화면으로 이동하고, 전체 메뉴 버튼은 메뉴를 연다.
+- key: Space
+  action: 전체 메뉴 버튼에서 메뉴를 연다(button 기본 동작).
+behavior:
+- 뷰포트 1024px 이상에서는 탭바를 표시하지 않고 메인 메뉴를 표시한다(NAV-067, CF-055).
+- 스크롤·입력 등 사용자 동작에 따라 탭바를 숨기거나 위치를 바꾸지 않는다 — transform·visibility·display 를 스크롤에 연동하지 않는다(NAV-071).
+- 고정 탭바가 초점 받은 요소를 가리지 않게 html 에 scroll-padding-block-end, body 에 padding-block-end 를 탭바 높이 이상으로 둔다. 텍스트 확대로 탭바가 4rem 보다 높아지면 스크립트로 측정한 높이를 같은 속성에 넣는다(LAYOUT-001).
+- 탭 메뉴는 5개 이하로 두고, 홈은 맨 왼쪽, 전체 메뉴는 맨 오른쪽에 둔다. 모든 화면에서 순서·레이블·아이콘을 같게 쓴다(NAV-069, NAV-004, COPY-004).
+- 레이블은 지원하는 모든 언어에서 1~2어절이고 잘리거나 말줄임표가 생기지 않아야 한다 — 번역 레이블도 360px 화면에서 확인한다(COPY-052).
+- 선택되지 않은 탭끼리 색을 다르게 쓰지 않는다. 기본·hover·pressed 는 같은 계열 토큰의 명도 단계로만 바꾼다(COLOR-007).
+- 플로팅 버튼을 함께 쓰면 탭바 위 오른쪽 아래에 둔다(LAYOUT-023).
+rules:
+- A11Y-001
+- A11Y-007
+- A11Y-011
+- A11Y-016
+- A11Y-025
+- COLOR-001
+- COLOR-002
+- COLOR-003
+- COLOR-007
+- COPY-004
+- COPY-052
+- LAYOUT-001
+- LAYOUT-002
+- LAYOUT-023
+- NAV-004
+- NAV-047
+- NAV-067
+- NAV-068
+- NAV-069
+- NAV-070
+- NAV-071
+- RESP-002
+notes:
+- KRDS HTML 키트 v1.1.0 에는 탭바 마크업이 없다 — 구조(컨테이너·아이콘·레이블·인디케이터)와 접근성 요구(nav, aria-current="page")는 KRDS 컴포넌트 페이지를 따랐다. 높이(4rem)·인디케이터 두께는 KRDS 수치가 없어 토큰에서 고른 시각 선택이다.
+- 이름은 '탭바'지만 WAI-ARIA 탭 패턴(role=tablist·tab)이 아니다. 페이지 이동 링크 목록이므로 nav > ul > li > a 로 만든다.
+- 레이블 글자 크기는 label-xsmall(13px)이다. TYPO-003(본문 16px 이상)은 본문 텍스트 대상이라 내비게이션 레이블에는 적용하지 않았다. 5개 레이블이 320px 너비에서 한 줄로 들어가게 하기 위한 선택이다(COPY-052).
+- 배지(선택 구성 요소)는 비대화형으로 두고, 숫자만 보이면 스크린 리더용 텍스트로 의미를 보충한다(A11Y-030 참고).

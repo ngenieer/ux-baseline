@@ -1,0 +1,52 @@
+id: COPY-038
+category: COPY
+title: 언어 코드 레이블 금지
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 언어 변경 레이블을 언어 코드(EN, KO, JP 등)로 줄여 쓰지 않고 언어 이름을 쓴다.
+measurement:
+  criteria: '언어 변경 링크·옵션의 보이는 텍스트가 정규식 ^[A-Za-z]{2,3}(-[A-Za-z]{2,4})?$(예: EN, KO, ko-KR, zh-Hans)과 일치하지 않는다.'
+  method: 언어 변경 컴포넌트의 링크·옵션 텍스트를 정규식으로 검사한다.
+automation:
+  feasibility: none
+  checks: []
+  note: '4단계 커스텀 검사: 언어 변경 컴포넌트 텍스트 정규식 검사.'
+rationale: 사용자에게 익숙하지 않은 언어 코드는 의미를 전달하지 못하고, 스크린 리더가 코드를 글자 단위로 읽는다. 언어 이름을 그대로 쓰면 설명 없이 뜻이 통한다(KRDS 언어 변경).
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 언어 변경 > 사용성 가이드라인 (가이드라인 PDF 2025.08 718쪽)
+  note: https://www.krds.go.kr/html/site/component/component_10_01.html
+scope:
+  level: component
+  targets:
+  - 언어 변경
+exceptions: []
+relations:
+- type: refines
+  id: COPY-015
+  note: COPY-015(언어 이름은 그 언어로)를 언어 코드 금지로 구체화
+examples:
+  good:
+  - lang: html
+    code: '<a href="/en/" hreflang="en" lang="en">English</a>
+
+      '
+    note: 언어 코드 대신 언어 이름 English를 쓴다
+  bad:
+  - lang: html
+    code: '<a href="/en/">EN</a> | <a href="/ko/">KO</a>
+
+      '
+    note: EN·KO 같은 언어 코드로 줄여 썼다
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(curl로 KRDS 페이지 HTML을 받아 텍스트로 직접 읽음): 언어 변경(component_10_01) ''링크 레이블을 언어 코드로
+  축약하지 않는다. 사용자에게 익숙하지 않은 언어 코드를 링크 레이블로 사용해서는 안 된다'' 확인. 강도: KRDS ''해야 한다·않는다'' 표현 → SHOULD + public-sector-must(정책
+  2).'
+korean_specific: false
+tags:
+- krds
+- krds-component
+- public-sector-must

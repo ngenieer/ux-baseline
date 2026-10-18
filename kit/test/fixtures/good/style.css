@@ -1,0 +1,611 @@
+/* 내 알림 설정 — tokens.css → base.css → style.css 순서로 불러온다.
+   값은 모두 디자인 토큰(CSS 변수)만 쓴다(TYPO-032, COLOR-022, SPACE-001, SHAPE-001, MOTION-010).
+   컴포넌트 CSS 는 ux-baseline 컴포넌트 규격의 표준 CSS 를 그대로 옮겼다. */
+
+/* ---------- 페이지 ---------- */
+html {
+  scroll-padding-block-end: var(--space-scale-20); /* 토스트가 초점 요소를 가리지 않게 (LAYOUT-001) */
+}
+
+.page {
+  max-inline-size: var(--layout-content-max);
+  margin-inline: auto;
+  padding-inline: var(--layout-screen-margin-small);
+  padding-block: var(--space-padding-9) var(--space-padding-10);
+}
+
+.page__title-area:focus-visible {
+  outline: var(--space-scale-2) solid var(--color-border-primary);
+  outline-offset: var(--space-scale-1);
+}
+
+.page__title {
+  margin: 0;
+  font-size: var(--font-size-heading-large);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--font-line-height-base);
+}
+
+.page__lead {
+  margin-block: var(--space-gap-3) var(--gap-layout-h1-h2);
+  color: var(--color-text-subtle);
+  font-size: var(--font-size-body-medium);
+}
+
+/* ---------- 헤더 ---------- */
+.site-header {
+  border-block-end: var(--border-width-static-regular) solid var(--color-border-gray);
+  background-color: var(--color-surface-white);
+}
+
+.site-header__inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-gap-3) var(--space-gap-7);
+  max-inline-size: var(--layout-content-max);
+  margin-inline: auto;
+  padding-inline: var(--layout-screen-margin-small);
+  padding-block: var(--space-padding-4);
+}
+
+.site-header__logo {
+  color: var(--color-text-bolder);
+  font-size: var(--font-size-heading-small);
+  font-weight: var(--font-weight-bold);
+  text-decoration: none;
+}
+
+.site-header__menu {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-gap-5);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.site-header__link {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: var(--layout-target-min);
+  color: var(--color-text-basic);
+  font-size: var(--font-size-label-medium);
+  text-decoration: none;
+}
+
+.site-header__link:hover {
+  text-decoration: underline;
+}
+
+.site-header__link[aria-current="page"] {
+  color: var(--color-text-primary);
+  font-weight: var(--font-weight-bold);
+  text-decoration: underline;
+}
+
+.site-header__logo:focus-visible,
+.site-header__link:focus-visible {
+  outline: var(--space-scale-2) solid var(--color-border-primary);
+  outline-offset: var(--space-scale-1);
+}
+
+/* ---------- 건너뛰기 링크 (components/skip-link) ---------- */
+.skip-link__link {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+.skip-link__link:focus {
+  position: static;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: 100%;
+  min-block-size: var(--size-height-5);
+  overflow: visible;
+  clip-path: none;
+  background-color: var(--color-background-inverse);
+  color: var(--color-text-basic-inverse);
+  font-size: var(--font-size-body-small);
+  outline: var(--space-scale-2) solid var(--color-border-inverse);
+  outline-offset: calc(var(--space-scale-3) * -1);
+}
+
+/* ---------- 탭 (components/tabs) ---------- */
+.tabs__list {
+  display: flex;
+  gap: var(--space-gap-3);
+  border-block-end: var(--border-width-static-regular) solid var(--color-border-gray);
+}
+.tabs__tab {
+  flex: 1 1 auto; /* 320px 화면에서도 탭 3개가 넘치지 않게 나눠 쓰고, 긴 레이블은 어절 단위로 줄바꿈한다 (RESP-003) */
+  min-block-size: var(--size-height-7);
+  padding-inline: var(--space-padding-2);
+  border: 0;
+  border-block-end: var(--border-width-static-medium) solid transparent;
+  background-color: var(--color-action-secondary);
+  color: var(--color-text-subtle);
+  font-family: inherit;
+  font-size: var(--font-size-heading-xsmall);
+  font-weight: var(--font-weight-regular);
+  cursor: pointer;
+}
+.tabs__tab:hover {
+  background-color: var(--color-action-secondary-hover);
+}
+.tabs__tab[aria-selected="true"] {
+  border-block-end-color: var(--color-action-secondary-active);
+  color: var(--color-text-secondary);
+  font-weight: var(--font-weight-bold);
+}
+.tabs__tab:focus-visible {
+  outline: var(--space-scale-2) solid var(--color-border-primary);
+  outline-offset: calc(var(--space-scale-2) * -1);
+}
+.tabs__panel {
+  padding-block-start: var(--space-padding-8);
+  color: var(--color-text-basic);
+  font-size: var(--font-size-body-medium);
+}
+.tabs__panel:focus-visible {
+  outline: var(--space-scale-2) solid var(--color-border-primary);
+  outline-offset: var(--space-scale-1);
+}
+
+/* ---------- 설정 폼 ---------- */
+.settings-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-gap-8);
+}
+
+.settings-form__actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-gap-3);
+}
+
+.save-state {
+  margin: 0;
+  color: var(--color-text-subtle);
+  font-size: var(--font-size-body-small);
+}
+
+.field-message {
+  margin: 0;
+  color: var(--color-text-danger);
+  font-size: var(--font-size-body-small);
+}
+
+.checkbox-group--error .checkbox__indicator {
+  border-color: var(--color-input-border-error);
+}
+
+/* ---------- 체크박스 (components/checkbox) ---------- */
+.checkbox-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-gap-5);
+  margin: 0;
+  padding: 0;
+  border-style: none;
+}
+.checkbox-group__legend {
+  margin-block-end: var(--space-gap-3);
+  padding: 0;
+  color: var(--color-text-basic);
+  font-size: var(--font-size-label-medium);
+  font-weight: var(--font-weight-bold);
+}
+.checkbox-group__hint {
+  margin: 0;
+  color: var(--color-text-subtle);
+  font-size: var(--font-size-body-small);
+}
+.checkbox {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  column-gap: var(--space-gap-3);
+  row-gap: var(--space-gap-1);
+}
+.checkbox__input,
+.checkbox__indicator {
+  grid-area: 1 / 1;
+  inline-size: var(--size-height-4);
+  block-size: var(--size-height-4);
+  margin: 0;
+}
+.checkbox__input {
+  position: relative;
+  z-index: 1;
+  opacity: 0;
+  cursor: pointer;
+}
+.checkbox__indicator {
+  display: grid;
+  place-items: center;
+  box-sizing: border-box;
+  border: var(--border-width-variable-medium) solid var(--color-element-gray-dark);
+  border-radius: var(--radius-small2);
+  background-color: var(--color-element-inverse);
+}
+.checkbox__icon {
+  inline-size: var(--size-height-2);
+  block-size: var(--size-height-2);
+  fill: none;
+  stroke: var(--color-element-inverse-static);
+  stroke-width: 3;
+}
+.checkbox__check,
+.checkbox__dash {
+  visibility: hidden;
+}
+.checkbox__input:checked + .checkbox__indicator,
+.checkbox__input:indeterminate + .checkbox__indicator {
+  border-color: var(--color-element-primary);
+  background-color: var(--color-element-primary);
+}
+.checkbox__input:checked + .checkbox__indicator .checkbox__check,
+.checkbox__input:indeterminate + .checkbox__indicator .checkbox__dash {
+  visibility: visible;
+}
+.checkbox__input:indeterminate + .checkbox__indicator .checkbox__check {
+  visibility: hidden;
+}
+.checkbox__input:focus-visible + .checkbox__indicator {
+  outline: var(--space-scale-2) solid var(--color-border-primary);
+  outline-offset: var(--space-scale-1);
+}
+.checkbox__input:disabled + .checkbox__indicator {
+  border-color: var(--color-element-disabled-dark);
+  background-color: var(--color-element-disabled-light);
+}
+.checkbox__input:disabled + .checkbox__indicator .checkbox__icon {
+  stroke: var(--color-element-disabled-dark);
+}
+.checkbox__input:disabled ~ .checkbox__label {
+  color: var(--color-text-disabled);
+}
+.checkbox__label {
+  grid-area: 1 / 2;
+  color: var(--color-text-bolder);
+  font-size: var(--font-size-label-medium);
+  cursor: pointer;
+}
+.checkbox__description {
+  grid-area: 2 / 2;
+  margin: 0;
+  color: var(--color-text-subtle);
+  font-size: var(--font-size-label-small);
+}
+/* 비활성 항목의 이유 설명은 비활성 색이 아닌 본문 대비 색으로 읽히게 둔다 (COLOR-002) */
+.checkbox__description--notice {
+  color: var(--color-text-basic);
+}
+
+/* ---------- 텍스트 입력 필드 (components/text-field) ---------- */
+.text-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-gap-3);
+}
+.text-field__label {
+  color: var(--color-text-basic);
+  font-size: var(--font-size-label-medium);
+  font-weight: var(--font-weight-bold);
+}
+.text-field__hint {
+  margin: 0;
+  color: var(--color-text-subtle);
+  font-size: var(--font-size-body-small);
+}
+.text-field__input {
+  inline-size: 100%;
+  min-block-size: var(--size-height-8);
+  padding-inline: var(--space-padding-6);
+  border: var(--space-scale-1) solid var(--color-input-border);
+  border-radius: var(--radius-medium3);
+  background-color: var(--color-input-surface);
+  color: var(--color-text-basic);
+  font-size: var(--font-size-body-medium);
+}
+.text-field__input:focus-visible {
+  outline: var(--space-scale-2) solid var(--color-input-border-active);
+  outline-offset: var(--space-scale-1);
+}
+.text-field__input:disabled {
+  border-color: var(--color-input-border-disabled);
+  background-color: var(--color-input-surface-disabled);
+  color: var(--color-text-disabled);
+}
+.text-field--error .text-field__input {
+  border-color: var(--color-input-border-error);
+}
+.text-field__message {
+  margin: 0;
+  color: var(--color-text-danger);
+  font-size: var(--font-size-body-small);
+}
+
+/* ---------- 버튼 (components/button) ---------- */
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-gap-2);
+  min-block-size: var(--size-height-8);
+  padding-inline: var(--space-padding-7);
+  border: var(--border-width-variable-regular) solid var(--color-button-primary-fill);
+  border-radius: var(--radius-medium3);
+  background-color: var(--color-button-primary-fill);
+  color: var(--color-text-inverse-static);
+  font-size: var(--font-size-label-large);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--font-line-height-none);
+  cursor: pointer;
+  transition: background-color var(--motion-duration-fast) var(--motion-easing-standard);
+}
+.button:focus-visible {
+  outline: var(--space-scale-2) solid var(--color-border-primary);
+  outline-offset: var(--space-scale-1);
+}
+.button--primary:hover {
+  background-color: var(--color-button-primary-fill-hover);
+}
+.button--primary:active {
+  background-color: var(--color-button-primary-fill-pressed);
+}
+.button--tertiary {
+  border-color: var(--color-button-tertiary-border);
+  background-color: var(--color-button-tertiary-fill);
+  color: var(--color-text-basic);
+}
+.button--tertiary:hover {
+  background-color: var(--color-button-tertiary-fill-hover);
+}
+.button--tertiary:active {
+  background-color: var(--color-button-tertiary-fill-pressed);
+}
+.button--medium {
+  min-block-size: var(--size-height-7);
+  padding-inline: var(--space-padding-6);
+  border-radius: var(--radius-medium2);
+  font-size: var(--font-size-label-medium);
+}
+@media (prefers-reduced-motion: reduce) {
+  .button {
+    transition: none;
+  }
+}
+
+/* ---------- 아코디언 (components/accordion) ---------- */
+.accordion {
+  border-block-start: var(--border-width-static-regular) solid var(--color-divider-gray-light);
+}
+.accordion__item {
+  border-block-end: var(--border-width-static-regular) solid var(--color-divider-gray-light);
+}
+.accordion__heading {
+  margin: 0;
+  font-size: var(--font-size-heading-xsmall);
+}
+.accordion__trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-gap-5);
+  inline-size: 100%;
+  min-block-size: var(--size-height-7);
+  padding-block: var(--space-padding-5);
+  padding-inline: var(--space-padding-7);
+  border: 0;
+  background-color: var(--color-action-secondary);
+  color: var(--color-text-basic);
+  font-family: inherit;
+  font-size: var(--font-size-heading-xsmall);
+  font-weight: var(--font-weight-bold);
+  text-align: start;
+  cursor: pointer;
+}
+.accordion__trigger:hover {
+  background-color: var(--color-action-secondary-hover);
+}
+.accordion__trigger:focus-visible {
+  outline: var(--space-scale-2) solid var(--color-border-primary);
+  outline-offset: calc(var(--space-scale-2) * -1);
+}
+.accordion__trigger::after {
+  content: "";
+  flex: none;
+  inline-size: var(--space-scale-5);
+  block-size: var(--space-scale-5);
+  border-block-end: var(--border-width-static-medium) solid var(--color-icon-gray);
+  border-inline-end: var(--border-width-static-medium) solid var(--color-icon-gray);
+  transform: rotate(45deg);
+}
+.accordion__trigger[aria-expanded="true"] {
+  color: var(--color-text-secondary);
+}
+.accordion__trigger[aria-expanded="true"]::after {
+  transform: rotate(-135deg);
+}
+.accordion__panel {
+  padding-block: var(--space-padding-6) var(--space-padding-8);
+  padding-inline: var(--space-padding-7);
+  color: var(--color-text-basic);
+  font-size: var(--font-size-body-medium);
+}
+.accordion__panel > :first-child {
+  margin-block-start: 0;
+}
+.accordion__panel > :last-child {
+  margin-block-end: 0;
+}
+
+/* ---------- 모든 알림 해지 영역 ---------- */
+.revoke {
+  margin-block-start: var(--space-gap-12);
+  padding: var(--space-padding-8);
+  border: var(--border-width-static-regular) solid var(--color-border-gray);
+  border-radius: var(--radius-medium3);
+  background-color: var(--color-surface-gray-subtler);
+}
+
+.revoke__title {
+  margin: 0;
+  font-size: var(--font-size-heading-small);
+  font-weight: var(--font-weight-bold);
+}
+
+.revoke__desc {
+  margin-block: var(--space-gap-3) var(--space-gap-6);
+  color: var(--color-text-basic);
+  font-size: var(--font-size-body-medium);
+}
+
+/* ---------- 모달 (components/modal) ---------- */
+.modal {
+  inline-size: min(35rem, 100% - var(--layout-screen-margin-small) * 2);
+  max-block-size: calc(100dvh - var(--space-scale-10) * 2);
+  padding: 0;
+  border: var(--border-width-variable-regular) solid var(--color-border-gray);
+  border-radius: var(--radius-xlarge1);
+  background-color: var(--color-surface-white-subtler);
+  box-shadow: var(--shadow-4);
+  color: var(--color-text-basic);
+}
+.modal[open] {
+  display: flex;
+  flex-direction: column;
+}
+.modal::backdrop {
+  background-color: var(--color-background-dim);
+}
+.modal__header {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-gap-5);
+  padding: var(--space-padding-10) var(--space-padding-10) 0;
+}
+.modal__title {
+  flex: 1;
+  margin: 0;
+  font-size: var(--font-size-heading-medium);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--font-line-height-base);
+}
+.modal__close {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  min-inline-size: var(--size-height-6);
+  min-block-size: var(--size-height-6);
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-medium3);
+  background-color: transparent;
+  color: var(--color-icon-gray);
+}
+.modal__close-icon {
+  inline-size: var(--size-height-4);
+  block-size: var(--size-height-4);
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+}
+.modal__body {
+  flex: 1;
+  min-block-size: 0;
+  overflow-y: auto;
+  padding: var(--space-padding-6) var(--space-padding-10) var(--space-padding-3);
+  font-size: var(--font-size-body-medium);
+  line-height: var(--font-line-height-base);
+}
+.modal__body > :first-child {
+  margin-block-start: 0;
+}
+.modal__list {
+  margin-block: var(--space-gap-3);
+  padding-inline-start: var(--space-padding-8);
+}
+.modal__footer {
+  display: flex;
+  flex-shrink: 0;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: var(--space-gap-3);
+  padding: var(--space-padding-6) var(--space-padding-10) var(--space-padding-10);
+}
+.modal__action {
+  min-block-size: var(--size-height-6);
+  padding-inline: var(--space-padding-6);
+  border: var(--border-width-variable-regular) solid var(--color-button-tertiary-border);
+  border-radius: var(--radius-medium3);
+  background-color: var(--color-button-tertiary-fill);
+  color: var(--color-text-basic);
+  font-size: var(--font-size-label-medium);
+}
+.modal__action--primary {
+  border-color: var(--color-button-primary-fill);
+  background-color: var(--color-button-primary-fill);
+  color: var(--color-text-basic-inverse);
+}
+.modal__close:focus-visible,
+.modal__action:focus-visible {
+  outline: var(--space-scale-2) solid var(--color-border-primary);
+  outline-offset: var(--space-scale-1);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .modal[open] {
+    animation-name: modal-enter;
+    animation-duration: var(--motion-duration-fast);
+    animation-timing-function: var(--motion-easing-enter);
+  }
+}
+@keyframes modal-enter {
+  from {
+    opacity: 0;
+    transform: translateY(var(--space-scale-5));
+  }
+}
+
+/* ---------- 토스트 (components/toast) ---------- */
+.toast {
+  position: fixed;
+  inset-inline: 0;
+  inset-block-end: var(--space-gap-7);
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  padding-inline: var(--layout-screen-margin-small);
+  pointer-events: none;
+}
+.toast__message {
+  max-inline-size: 100%;
+  margin: 0;
+  padding: var(--space-padding-4) var(--space-padding-6);
+  border-radius: var(--radius-medium3);
+  background-color: var(--color-surface-inverse);
+  box-shadow: var(--shadow-3);
+  color: var(--color-text-basic-inverse);
+  font-size: var(--font-size-body-small);
+  line-height: var(--font-line-height-base);
+}
+.toast__message--leaving {
+  opacity: 0;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .toast__message {
+    transition-property: opacity;
+    transition-duration: var(--motion-duration-fast);
+    transition-timing-function: var(--motion-easing-standard);
+  }
+}

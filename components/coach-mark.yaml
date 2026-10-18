@@ -1,0 +1,238 @@
+id: coach-mark
+title: 코치마크
+status: confirmed
+summary: 따라하기 패널에서 시작한 과업을 화면의 실제 요소 옆 말풍선으로 한 단계씩 안내한다.
+use_instead:
+- when: 한두 문장으로 끝나는 안내
+  use: 맥락적 도움말
+  rule: COPY-043
+- when: 한 과업이 15단계를 넘거나 한 페이지에 4단계를 넘는 경우
+  use: 과업을 나누거나 따라하기 패널의 세부 단계 목록으로 안내
+  rule: COPY-047
+krds:
+  page: component_08_04.html
+  kit: html/code/coach_mark.html
+  kit_classes:
+    coach-mark: coach-balloon
+    coach-mark__target: krds-coach-mark txt-box
+    coach-mark__title: coach-tit
+    coach-mark__text: desc
+    coach-mark__progress: num
+    coach-mark__actions: coach-controls btn-wrap
+anatomy:
+- part: 루트(말풍선)
+  class: coach-mark
+  element: dialog
+  required: true
+  note: 비모달 대화상자. dialog.show()(showModal 아님)로 열어 페이지의 다른 부분도 계속 조작할 수 있게 한다. aria-labelledby 로 제목을 연결한다. DOM 에서
+    안내 대상 요소 바로 다음에 둔다(A11Y-008).
+- part: 기준 영역
+  class: coach-mark__anchor
+  element: div
+  required: true
+  note: 안내 대상과 말풍선을 묶어 말풍선 위치의 기준이 된다.
+- part: 안내 대상 강조
+  class: coach-mark__target
+  element: 안내 대상 요소에 붙이는 클래스
+  required: true
+  note: 지금 단계가 가리키는 화면 요소를 테두리로 강조한다. 대상 자체의 초점 표시를 가리지 않는다.
+- part: 단계 제목
+  class: coach-mark__title
+  element: h2
+  required: true
+  note: 한 줄로 쓴다(COPY-046).
+- part: 지시 사항
+  class: coach-mark__text
+  element: p
+  required: true
+  note: 세 줄 이하로 쓴다(COPY-046). 사용자 행동을 요구하는 단계는 '행동을 마치면 다음 단계로 넘어간다'는 사실을 쓴다(STATE-031).
+- part: 진행 표시
+  class: coach-mark__progress
+  element: p
+  required: true
+  note: 예 '4단계 중 1단계'.
+- part: 버튼 영역
+  class: coach-mark__actions
+  element: div
+  required: true
+- part: 버튼
+  class: coach-mark__button
+  element: button
+  required: true
+  note: '''그만보기''·''이전''은 텍스트 버튼(coach-mark__button--text), ''다음''·''마치기''는 고스트 버튼(coach-mark__button--ghost). 주조색
+    채움 버튼은 쓰지 않는다(COLOR-021).'
+- part: 단계 전환 알림
+  class: coach-mark__status
+  element: div
+  required: true
+  note: role="status" 와 .sr-only 를 준 빈 영역. 말풍선(dialog) 밖에 두어 단계가 바뀌어도 남는다. 사용자 행동을 감지해 자동으로 다음 단계로 넘어갈 때 새 단계 제목과
+    지시 사항을 넣어 낭독되게 한다(STATE-031 (4)).
+markup: |-
+  <div class="coach-mark__anchor">
+    <div class="coach-mark__target">
+      <label for="old-address">이사 전 주소</label>
+      <input id="old-address" name="old-address" type="text" autocomplete="address-line1">
+    </div>
+    <dialog class="coach-mark" aria-labelledby="coach-step-title" open>
+      <h2 class="coach-mark__title" id="coach-step-title" tabindex="-1">이사 전 주소 입력</h2>
+      <p class="coach-mark__text">이사 전에 살던 곳의 도로명 주소를 입력해 주세요. 주소를 입력하면 다음 단계로 넘어갑니다.</p>
+      <div class="coach-mark__footer">
+        <p class="coach-mark__progress">4단계 중 1단계</p>
+        <div class="coach-mark__actions">
+          <button class="coach-mark__button coach-mark__button--text" type="button">그만보기</button>
+        </div>
+      </div>
+    </dialog>
+  </div>
+  <div class="coach-mark__status sr-only" role="status"></div>
+css: |-
+  .coach-mark__anchor {
+    position: relative;
+  }
+  .coach-mark__target {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-gap-3);
+    padding: var(--padding-card-large);
+    border: var(--border-width-variable-regular) solid var(--color-border-primary);
+    border-radius: var(--radius-xlarge1);
+    outline: var(--space-scale-6) solid var(--color-border-primary-light);
+  }
+  .coach-mark {
+    position: absolute;
+    inset-block-start: calc(100% + var(--space-gap-7));
+    inset-inline: auto 0;
+    z-index: 100;
+    inline-size: min(22.5rem, 100vw - var(--layout-screen-margin-small) * 2);
+    margin: 0;
+    padding: var(--space-padding-8);
+    border: var(--border-width-variable-medium) solid var(--color-border-primary);
+    border-radius: var(--radius-xlarge2);
+    background-color: var(--color-surface-white);
+    box-shadow: var(--shadow-3);
+    color: var(--color-text-basic);
+  }
+  .coach-mark[open] {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-gap-5);
+  }
+  .coach-mark__title {
+    margin: 0;
+    color: var(--color-text-subtle);
+    font-size: var(--font-size-label-xsmall);
+    font-weight: var(--font-weight-bold);
+  }
+  .coach-mark__text {
+    margin: 0;
+    font-size: var(--font-size-body-medium);
+    line-height: var(--font-line-height-base);
+  }
+  .coach-mark__footer {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-gap-3);
+  }
+  .coach-mark__progress {
+    margin: 0;
+    color: var(--color-text-subtle);
+    font-size: var(--font-size-label-small);
+  }
+  .coach-mark__actions {
+    display: flex;
+    gap: var(--space-gap-2);
+  }
+  .coach-mark__button {
+    min-block-size: var(--size-height-5);
+    padding-inline: var(--space-padding-4);
+    border: var(--border-width-variable-regular) solid transparent;
+    border-radius: var(--radius-medium1);
+    background-color: transparent;
+    color: var(--color-text-basic);
+    font-size: var(--font-size-label-small);
+  }
+  .coach-mark__button--text {
+    text-decoration: underline;
+  }
+  .coach-mark__button--ghost {
+    border-color: var(--color-button-tertiary-border);
+  }
+  .coach-mark__title:focus-visible,
+  .coach-mark__button:focus-visible {
+    outline: var(--space-scale-2) solid var(--color-border-primary);
+    outline-offset: var(--space-scale-1);
+  }
+states:
+- name: 표시
+  markup_change: 사용자가 따라하기 패널의 '따라하기 실행'을 누르면 첫 단계 대상에 coach-mark__target 을 붙이고 그 바로 다음에 dialog.coach-mark 를 넣어
+    show() 로 연다. 예시 markup 의 open 속성은 검사용 정적 표현이다.
+  rule: A11Y-024
+- name: 행동 요구 단계
+  markup_change: 지시 사항에 '…하면 다음 단계로 넘어갑니다'를 쓰고 '다음' 버튼을 뺀다(STATE-031 예외). '그만보기'는 항상 둔다. 시스템이 행동 완료를 확인하면 다음 단계로
+    넘기되 초점은 옮기지 않고, 새 단계 지시문을 coach-mark__status(role="status")에 넣는다(CF-006, STATE-031). 예시 markup 이 이 단계다.
+  rule: STATE-031
+- name: 마지막 단계
+  markup_change: '''다음'' 대신 ''마치기''(고스트 버튼).'
+  rule: COLOR-021
+- name: 시간 제한 경고·오류·긴급 알림 발생
+  markup_change: 시간 제한 경고(A11Y-014)·오류·긴급 알림이 생기면 dialog.close() 로 코치마크를 닫고 그 알림을 즉시 표시한다. 그 밖의 알림(토스트·배너 등)은 보류했다가
+    코치마크가 닫힌 직후 표시한다(STATE-030, CF-001).
+  rule: STATE-030
+keyboard:
+- key: Tab / Shift+Tab
+  action: 말풍선 안 버튼 사이를 이동하고, 말풍선 밖(페이지 다른 요소)으로도 나갈 수 있다 — 비모달이므로 초점을 가두지 않는다(A11Y-012).
+- key: Enter / Space
+  action: '''그만보기''는 말풍선을 숨기고 초점을 따라하기 패널의 따라하기 실행 버튼으로 옮긴다(A11Y-052). ''이전''·''다음''은 단계를 바꾼다.'
+- key: Esc
+  action: 초점이 말풍선 안에 있으면 '그만보기'와 같게 동작한다.
+behavior:
+- 코치마크는 사용자가 따라하기 실행 버튼을 눌렀을 때만 시작한다. 초점을 받는 것만으로 시작하거나 단계를 바꾸지 않는다(A11Y-024).
+- 시작할 때와 '이전'·'다음'을 눌렀을 때는 새 단계 제목(tabindex="-1")으로 초점을 옮긴다. 사용자 행동을 감지해 자동으로 넘어갈 때는 초점을 옮기지 않고, 새 단계 제목과 지시 사항을
+  coach-mark__status(sr-only, role="status")에 넣어 보조기술에 알린다(STATE-031 (4), CF-006).
+- 한 화면에 말풍선은 1개만 표시한다(STATE-029). 코치마크가 표시되는 동안 토스트·스낵바·배너·모달 같은 다른 레이어를 띄우지 않고 보류했다가 끝난 뒤 표시한다. 단, 시간 제한 경고(A11Y-014)·오류·긴급
+  알림이 생기면 코치마크를 닫고 그 알림을 즉시 표시한다(STATE-030, CF-001).
+- 한 과업은 15단계 이하, 한 페이지에 속한 단계는 4개 이하로 구성한다(COPY-047). 단계는 사용자가 과업을 실제로 수행하는 순서대로 둔다(NAV-063).
+- 말풍선 너비는 과업에서 가장 긴 지시 사항을 기준으로 정해 모든 단계에서 같게 한다 — 과업 시작 때 한 번 계산해 모든 단계에 같은 값을 쓴다(LAYOUT-058).
+- 말풍선은 모든 화면 너비에서 뷰포트 안에 전부 보이고 안내 대상과 다음에 누를 버튼을 가리지 않게 위·아래·좌우로 배치한다(LAYOUT-057).
+- 제목은 한 줄, 지시 사항은 세 줄 이하로 쓴다(COPY-046).
+- 말풍선 안 관련 화면·리소스 링크는 새 탭으로 열고, 링크 컴포넌트와 같은 새 창 아이콘(svg, aria-hidden="true")과 링크 안 숨긴 텍스트(.sr-only ' (새 창 열림)')을
+  넣는다. title 속성만으로 알리지 않는다(NAV-013, NAV-012, CF-002).
+- 대상 강조 테두리·말풍선 테두리는 인접 색과 3:1 이상 대비를 갖는다(COLOR-003). 같은 기능의 버튼 이름('그만보기'·'이전'·'다음'·'마치기')은 모든 과업에서 같게 쓴다(COPY-004).
+rules:
+- A11Y-008
+- A11Y-011
+- A11Y-012
+- A11Y-014
+- A11Y-016
+- A11Y-024
+- A11Y-025
+- A11Y-052
+- COLOR-003
+- COLOR-021
+- COPY-004
+- COPY-046
+- COPY-047
+- LAYOUT-002
+- LAYOUT-057
+- LAYOUT-058
+- NAV-012
+- NAV-013
+- NAV-063
+- SHAPE-001
+- SHAPE-004
+- STATE-029
+- STATE-030
+- STATE-031
+kit_differences:
+- KRDS 키트는 말풍선 제목을 h6(그 앞에 sr-only h5 '따라하기 가이드')로 써서 페이지 제목 계층을 건너뛴다 — 이 규격은 놓이는 위치에 맞는 제목 수준을 쓰고 dialog 의 aria-labelledby
+  로 연결한다(A11Y-025).
+- KRDS 키트 진행 표시는 sr-only '현재 단계'·'총 단계'와 숫자 '1'·'4'를 나눠 둔다 — 이 규격은 '4단계 중 1단계'를 보이는 텍스트 하나로 쓴다.
+- KRDS 키트 '다음으로' 버튼은 tertiary(채움) 버튼이다 — 이 규격은 고스트 버튼으로 쓴다(COLOR-021).
+- KRDS 키트 말풍선은 word-break break-all 이다 — 이 규격은 한국어 어절 단위 줄바꿈(전역 keep-all)을 따른다(CF-049).
+notes:
+- 너비 22.5rem 은 KRDS 키트 popover-max-width(36rem, 루트 62.5% 기준 360px)를 16px 루트로 옮긴 값이다. 대상 강조(border-primary 1px +
+  border-primary-light 바깥 띠)는 키트의 outline 1rem(10px)을 같은 10px 인 space-scale-6 토큰으로 옮겼다. 강조는 대상을 감싸는 컨테이너에 붙이므로 그
+  안 입력 필드의 초점 표시와 겹치지 않는다.
+- 다음 버튼만 고스트, 나머지는 텍스트 버튼으로 강조를 낮춘 것은 COLOR-021 에 따른 것이고 색 값은 KRDS 키트 tertiary 테두리 토큰을 썼다.

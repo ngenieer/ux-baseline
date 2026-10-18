@@ -1,0 +1,56 @@
+id: FORM-051
+category: FORM
+title: 텍스트 영역 높이
+stage: platformed
+status:
+  value: confirmed
+type: guide
+strength: SHOULD
+statement: 텍스트 영역의 기본 높이(rows 또는 height)를 예상 최대 입력 길이에 비례하게 정한다.
+measurement:
+  criteria: '점검 질문: 같은 화면의 텍스트 영역 가운데 예상 최대 입력 길이가 더 긴 영역의 기본 높이가 더 짧지 않은가? 각 텍스트 영역의 기본 높이를 정한 근거(예상 최대 글자 수)를
+    설명할 수 있는가?'
+  method: 수동 검토
+automation:
+  feasibility: none
+  checks: []
+  note: 원문에 높이 수치가 없어 자동 판정 기준을 만들 수 없음.
+rationale: KRDS는 입력 영역 높이를 입력이 예상되는 최대 텍스트 길이에 비례하게 해 스크롤 없이 입력한 텍스트를 한 번에 확인할 수 있게 하라고 한다.
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 텍스트 영역 > 사용성 가이드라인(입력 영역은 텍스트의 길이를 고려하여 ... 크기로 제공한다) (가이드라인 PDF 2025.08 680쪽)
+  note: https://www.krds.go.kr/html/site/component/component_09_02.html — 원문의 '적절한 크기', '적절한 양의 텍스트'에는 수치가 없음
+scope:
+  level: component
+  targets:
+  - textarea
+exceptions: []
+relations: []
+examples:
+  good:
+  - lang: html
+    code: '<!-- 예상 최대 입력 길이: 여러 문단 -->
+
+      <label for="reason">신청 사유</label>
+
+      <textarea id="reason" rows="8"></textarea>
+
+      '
+    note: 여러 문단이 예상되는 입력에 높이 8줄을 주어 스크롤 없이 확인할 수 있다.
+  bad:
+  - lang: html
+    code: '<!-- 예상 최대 입력 길이: 여러 문단 -->
+
+      <label for="reason">신청 사유</label>
+
+      <textarea id="reason" rows="1"></textarea>
+
+      '
+    note: 긴 서술이 예상되는데 높이가 1줄이라 입력 내용을 한 번에 볼 수 없다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(curl로 KRDS 페이지 HTML을 받아 본문 텍스트와 대조): 문장 일치 확인. 원문 강도 ''제공한다''(지시문) → SHOULD.
+  수치가 없어 판정 불가 → guide.'
+korean_specific: false
+tags:
+- krds
+- krds-component

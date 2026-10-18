@@ -1,0 +1,56 @@
+id: STATE-043
+category: STATE
+title: 페이지 없음(404) 화면
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 없는 주소에 접근하면 HTTP 404 상태 코드로 응답하고, 제목 '페이지를 찾을 수 없습니다'와 주소를 직접 입력했으면 맞는지, 붙여넣었으면 전체를 복사했는지 확인하라는 안내를 보여주며,
+  '404' 같은 기술 용어, 유머·가벼운 표현, 빨간 경고 텍스트, 브레드크럼을 쓰지 않는다.
+measurement:
+  criteria: (1) 존재하지 않는 경로 요청의 응답 상태가 404다. (2) h1이 '페이지를 찾을 수 없습니다'이고 document.title이 이 문구로 시작한다. (3) 본문에 주소 입력·복사
+    확인 안내가 있다. (4) 보이는 텍스트에 '404'·'Not Found'·'Bad Request'·'앗'·'이런' 같은 표현이 없다. (5) 브레드크럼 nav가 없다. (6) 본문 텍스트 색이
+    오류(빨강) 토큰이 아니다.
+  method: 존재하지 않는 URL을 요청해 상태 코드·DOM·계산된 색을 확인한다.
+automation:
+  feasibility: partial
+  checks:
+  - tool: custom
+    method: '통합 테스트: 무작위 경로 요청 → status==404, h1 텍스트, ''404'' 문자열·nav[aria-label*=브레드크럼|breadcrumb] 부재 검사'
+  note: 유머 표현·문구 적합성은 수동.
+rationale: 사용자를 탓하거나 기술 용어를 쓰지 않고 다음에 할 일을 알려야 사용자가 스스로 복구할 수 있다(GOV.UK). 정확한 상태 코드는 검색엔진·도구가 페이지 없음을 판단하는 근거다(National
+  Archives).
+sources:
+- ref: GOVUK_404
+  locator: 'How it works — page title, H1 ''Page not found'', contact information if it helps meet a user need;
+    Do not use: breadcrumbs, technical jargon like 404, informal or humorous words, red text'
+- ref: NA_ERROR_PAGES
+  locator: Page not found — 'The server should return a 404 response code.'
+scope:
+  level: situation
+  targets:
+  - 404 응답 페이지
+exceptions: []
+relations: []
+examples:
+  good:
+  - lang: html
+    code: "<!-- HTTP 404 응답 -->\n<title>페이지를 찾을 수 없습니다 - 서비스명</title>\n<main><h1>페이지를 찾을 수 없습니다</h1>\n  <p>주소를 직접\
+      \ 입력했다면 맞게 입력했는지 확인하세요.</p>\n  <p>주소를 붙여넣었다면 전체 주소를 복사했는지 확인하세요.</p>\n</main>\n"
+    note: 404 상태로 응답하고 정해진 제목과 주소 확인 안내를 쓴다.
+  bad:
+  - lang: html
+    code: '<nav aria-label="브레드크럼">홈 &gt; 오류</nav>
+
+      <h1 class="text-error">404 Not Found 앗! 길을 잃으셨네요</h1>
+
+      '
+    note: 기술 용어·가벼운 표현·빨간 텍스트·브레드크럼을 쓴다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(GOV.UK Page not found·National Archives Error pages curl 확인): H1·제목·주소 확인 안내·금지
+  4종·404 응답 코드 확인. 1단계 statement의 ''홈 또는 검색 링크''는 GOV.UK 원문에 없어 뺐다(GOV.UK는 사용자 필요가 있을 때만 연락처). 한국어 문구 ''페이지를 찾을
+  수 없습니다''·''앗·이런'' 예시는 GOV.UK 영문의 번역 선택. GOV.UK 자체가 추가 연구 필요라고 밝힌 패턴.'
+korean_specific: false
+tags:
+- research-state_copy_resp

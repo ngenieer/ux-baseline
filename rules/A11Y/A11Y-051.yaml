@@ -1,0 +1,22 @@
+id: A11Y-051
+category: A11Y
+title: 따라하기 패널
+stage: collected
+status:
+  value: deprecated
+  reason: A11Y-031로 병합 — 펼침 버튼 실행 후 초점 유지라는 같은 요구(아코디언 헤더와 패널 안 펼침 버튼)
+  superseded_by: A11Y-031
+statement: 패널 안의 펼침 영역을 Enter·Space로 펼치거나 접은 뒤에도 키보드 초점을 그 펼침 버튼에 유지한다.
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 따라하기 패널 > 상호작용 가이드라인
+  note: https://www.krds.go.kr/html/site/component/component_08_02.html
+scope:
+  level: component
+  targets:
+  - 따라하기 패널
+needs_verification: true
+verification_note: 'statement 는 KRDS 컴포넌트 페이지를 요약 도구로 읽고 정리한 것 — 원문 강도 표현: "상호작용 표 서술형("초점은 ... 버튼에 유지된다")". 원문 수치·속성: Click, Enter, Space. 2단계에서 원문 대조. 2026-10-18: A11Y-031로 병합(출처를 A11Y-031 sources에 옮김).'
+tags:
+- krds
+- krds-component

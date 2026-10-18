@@ -1,0 +1,2550 @@
+# 자동 생성(lint/build-rule-map.mjs). 확정 룰 → 검사 규칙과 설정 반영 여부. 손으로 고치지 않는다.
+summary:
+  confirmed_rules: 484
+  checks: 201
+  configured: 146
+unreferenced_config:
+  stylelint: []
+  html-validate: 55
+  axe-core: 0
+  ux-baseline-check: []
+rules:
+  A11Y-001:
+    strength: MUST
+    feasibility: partial
+    checks:
+      - tool: axe-core
+        rule: image-alt
+        configured: true
+      - tool: axe-core
+        rule: input-image-alt
+        configured: true
+      - tool: axe-core
+        rule: role-img-alt
+        configured: true
+      - tool: axe-core
+        rule: svg-img-alt
+        configured: true
+      - tool: axe-core
+        rule: object-alt
+        configured: true
+      - tool: axe-core
+        rule: aria-meter-name
+        configured: true
+      - tool: axe-core
+        rule: aria-progressbar-name
+        configured: true
+      - tool: html-validate
+        rule: wcag/h37
+        configured: true
+  A11Y-002:
+    strength: MUST
+    feasibility: none
+    checks: []
+  A11Y-003:
+    strength: MUST
+    feasibility: partial
+    checks:
+      - tool: axe-core
+        rule: video-caption
+        configured: true
+  A11Y-004:
+    strength: MUST
+    feasibility: none
+    checks: []
+  A11Y-005:
+    strength: MUST
+    feasibility: none
+    checks: []
+  A11Y-006:
+    strength: MUST
+    feasibility: none
+    checks: []
+  A11Y-007:
+    strength: MUST
+    feasibility: partial
+    checks:
+      - tool: axe-core
+        rule: list
+        configured: true
+      - tool: axe-core
+        rule: listitem
+        configured: true
+      - tool: axe-core
+        rule: definition-list
+        configured: true
+      - tool: axe-core
+        rule: dlitem
+        configured: true
+      - tool: axe-core
+        rule: td-has-header
+        configured: true
+      - tool: axe-core
+        rule: td-headers-attr
+        configured: true
+      - tool: axe-core
+        rule: th-has-data-cells
+        configured: true
+      - tool: axe-core
+        rule: table-fake-caption
+        configured: true
+      - tool: axe-core
+        rule: p-as-heading
+        configured: true
+      - tool: axe-core
+        rule: aria-required-children
+        configured: true
+      - tool: axe-core
+        rule: aria-required-parent
+        configured: true
+      - tool: axe-core
+        rule: aria-hidden-body
+        configured: true
+      - tool: html-validate
+        rule: wcag/h63
+        configured: true
+      - tool: ux-baseline-check
+        rule: list-role
+        configured: true
+  A11Y-008:
+    strength: MUST
+    feasibility: none
+    checks: []
+  A11Y-009:
+    strength: MUST
+    feasibility: partial
+    checks:
+      - tool: axe-core
+        rule: no-autoplay-audio
+        configured: true
+      - tool: html-validate
+        rule: no-autoplay
+        configured: true
+  A11Y-010:
+    strength: MUST
+    feasibility: none
+    checks: []
+  A11Y-011:
+    strength: MUST
+    feasibility: partial
+    checks:
+      - tool: axe-core
+        rule: scrollable-region-focusable
+        configured: true
+      - tool: axe-core
+        rule: frame-focusable-content
+        configured: true
+      - tool: axe-core
+        rule: server-side-image-map
+        configured: true
+      - tool: eslint
+        rule: jsx-a11y/click-events-have-key-events
+        configured: false
+      - tool: ux-baseline-check
+        rule: tabs-arrow-keys
+        configured: true
+      - tool: ux-baseline-check
+        rule: disclosure-toggle
+        configured: true
+  A11Y-012:
+    strength: MUST
+    feasibility: partial
+    checks:
+      - tool: ux-baseline-check
+        rule: dialog-escape-return
+        configured: true
+  A11Y-013:
+    strength: MUST
+    feasibility: none
+    checks: []
+  A11Y-014:
+    strength: MUST
+    feasibility: partial
+    checks:
+      - tool: axe-core
+        rule: meta-refresh
+        configured: true
+      - tool: html-validate
+        rule: meta-refresh
+        configured: true
+  A11Y-015:
+    strength: MUST
+    feasibility: partial
+    checks:
+      - tool: ux-baseline-check
+        rule: dialog-focus-in
+        configured: true
+      - tool: ux-baseline-check
+        rule: dialog-escape-return
+        configured: true
+  A11Y-016:
+    strength: MUST
+    feasibility: partial
+    checks:
+      - tool: stylelint
+        rule: ux-baseline/no-outline-none-without-replacement
+        configured: true
+      - tool: ux-baseline-check
+        rule: focus-visible
+        configured: true
+  A11Y-017:
+    strength: MUST
+    feasibility: none
+    checks: []
+  A11Y-018:
+    strength: MUST
+    feasibility: none
+    checks: []
+  A11Y-019:
+    strength: MUST
+    feasibility: partial
+    checks:
+      - tool: axe-core
+        rule: label-content-name-mismatch
+        configured: true
+  A11Y-020:
+    strength: MUST
+    feasibility: none
+    checks: []
+  A11Y-021:
+    strength: MUST
+    feasibility: none
+    checks: []
+  A11Y-022:
+    strength: MUST
+    feasibility: partial
+    checks:
+      - tool: axe-core
+        rule: html-has-lang
+        configured: true
+      - tool: axe-core
+        rule: html-lang-valid
+        configured: true
+      - tool: axe-core
+        rule: html-xml-lang-mismatch
+        configured: true
+  A11Y-023:
+    strength: MUST
+    feasibility: partial
+    checks:
+      - tool: axe-core
+        rule: valid-lang
+        configured: true
+  A11Y-024:
+    strength: MUST
+    feasibility: none
+    checks: []
+  A11Y-025:
+    strength: MUST
+    feasibility: partial
+    checks:
+      - tool: axe-core
+        rule: button-name
+        configured: true
+      - tool: axe-core
+        rule: link-name
+        configured: true
+      - tool: axe-core
+        rule: input-button-name
+        configured: true
+      - tool: axe-core
+        rule: label
+        configured: true
+      - tool: axe-core
+        rule: select-name
+        configured: true
+      - tool: axe-core
+        rule: aria-input-field-name
+        configured: true
+      - tool: axe-core
+        rule: aria-toggle-field-name
+        configured: true
+      - tool: axe-core
+        rule: aria-command-name
+        configured: true
+      - tool: axe-core
+        rule: aria-tooltip-name
+        configured: true
+      - tool: axe-core
+        rule: aria-tab-name
+        configured: true
+      - tool: axe-core
+        rule: summary-name
+        configured: true
+      - tool: axe-core
+        rule: frame-title
+        configured: true
+      - tool: axe-core
+        rule: frame-title-unique
+        configured: true
+      - tool: axe-core
+        rule: area-alt
+        configured: true
+      - tool: axe-core
+        rule: aria-allowed-attr
+        configured: true
+      - tool: axe-core
+        rule: aria-conditional-attr
+        configured: true
+      - tool: axe-core
+        rule: aria-prohibited-attr
+        configured: true
+      - tool: axe-core
+        rule: aria-required-attr
+        configured: true
+      - tool: axe-core
+        rule: aria-roles
+        configured: true
+      - tool: axe-core
+        rule: aria-deprecated-role
+        configured: true
+      - tool: axe-core
+        rule: aria-valid-attr
+        configured: true
+      - tool: axe-core
+        rule: aria-valid-attr-value
+        configured: true
+      - tool: axe-core
+        rule: aria-hidden-focus
+        configured: true
+      - tool: axe-core
+        rule: aria-hidden-body
+        configured: true
+      - tool: axe-core
+        rule: aria-roledescription
+        configured: true
+      - tool: axe-core
+        rule: aria-braille-equivalent
+        configured: true
+      - tool: axe-core
+        rule: nested-interactive
+        configured: true
+      - tool: axe-core
+        rule: duplicate-id-aria
+        configured: true
+      - tool: axe-core
+        rule: input-image-alt
+        configured: true
+      - tool: html-validate
+        rule: wcag/h30
+        configured: true
+      - tool: html-validate
+        rule: hidden-focusable
+        configured: true
+      - tool: html-validate
+        rule: no-dup-id
+        configured: true
+  A11Y-026:
+    strength: MUST
+    feasibility: full
+    checks:
+      - tool: html-validate
+        rule: close-order
+        configured: true
+      - tool: html-validate
+        rule: element-permitted-content
+        configured: true
+      - tool: html-validate
+        rule: no-dup-attr
+        configured: true
+      - tool: html-validate
+        rule: no-dup-id
+        configured: true
+  A11Y-027:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  A11Y-028:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  A11Y-029:
+    strength: SHOULD
+    feasibility: partial
+    checks:
+      - tool: ux-baseline-check
+        rule: dialog-focus-trap
+        configured: true
+  A11Y-030:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  A11Y-031:
+    strength: SHOULD
+    feasibility: partial
+    checks:
+      - tool: ux-baseline-check
+        rule: disclosure-toggle
+        configured: true
+  A11Y-032:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  A11Y-033:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  A11Y-034:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  A11Y-035:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  A11Y-036:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  A11Y-037:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  A11Y-038:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  A11Y-039:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  A11Y-040:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  A11Y-041:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  A11Y-042:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  A11Y-043:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  A11Y-044:
+    strength: MAY
+    feasibility: none
+    checks: []
+  A11Y-045:
+    strength: MAY
+    feasibility: none
+    checks: []
+  A11Y-046:
+    strength: SHOULD
+    feasibility: none
+    checks:
+      - tool: stylelint
+        rule: ux-baseline/sr-only-no-display-none
+        configured: true
+  A11Y-047:
+    strength: SHOULD
+    feasibility: none
+    checks:
+      - tool: stylelint
+        rule: ux-baseline/sr-only-no-zero-size
+        configured: true
+  A11Y-048:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  A11Y-049:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  A11Y-050:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  A11Y-052:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  A11Y-053:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  A11Y-054:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  A11Y-055:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  A11Y-056:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  A11Y-057:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  A11Y-058:
+    strength: MUST
+    feasibility: partial
+    checks:
+      - tool: custom
+        rule: null
+        configured: false
+  AI-001:
+    strength: MUST
+    feasibility: none
+    checks: []
+  AI-002:
+    strength: MUST
+    feasibility: none
+    checks: []
+  AI-003:
+    strength: MUST
+    feasibility: none
+    checks: []
+  AI-004:
+    strength: MUST
+    feasibility: none
+    checks: []
+  AI-005:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  AI-006:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  AI-007:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  AI-008:
+    strength: MAY
+    feasibility: none
+    checks: []
+  AI-009:
+    strength: MAY
+    feasibility: none
+    checks: []
+  AI-010:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  AI-011:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  AI-012:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  AI-013:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  AI-014:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  AI-015:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  AI-016:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  AI-017:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  AI-018:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  COLOR-001:
+    strength: MUST
+    feasibility: partial
+    checks:
+      - tool: axe-core
+        rule: link-in-text-block
+        configured: true
+  COLOR-002:
+    strength: MUST
+    feasibility: partial
+    checks:
+      - tool: axe-core
+        rule: color-contrast
+        configured: true
+  COLOR-003:
+    strength: MUST
+    feasibility: none
+    checks: []
+  COLOR-004:
+    strength: MAY
+    feasibility: none
+    checks: []
+  COLOR-005:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  COLOR-006:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  COLOR-007:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  COLOR-009:
+    strength: SHOULD
+    feasibility: partial
+    checks:
+      - tool: axe-core
+        rule: color-contrast-enhanced
+        configured: true
+  COLOR-010:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  COLOR-011:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  COLOR-012:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  COLOR-013:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  COLOR-014:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  COLOR-015:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  COLOR-016:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  COLOR-017:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  COLOR-018:
+    strength: MAY
+    feasibility: none
+    checks: []
+  COLOR-019:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  COLOR-020:
+    strength: MAY
+    feasibility: none
+    checks: []
+  COLOR-021:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  COLOR-022:
+    strength: MUST
+    feasibility: partial
+    checks:
+      - tool: stylelint
+        rule: scale-unlimited/declaration-strict-value
+        configured: true
+  COPY-001:
+    strength: MUST
+    feasibility: partial
+    checks:
+      - tool: html-validate
+        rule: ux-baseline/sensory-reference
+        configured: true
+      - tool: ux-baseline-check
+        rule: sensory-text
+        configured: true
+  COPY-002:
+    strength: MUST
+    feasibility: partial
+    checks:
+      - tool: axe-core
+        rule: link-name
+        configured: true
+      - tool: axe-core
+        rule: area-alt
+        configured: true
+  COPY-003:
+    strength: MUST
+    feasibility: none
+    checks: []
+  COPY-004:
+    strength: MUST
+    feasibility: none
+    checks: []
+  COPY-005:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  COPY-006:
+    strength: SHOULD
+    feasibility: partial
+    checks:
+      - tool: html-validate
+        rule: ux-baseline/dialog-action-verb
+        configured: true
+  COPY-007:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  COPY-008:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  COPY-009:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  COPY-010:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  COPY-011:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  COPY-012:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  COPY-013:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  COPY-014:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  COPY-015:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  COPY-016:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  COPY-017:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  COPY-018:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  COPY-019:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  COPY-020:
+    strength: MAY
+    feasibility: none
+    checks: []
+  COPY-021:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  COPY-022:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  COPY-023:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  COPY-024:
+    strength: MAY
+    feasibility: none
+    checks: []
+  COPY-025:
+    strength: MAY
+    feasibility: none
+    checks: []
+  COPY-026:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  COPY-027:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  COPY-028:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  COPY-029:
+    strength: MAY
+    feasibility: none
+    checks: []
+  COPY-030:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  COPY-031:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  COPY-032:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  COPY-033:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  COPY-034:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  COPY-035:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  COPY-037:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  COPY-038:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  COPY-039:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  COPY-040:
+    strength: MAY
+    feasibility: none
+    checks: []
+  COPY-041:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  COPY-042:
+    strength: MAY
+    feasibility: none
+    checks: []
+  COPY-043:
+    strength: MAY
+    feasibility: none
+    checks: []
+  COPY-044:
+    strength: MAY
+    feasibility: none
+    checks: []
+  COPY-045:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  COPY-046:
+    strength: MAY
+    feasibility: none
+    checks: []
+  COPY-047:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  COPY-048:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  COPY-049:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  COPY-050:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  COPY-051:
+    strength: MAY
+    feasibility: none
+    checks: []
+  COPY-052:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  COPY-053:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  COPY-054:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  COPY-055:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  COPY-056:
+    strength: SHOULD
+    feasibility: partial
+    checks:
+      - tool: html-validate
+        rule: ux-baseline/date-format
+        configured: true
+  COPY-057:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  FORM-001:
+    strength: MUST
+    feasibility: partial
+    checks:
+      - tool: axe-core
+        rule: autocomplete-valid
+        configured: true
+      - tool: html-validate
+        rule: valid-autocomplete
+        configured: true
+  FORM-002:
+    strength: MUST
+    feasibility: none
+    checks:
+      - tool: custom
+        rule: null
+        configured: false
+  FORM-003:
+    strength: MUST
+    feasibility: partial
+    checks:
+      - tool: custom
+        rule: null
+        configured: false
+  FORM-004:
+    strength: MUST
+    feasibility: partial
+    checks:
+      - tool: axe-core
+        rule: label
+        configured: true
+      - tool: axe-core
+        rule: select-name
+        configured: true
+      - tool: axe-core
+        rule: aria-input-field-name
+        configured: true
+      - tool: axe-core
+        rule: aria-toggle-field-name
+        configured: true
+      - tool: axe-core
+        rule: form-field-multiple-labels
+        configured: true
+  FORM-005:
+    strength: MUST
+    feasibility: none
+    checks: []
+  FORM-006:
+    strength: MUST
+    feasibility: none
+    checks: []
+  FORM-007:
+    strength: MUST
+    feasibility: none
+    checks: []
+  FORM-008:
+    strength: MUST
+    feasibility: partial
+    checks:
+      - tool: custom
+        rule: null
+        configured: false
+  FORM-009:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  FORM-010:
+    strength: MAY
+    feasibility: none
+    checks: []
+  FORM-011:
+    strength: SHOULD
+    feasibility: full
+    checks:
+      - tool: custom
+        rule: null
+        configured: false
+  FORM-012:
+    strength: SHOULD
+    feasibility: partial
+    checks:
+      - tool: custom
+        rule: null
+        configured: false
+      - tool: html-validate
+        rule: ux-baseline/required-marker-consistency
+        configured: true
+  FORM-013:
+    strength: SHOULD
+    feasibility: full
+    checks:
+      - tool: custom
+        rule: null
+        configured: false
+  FORM-014:
+    strength: SHOULD
+    feasibility: partial
+    checks:
+      - tool: custom
+        rule: null
+        configured: false
+  FORM-015:
+    strength: SHOULD
+    feasibility: none
+    checks:
+      - tool: custom
+        rule: null
+        configured: false
+  FORM-016:
+    strength: SHOULD
+    feasibility: none
+    checks:
+      - tool: custom
+        rule: null
+        configured: false
+  FORM-017:
+    strength: SHOULD
+    feasibility: partial
+    checks:
+      - tool: custom
+        rule: null
+        configured: false
+  FORM-018:
+    strength: SHOULD
+    feasibility: full
+    checks:
+      - tool: eslint
+        rule: null
+        configured: false
+      - tool: custom
+        rule: null
+        configured: false
+  FORM-019:
+    strength: SHOULD
+    feasibility: partial
+    checks:
+      - tool: custom
+        rule: null
+        configured: false
+  FORM-020:
+    strength: SHOULD
+    feasibility: partial
+    checks:
+      - tool: custom
+        rule: null
+        configured: false
+  FORM-021:
+    strength: SHOULD
+    feasibility: partial
+    checks:
+      - tool: custom
+        rule: null
+        configured: false
+  FORM-022:
+    strength: SHOULD
+    feasibility: partial
+    checks:
+      - tool: custom
+        rule: null
+        configured: false
+  FORM-023:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  FORM-024:
+    strength: SHOULD
+    feasibility: partial
+    checks:
+      - tool: custom
+        rule: null
+        configured: false
+  FORM-025:
+    strength: SHOULD
+    feasibility: none
+    checks:
+      - tool: custom
+        rule: null
+        configured: false
+  FORM-026:
+    strength: SHOULD
+    feasibility: none
+    checks:
+      - tool: custom
+        rule: null
+        configured: false
+  FORM-027:
+    strength: SHOULD
+    feasibility: partial
+    checks:
+      - tool: custom
+        rule: null
+        configured: false
+  FORM-028:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  FORM-029:
+    strength: MAY
+    feasibility: none
+    checks: []
+  FORM-030:
+    strength: MAY
+    feasibility: partial
+    checks:
+      - tool: custom
+        rule: null
+        configured: false
+  FORM-031:
+    strength: MAY
+    feasibility: none
+    checks: []
+  FORM-032:
+    strength: SHOULD
+    feasibility: partial
+    checks:
+      - tool: custom
+        rule: null
+        configured: false
+  FORM-033:
+    strength: MAY
+    feasibility: partial
+    checks:
+      - tool: custom
+        rule: null
+        configured: false
+  FORM-034:
+    strength: SHOULD
+    feasibility: partial
+    checks:
+      - tool: custom
+        rule: null
+        configured: false
+  FORM-035:
+    strength: MAY
+    feasibility: none
+    checks: []
+  FORM-036:
+    strength: MAY
+    feasibility: full
+    checks:
+      - tool: custom
+        rule: null
+        configured: false
+  FORM-037:
+    strength: SHOULD
+    feasibility: full
+    checks:
+      - tool: custom
+        rule: null
+        configured: false
+  FORM-038:
+    strength: SHOULD
+    feasibility: partial
+    checks:
+      - tool: custom
+        rule: null
+        configured: false
+  FORM-039:
+    strength: MAY
+    feasibility: none
+    checks: []
+  FORM-040:
+    strength: SHOULD
+    feasibility: full
+    checks:
+      - tool: custom
+        rule: null
+        configured: false
+  FORM-041:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  FORM-042:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  FORM-043:
+    strength: MAY
+    feasibility: none
+    checks: []
+  FORM-044:
+    strength: SHOULD
+    feasibility: partial
+    checks:
+      - tool: axe-core
+        rule: aria-required-attr
+        configured: true
+  FORM-047:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  FORM-048:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  FORM-049:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  FORM-050:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  FORM-051:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  FORM-052:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  FORM-053:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  FORM-054:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  FORM-055:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  FORM-056:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  FORM-057:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  FORM-058:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  FORM-059:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  FORM-060:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  FORM-061:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  FORM-062:
+    strength: MAY
+    feasibility: none
+    checks: []
+  FORM-063:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  FORM-064:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  FORM-065:
+    strength: MAY
+    feasibility: none
+    checks: []
+  FORM-067:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  FORM-068:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  FORM-069:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  FORM-070:
+    strength: MAY
+    feasibility: none
+    checks: []
+  FORM-071:
+    strength: MAY
+    feasibility: none
+    checks: []
+  FORM-072:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  FORM-073:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  FORM-074:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  FORM-075:
+    strength: MAY
+    feasibility: none
+    checks: []
+  FORM-077:
+    strength: SHOULD
+    feasibility: partial
+    checks:
+      - tool: html-validate
+        rule: ux-baseline/error-summary-position
+        configured: true
+  FORM-078:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  FORM-079:
+    strength: SHOULD
+    feasibility: partial
+    checks:
+      - tool: html-validate
+        rule: ux-baseline/error-title-prefix
+        configured: true
+  FORM-080:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  LAYOUT-001:
+    strength: MUST
+    feasibility: none
+    checks: []
+  LAYOUT-002:
+    strength: MUST
+    feasibility: partial
+    checks:
+      - tool: axe-core
+        rule: target-size
+        configured: true
+  LAYOUT-003:
+    strength: MUST
+    feasibility: none
+    checks: []
+  LAYOUT-004:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  LAYOUT-005:
+    strength: MAY
+    feasibility: none
+    checks: []
+  LAYOUT-006:
+    strength: MAY
+    feasibility: none
+    checks: []
+  LAYOUT-007:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  LAYOUT-008:
+    strength: MAY
+    feasibility: partial
+    checks:
+      - tool: custom
+        rule: null
+        configured: false
+  LAYOUT-009:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  LAYOUT-010:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  LAYOUT-011:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  LAYOUT-012:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  LAYOUT-013:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  LAYOUT-014:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  LAYOUT-015:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  LAYOUT-016:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  LAYOUT-017:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  LAYOUT-018:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  LAYOUT-019:
+    strength: SHOULD
+    feasibility: partial
+    checks:
+      - tool: custom
+        rule: null
+        configured: false
+  LAYOUT-020:
+    strength: SHOULD
+    feasibility: partial
+    checks:
+      - tool: ux-baseline-check
+        rule: button-group-equal
+        configured: true
+  LAYOUT-021:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  LAYOUT-022:
+    strength: MAY
+    feasibility: none
+    checks: []
+  LAYOUT-023:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  LAYOUT-024:
+    strength: SHOULD
+    feasibility: partial
+    checks:
+      - tool: custom
+        rule: null
+        configured: false
+  LAYOUT-025:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  LAYOUT-026:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  LAYOUT-027:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  LAYOUT-028:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  LAYOUT-029:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  LAYOUT-030:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  LAYOUT-031:
+    strength: MAY
+    feasibility: none
+    checks: []
+  LAYOUT-032:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  LAYOUT-033:
+    strength: MAY
+    feasibility: partial
+    checks:
+      - tool: custom
+        rule: null
+        configured: false
+  LAYOUT-034:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  LAYOUT-035:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  LAYOUT-036:
+    strength: MAY
+    feasibility: full
+    checks:
+      - tool: custom
+        rule: null
+        configured: false
+  LAYOUT-037:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  LAYOUT-038:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  LAYOUT-039:
+    strength: SHOULD
+    feasibility: full
+    checks:
+      - tool: custom
+        rule: null
+        configured: false
+  LAYOUT-040:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  LAYOUT-041:
+    strength: SHOULD
+    feasibility: partial
+    checks:
+      - tool: custom
+        rule: null
+        configured: false
+  LAYOUT-042:
+    strength: SHOULD
+    feasibility: partial
+    checks:
+      - tool: custom
+        rule: null
+        configured: false
+  LAYOUT-043:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  LAYOUT-044:
+    strength: MAY
+    feasibility: partial
+    checks:
+      - tool: stylelint
+        rule: ux-baseline/table-cell-no-vertical-border
+        configured: true
+  LAYOUT-045:
+    strength: SHOULD
+    feasibility: partial
+    checks:
+      - tool: custom
+        rule: null
+        configured: false
+  LAYOUT-046:
+    strength: SHOULD
+    feasibility: partial
+    checks:
+      - tool: custom
+        rule: null
+        configured: false
+  LAYOUT-047:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  LAYOUT-048:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  LAYOUT-049:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  LAYOUT-050:
+    strength: MAY
+    feasibility: none
+    checks: []
+  LAYOUT-051:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  LAYOUT-052:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  LAYOUT-053:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  LAYOUT-054:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  LAYOUT-055:
+    strength: SHOULD
+    feasibility: partial
+    checks:
+      - tool: stylelint
+        rule: ux-baseline/file-name-ellipsis
+        configured: true
+  LAYOUT-056:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  LAYOUT-057:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  LAYOUT-058:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  LAYOUT-059:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  MOTION-001:
+    strength: MUST
+    feasibility: partial
+    checks:
+      - tool: axe-core
+        rule: blink
+        configured: true
+      - tool: axe-core
+        rule: marquee
+        configured: true
+  MOTION-002:
+    strength: MUST
+    feasibility: none
+    checks: []
+  MOTION-003:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  MOTION-004:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  MOTION-005:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  MOTION-006:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  MOTION-007:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  MOTION-008:
+    strength: MAY
+    feasibility: none
+    checks: []
+  MOTION-009:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  MOTION-010:
+    strength: MUST
+    feasibility: partial
+    checks:
+      - tool: stylelint
+        rule: scale-unlimited/declaration-strict-value
+        configured: true
+  MOTION-011:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  MOTION-012:
+    strength: SHOULD
+    feasibility: partial
+    checks:
+      - tool: stylelint
+        rule: ux-baseline/no-animated-position-props
+        configured: true
+  NAV-001:
+    strength: MUST
+    feasibility: partial
+    checks:
+      - tool: axe-core
+        rule: bypass
+        configured: true
+  NAV-002:
+    strength: MUST
+    feasibility: partial
+    checks:
+      - tool: axe-core
+        rule: document-title
+        configured: true
+      - tool: html-validate
+        rule: empty-title
+        configured: true
+  NAV-003:
+    strength: MUST
+    feasibility: none
+    checks: []
+  NAV-004:
+    strength: MUST
+    feasibility: none
+    checks: []
+  NAV-005:
+    strength: MUST
+    feasibility: none
+    checks: []
+  NAV-006:
+    strength: MUST
+    feasibility: none
+    checks: []
+  NAV-007:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  NAV-008:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  NAV-009:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  NAV-010:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  NAV-011:
+    strength: MAY
+    feasibility: none
+    checks: []
+  NAV-012:
+    strength: SHOULD
+    feasibility: partial
+    checks:
+      - tool: custom
+        rule: null
+        configured: false
+  NAV-013:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  NAV-014:
+    strength: MAY
+    feasibility: none
+    checks: []
+  NAV-015:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  NAV-016:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  NAV-017:
+    strength: MAY
+    feasibility: none
+    checks: []
+  NAV-018:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  NAV-019:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  NAV-020:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  NAV-021:
+    strength: SHOULD
+    feasibility: partial
+    checks:
+      - tool: stylelint
+        rule: ux-baseline/menu-panel-max-height
+        configured: true
+  NAV-022:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  NAV-023:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  NAV-024:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  NAV-025:
+    strength: MAY
+    feasibility: none
+    checks: []
+  NAV-026:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  NAV-027:
+    strength: MAY
+    feasibility: none
+    checks: []
+  NAV-028:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  NAV-029:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  NAV-030:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  NAV-031:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  NAV-032:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  NAV-033:
+    strength: SHOULD
+    feasibility: partial
+    checks:
+      - tool: custom
+        rule: null
+        configured: false
+  NAV-034:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  NAV-035:
+    strength: MAY
+    feasibility: none
+    checks: []
+  NAV-036:
+    strength: MAY
+    feasibility: none
+    checks: []
+  NAV-037:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  NAV-038:
+    strength: MAY
+    feasibility: none
+    checks: []
+  NAV-039:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  NAV-040:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  NAV-041:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  NAV-042:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  NAV-043:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  NAV-044:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  NAV-045:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  NAV-046:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  NAV-047:
+    strength: SHOULD
+    feasibility: partial
+    checks:
+      - tool: custom
+        rule: null
+        configured: false
+  NAV-048:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  NAV-049:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  NAV-050:
+    strength: MAY
+    feasibility: none
+    checks: []
+  NAV-052:
+    strength: MAY
+    feasibility: none
+    checks: []
+  NAV-053:
+    strength: MAY
+    feasibility: none
+    checks: []
+  NAV-054:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  NAV-056:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  NAV-057:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  NAV-058:
+    strength: MAY
+    feasibility: none
+    checks: []
+  NAV-059:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  NAV-060:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  NAV-062:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  NAV-063:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  NAV-064:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  NAV-065:
+    strength: SHOULD
+    feasibility: partial
+    checks:
+      - tool: custom
+        rule: null
+        configured: false
+  NAV-066:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  NAV-067:
+    strength: MAY
+    feasibility: none
+    checks: []
+  NAV-068:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  NAV-069:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  NAV-070:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  NAV-071:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  PERF-001:
+    strength: SHOULD
+    feasibility: partial
+    checks:
+      - tool: stylelint
+        rule: at-rule-property-required-list
+        configured: true
+      - tool: stylelint
+        rule: declaration-property-value-disallowed-list
+        configured: true
+      - tool: lighthouse
+        rule: font-display
+        configured: false
+  PERF-002:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  PERF-003:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  PERF-004:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  PERF-005:
+    strength: MAY
+    feasibility: none
+    checks: []
+  PERF-006:
+    strength: SHOULD
+    feasibility: partial
+    checks:
+      - tool: lighthouse
+        rule: largest-contentful-paint
+        configured: false
+  PERF-007:
+    strength: SHOULD
+    feasibility: partial
+    checks:
+      - tool: lighthouse
+        rule: total-blocking-time
+        configured: false
+  PERF-008:
+    strength: SHOULD
+    feasibility: partial
+    checks:
+      - tool: lighthouse
+        rule: cumulative-layout-shift
+        configured: false
+  PERF-009:
+    strength: SHOULD
+    feasibility: partial
+    checks:
+      - tool: lighthouse
+        rule: unsized-images
+        configured: false
+  PERF-010:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  PERF-011:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  PERF-013:
+    strength: SHOULD
+    feasibility: partial
+    checks:
+      - tool: lighthouse
+        rule: lcp-lazy-loaded
+        configured: false
+  PERF-014:
+    strength: SHOULD
+    feasibility: partial
+    checks:
+      - tool: lighthouse
+        rule: prioritize-lcp-image
+        configured: false
+  PERF-016:
+    strength: MAY
+    feasibility: none
+    checks: []
+  PERF-017:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  PERF-018:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  RESP-001:
+    strength: MUST
+    feasibility: partial
+    checks:
+      - tool: axe-core
+        rule: css-orientation-lock
+        configured: true
+  RESP-002:
+    strength: MUST
+    feasibility: partial
+    checks:
+      - tool: axe-core
+        rule: meta-viewport
+        configured: true
+  RESP-003:
+    strength: MUST
+    feasibility: partial
+    checks:
+      - tool: custom
+        rule: null
+        configured: false
+      - tool: ux-baseline-check
+        rule: reflow-320
+        configured: true
+  RESP-004:
+    strength: MAY
+    feasibility: partial
+    checks:
+      - tool: stylelint
+        rule: media-feature-name-value-allowed-list
+        configured: true
+  RESP-005:
+    strength: MAY
+    feasibility: none
+    checks: []
+  RESP-006:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  RESP-007:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  RESP-008:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  RESP-009:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  RESP-010:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  RESP-011:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  RESP-012:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  RESP-013:
+    strength: MAY
+    feasibility: none
+    checks: []
+  RESP-014:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  RESP-015:
+    strength: MAY
+    feasibility: none
+    checks: []
+  RESP-016:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  RESP-017:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  SHAPE-001:
+    strength: MUST
+    feasibility: partial
+    checks:
+      - tool: stylelint
+        rule: scale-unlimited/declaration-strict-value
+        configured: true
+  SHAPE-002:
+    strength: MAY
+    feasibility: none
+    checks: []
+  SHAPE-003:
+    strength: SHOULD
+    feasibility: partial
+    checks:
+      - tool: stylelint
+        rule: ux-baseline/radius-percent-allowlist
+        configured: true
+  SHAPE-004:
+    strength: MAY
+    feasibility: partial
+    checks:
+      - tool: stylelint
+        rule: scale-unlimited/declaration-strict-value
+        configured: true
+  SHAPE-005:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  SHAPE-006:
+    strength: MAY
+    feasibility: none
+    checks: []
+  SPACE-001:
+    strength: MUST
+    feasibility: partial
+    checks:
+      - tool: stylelint
+        rule: scale-unlimited/declaration-strict-value
+        configured: true
+  SPACE-002:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  SPACE-003:
+    strength: MAY
+    feasibility: partial
+    checks:
+      - tool: stylelint
+        rule: ux-baseline/text-field-spacing
+        configured: true
+  STATE-001:
+    strength: MUST
+    feasibility: none
+    checks: []
+  STATE-002:
+    strength: SHOULD
+    feasibility: partial
+    checks:
+      - tool: ux-baseline-check
+        rule: progress-flash
+        configured: true
+  STATE-003:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  STATE-004:
+    strength: SHOULD
+    feasibility: partial
+    checks:
+      - tool: stylelint
+        rule: ux-baseline/feedback-not-fixed
+        configured: true
+  STATE-005:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  STATE-006:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  STATE-007:
+    strength: MAY
+    feasibility: none
+    checks: []
+  STATE-008:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  STATE-009:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  STATE-010:
+    strength: MAY
+    feasibility: none
+    checks: []
+  STATE-011:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  STATE-012:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  STATE-013:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  STATE-014:
+    strength: MAY
+    feasibility: none
+    checks: []
+  STATE-015:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  STATE-016:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  STATE-017:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  STATE-019:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  STATE-020:
+    strength: SHOULD
+    feasibility: partial
+    checks:
+      - tool: axe-core
+        rule: aria-progressbar-name
+        configured: true
+  STATE-021:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  STATE-022:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  STATE-023:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  STATE-024:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  STATE-025:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  STATE-027:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  STATE-029:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  STATE-030:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  STATE-031:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  STATE-032:
+    strength: SHOULD
+    feasibility: partial
+    checks:
+      - tool: ux-baseline-check
+        rule: leave-warning
+        configured: true
+  STATE-033:
+    strength: SHOULD
+    feasibility: partial
+    checks:
+      - tool: axe-core
+        rule: button-name
+        configured: true
+  STATE-034:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  STATE-035:
+    strength: MAY
+    feasibility: none
+    checks: []
+  STATE-036:
+    strength: MAY
+    feasibility: none
+    checks: []
+  STATE-037:
+    strength: MAY
+    feasibility: none
+    checks: []
+  STATE-038:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  STATE-039:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  STATE-040:
+    strength: MAY
+    feasibility: none
+    checks: []
+  STATE-041:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  STATE-042:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  STATE-043:
+    strength: SHOULD
+    feasibility: partial
+    checks:
+      - tool: custom
+        rule: null
+        configured: false
+  STATE-044:
+    strength: SHOULD
+    feasibility: partial
+    checks:
+      - tool: custom
+        rule: null
+        configured: false
+  STATE-045:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  STATE-046:
+    strength: MAY
+    feasibility: none
+    checks: []
+  TYPO-001:
+    strength: MUST
+    feasibility: none
+    checks: []
+  TYPO-002:
+    strength: MUST
+    feasibility: partial
+    checks:
+      - tool: axe-core
+        rule: avoid-inline-spacing
+        configured: true
+  TYPO-003:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  TYPO-004:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  TYPO-005:
+    strength: SHOULD
+    feasibility: full
+    checks:
+      - tool: stylelint
+        rule: declaration-property-unit-disallowed-list
+        configured: true
+  TYPO-006:
+    strength: MAY
+    feasibility: partial
+    checks:
+      - tool: stylelint
+        rule: declaration-property-value-disallowed-list
+        configured: true
+  TYPO-007:
+    strength: MAY
+    feasibility: none
+    checks: []
+  TYPO-008:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  TYPO-009:
+    strength: MAY
+    feasibility: none
+    checks: []
+  TYPO-010:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  TYPO-011:
+    strength: MAY
+    feasibility: none
+    checks: []
+  TYPO-012:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  TYPO-013:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  TYPO-014:
+    strength: SHOULD
+    feasibility: partial
+    checks:
+      - tool: ux-baseline-check
+        rule: badge-nowrap
+        configured: true
+  TYPO-015:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  TYPO-016:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  TYPO-017:
+    strength: MAY
+    feasibility: none
+    checks: []
+  TYPO-018:
+    strength: SHOULD
+    feasibility: partial
+    checks:
+      - tool: stylelint
+        rule: ux-baseline/flex-grid-child-no-break-word
+        configured: true
+  TYPO-019:
+    strength: SHOULD
+    feasibility: full
+    checks:
+      - tool: stylelint
+        rule: declaration-property-value-disallowed-list
+        configured: true
+  TYPO-020:
+    strength: MAY
+    feasibility: partial
+    checks:
+      - tool: stylelint
+        rule: declaration-property-value-disallowed-list
+        configured: true
+  TYPO-021:
+    strength: SHOULD
+    feasibility: full
+    checks:
+      - tool: stylelint
+        rule: declaration-property-value-disallowed-list
+        configured: true
+  TYPO-022:
+    strength: MAY
+    feasibility: none
+    checks: []
+  TYPO-023:
+    strength: MAY
+    feasibility: none
+    checks: []
+  TYPO-024:
+    strength: MAY
+    feasibility: none
+    checks: []
+  TYPO-025:
+    strength: SHOULD
+    feasibility: partial
+    checks:
+      - tool: stylelint
+        rule: declaration-property-value-disallowed-list
+        configured: true
+  TYPO-026:
+    strength: SHOULD
+    feasibility: none
+    checks: []
+  TYPO-027:
+    strength: SHOULD
+    feasibility: full
+    checks:
+      - tool: stylelint
+        rule: declaration-property-unit-disallowed-list
+        configured: true
+  TYPO-028:
+    strength: MAY
+    feasibility: none
+    checks: []
+  TYPO-029:
+    strength: MAY
+    feasibility: full
+    checks:
+      - tool: stylelint
+        rule: declaration-property-unit-allowed-list
+        configured: true
+  TYPO-030:
+    strength: SHOULD
+    feasibility: partial
+    checks:
+      - tool: stylelint
+        rule: font-family-no-missing-generic-family-keyword
+        configured: true
+  TYPO-031:
+    strength: SHOULD
+    feasibility: partial
+    checks:
+      - tool: stylelint
+        rule: ux-baseline/prose-max-inline-size
+        configured: true
+      - tool: custom
+        rule: null
+        configured: false
+  TYPO-032:
+    strength: MUST
+    feasibility: partial
+    checks:
+      - tool: stylelint
+        rule: scale-unlimited/declaration-strict-value
+        configured: true
+      - tool: stylelint
+        rule: declaration-property-unit-disallowed-list
+        configured: true

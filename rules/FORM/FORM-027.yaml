@@ -1,0 +1,58 @@
+id: FORM-027
+category: FORM
+title: 라디오 그룹 단일 선택
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 한 라디오 그룹에서는 옵션 하나만 선택된 상태가 되게 하고, 새 옵션을 선택하면 이전에 선택한 옵션을 자동으로 해제한다.
+measurement:
+  criteria: '네이티브 라디오: 한 그룹의 input[type=radio]가 모두 같은 name을 가지고 같은 form(또는 form 밖이면 같은 문서 범위)에 있다. 커스텀 라디오: role=radiogroup
+    안의 role=radio 중 aria-checked="true"가 항상 0개 또는 1개이고, 다른 옵션을 선택하면 이전 옵션이 aria-checked="false"가 된다.'
+  method: DOM에서 그룹별 name 일치를 확인하고, 커스텀 라디오는 옵션을 차례로 선택하며 aria-checked 개수를 센다.
+automation:
+  feasibility: partial
+  checks:
+  - tool: custom
+    method: fieldset/role=radiogroup 단위로 input[type=radio]의 name이 하나인지 DOM 검사
+  note: 커스텀 라디오의 상태 전환은 E2E로 확인.
+rationale: 라디오 버튼은 '하나만 고른다'는 약속을 가진 컨트롤이라, 두 개가 동시에 선택되면 사용자가 무엇이 제출될지 알 수 없다.
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 라디오 버튼 > 개요 (가이드라인 PDF 2025.08 523쪽)
+  note: https://www.krds.go.kr/html/site/component/component_06_01.html — '사용자가 옵션 목록에서 새로운 옵션을 선택했을 때, 기존에 선택되었던
+    옵션은 자동으로 선택이 해제되어야 한다.'
+- ref: ARIA_APG
+  locator: https://www.w3.org/WAI/ARIA/apg/patterns/radio/
+  note: 커스텀 라디오 그룹의 role=radiogroup·radio, aria-checked 규격 참고
+scope:
+  level: component
+  targets:
+  - input[type=radio]
+  - '[role=radiogroup]'
+exceptions: []
+relations:
+- type: depends
+  id: A11Y-034
+  note: 라디오 그룹 방향키 탐색·선택
+examples:
+  good:
+  - lang: html
+    code: "<fieldset>\n  <legend>발급 방법</legend>\n  <label><input type=\"radio\" name=\"issue\" value=\"online\"\
+      \ required> 온라인 발급</label>\n  <label><input type=\"radio\" name=\"issue\" value=\"post\"> 우편</label>\n</fieldset>\n"
+    note: 같은 name을 써서 하나를 고르면 다른 옵션이 자동 해제된다.
+  bad:
+  - lang: html
+    code: "<fieldset>\n  <legend>발급 방법</legend>\n  <label><input type=\"radio\" name=\"issue-online\" value=\"online\"\
+      \ required> 온라인 발급</label>\n  <label><input type=\"radio\" name=\"issue-post\" value=\"post\" required> 우편</label>\n\
+      </fieldset>\n"
+    note: name이 달라 두 옵션이 동시에 선택된다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(KRDS component_06_01 HTML curl): 개요 문장 ''해제되어야 한다'' 확인 → SHOULD + public-sector-must.
+  1단계 locator ''사용성 가이드라인''을 ''개요''로 바로잡음. APG 라디오 패턴은 측정 기준(커스텀 구현)용 참고로 추가.'
+korean_specific: false
+tags:
+- krds
+- krds-component
+- public-sector-must

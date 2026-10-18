@@ -1,0 +1,92 @@
+id: NAV-001
+category: NAV
+title: 반복 영역 건너뛰기
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: MUST
+statement: 여러 페이지에 반복되는 콘텐츠 블록(헤더·메인 메뉴 등)이 있는 페이지에는 그 블록을 건너뛰어 본문으로 가는 건너뛰기 링크를 문서의 첫 초점 요소로 제공한다.
+measurement:
+  criteria: 여러 페이지에 반복되는 블록이 main 앞에 있는 페이지에서 (1) 문서의 첫 번째 초점 가능 요소가 같은 페이지 안 목적지(href="#id", 해당 id 존재)로 가는 건너뛰기
+    링크이고(G1·G124), (2) 건너뛰기 링크를 실행하면 목적지로 스크롤되고 초점이 목적지로 옮겨진다. (3) 건너뛰기 링크가 화면에 보인다 — KWCAG를 적용하는 공공 프로젝트는 초점과 관계없이
+    항상 보이고, 그 밖의 프로젝트는 초점을 받은 상태에서 보인다(이 구분은 체계 해석, CF-042). '보인다'는 계산 스타일이 clip·clip-path로 잘리거나 1px 이하 크기이거나 뷰포트
+    밖 위치이거나 opacity 0이 아니고, 링크 텍스트가 뷰포트 안에 그려진다는 뜻이다(KWCAG 6.4.1 해설 '화면에 보이도록 구현'). 쿠키 배너·맥락을 가리는 모달은 건너뛰기 링크보다
+    앞에 올 수 있다(KRDS). 랜드마크·제목(ARIA11·H69)은 함께 쓰되 대체 수단으로 인정하지 않는다(CF-042).
+  method: axe-core bypass 규칙을 돌린 뒤, 페이지를 열고 Tab 키를 처음 눌러 초점이 건너뛰기 링크에 가는지, Enter 시 목적지로 이동하는지 확인한다(Playwright 가능).
+    첫 Tab 후 건너뛰기 링크의 getBoundingClientRect()가 뷰포트 안이고 텍스트가 화면에 보이는지 확인한다. 공공 프로젝트는 페이지를 연 직후(Tab 전)에도 건너뛰기 링크의 getBoundingClientRect()가
+    뷰포트 안이고 텍스트가 보이는지 확인한다.
+automation:
+  feasibility: partial
+  checks:
+  - tool: axe-core
+    rule: bypass
+    method: 페이지에 제목·랜드마크·내부 건너뛰기 링크 중 하나라도 있는지 검사
+  note: 'axe bypass는 수단의 존재만 판정한다. 건너뛰기 링크가 첫 초점 요소인지, 목적지 id가 존재하고 초점이 실제로 이동하는지는 4단계 커스텀 검사(Playwright: 첫 Tab
+    후 document.activeElement 확인, Enter 후 activeElement가 목적지 안인지 확인)로 만든다.'
+rationale: 키보드·스크린 리더 사용자가 페이지마다 같은 메뉴를 처음부터 다시 거치지 않고 본문으로 바로 갈 수 있어야 한다.
+sources:
+- ref: WCAG22
+  locator: SC 2.4.1 Bypass Blocks (Level A)
+  note: https://www.w3.org/TR/WCAG22/#bypass-blocks
+- ref: WCAG22_UNDERSTANDING
+  locator: https://www.w3.org/WAI/WCAG22/Understanding/bypass-blocks.html
+- ref: KWCAG22
+  locator: 검사항목 6.4.1 반복 영역 건너뛰기
+  note: '공식 원문 docx 대조(2026-10-18): ''콘텐츠의 반복되는 영역은 건너뛸 수 있어야 한다.'' 해설 — ''건너뛰기 링크는 웹 페이지의 가장 앞에 제공한다'', ''메뉴 건너뛰기
+    링크는 화면에 보이도록 구현해야 한다''.'
+- ref: KRDS
+  locator: 컴포넌트 > 건너뛰기 링크 > 접근성 가이드라인 (가이드라인 PDF 2025.08 261쪽)
+  note: https://www.krds.go.kr/html/site/component/component_03_01.html — '쿠키 배너, 화면의 맥락을 가린 모달이 제공되는 경우를 제외하고 건너뛰기
+    링크 목록은 웹 문서의 가장 첫 요소로 제공해야 한다.' / 실행 시 목적지 섹션으로 Focus 이벤트 발생.
+- ref: KRDS
+  locator: 컴포넌트 > 헤더 > 접근성 가이드라인 (가이드라인 PDF 2025.08 245쪽)
+  note: https://www.krds.go.kr/html/site/component/component_02_03.html — '건너뛰기 링크를 최상단에 배치한다.' / '배너 영역 이전에 제공되어야
+    한다.'
+- ref: KRDS
+  locator: 컴포넌트 > 공식 배너 > 접근성 가이드라인 (가이드라인 PDF 2025.08 226쪽)
+  note: 건너뛰기 링크를 공식 배너보다 앞, 문서 첫 요소로 둔다 — sources/extracts/KRDS-components.yaml (outcome merge:NAV-001)
+scope:
+  level: global
+  targets:
+  - 반복 블록(header, nav)이 main 앞에 있는 모든 페이지
+exceptions:
+- 건너뛰기 링크의 '문서 첫 요소' 위치는 쿠키 배너, 화면 맥락을 가리는 모달이 먼저 나오는 경우 예외(KRDS)
+relations:
+- type: refines
+  id: NAV-018
+  note: NAV-018이 건너뛰기 링크 개수·순서를 구체화
+- type: refines
+  id: NAV-019
+  note: NAV-019가 본문 바로가기 목적지 범위를 구체화
+- type: refines
+  id: NAV-020
+  note: NAV-020이 건너뛰기 링크를 두지 않는 경우를 구체화
+examples:
+  good:
+  - lang: html
+    code: "<body>\n  <a class=\"skip-link\" href=\"#content\">본문 바로가기</a>\n  <header>…공식 배너·로고·메인 메뉴…</header>\n\
+      \  <main><div id=\"content\" tabindex=\"-1\"><h1>민원 신청</h1>…</div></main>\n</body>\n"
+    note: 건너뛰기 링크가 첫 초점 요소이고 목적지 id가 있어 초점이 본문으로 이동한다.
+  bad:
+  - lang: html
+    code: "<body>\n  <header>…메인 메뉴 40개 링크…</header>\n  <div class=\"content\">…</div>  <!-- 건너뛰기 링크·랜드마크·제목 모두\
+      \ 없음 -->\n</body>\n"
+    note: 반복되는 메뉴 앞에 건너뛰기 링크·랜드마크·제목이 하나도 없어 매번 메뉴를 다 거쳐야 한다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(WCAG22-A-AA.yaml 2.4.1 원문, Understanding bypass-blocks 충분 기법 목록 WebFetch, KRDS
+  component_03_01·02_03 WebFetch): statement는 SC 원문 ''A mechanism is available to bypass blocks of content that
+  are repeated on multiple web pages''와 일치. WCAG는 랜드마크(ARIA11)·제목(H69)만으로도 충분 기법으로 인정하지만 KWCAG 6.4.1 해설·KRDS는 첫
+  요소 건너뛰기 링크를 요구 — 측정 기준에 공공 프로젝트 조건으로 분리하고 충돌 후보로 제안. KWCAG 대응은 처음에 비공식 HTML 판(a11ykr.github.io/kwcag22)으로 대조했고,
+  2026-10-18 독립 검토에서 공식 원문 docx 6.4.1 해설(가장 앞 제공, 화면에 보이도록 구현)을 확인해 측정 기준 (3)을 넣었다. 2026-10-18 측정 기준을 3단계 결정(statement
+  변경)에 맞춰 고침. 2026-10-18 재검증: KWCAG 6.4.1 해설 ''메뉴 건너뛰기 링크는 화면에 보이도록 구현해야 한다''에 ''초점 시'' 한정이 없음을 확인 — 측정 기준 (3)을
+  공공 프로젝트 항상 보임 / 그 밖 초점 시 보임으로 나눔(CF-042, 체계 해석).'
+korean_specific: false
+tags:
+- wcag22
+- level-a
+- new-in-2.0
+- kwcag22
+- krds
+decisions:
+- CF-042

@@ -1,0 +1,49 @@
+id: NAV-050
+category: NAV
+title: 정렬 가능한 표의 기본 정렬
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: MAY
+statement: 열 헤더에 정렬 버튼이 있는 표는 처음 표시할 때 첫 번째 열 기준으로 정렬한다.
+measurement:
+  criteria: 정렬 버튼이 있는 표의 초기 상태에서 첫 번째 열 헤더(th)에 aria-sort="ascending" 또는 "descending"이 있고, 다른 열 헤더에는 aria-sort가
+    없거나 "none"이다.
+  method: 초기 렌더링된 표의 th aria-sort 값을 확인하고, 첫 열 데이터가 정렬돼 있는지 확인한다.
+automation:
+  feasibility: none
+  checks: []
+  note: 기존 검사기 규칙 없음. aria-sort 위치는 커스텀 DOM 검사로 자동화 가능, 실제 데이터 정렬 여부는 스크립트로 비교 가능.
+rationale: 정렬 기준이 어느 열인지 예측할 수 있게 한다.
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 표 > 사용성 가이드라인 (사용자가 원하는 대로 데이터를 정렬할 수 있는 기능을 제공한다) (가이드라인 PDF 2025.08 465쪽)
+  note: https://www.krds.go.kr/html/site/component/component_04_11.html
+scope:
+  level: component
+  targets:
+  - table (정렬 버튼이 있는 표)
+exceptions: []
+relations:
+- type: depends
+  id: A11Y-025
+  note: 정렬 상태는 aria-sort로 보조기술에 전달
+examples:
+  good:
+  - lang: html
+    code: "<table><thead><tr>\n  <th aria-sort=\"ascending\"><button>접수일</button></th><th><button>신청인</button></th>\n\
+      </tr></thead>…</table>\n"
+    note: 첫 번째 열(접수일)을 기준으로 초기 정렬했다.
+  bad:
+  - lang: html
+    code: "<table><thead><tr>\n  <th><button>접수일</button></th><th aria-sort=\"descending\"><button>신청인</button></th>\n\
+      </tr></thead>…</table>  <!-- 두 번째 열 기준 초기 정렬 -->\n"
+    note: 초기 정렬 기준이 두 번째 열이다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(KRDS 페이지 curl 수신 후 텍스트 추출): ''열 헤더에 정렬 버튼이 제공되는 경우, 기본 상태는 가장 첫 번째 열을 기준으로
+  데이터가 정렬된 상태이다'' 확인. 원문이 서술문(의무어 없음)이라 MAY. aria-sort로 판정하는 것은 이 체계의 측정 방법 선택. 카테고리 재검토(표 관련 룰은 LAYOUT·TYPO에 있음).'
+korean_specific: false
+tags:
+- krds
+- krds-component

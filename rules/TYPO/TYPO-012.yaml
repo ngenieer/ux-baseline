@@ -1,0 +1,50 @@
+id: TYPO-012
+category: TYPO
+title: 푸터 개인정보 처리방침 링크 구분
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 푸터의 '개인정보 처리방침' 링크는 글자 크기·색·굵기 중 하나 이상을 다른 고지 링크(이용약관, 저작권 안내 등)와 다르게 표시한다.
+measurement:
+  criteria: 푸터 안 '개인정보 처리방침' 링크의 계산값 font-size, color, font-weight 중 1개 이상이 같은 푸터의 다른 정책·고지 링크 각각과 다르다.
+  method: '스크립트: footer a 중 텍스트가 ''개인정보 처리방침''인 링크와 나머지 정책 링크의 계산 스타일을 비교한다.'
+automation:
+  feasibility: none
+  note: 커스텀 DOM 검사로 자동화 가능.
+rationale: 정보주체가 개인정보 처리방침을 쉽게 찾아 확인할 수 있게 하려는 것(KRDS 푸터). 개인정보 보호 법령상 공개 의무와 연결된다(법령 원문은 미등록 — 제안 파일 new_sources).
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 푸터 > 사용성 가이드라인 (가이드라인 PDF 2025.08 249쪽)
+  note: https://www.krds.go.kr/html/site/component/component_02_04.html
+scope:
+  level: component
+  targets:
+  - footer
+  - 푸터 정책 링크
+exceptions: []
+relations:
+- type: depends
+  id: COPY-017
+  note: 링크 명칭이 '개인정보 처리방침'으로 표시되어 있어야 이 룰을 판정할 수 있다.
+examples:
+  good:
+  - lang: html
+    code: "<ul class=\"footer-policy\">\n  <li><a href=\"/privacy\" class=\"is-privacy\">개인정보 처리방침</a></li>\n  <li><a\
+      \ href=\"/terms\">이용약관</a></li>\n</ul>\n<style>.footer-policy .is-privacy{font-weight:700}</style>"
+    note: 개인정보 처리방침만 굵게 표시해 다른 고지 링크와 구분된다
+  bad:
+  - lang: html
+    code: "<ul class=\"footer-policy\">\n  <li><a href=\"/privacy\">개인정보 처리방침</a></li>\n  <li><a href=\"/terms\"\
+      >이용약관</a></li>\n</ul>"
+    note: 개인정보 처리방침이 다른 고지 링크와 크기·색·굵기가 모두 같다
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(KRDS https://www.krds.go.kr/html/site/component/component_02_04.html HTML을
+  curl로 받아 본문 확인): ''개인정보 처리방침은 글자 크기를 달리하거나, 색상 또는 굵기(Bold) 등을 활용하여 다른 고지사항(이용약관, 저작권 안내 등)과 구분하는 등 … 쉽게 확인할 수
+  있도록 한다'' 확인 → SHOULD + public-sector-must. 카테고리 재검토: 문구·푸터 규격에 가까움(COPY 또는 LAYOUT) — 현 카테고리 유지.'
+korean_specific: true
+tags:
+- krds
+- krds-component
+- public-sector-must

@@ -1,0 +1,59 @@
+id: FORM-053
+category: FORM
+title: 글자 수 표시 실시간 갱신
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 텍스트 영역의 '현재 글자 수/최대 글자 수' 표시는 사용자가 글자를 입력·삭제·붙여넣을 때마다 갱신한다.
+measurement:
+  criteria: textarea에 글자를 입력·삭제·붙여넣은 직후(input 이벤트마다) 표시된 현재 글자 수가 현재 입력 길이와 같다.
+  method: 'E2E: 글자 입력, 삭제, 붙여넣기를 각각 수행한 뒤 표시 숫자와 계산값을 비교한다.'
+automation:
+  feasibility: none
+  checks: []
+  note: 기존 검사기 규칙 없음. 4단계 커스텀 E2E로 판정 가능.
+rationale: KRDS는 글자 수 정보를 사용자의 입력에 따라 동적으로 업데이트해 제출 전에 입력 제약을 예측할 수 있게 해야 한다고 한다(원문은 '남은 입력 가능 글자 수'를 갱신 대상으로 쓰고,
+  이 체계는 표시 형식을 '현재/최대'로 정해 현재 글자 수를 갱신한다 — CF-039).
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 텍스트 영역 > 사용성 가이드라인(입력 가능한 글자 수에 제한이 있는 경우 사용자에게 글자 수 정보를 제공한다) (가이드라인 PDF 2025.08 683쪽)
+  note: 'https://www.krds.go.kr/html/site/component/component_09_02.html — 원문: ''동적으로 업데이트하여 ... 예측할 수 있도록 해야 한다'''
+scope:
+  level: component
+  targets:
+  - textarea[maxlength]
+  - 글자 수 제한이 있는 텍스트 영역
+exceptions: []
+relations:
+- type: depends
+  id: FORM-052
+  note: 글자 수 표시(FORM-052)가 있어야 갱신 요구가 성립
+- type: depends
+  id: STATE-001
+  note: 갱신되는 글자 수를 보조기술에 알릴지(상태 메시지)는 STATE-001 기준. 원문은 알림 방식을 정하지 않음
+examples:
+  good:
+  - lang: html
+    code: "<label for=\"memo\">문의 내용</label>\n<textarea id=\"memo\" maxlength=\"100\" aria-describedby=\"memo-count\"\
+      ></textarea>\n<p id=\"memo-count\"><span id=\"used\">0</span>/100</p>\n<script>\n  memo.addEventListener('input',\
+      \ () => { used.textContent = memo.value.length; });\n</script>\n"
+    note: 입력·삭제·붙여넣기마다(input 이벤트) 글자 수 표시를 갱신한다.
+  bad:
+  - lang: html
+    code: "<label for=\"memo\">문의 내용</label>\n<textarea id=\"memo\" maxlength=\"100\" aria-describedby=\"memo-count\"\
+      ></textarea>\n<p id=\"memo-count\"><span id=\"used\">0</span>/100</p>\n<script>\n  memo.addEventListener('change',\
+      \ () => { used.textContent = memo.value.length; });\n</script>\n"
+    note: 필드를 벗어날 때(change)만 갱신해 입력하는 동안 숫자가 맞지 않는다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(curl로 KRDS 페이지 HTML을 받아 본문 텍스트와 대조): 문장 일치 확인. 원문 강도 ''해야 한다'' → SHOULD + public-sector-must.
+  FORM-080(blur 검증 금지)과는 충돌 아님 — 검증이 아닌 안내이고 GOV.UK도 글자 수 표시를 예외로 듦. 2026-10-18 CF-039(표시 형식 ''현재/최대'' 통일)에 맞춰 statement·측정
+  기준을 고침.'
+korean_specific: false
+tags:
+- krds
+- krds-component
+- public-sector-must
+decisions:
+- CF-039

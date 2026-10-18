@@ -1,0 +1,61 @@
+id: A11Y-018
+category: A11Y
+title: 포인터 취소
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: MUST
+statement: 단일 포인터로 실행하는 기능은 down 이벤트에서 실행하지 않거나, up 이벤트에서 완료하면서 완료 전 중단·완료 후 되돌리기 수단을 제공하거나, up 이벤트가 down 이벤트의 결과를
+  되돌리게 한다.
+measurement:
+  criteria: mousedown·pointerdown·touchstart 핸들러가 기능(이동·제출·삭제·선택 확정)을 실행하지 않는다. 실행한다면 up 이벤트에서 결과를 되돌리거나, 포인터를 대상
+    밖으로 옮겨 놓으면 취소되거나, 실행 후 되돌리기 수단이 있다.
+  method: 코드에서 down 이벤트 핸들러를 찾고, 각 컨트롤에서 누른 채 대상 밖으로 끌어 놓았을 때 기능이 실행되지 않는지 확인한다.
+automation:
+  feasibility: none
+  checks: []
+  note: '검사기 규칙 없음. 4단계 커스텀 검사: eslint로 onMouseDown·onPointerDown·onTouchStart 핸들러 사용 위치를 표시해 수동 점검.'
+rationale: 실수로 누른 경우 포인터를 떼기 전에 취소할 수 있어야 한다.
+sources:
+- ref: WCAG22
+  locator: SC 2.5.2 Pointer Cancellation (Level A)
+  note: https://www.w3.org/TR/WCAG22/#pointer-cancellation
+- ref: WCAG22_UNDERSTANDING
+  locator: https://www.w3.org/WAI/WCAG22/Understanding/pointer-cancellation.html
+- ref: KWCAG22
+  locator: 검사항목 6.5.2
+- ref: KRDS
+  locator: 컴포넌트 (여러 페이지) (가이드라인 PDF 2025.08 568쪽)
+  note: '같은 요구를 다루는 KRDS 컴포넌트: 태그 — 상세는 sources/extracts/KRDS-components.yaml'
+scope:
+  level: global
+  targets: []
+exceptions:
+- down 이벤트에서 완료하는 것이 본질적인 경우(키보드·숫자 키패드 키 누름을 흉내 내는 기능 포함).
+- 사용자 에이전트·보조기술을 조작하는 동작은 대상이 아니다.
+relations: []
+examples:
+  good:
+  - lang: html
+    code: '<button type="button" onclick="removeTag()">삭제</button>
+
+      '
+    note: click(up 이벤트 완료)에서 실행해 포인터를 밖으로 옮기면 취소됨
+  bad:
+  - lang: html
+    code: '<button type="button" onmousedown="removeTag()">삭제</button>
+
+      '
+    note: mousedown에서 바로 삭제를 실행
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(sources/extracts/WCAG22-A-AA.yaml): statement·수치가 SC 원문과 일치함을 확인. KWCAG 2.2
+  대응 항목 번호는 비공식 HTML 판 기준 매핑 — 공식 원문 대조 전(registry KWCAG22 verified=false). 룰의 요구·수치는 WCAG 원문만으로 성립. 1단계에 이 룰로 병합된
+  KRDS 컴포넌트 항목(sources/extracts/KRDS-components.yaml)은 개별 페이지를 다시 열지 않았다 — 룰의 요구는 WCAG 원문 기준.'
+korean_specific: false
+tags:
+- wcag22
+- level-a
+- new-in-2.1
+- kwcag22
+- krds

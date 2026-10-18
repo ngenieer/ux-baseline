@@ -1,0 +1,84 @@
+id: A11Y-014
+category: A11Y
+title: 시간 제한 조절
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: MUST
+statement: 보안 등 필수 사유가 없으면 콘텐츠에 시간 제한을 두지 않고, 시간 제한을 둘 때는 각 제한마다 시작 전에 끄기, 시작 전에 기본값의 10배 이상으로 조정, 만료 전 경고와 함께 20초
+  이상의 여유를 주고 단순 동작으로 10회 이상 연장 중 하나를 제공한다.
+measurement:
+  criteria: '(0) 보안 등 필수 사유가 문서화되지 않은 시간 제한이 없다. (1) 남은 시간 제한마다 다음 중 하나가 참이다: (a) 시간 제한을 만나기 전에 끌 수 있다. (b) 만나기
+    전에 기본값의 10배 이상으로 늘릴 수 있다. (c) 만료 20초 이상 전에 경고하고, 버튼 하나 같은 단순 동작으로 연장할 수 있으며, 10회 이상 연장할 수 있다. 경고 대화상자를 띄우면 초점을
+    대화상자로 옮긴다(HMRC 패턴). (2) 예외(실시간 이벤트·본질적 시간 제한)에 해당하는 시간 제한도 시작 전에 시간 제한이 있다는 텍스트가 보이고, 끝나면 끝났다는 텍스트가 보인다.'
+  method: axe-core meta-refresh 실행 후, 세션 만료 시간을 짧게 설정한 테스트 환경에서 경고 표시 시점·연장 동작·연장 횟수를 수동 확인한다.
+automation:
+  feasibility: partial
+  checks:
+  - tool: axe-core
+    rule: meta-refresh
+    method: axe-core 실행 결과 위반 0건
+  - tool: html-validate
+    rule: meta-refresh
+    method: meta refresh 지연 새로고침 (정적 HTML 검사, lint/.htmlvalidate.json)
+  note: meta-refresh는 <meta http-equiv=refresh>의 시간 제한만 본다. 스크립트 세션 타이머는 수동.
+rationale: 읽기·입력에 시간이 더 걸리는 사용자가 시간 제한 때문에 작업을 잃지 않게 한다.
+sources:
+- ref: WCAG22
+  locator: SC 2.2.1 Timing Adjustable (Level A)
+  note: https://www.w3.org/TR/WCAG22/#timing-adjustable
+- ref: WCAG22_UNDERSTANDING
+  locator: https://www.w3.org/WAI/WCAG22/Understanding/timing-adjustable.html
+- ref: KWCAG22
+  locator: 검사항목 6.2.1
+- ref: WCAG22_UNDERSTANDING
+  locator: Understanding 2.2.1 Timing Adjustable (경고 후 20초 이상, 단순 동작으로 연장)
+  note: '같은 요구: 비활동 시간 제한으로 세션이 끝나기 전에 남은 시간과 연장 버튼이 있는 경고 대화상자를 띄우고, 초점을 대화상자로 옮기며, 연장 버튼 한 번으로 세션을 연장하게 한다.'
+- ref: HMRC_TIMEOUT
+  locator: 15분 비활동 만료, 13분에 경고(2분 전), 마지막 1분 카운트다운
+  note: '같은 요구: 비활동 시간 제한으로 세션이 끝나기 전에 남은 시간과 연장 버튼이 있는 경고 대화상자를 띄우고, 초점을 대화상자로 옮기며, 연장 버튼 한 번으로 세션을 연장하게 한다.'
+scope:
+  level: situation
+  targets:
+  - 세션 만료
+  - 입력 제한 시간
+  - 자동 전환 콘텐츠
+exceptions:
+- '시간 제한이 실시간 이벤트(예: 경매)의 필수 요소이고 대안이 불가능한 경우. 이 경우에도 시간 제한이 있다는 사실을 시작 전에 알리고, 시간이 끝나면 끝났음을 알린다(KWCAG 6.2.1).'
+- 시간 제한이 본질적이어서 연장하면 활동이 무효가 되는 경우. 이 경우에도 시간 제한이 있다는 사실을 시작 전에 알리고, 시간이 끝나면 끝났음을 알린다(KWCAG 6.2.1).
+- 시간 제한이 20시간보다 긴 경우.
+relations:
+- type: conflicts
+  id: STATE-030
+  note: 양립. 코치마크 중 알림은 닫힌 뒤 표시하되, 시간 제한 경고는 즉시 띄운다(CF-001). 토스트 표시 시간은 CF-030을 따른다.
+  decision: CF-001
+examples:
+  good:
+  - lang: html
+    code: "<div role=\"alertdialog\" aria-modal=\"true\" aria-labelledby=\"to-t\" aria-describedby=\"to-d\">\n \
+      \ <h2 id=\"to-t\">로그인 시간 연장</h2>\n  <p id=\"to-d\">2분 뒤 자동 로그아웃됩니다.</p>\n  <button type=\"button\">로그인 연장</button>\n\
+      </div>\n"
+    note: 만료 전 경고 대화상자에서 버튼 하나로 연장
+  bad:
+  - lang: html
+    code: '<meta http-equiv="refresh" content="300;url=/logout">
+
+      '
+    note: 5분 뒤 경고·연장 수단 없이 로그아웃 페이지로 이동
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(sources/extracts/WCAG22-A-AA.yaml): statement·수치가 SC 원문과 일치함을 확인. KWCAG 2.2
+  대응 항목 번호는 비공식 HTML 판 기준 매핑 — 공식 원문 대조 전(registry KWCAG22 verified=false). 룰의 요구·수치는 WCAG 원문만으로 성립. 1단계에 이 룰로 병합된
+  KRDS 컴포넌트 항목(sources/extracts/KRDS-components.yaml)은 개별 페이지를 다시 열지 않았다 — 룰의 요구는 WCAG 원문 기준. KWCAG 6.2.1은 ''시간제한
+  콘텐츠를 제공하지 않아야''를 우선 요구 — conflicts/BACKLOG.md, 3단계. 1단계에 ''같은 요구''로 붙어 있던 KRDS 토스트(2~4초 자동 사라짐, D:109) 출처는 같은
+  요구가 아니라 BACKLOG의 충돌 후보이므로 sources에서 뺐다(notes 참조). 2026-10-18 측정 기준을 3단계 결정(statement 변경)에 맞춰 고침.'
+korean_specific: false
+tags:
+- wcag22
+- level-a
+- new-in-2.0
+- kwcag22
+- krds
+decisions:
+- CF-022
+- CF-030

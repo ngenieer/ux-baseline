@@ -1,0 +1,54 @@
+id: COPY-046
+category: COPY
+title: 코치마크 문구 분량
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: MAY
+statement: 코치마크 제목은 1줄로, 지시 사항은 3줄 이하로 쓴다.
+measurement:
+  criteria: 코치마크 팝오버(과업 공통 너비, LAYOUT-058)에서 제목 요소 줄 수 = 1, 지시 사항 요소 줄 수 ≤ 3이다(모든 지원 화면 너비).
+  method: 지원 중단점마다 코치마크 단계를 하나씩 띄워 제목·지시 사항 줄 수를 측정한다.
+automation:
+  feasibility: none
+  checks: []
+  note: '4단계 커스텀 검사(Playwright): 코치마크 단계별 제목·지시 사항 getClientRects 줄 수 측정.'
+rationale: 코치마크는 관련 요소에 대한 짧은 설명으로 사용자의 부담을 줄이고 과업 완수를 격려해야 한다(KRDS 코치마크).
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 코치마크 > 사용성 가이드라인 (가이드라인 PDF 2025.08 641쪽)
+  note: https://www.krds.go.kr/html/site/component/component_08_04.html
+scope:
+  level: component
+  targets:
+  - 코치마크
+exceptions: []
+relations:
+- type: depends
+  id: LAYOUT-058
+  note: 팝오버 너비는 가장 긴 지시 사항 기준(LAYOUT-058)
+examples:
+  good:
+  - lang: html
+    code: '<div class="coachmark" role="dialog" aria-labelledby="c1"><h3 id="c1">주소 검색</h3><p>도로명을 입력하고 [검색]을 누르세요.</p></div>
+
+      '
+    note: 코치마크 제목 1줄, 지시 사항 1줄이다
+  bad:
+  - lang: html
+    code: '<div class="coachmark" role="dialog" aria-labelledby="c1"><h3 id="c1">주소를 검색하고 상세 주소까지 정확하게 입력하는 방법 안내</h3><p>…5줄
+      이상의 설명…</p></div>
+
+      '
+    note: 제목이 길어 2줄 이상이 되고 지시 사항이 3줄을 넘는다
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(curl로 KRDS 페이지 HTML을 받아 텍스트로 직접 읽음): 코치마크(component_08_04) ''가능한 한 제목은 1줄을
+  유지하고 지시 사항은 3줄 이내로 작성한다'' 확인. 제목 1줄은 원문에서 ''가능한 한''으로 완화된 요구(MAY 수준), 지시 사항 3줄은 단정형 — 룰 전체 강도는 SHOULD로 두고 제목 조건의
+  완화는 3단계에서 분리 여부 검토. 강도: KRDS 단정형 서술(''~한다'') → SHOULD. ''해야 한다'' 표현이 아니므로 public-sector-must 태그는 붙이지 않음. (2026-10-18 KRDS PDF 대조) 이전: SHOULD → 원문 641쪽: ''가능한
+  한 제목은 1줄을 유지하고 지시 사항은 3줄 이내로 작성한다'' — ''가능한 한''이 제목·지시 사항 두 수치를 함께 꾸미는 문장이라 두 수치 모두 완화된 권장이다. 같은 ''가능한 한'' 문장을
+  MAY로 둔 COPY-042와 맞춰 MAY로 내림(정책 2 권장 표현).'
+korean_specific: false
+tags:
+- krds
+- krds-component

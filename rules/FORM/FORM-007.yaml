@@ -1,0 +1,69 @@
+id: FORM-007
+category: FORM
+title: 반복 입력 방지
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: MUST
+statement: 한 절차 안에서 사용자가 이미 입력했거나 제공받은 정보를 다시 입력해야 하면 그 값을 자동으로 채우거나 사용자가 선택해 채울 수 있게 한다. 다시 입력하는 것이 본질인 경우, 보안상
+  필요한 경우, 이전 정보가 더 이상 유효하지 않은 경우만 예외로 한다.
+measurement:
+  criteria: 여러 단계로 된 절차에서 앞 단계에서 입력·제공된 값과 같은 정보를 다시 묻는 필드마다 (1) 그 값이 미리 채워져 있거나, (2) '주문자 정보와 같음' 체크박스·이전 값 선택
+    버튼·드롭다운처럼 사이트가 이전 값을 선택지로 제공한다. 브라우저 자동완성(autocomplete)에만 의존하면 실패.
+  method: 절차를 처음부터 끝까지 수행하며 같은 정보를 다시 묻는 필드를 찾고 (1)·(2) 여부를 기록한다(수동).
+automation:
+  feasibility: none
+  note: 같은 정보 판별이 사람 판단. 4단계에서 절차별 필드 사전(같은 의미의 필드 매핑)을 만들면 E2E로 확인 가능.
+rationale: 이미 입력한 정보를 기억해 다시 입력하게 하면 기억·인지 장애 사용자와 스위치·음성 입력 사용자의 부담과 실수가 커진다.
+sources:
+- ref: WCAG22
+  locator: SC 3.3.7 Redundant Entry (Level A)
+  note: https://www.w3.org/TR/WCAG22/#redundant-entry
+- ref: WCAG22_UNDERSTANDING
+  locator: https://www.w3.org/WAI/WCAG22/Understanding/redundant-entry.html
+  note: '''The autocomplete feature of browsers is not considered sufficient'' — 사이트 콘텐츠가 이전 값을 제공해야 함.'
+- ref: KWCAG22
+  locator: 검사항목 7.3.4 반복 입력 정보
+  note: 비공식 HTML 판 — '반복되는 입력 정보는 자동 입력 또는 선택 입력할 수 있어야 한다.' 예외로 '패스워드와 같이 보안 목적 등으로 재입력이 필수적인 경우'.
+- ref: KRDS
+  locator: 기본 패턴 > 입력폼 > 접근성 가이드라인 (가이드라인 PDF 2025.08 849쪽)
+  note: https://www.krds.go.kr/html/site/global/global_08.html — '단계가 있는 입력폼에서 반복적으로 입력해야 하는 정보를 자동 입력하거나 동일하게 입력할
+    수 있는 수단을 제공한다.'
+scope:
+  level: situation
+  targets:
+  - 다단계 입력 절차
+exceptions:
+- 다시 입력하는 것이 본질인 경우(예 기억력 시험) — WCAG 3.3.7
+- 콘텐츠 보안에 재입력이 필요한 경우(예 비밀번호 확인 입력) — WCAG 3.3.7, KWCAG 7.3.4
+- 이전에 입력한 정보가 더 이상 유효하지 않은 경우 — WCAG 3.3.7
+relations: []
+examples:
+  good:
+  - lang: html
+    code: "<fieldset>\n  <legend>받는 사람</legend>\n  <label><input type=\"checkbox\" id=\"same-as-buyer\"> 주문자 정보와\
+      \ 같음</label>\n  <label for=\"recv-addr\">받는 사람 주소</label>\n  <input id=\"recv-addr\" name=\"recv-addr\">\n\
+      </fieldset>\n"
+    note: 앞 단계에서 입력한 주문자 주소를 체크박스 하나로 다시 채울 수 있다.
+  bad:
+  - lang: html
+    code: '<!-- 1단계에서 주문자 주소를 입력했지만 2단계에서 빈 칸으로 다시 요구한다 -->
+
+      <label for="recv-addr">받는 사람 주소</label>
+
+      <input id="recv-addr" name="recv-addr">
+
+      '
+    note: 이미 입력한 정보를 사이트가 다시 채우거나 선택지로 주지 않는다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(WCAG22-A-AA.yaml SC 3.3.7, Understanding redundant-entry curl, KRDS global_08
+  HTML curl, KWCAG 비공식 HTML 판 7.3.4): statement·예외가 원문과 맞음. 브라우저 자동완성 불충분 문장은 Understanding에서 확인. 1단계의 HAX_GUIDELINES_POSTER(G9)·APPLE_WWDC25_248
+  출처는 ''AI 프롬프트 수정 재실행 시 원문을 입력창에 채움''이라는 다른 요구라 떼어 제안 파일 notes로 옮김(AI 룰 후보). KWCAG 공식 PDF 미대조.'
+korean_specific: false
+tags:
+- wcag22
+- level-a
+- new-in-2.2
+- kwcag22
+- krds

@@ -1,0 +1,53 @@
+id: LAYOUT-023
+category: LAYOUT
+title: 플로팅 버튼
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 플로팅 버튼은 화면 오른쪽 아래에 두고, 하단 탭바가 있으면 탭바와 겹치지 않게 탭바 위 오른쪽 아래에 둔다.
+measurement:
+  criteria: '플로팅 버튼이 position: fixed이고 right·bottom 기준으로 배치되며, 탭바가 있으면 플로팅 버튼 경계 상자의 bottom ≤ 탭바 경계 상자의 top이다.'
+  method: 360px 너비에서 탭바가 있는 화면과 없는 화면을 스크롤하며 플로팅 버튼 위치를 확인한다.
+automation:
+  feasibility: none
+  checks: []
+  note: '4단계 커스텀 검사: FAB와 tabbar의 getBoundingClientRect() 교차 여부.'
+rationale: 오른손 엄지가 닿기 쉬운 위치이며, 위에서 아래로 흐르는 콘텐츠를 가장 적게 가린다.
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 플로팅 버튼 > 사용성 가이드라인
+  note: https://www.krds.go.kr/html/site/component/component_05_03.html
+scope:
+  level: component
+  targets:
+  - 플로팅 버튼
+  - .fab
+exceptions: []
+relations:
+- type: depends
+  id: LAYOUT-001
+  note: 고정 플로팅 버튼이 초점 요소를 완전히 가리지 않아야 한다.
+examples:
+  good:
+  - lang: css
+    code: ":root { --layout-tabbar-height: var(--size-height-8); } /* 탭바 높이 — 토큰 값 */\n.fab { position: fixed; inset-inline-end:\
+      \ var(--space-gap-5);\n  inset-block-end: calc(var(--layout-tabbar-height) + var(--space-gap-5)); } /* 탭바\
+      \ 위 오른쪽 아래 */\n"
+    note: 플로팅 버튼이 오른쪽 아래, 하단 탭바 위에 있다.
+  bad:
+  - lang: css
+    code: '.fab { position: fixed; inset-inline-end: var(--space-gap-5); inset-block-end: var(--space-gap-5); }
+
+      /* 하단 탭바가 있는 화면에서 탭바와 겹침 */
+
+      '
+    note: 탭바가 있는데 플로팅 버튼이 탭바 위로 올라가지 않아 겹친다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(curl로 KRDS 페이지 HTML을 받아 본문 텍스트를 직접 확인): 플로팅 버튼(component_05_03) ''플로팅 버튼은 우측
+  하단에 배치한다.'', "''탭바''를 사용하는 경우 탭바와 겹치지 않게 ''탭바'' 위 우측 하단에 배치한다." 확인. 지시형 → SHOULD.'
+korean_specific: false
+tags:
+- krds
+- krds-component

@@ -1,0 +1,57 @@
+id: COPY-047
+category: COPY
+title: 코치마크 수
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 한 과업의 코치마크는 15단계 이하로 구성한다.
+measurement:
+  criteria: 한 과업(코치마크 투어 1개)의 전체 단계 수 ≤ 15. 한 화면에 속한 단계 수 4개 이하는 KRDS가 '가장 이상적'이라 한 권장값이라 판정하지 않는다.
+  method: 코치마크 투어 정의(단계 목록과 단계별 페이지)를 세어 확인한다.
+automation:
+  feasibility: none
+  checks: []
+  note: '4단계 커스텀 검사: 코치마크 설정 데이터(JSON)의 steps 길이 검사(페이지별 단계 수는 경고로만 보고).'
+rationale: 코치마크가 많으면 사용자가 안내를 건너뛰거나 무시한다. 각 코치마크가 도움이 되는 정보인지 점검해 줄인다(KRDS 코치마크).
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 코치마크 > 사용성 가이드라인 (가이드라인 PDF 2025.08 641쪽)
+  note: https://www.krds.go.kr/html/site/component/component_08_04.html
+scope:
+  level: component
+  targets:
+  - 코치마크
+exceptions: []
+relations:
+- type: depends
+  id: STATE-029
+  note: 한 화면에 동시에 하나만 표시(STATE-029)
+examples:
+  good:
+  - lang: text
+    code: 'tour.json 예: {"steps": [{"page": "/apply", "target": "#addr"}, {"page": "/apply", "target": "#family"},
+      {"page": "/apply", "target": "#submit"}]}
+
+      '
+    note: 과업 3단계, 한 페이지 3단계로 구성했다
+  bad:
+  - lang: text
+    code: 'tour.json 예: {"steps": [{"page": "/apply/1"}, {"page": "/apply/1"}, {"page": "/apply/1"}, {"page": "/apply/1"},
+      {"page": "/apply/2"}, {"page": "/apply/2"}, {"page": "/apply/2"}, {"page": "/apply/2"}, {"page": "/apply/3"}, {"page":
+      "/apply/3"}, {"page": "/apply/3"}, {"page": "/apply/3"}, {"page": "/apply/4"}, {"page": "/apply/4"}, {"page": "/apply/4"},
+      {"page": "/apply/4"}]}
+
+      '
+    note: 한 과업에 코치마크 16단계를 넣었다
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(curl로 KRDS 페이지 HTML을 받아 텍스트로 직접 읽음): 코치마크(component_08_04) ''한 페이지에 4개 이하의
+  코치마크를 사용하는 것이 가장 이상적이며, 최대 15단계를 넘지 않도록 한다'' 확인. 15단계 상한은 단정형(SHOULD), 페이지당 4개는 ''가장 이상적''(MAY 수준) — 한 룰에 묶여 있어
+  SHOULD로 두고 3단계에서 4개 조건 분리 여부 검토. 원문 문장 구조상 15단계는 한 과업(투어) 전체 단계로 해석. 컴포넌트 개수 규칙이라 카테고리 재검토(STATE·NAV 제안). (2026-10-18 KRDS PDF 대조) 이전: statement·측정 기준 ''한 페이지 단계 4개 이하''를
+  SHOULD 판정 조건으로 포함 → 원문 641쪽: ''한 화면에 4개 이하의 코치마크를 사용하는 것이 가장 이상적이며, 최대 15단계를 넘지 않도록 한다'' — 4개는 권장(MAY 수준)이라 SHOULD
+  룰의 판정 조건에서 빼고 측정 기준에 권장값으로만 적음. 15단계 상한(단정형)만 SHOULD로 남김. 나쁜 예를 16단계로 바꿈.'
+korean_specific: false
+tags:
+- krds
+- krds-component

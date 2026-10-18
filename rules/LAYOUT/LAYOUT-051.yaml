@@ -1,0 +1,59 @@
+id: LAYOUT-051
+category: LAYOUT
+title: 토글 스위치
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 한 화면의 토글 스위치 항목은 모두 같은 배열(레이블·스위치 위치)을 쓰고, 한 항목에 상태 레이블이나 상태 아이콘을 넣으면 모든 항목에 넣는다.
+measurement:
+  criteria: 같은 화면의 모든 토글 항목에서 레이블과 스위치의 상대 위치(왼쪽/오른쪽, 열 배치)가 같다. 상태 텍스트(켜짐/꺼짐) 또는 상태 아이콘이 있는 항목이 하나라도 있으면 모든 항목에
+    있다.
+  method: 토글이 여러 개인 설정 화면에서 항목별 구조를 비교한다.
+automation:
+  feasibility: none
+  checks: []
+  note: '4단계 커스텀 검사: 화면 내 [role=switch] 항목별 하위 구조 비교.'
+rationale: 항목마다 배열이 다르면 시선 흐름이 끊겨 탐색 피로가 커진다.
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 토글 스위치 > 사용성 가이드라인 (가이드라인 PDF 2025.08 573·577쪽)
+  note: https://www.krds.go.kr/html/site/component/component_06_07.html
+scope:
+  level: component
+  targets:
+  - 토글 스위치
+  - '[role=switch]'
+exceptions: []
+relations:
+- type: conflicts
+  id: LAYOUT-050
+  note: 행 전체를 클릭 영역으로 만든 목록형 설정 화면에서는 레이블을 왼쪽 끝, 스위치를 오른쪽 끝에 둘 수 있다. 그 밖에는 LAYOUT-050을 따른다.
+  decision: CF-013
+examples:
+  good:
+  - lang: html
+    code: '<label class="toggle"><span>알림 받기</span><input type="checkbox" role="switch"></label>
+
+      <label class="toggle"><span>위치 정보 사용</span><input type="checkbox" role="switch"></label>
+
+      '
+    note: 모든 항목에서 레이블·스위치 배열이 같다.
+  bad:
+  - lang: html
+    code: '<label class="toggle"><span>알림 받기</span><input type="checkbox" role="switch"></label>
+
+      <label class="toggle"><input type="checkbox" role="switch"><span>위치 정보 사용</span></label>
+
+      '
+    note: 같은 화면에서 항목마다 레이블·스위치 위치가 다르다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(curl로 KRDS 페이지 HTML을 받아 본문 텍스트를 직접 확인): 토글 스위치(component_06_07) ''한 화면 내에서의
+  토글 스위치 표현에 동일한 레이아웃을 사용한다.'', ''목록에서의 모든 스위치는 동일한 배열을 가져야 한다. 또한 상태 레이블이나 상태 아이콘을 사용한 스위치가 하나라도 존재한다면, 이 역시 모든
+  스위치 항목에 제공되어야 한다.'' 확인. ''해야 한다'' → SHOULD + public-sector-must.'
+korean_specific: false
+tags:
+- krds
+- krds-component
+- public-sector-must

@@ -1,0 +1,55 @@
+id: A11Y-030
+category: A11Y
+title: 배지는 비대화형
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: '배지를 대화형 요소로 만들지 않는다: 배지에 a·button 마크업, role="link"·role="button", 0 이상의 tabindex를 주지 않는다.'
+measurement:
+  criteria: 배지 요소(프로젝트의 배지 클래스·컴포넌트)가 a·button이 아니고, role이 link·button이 아니며, tabindex 속성이 없거나 음수이고, click 핸들러가 없다.
+  method: 배지 컴포넌트 마크업과 렌더링된 DOM을 검사한다.
+automation:
+  feasibility: none
+  checks: []
+  note: '4단계 커스텀 검사: 배지 셀렉터(예: .badge)에 대해 a, button, [role=link], [role=button], [tabindex]:not([tabindex^=''-''])
+    매칭이 0건인지 검사.'
+rationale: 배지는 상태·특성을 표시할 뿐이므로 대화형으로 노출하면 사용자가 조작할 수 있다고 오해한다. 상호작용이 필요하면 태그 컴포넌트를 쓴다(NAV-052).
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 배지 > 사용성 가이드라인 (가이드라인 PDF 2025.08 401~402쪽)
+  note: https://www.krds.go.kr/html/site/component/component_04_06.html
+scope:
+  level: component
+  targets:
+  - .badge
+  - 배지
+exceptions: []
+relations:
+- type: refines
+  id: A11Y-025
+examples:
+  good:
+  - lang: html
+    code: '<span class="badge">신규</span>
+
+      '
+    note: 배지를 비대화형 span으로 표시
+  bad:
+  - lang: html
+    code: '<a href="#" class="badge">신규</a>
+
+      <span class="badge" tabindex="0">신규</span>
+
+      '
+    note: 배지에 링크 마크업·tabindex="0"을 줌
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(WebFetch로 KRDS 페이지 재조회, 요약 모델 인용 확인): 사용성 가이드라인 ''배지를 대화형 요소로 사용하지 않는다.'' 및
+  ''배지를 대화형 요소로 마크업(<a>, <button> 등) 또는 역할(role=link, role=button 등)을 부여하거나 …(tabindex 포함)'' 확인. ''~하지 않는다/해야 한다''
+  → SHOULD + public-sector-must.'
+korean_specific: false
+tags:
+- krds
+- krds-component
+- public-sector-must

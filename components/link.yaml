@@ -1,0 +1,135 @@
+id: link
+title: 링크
+status: confirmed
+summary: 다른 화면이나 같은 화면의 다른 섹션으로 이동할 때 쓰는 텍스트 링크(문장 안 인라인 링크와 독립 링크).
+use_instead:
+- when: 폼 제출·대화상자 열기·기능 실행처럼 URL 이 바뀌지 않는 동작
+  use: button
+  rule: NAV-047
+- when: 필터·분류 키워드를 짧은 묶음으로 보여주는 링크
+  use: tag (tag--link)
+krds:
+  page: component_05_01.html
+  kit: html/code/link.html
+  kit_classes:
+    link: krds-btn link basic
+    link--emphasis: krds-btn link
+    link__icon: svg-icon ico-go
+anatomy:
+- part: 루트
+  class: link
+  element: a
+  required: true
+  note: href 가 있는 a 요소다(NAV-047). 기본 링크는 본문 글자색 + 밑줄. 링크를 색만으로 구분하지 않도록 밑줄을 항상 표시한다(COLOR-001, TYPO-008).
+- part: 강조 링크
+  class: link--emphasis
+  element: a
+  note: 링크 색(파란색)을 쓰는 강조 단계. 화면에서 가장 중요한 과업과 연결된 링크에만 쓴다(COLOR-014).
+- part: 독립 링크
+  class: link--standalone
+  element: a
+  note: 문단 밖에 홀로 놓이는 링크. 포인터 대상 높이를 24px 이상으로 만들고(LAYOUT-002), 레이블은 모든 화면 너비에서 한 줄 길이로 쓴다(COPY-019).
+- part: 외부·새 창 아이콘
+  class: link__icon
+  element: svg
+  note: 새 창·외부 서비스 링크에만 붙이는 장식 아이콘(aria-hidden). 같은 의미를 링크 안의 숨긴 텍스트로도 제공한다(NAV-012).
+- part: 새 창 안내 텍스트
+  class: sr-only
+  element: span
+  note: 공통 스크린 리더 전용 클래스(A11Y-046·047). 문구는 ' (새 창 열림)' 하나로 서비스 전체에서 같게 쓴다 — 이 체계의 새 창 표시 단일 방식(아이콘 + 숨긴 텍스트, NAV-012
+    (3)).
+markup: |-
+  <p>신청 자격은 <a class="link" href="/guide/eligibility">신청 자격 안내</a>에서 확인해 주세요. 문의는 국번 없이 <a class="link" href="tel:110">110</a>으로 전화해 주세요.</p>
+  <a class="link link--emphasis link--standalone" href="/apply/start">지원금 신청 시작하기</a>
+  <a class="link link--standalone" href="/files/application-form.hwp">신청서 서식 다운로드 [HWP, 52KB]</a>
+  <a class="link link--standalone" href="https://www.gov.kr/" target="_blank" rel="noopener">정부24 바로 가기<span class="sr-only"> (새 창 열림)</span><svg class="link__icon" aria-hidden="true" viewBox="0 0 16 16"><path d="M6 3H3v10h10v-3M9 3h4v4M13 3L7 9"></path></svg></a>
+css: |-
+  .link {
+    color: var(--color-text-basic);
+    text-decoration-line: underline;
+    text-decoration-thickness: var(--border-width-variable-regular);
+    text-underline-offset: 0.2em;
+  }
+  .link:hover {
+    text-decoration-thickness: var(--border-width-variable-medium);
+  }
+  .link:focus-visible {
+    outline: var(--space-scale-2) solid var(--color-border-primary);
+    outline-offset: var(--space-scale-1);
+    border-radius: var(--radius-xsmall1);
+  }
+  .link--emphasis {
+    color: var(--color-link-default);
+  }
+  .link--emphasis:visited {
+    color: var(--color-link-visited);
+  }
+  .link--emphasis:hover {
+    color: var(--color-link-hover);
+  }
+  .link--emphasis:active {
+    color: var(--color-link-pressed);
+  }
+  .link--standalone {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-gap-2);
+    min-block-size: var(--layout-target-min);
+  }
+  .link__icon {
+    inline-size: 1em;
+    block-size: 1em;
+    flex-shrink: 0;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.5;
+  }
+states:
+- name: 방문함
+  markup_change: 강조 링크(link--emphasis)는 :visited 에서 방문 링크 색으로 바뀐다. 기본 링크는 본문 글자색을 유지한다.
+- name: 초점
+  markup_change: 마크업 변화 없음. :focus-visible 에서 외곽선이 보인다(A11Y-016).
+  rule: A11Y-016
+- name: 사용 불가
+  markup_change: 일시적으로 동작하지 않는 링크는 href 를 빼서 초점과 실행을 막고, 링크 대신 일반 텍스트로 보이게 한다(A11Y-011). 링크 모양을 남겨 두고 클릭만 막지 않는다.
+  rule: A11Y-011
+keyboard:
+- key: Tab / Shift+Tab
+  action: 링크로 초점을 옮긴다. 초점 표시가 보인다(A11Y-016).
+- key: Enter
+  action: 링크 목적지로 이동한다.
+behavior:
+- URL(경로·프래그먼트)이 바뀌는 이동에만 링크를 쓰고, href="#" 이나 href="javascript:…" 에 클릭 핸들러를 붙이지 않는다(NAV-047).
+- 링크 텍스트만으로, 또는 같은 문장·문단·목록 항목의 맥락과 함께 목적지를 알 수 있게 쓰고 '여기', '더 보기' 같은 일반어만 쓰지 않는다(COPY-002).
+- 링크는 레이블이 설명하는 내용과 가장 관련 있는 목적지(필요하면
+- target="_blank" 이거나 다른 출처로 가는 링크는 외부 아이콘과 숨긴 텍스트 '(새 창 열림)'을 서비스 전체에서 같은 방식으로 붙이고, title 속성만으로 알리지 않는다(NAV-012).
+- 첨부파일 링크는 파일 이름 바로 뒤에 '[파일 형식, 파일 크기]'를 쓰고 링크 텍스트에 '다운로드'를 넣는다(COPY-007).
+- '화면에 표시하는 이메일 주소·전화번호는 mailto:·tel: 링크로 만든다(NAV-045).'
+- 문장 안 인라인 링크에는 글자 크기를 따로 지정하지 않아 주변 본문과 같은 크기를 유지한다(TYPO-013).
+- 밑줄은 링크에만 쓴다. 링크가 아닌 텍스트 강조는 색이나 굵기로 한다(TYPO-008).
+- 선명한 화면 모드에서는 밑줄 두께 토큰(border-width-variable-regular)이 굵어진다 — 밑줄 두께를 이 토큰으로만 지정한다(COLOR-011).
+rules:
+- A11Y-011
+- A11Y-016
+- A11Y-025
+- COLOR-001
+- COLOR-002
+- COLOR-011
+- COLOR-014
+- COPY-002
+- COPY-007
+- COPY-019
+- LAYOUT-002
+- NAV-012
+- NAV-045
+- NAV-046
+- NAV-047
+- TYPO-008
+- TYPO-013
+kit_differences:
+- KRDS 키트는 새 창 링크를 title="새 창 열림" 으로만 알린다 — 이 규격은 링크 안 숨긴 텍스트로 알리고 title 을 쓰지 않는다(NAV-012).
+- KRDS 키트에는 밑줄 없는 링크 변형(밑줄 없음, 가상클래스 상태 시 밑줄)이 있다 — 이 규격은 링크를 색만으로 구분하지 않도록 밑줄을 항상 표시한다(COLOR-001).
+- KRDS 키트 예시는 href="#!" 자리표시를 쓴다 — 이 규격은 실제 목적지 URL 을 쓴다(NAV-047).
+- KRDS 키트는 링크에 버튼 클래스(krds-btn)를 함께 쓴다 — 이 규격은 링크 전용 클래스를 쓰고 버튼과 모양을 섞지 않는다(NAV-047).
+notes:
+- sr-only 는 프로젝트 공통 스크린 리더 전용 클래스다(정의 예는 lint/fixtures/good.css). 이 규격 CSS 에는 넣지 않는다.

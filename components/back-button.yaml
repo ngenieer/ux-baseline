@@ -1,0 +1,137 @@
+id: back-button
+title: 뒤로가기 버튼
+status: confirmed
+summary: 상단바 왼쪽에 두어 직전에 보던 화면(직전 화면이 없으면 정보 구조상 상위 화면)으로 돌아가게 할 때 쓴다.
+use_instead:
+- when: 모달·바텀시트처럼 뒤로가기 버튼이 없는 레이어를 닫는 경우
+  use: 그 레이어의 닫기 버튼
+  rule: NAV-065
+- when: 현재 위치의 상위 경로 전체를 보여 주어야 하는 경우
+  use: 브레드크럼
+krds:
+  page: component_12_02.html
+  kit_classes: {}
+anatomy:
+- part: 루트(뒤로가기 링크)
+  class: back-button
+  element: a
+  required: true
+  note: 이동이므로 button 이 아니라 a[href] 를 쓴다(NAV-047). href 는 정보 구조상 상위 화면 URL — 스크립트가 없거나 직전 화면이 없을 때의 목적지다(NAV-064). 상단바 왼쪽 첫 요소로 둔다(NAV-004).
+- part: 아이콘
+  class: back-button__icon
+  element: svg
+  required: true
+  note: 바로 옆 텍스트와 같은 뜻이라 장식으로 처리한다(aria-hidden="true", A11Y-001).
+- part: 텍스트 레이블
+  class: back-button__label
+  element: span
+  required: true
+  note: '''뒤로''. 아이콘만 쓰려면 프로젝트의 공통 인지 아이콘 목록에 뒤로가기를 넣고(COPY-020) 툴팁을 단다(A11Y-054). 그때도 접근 가능한 이름은 ''뒤로''로 둔다(NAV-065 판정 기준).'
+- part: 상단바
+  class: top-bar
+  element: div
+  note: 뒤로가기 버튼과 화면 제목을 담는 블록. 같은 상단바에 닫기·취소 버튼을 함께 두지 않는다(NAV-065).
+- part: 화면 제목
+  class: top-bar__title
+  element: h1~h2
+  note: 현재 화면 이름. 페이지의 주 제목이면 h1 로 쓴다(예시는 규격 문서 안이라 h2).
+markup: |-
+  <div class="top-bar">
+    <a class="back-button" href="/applications">
+      <svg class="back-button__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5 8 12l7 7"/></svg>
+      <span class="back-button__label">뒤로</span>
+    </a>
+    <h2 class="top-bar__title">신청서 작성</h2>
+  </div>
+css: |-
+  .top-bar {
+    display: flex;
+    align-items: center;
+    gap: var(--space-gap-3);
+    min-block-size: var(--size-height-8);
+    padding-inline: var(--space-padding-4);
+    border-block-end: var(--border-width-static-regular) solid var(--color-divider-gray-light);
+    background-color: var(--color-surface-white);
+  }
+  .top-bar__title {
+    margin: 0;
+    color: var(--color-text-bolder);
+    font-size: var(--font-size-heading-xsmall);
+    font-weight: var(--font-weight-bold);
+    line-height: var(--font-line-height-base);
+    word-break: keep-all;
+    overflow-wrap: anywhere;
+  }
+  .back-button {
+    display: inline-flex;
+    flex-shrink: 0;
+    align-items: center;
+    gap: var(--space-gap-1);
+    min-block-size: var(--size-height-6);
+    padding-inline: var(--space-padding-2);
+    border-radius: var(--radius-medium3);
+    color: var(--color-text-basic);
+    font-size: var(--font-size-label-medium);
+    text-decoration: none;
+  }
+  .back-button:hover {
+    background-color: var(--color-button-text-fill-hover);
+  }
+  .back-button:active {
+    background-color: var(--color-button-text-fill-pressed);
+  }
+  .back-button:focus-visible {
+    outline: var(--space-scale-2) solid var(--color-border-primary);
+    outline-offset: var(--space-scale-1);
+  }
+  .back-button__icon {
+    inline-size: var(--space-scale-10);
+    block-size: var(--space-scale-10);
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+states:
+- name: 작성 중인 입력이 있음
+  markup_change: '마크업 변화 없음. 누르면 이동 전에 ''이동''·''머무르기'' 확인 대화상자를 띄운다(STATE-032). 실행 버튼은 동작명으로 쓴다(예: ''작성 내용 버리고 이동'', COPY-006).'
+  rule: STATE-032
+- name: 직접 진입(서비스 안 직전 화면 없음)
+  markup_change: 마크업 변화 없음. 기본 동작(href 의 상위 화면으로 이동)을 그대로 둔다.
+  rule: NAV-064
+keyboard:
+- key: Tab
+  action: 뒤로가기 버튼으로 초점을 옮긴다. 초점 표시가 보인다(A11Y-016).
+- key: Enter
+  action: 링크를 실행해 직전 화면(없으면 상위 화면)으로 이동한다(A11Y-011, NAV-064).
+behavior:
+- 직전 화면이 같은 서비스 안이면 기본 이동을 막고 history.back() 을 실행해 시스템 뒤로가기와 같은 결과를 낸다. 직전 화면이 없거나 외부면 href(상위 화면)로 이동한다(NAV-064, NAV-066).
+- 모달·바텀시트 같은 오버레이가 열린 상태에서는 앱 내 뒤로가기와 브라우저 뒤로가기가 같은 결과(둘 다 오버레이 닫기 또는 둘 다 화면 이동)를 내도록 오버레이를 열 때 history 항목을 함께 관리한다(NAV-066).
+- 입력 필드 값을 1개 이상 바꾼 뒤 저장하지 않았으면 이동 전에 확인 대화상자를 띄우고, 브라우저 뒤로가기·새로 고침·탭 닫기에는 beforeunload 확인을 건다. 저장한 뒤에는 경고하지 않는다(STATE-032).
+- 같은 상단바에 '닫기'·'취소' 버튼을 두지 않는다. 화면을 벗어나는 수단은 뒤로가기 하나로 한다(NAV-065).
+- 모든 화면에서 상단바 왼쪽 첫 요소로 같은 위치·같은 이름('뒤로')·같은 아이콘을 쓴다(NAV-004, COPY-004).
+rules:
+- A11Y-001
+- A11Y-011
+- A11Y-016
+- A11Y-019
+- A11Y-025
+- A11Y-054
+- COLOR-002
+- COLOR-003
+- COLOR-007
+- COPY-004
+- COPY-006
+- COPY-020
+- LAYOUT-002
+- NAV-004
+- NAV-047
+- NAV-064
+- NAV-065
+- NAV-066
+- STATE-032
+notes:
+- KRDS HTML 키트 v1.1.0 에는 뒤로가기 버튼 마크업이 없다 — 구조(뒤로가기 버튼 + 제목)는 KRDS 컴포넌트 페이지를 따랐다.
+- KRDS 예시 이미지는 아이콘만 쓴다. 이 규격은 보이는 텍스트 '뒤로'를 함께 둔다 — 아이콘만 쓰면 COPY-020(공통 인지 아이콘 목록)과 A11Y-054(툴팁)를 함께 지켜야 한다.
+- 상단바(.top-bar)는 이 규격 안의 보조 블록이다. 상단바·헤더 규격이 따로 생기면 클래스 이름을 그쪽에 맞춘다.

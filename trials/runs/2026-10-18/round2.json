@@ -1,0 +1,81 @@
+[
+ {
+  "name": "T1-A",
+  "errors": 0,
+  "warnings": 0,
+  "stylelint": 0,
+  "html": 0,
+  "axe": 0,
+  "browser": 0,
+  "rules": [],
+  "findings": []
+ },
+ {
+  "name": "T1-B",
+  "errors": 0,
+  "warnings": 0,
+  "stylelint": 0,
+  "html": 0,
+  "axe": 0,
+  "browser": 0,
+  "rules": [],
+  "findings": []
+ },
+ {
+  "name": "T2-A",
+  "errors": 0,
+  "warnings": 0,
+  "stylelint": 0,
+  "html": 0,
+  "axe": 0,
+  "browser": 0,
+  "rules": [],
+  "findings": []
+ },
+ {
+  "name": "T2-B",
+  "errors": 0,
+  "warnings": 0,
+  "stylelint": 0,
+  "html": 0,
+  "axe": 0,
+  "browser": 0,
+  "rules": [],
+  "findings": []
+ },
+ {
+  "name": "T3-A",
+  "errors": 0,
+  "warnings": 0,
+  "stylelint": 0,
+  "html": 0,
+  "axe": 0,
+  "browser": 0,
+  "rules": [],
+  "findings": []
+ },
+ {
+  "name": "T3-B",
+  "errors": 1,
+  "warnings": 0,
+  "stylelint": 0,
+  "html": 0,
+  "axe": 1,
+  "browser": 0,
+  "rules": [
+   "COLOR-002"
+  ],
+  "findings": [
+   {
+    "tool": "axe-core",
+    "rule": "color-contrast",
+    "severity": "error",
+    "message": "Elements must meet minimum color contrast ratio thresholds (1곳)",
+    "where": ".btn--danger",
+    "rules": [
+     "COLOR-002"
+    ]
+   }
+  ]
+ }
+]

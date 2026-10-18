@@ -1,0 +1,171 @@
+id: quantity-stepper
+title: 수량 토글
+status: confirmed
+summary: 증명서 발급 부수·관람 인원처럼 대부분의 사용자가 고르는 값이 정해진 좁은 범위(11단계 이내)에서 수량을 늘리거나 줄일 때 쓴다.
+use_instead:
+- when: 선택 가능한 값이 기준 값을 포함해 11개를 넘는 경우(나이 등)
+  use: text-field (inputmode="numeric")
+  rule: FORM-073
+krds:
+  page: component_12_04.html
+anatomy:
+- part: 루트
+  class: quantity-stepper
+  element: div
+  required: true
+  note: 레이블 → 조작부(감소 버튼·수량 필드·증가 버튼) 순서로 쌓는다.
+- part: 레이블
+  class: quantity-stepper__label
+  element: label
+  required: true
+  note: for 로 수량 필드와 연결한다(FORM-004). 무엇의 수량인지 밝힌다(COPY-003).
+- part: 조작부
+  class: quantity-stepper__control
+  element: div
+  required: true
+  note: 감소 버튼·수량 필드·증가 버튼을 이 순서로 가로 배치해, 두 버튼이 필드 양쪽에 오게 한다(FORM-075).
+- part: 감소·증가 버튼
+  class: quantity-stepper__button
+  element: button
+  required: true
+  note: 40×40px(24px 이상, LAYOUT-002). 접근 가능한 이름에 대상과 동작을 쓴다(예 '발급 부수 줄이기'). aria-controls 로 수량 필드를 가리킨다.
+- part: 수량 필드
+  class: quantity-stepper__field
+  element: input[type=number]
+  required: true
+  note: 현재 값을 항상 표시한다(FORM-074). min·max·step 으로 범위를 정한다. 네이티브 spinbutton 이라 ↑·↓ 키로도 바꿀 수 있다.
+- part: 단위
+  class: quantity-stepper__unit
+  element: span
+  note: 부·명 같은 단위. 수량 필드 바로 뒤에 둔다.
+- part: 변경 알림
+  class: quantity-stepper__status
+  element: span
+  required: true
+  note: role="status". 버튼으로 값을 바꾼 뒤 '발급 부수 2부' 를 넣어 초점 이동 없이 알린다(STATE-001). 공통 sr-only 클래스로 시각적으로 숨긴다.
+markup: |-
+  <div class="quantity-stepper">
+    <label class="quantity-stepper__label" for="certificate-copies">발급 부수</label>
+    <div class="quantity-stepper__control">
+      <button type="button" class="quantity-stepper__button" aria-label="발급 부수 줄이기" aria-controls="certificate-copies" aria-disabled="true">
+        <svg class="quantity-stepper__icon" aria-hidden="true" viewBox="0 0 24 24"><path d="M5 12h14"></path></svg>
+      </button>
+      <input class="quantity-stepper__field" type="number" id="certificate-copies" name="copies" inputmode="numeric" min="1" max="10" step="1" value="1">
+      <button type="button" class="quantity-stepper__button" aria-label="발급 부수 늘리기" aria-controls="certificate-copies">
+        <svg class="quantity-stepper__icon" aria-hidden="true" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"></path></svg>
+      </button>
+      <span class="quantity-stepper__unit">부</span>
+    </div>
+    <span class="quantity-stepper__status sr-only" role="status"></span>
+  </div>
+css: |-
+  .quantity-stepper {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-gap-3);
+  }
+  .quantity-stepper__label {
+    color: var(--color-text-basic);
+    font-size: var(--font-size-label-medium);
+    font-weight: var(--font-weight-bold);
+  }
+  .quantity-stepper__control {
+    display: flex;
+    align-items: center;
+    gap: var(--space-gap-3);
+  }
+  .quantity-stepper__button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    inline-size: var(--size-height-6);
+    block-size: var(--size-height-6);
+    padding: 0;
+    border: var(--border-width-variable-regular) solid var(--color-button-tertiary-border);
+    border-radius: var(--radius-medium1);
+    background-color: var(--color-button-tertiary-fill);
+    color: var(--color-icon-gray);
+    cursor: pointer;
+  }
+  .quantity-stepper__button:hover {
+    background-color: var(--color-button-tertiary-fill-hover);
+  }
+  .quantity-stepper__button:active {
+    background-color: var(--color-button-tertiary-fill-pressed);
+  }
+  .quantity-stepper__button:focus-visible,
+  .quantity-stepper__field:focus-visible {
+    outline: var(--space-scale-2) solid var(--color-border-primary);
+    outline-offset: var(--space-scale-1);
+  }
+  .quantity-stepper__button[aria-disabled="true"] {
+    border-color: var(--color-button-disabled-border);
+    background-color: var(--color-button-disabled-fill);
+    color: var(--color-icon-disabled);
+    cursor: not-allowed;
+  }
+  .quantity-stepper__icon {
+    inline-size: var(--size-height-3);
+    block-size: var(--size-height-3);
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+  }
+  .quantity-stepper__field {
+    appearance: textfield;
+    inline-size: var(--space-scale-18);
+    min-block-size: var(--size-height-6);
+    margin: 0;
+    padding-inline: var(--space-padding-3);
+    border: var(--border-width-variable-regular) solid var(--color-input-border);
+    border-radius: var(--radius-medium1);
+    background-color: var(--color-input-surface);
+    color: var(--color-text-basic);
+    font-size: var(--font-size-body-medium);
+    text-align: center;
+  }
+  .quantity-stepper__unit {
+    color: var(--color-text-basic);
+    font-size: var(--font-size-body-medium);
+  }
+states:
+- name: 최솟값·최댓값
+  markup_change: 값이 최솟값이면 감소 버튼에, 최댓값이면 증가 버튼에 aria-disabled="true" 를 붙이고 그 사이 값에서는 뺀다(FORM-072). disabled 를 쓰지 않는 이유는 누른 버튼이 비활성이 되는 순간 키보드 초점이 사라지기 때문이다(A11Y-016). aria-disabled 버튼의 클릭은 스크립트가 무시한다.
+  rule: FORM-072
+- name: 잘못된 값 입력
+  markup_change: 수량 필드에 범위 밖 값이나 빈 값을 입력하고 벗어나면 가장 가까운 허용 값으로 되돌리고 role=status 로 알린다(FORM-074). 오류 메시지를 따로 띄우지 않는다.
+  rule: FORM-074
+keyboard:
+- key: Tab / Shift+Tab
+  action: 감소 버튼 → 수량 필드 → 증가 버튼 순으로 초점을 옮긴다.
+- key: Enter / Space (버튼)
+  action: 수량을 step 만큼 줄이거나 늘린다. 초점은 누른 버튼에 그대로 둔다.
+- key: ↑ / ↓ (수량 필드)
+  action: 네이티브 number 입력 동작으로 step 만큼 늘리거나 줄인다.
+behavior:
+- 값은 기준 값을 포함해 11단계 이내로 제한한다 — (max − min) ÷ step + 1 ≤ 11(FORM-073). 더 많으면 텍스트 입력 필드를 쓴다.
+- 수량 필드에 현재 값을 늘 표시하고 빈 상태로 두지 않는다. 기본값은 이용 기록에서 가장 많이 고른 값으로 둔다(FORM-074).
+- 최솟값·최댓값에서 해당 방향 버튼을 aria-disabled="true" 로 바꾼다(FORM-072).
+- 버튼으로 값을 바꾸면 수량 필드 value 를 고치고 role=status 영역에 '발급 부수 2부' 처럼 레이블·값·단위를 넣어 알린다(A11Y-025, STATE-001).
+- 감소·증가 버튼은 수량 필드 양쪽에 둔다(FORM-075). 버튼은 24×24px 이상으로 만든다(LAYOUT-002).
+- 값을 바꾸는 것만으로 제출·페이지 이동을 하지 않는다(FORM-002). 버튼 기능은 클릭(up 이벤트)에서 실행한다(A11Y-018).
+rules:
+- A11Y-011
+- A11Y-016
+- A11Y-018
+- A11Y-025
+- COLOR-003
+- COPY-003
+- FORM-002
+- FORM-004
+- FORM-072
+- FORM-073
+- FORM-074
+- FORM-075
+- LAYOUT-002
+- STATE-001
+notes:
+- KRDS HTML 키트 v1.1.0 에는 수량 토글 마크업 파일이 없어 KRDS 수량 토글 페이지(구조 — 레이블·버튼·수량 필드)와 확정 룰로 규격을 만들었다.
+- 수량 필드는 KRDS 가 '키보드 입력 없이 값을 고르는 용도'라고 설명하지만, 이 규격은 보조기술·키보드 사용자를 위해 네이티브 number 입력(spinbutton)으로 두고 직접 입력도 허용한다. 범위 밖 값은 스크립트가 바로잡는다.
+- sr-only 는 프로젝트 공통 스크린 리더 전용 클래스다(정의 예는 lint/fixtures/good.css).

@@ -1,0 +1,56 @@
+id: STATE-011
+category: STATE
+title: 닫기는 취소와 같게
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 입력을 제출하거나 행동을 확정하는 모달·바텀시트의 닫기(X) 버튼은 취소 버튼과 같이 동작해 입력·선택한 내용을 적용하지 않고 창을 닫게 한다.
+measurement:
+  criteria: 제출·확정형 모달·바텀시트에서 값을 바꾼 뒤 닫기(X) 버튼을 누르면 창이 닫히고, 서버 요청이나 화면 상태 변경이 취소 버튼을 눌렀을 때와 같다(제출·저장 요청 0건, 원래 화면
+    값 유지).
+  method: 값을 바꾼 뒤 취소와 닫기를 각각 눌러 네트워크 요청과 화면 상태를 비교한다.
+automation:
+  feasibility: none
+  checks: []
+  note: E2E 테스트로 두 경로의 결과를 비교할 수 있음.
+rationale: 닫기가 저장·확정처럼 동작하면 사용자가 의도하지 않은 변경이 적용된다. KRDS는 닫기 버튼이 '모달을 닫는 동시에 취소와 동일한 기능'이라고 정의한다.
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 모달 > 구조 3. 닫기 버튼 — '데이터를 입력하여 제출하거나 행동을 확정해야 하는 경우, 닫기 버튼은 모달을 닫는 동시에 취소와 동일한 기능을 제공함' (가이드라인 PDF 2025.08 390쪽)
+  note: https://www.krds.go.kr/html/site/component/component_04_05.html
+- ref: KRDS
+  locator: 컴포넌트 > 바텀시트 > 구조 5. 닫기 버튼 — 같은 문장
+  note: https://www.krds.go.kr/html/site/component/component_12_03.html
+scope:
+  level: component
+  targets:
+  - dialog
+  - 모달
+  - 바텀시트
+exceptions: []
+relations: []
+examples:
+  good:
+  - lang: html
+    code: "<dialog aria-labelledby=\"t\">\n  <form method=\"dialog\">\n    <h2 id=\"t\">주소 변경</h2> …\n    <button\
+      \ value=\"cancel\" aria-label=\"닫기\">×</button>\n    <button value=\"cancel\">취소</button><button value=\"\
+      save\">저장</button>\n  </form>\n</dialog>\n"
+    note: X 버튼이 취소와 같은 값(cancel)을 반환해 입력을 적용하지 않는다.
+  bad:
+  - lang: html
+    code: '<!-- X를 누르면 입력값을 저장하고 닫는다 -->
+
+      <button type="button" aria-label="닫기" onclick="save(); dialog.close()">×</button>
+
+      '
+    note: X가 저장처럼 동작해 취소 버튼과 결과가 다르다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(curl로 KRDS 페이지 HTML을 받아 텍스트로 직접 읽음): 모달 component_04_05 구조와 바텀시트 component_12_03
+  구조의 닫기 버튼 정의 문장 확인. 원문은 구조 정의(''제공함'')로 완화 표현이 없어 SHOULD+public-sector-must. 바텀시트 출처를 추가하고 대상에 바텀시트를 명시.'
+korean_specific: false
+tags:
+- krds
+- krds-component
+- public-sector-must

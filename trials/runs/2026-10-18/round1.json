@@ -1,0 +1,258 @@
+[
+ {
+  "name": "T1-A",
+  "errors": 2,
+  "warnings": 0,
+  "stylelint": 0,
+  "html": 2,
+  "axe": 0,
+  "browser": 0,
+  "rules": [
+   "FORM-001"
+  ],
+  "findings": [
+   {
+    "tool": "html-validate",
+    "rule": "aria-label-misuse",
+    "severity": "error",
+    "message": "\"aria-labelledby\" cannot be used on this element",
+    "where": "index.html:24",
+    "rules": []
+   },
+   {
+    "tool": "html-validate",
+    "rule": "valid-autocomplete",
+    "severity": "error",
+    "message": "\"tel-national\" cannot be used on <input type=\"tel\">",
+    "where": "index.html:74",
+    "rules": [
+     "FORM-001"
+    ]
+   }
+  ]
+ },
+ {
+  "name": "T1-B",
+  "errors": 2,
+  "warnings": 0,
+  "stylelint": 1,
+  "html": 1,
+  "axe": 0,
+  "browser": 0,
+  "rules": [
+   "A11Y-016",
+   "FORM-001"
+  ],
+  "findings": [
+   {
+    "tool": "stylelint",
+    "rule": "ux-baseline/no-outline-none-without-replacement",
+    "severity": "error",
+    "message": "\"main:focus\" 에서 outline 을 없앴는데 대체 초점 표시가 없다 (A11Y-016) (ux-baseline/no-outline-none-without-replacement)",
+    "where": "style.css:64",
+    "rules": [
+     "A11Y-016"
+    ]
+   },
+   {
+    "tool": "html-validate",
+    "rule": "valid-autocomplete",
+    "severity": "error",
+    "message": "\"tel-national\" cannot be used on <input type=\"tel\">",
+    "where": "index.html:81",
+    "rules": [
+     "FORM-001"
+    ]
+   }
+  ]
+ },
+ {
+  "name": "T2-A",
+  "errors": 4,
+  "warnings": 0,
+  "stylelint": 1,
+  "html": 0,
+  "axe": 2,
+  "browser": 1,
+  "rules": [
+   "A11Y-007",
+   "A11Y-016",
+   "A11Y-019"
+  ],
+  "findings": [
+   {
+    "tool": "stylelint",
+    "rule": "ux-baseline/no-outline-none-without-replacement",
+    "severity": "error",
+    "message": "\".page__content:focus\" 에서 outline 을 없앴는데 대체 초점 표시가 없다 (A11Y-016) (ux-baseline/no-outline-none-without-replacement)",
+    "where": "style.css:277",
+    "rules": [
+     "A11Y-016"
+    ]
+   },
+   {
+    "tool": "axe-core",
+    "rule": "label-content-name-mismatch",
+    "severity": "error",
+    "message": "Elements must have their visible text as part of their accessible name (10곳)",
+    "where": "a[aria-label=\"1페이지\"], a[aria-label=\"2페이지\"], a[aria-label=\"3페이지\"], a[aria-label=\"4페이지\"], a[aria-label=\"5페이지\"]",
+    "rules": [
+     "A11Y-019"
+    ]
+   },
+   {
+    "tool": "axe-core",
+    "rule": "p-as-heading",
+    "severity": "error",
+    "message": "Styled <p> elements must not be used as headings (1곳)",
+    "where": ".footer__logo",
+    "rules": [
+     "A11Y-007"
+    ]
+   },
+   {
+    "tool": "browser",
+    "rule": "reflow-320",
+    "severity": "error",
+    "message": "320px 너비에서 가로 스크롤 4px",
+    "where": "page",
+    "rules": []
+   }
+  ]
+ },
+ {
+  "name": "T2-B",
+  "errors": 5,
+  "warnings": 0,
+  "stylelint": 3,
+  "html": 1,
+  "axe": 0,
+  "browser": 1,
+  "rules": [
+   "A11Y-016",
+   "COLOR-022",
+   "MOTION-010",
+   "SHAPE-001",
+   "SHAPE-004",
+   "SPACE-001",
+   "TYPO-032"
+  ],
+  "findings": [
+   {
+    "tool": "stylelint",
+    "rule": "scale-unlimited/declaration-strict-value",
+    "severity": "error",
+    "message": "토큰(CSS 변수)만 쓴다 — tokens/build/tokens.css 의 var(--…) 를 쓸 것 (SPACE-001·SHAPE-001·MOTION-010·COLOR-022·TYPO-032) (scale-unlimited/declaration-strict-value)",
+    "where": "style.css:534",
+    "rules": [
+     "COLOR-022",
+     "MOTION-010",
+     "SHAPE-001",
+     "SHAPE-004",
+     "SPACE-001",
+     "TYPO-032"
+    ]
+   },
+   {
+    "tool": "stylelint",
+    "rule": "scale-unlimited/declaration-strict-value",
+    "severity": "error",
+    "message": "토큰(CSS 변수)만 쓴다 — tokens/build/tokens.css 의 var(--…) 를 쓸 것 (SPACE-001·SHAPE-001·MOTION-010·COLOR-022·TYPO-032) (scale-unlimited/declaration-strict-value)",
+    "where": "style.css:535",
+    "rules": [
+     "COLOR-022",
+     "MOTION-010",
+     "SHAPE-001",
+     "SHAPE-004",
+     "SPACE-001",
+     "TYPO-032"
+    ]
+   },
+   {
+    "tool": "stylelint",
+    "rule": "ux-baseline/no-outline-none-without-replacement",
+    "severity": "error",
+    "message": "\"#content:focus\" 에서 outline 을 없앴는데 대체 초점 표시가 없다 (A11Y-016) (ux-baseline/no-outline-none-without-replacement)",
+    "where": "style.css:40",
+    "rules": [
+     "A11Y-016"
+    ]
+   },
+   {
+    "tool": "html-validate",
+    "rule": "prefer-native-element",
+    "severity": "error",
+    "message": "Prefer to use the native <section> element",
+    "where": "index.html:72",
+    "rules": []
+   },
+   {
+    "tool": "browser",
+    "rule": "reflow-320",
+    "severity": "error",
+    "message": "320px 너비에서 가로 스크롤 336px",
+    "where": "page",
+    "rules": []
+   }
+  ]
+ },
+ {
+  "name": "T3-A",
+  "errors": 1,
+  "warnings": 0,
+  "stylelint": 1,
+  "html": 0,
+  "axe": 0,
+  "browser": 0,
+  "rules": [
+   "A11Y-016"
+  ],
+  "findings": [
+   {
+    "tool": "stylelint",
+    "rule": "ux-baseline/no-outline-none-without-replacement",
+    "severity": "error",
+    "message": "\".page__heading:focus\" 에서 outline 을 없앴는데 대체 초점 표시가 없다 (A11Y-016) (ux-baseline/no-outline-none-without-replacement)",
+    "where": "style.css:118",
+    "rules": [
+     "A11Y-016"
+    ]
+   }
+  ]
+ },
+ {
+  "name": "T3-B",
+  "errors": 1,
+  "warnings": 1,
+  "stylelint": 1,
+  "html": 0,
+  "axe": 1,
+  "browser": 0,
+  "rules": [
+   "COLOR-002",
+   "RESP-004"
+  ],
+  "findings": [
+   {
+    "tool": "stylelint",
+    "rule": "media-feature-name-value-allowed-list",
+    "severity": "warning",
+    "message": "Disallowed value \"767.98px\" for name \"max-width\" (media-feature-name-value-allowed-list)",
+    "where": "style.css:536",
+    "rules": [
+     "RESP-004"
+    ]
+   },
+   {
+    "tool": "axe-core",
+    "rule": "color-contrast",
+    "severity": "error",
+    "message": "Elements must meet minimum color contrast ratio thresholds (1곳)",
+    "where": ".btn--danger",
+    "rules": [
+     "COLOR-002"
+    ]
+   }
+  ]
+ }
+]

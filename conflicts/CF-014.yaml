@@ -1,0 +1,12 @@
+id: CF-014
+rules:
+- PERF-005
+- TYPO-010
+summary: 'font-display: optional(PERF-005)을 쓰면 KRDS 표준형 기본 서체 Pretendard GOV(TYPO-010)가 첫 방문에 표시되지 않을 수 있다.'
+principle: 3
+decision: 'KRDS 표준형 서비스는 font-display: optional 대신 PERF-005의 두 번째 방법(폴백 글꼴 메트릭 맞춤)을 쓴다.'
+reason: 표준형의 서체 지정 의무(일관성, 원칙 3)를 지키면서 레이아웃 이동 감소(PERF) 목적도 달성하는 방법이 있다.
+deviates_from_priority: false
+date: '2026-10-18'
+rule_changes:
+- 'PERF-005: 예외 추가'

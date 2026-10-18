@@ -1,0 +1,110 @@
+id: FORM-080
+category: FORM
+title: 제출 시점 검증
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 입력 필드의 오류(오류 메시지와 aria-invalid="true")는 사용자가 필드를 벗어날 때(blur)나 입력하는 동안이 아니라 다음 단계·제출 버튼을 눌렀을 때 표시하고, 다음
+  단계·제출 버튼은 입력 상태와 관계없이 비활성화하지 않는다. 제출 전에는 aria-invalid를 설정하지 않고 aria-describedby로 연결한 role="status" 영역의 텍스트만 바꾸는
+  조건 안내(입력 중 비밀번호 조건 충족 여부, 아이디 '중복 확인' 버튼 결과)를 허용한다.
+measurement:
+  criteria: (1) 잘못된 값을 넣고 Tab으로 필드를 벗어났을 때 오류 메시지와 aria-invalid="true"가 나타나지 않고, 다음 단계·제출 버튼을 누른 뒤에 나타난다. (2) 제출
+    전에 바뀌는 안내(입력 중 조건 충족 안내, 필드 옆 확인 버튼 결과)는 필드에 aria-invalid="true"를 설정하지 않고, 필드의 aria-describedby가 가리키는 요소의 텍스트만
+    바꾸며, 그 요소 또는 조상에 role="status" 또는 aria-live="polite"가 있다(STATE-001, CF-068). (3) 필수 필드가 비어 있거나 값이 잘못된 상태에서도
+    다음 단계·제출 버튼에 disabled 속성과 aria-disabled="true"가 없다(CF-010). KRDS 적용 공공 프로젝트의 Keyup·Focusout 시점 오류 표시는 exceptions를
+    따른다(CF-038).
+  method: 'E2E: 필드마다 잘못된 값 입력 → 입력 중 aria-invalid·오류 메시지가 없는지 확인 → Tab → 오류 표시 여부 확인 → 다음 단계·제출 버튼의 disabled·aria-disabled
+    확인 → 제출 → 오류 표시 확인.'
+automation:
+  feasibility: none
+  checks: []
+  note: 기존 검사기 규칙 없음. 4단계 커스텀 E2E로 판정 가능. eslint 커스텀(blur 핸들러에서 검증 함수 호출 탐지)은 오탐이 많아 보조로만.
+rationale: GOV.UK는 필드를 벗어날 때 검증하지 말고 다음 단계로 가려 할 때 검증하라고 하며, 입력을 마치기 전 검증은 특히 천천히 입력하는 사용자에게 문제를 일으킨다고 한다.
+sources:
+- ref: GOVUK_VALIDATION
+  locator: When to tell the user about validation errors
+  note: '''Do not validate when the user moves away from a field. Wait until they try to move to the next part of
+    the service'''
+- ref: KRDS
+  locator: 기본 패턴 > 입력폼 > 상호작용 가이드라인 > 클라이언트 측 검증 (가이드라인 PDF 2025.08 851쪽)
+  note: 'Keyup: 아이디·비밀번호 등은 ''사용자가 데이터를 타이핑하는 동안 값을 검증하는 것이 적절하다'' / Focusout: 날짜처럼 전체 값이 입력되기 전까지 판단하기 어려운 경우 ''사용자가
+    모든 값을 입력한 후, 다음 항목을 탐색하기 시작했을 때 메시지를 제공해야 한다'''
+scope:
+  level: component
+  targets:
+  - input
+  - select
+  - textarea
+exceptions:
+- 사용자 조사에서 입력 중 검증이 문제를 더 많이 줄인다고 확인된 경우 — GOV.UK는 글자 수 초과 시 오류를 보여 주는 Character count를 예로 든다.
+- 'KRDS를 적용하는 공공 프로젝트: 아이디·비밀번호처럼 입력하는 동안 규칙 충족을 확인해야 하는 필드는 입력하는 동안(keyup), 날짜처럼 값을 모두 넣어야 판단할 수 있는 필드는 다음 항목으로
+  초점을 옮길 때(focusout) 오류를 표시할 수 있다(KRDS 기본 패턴 > 입력폼 > 상호작용 가이드라인 ''클라이언트 측 검증'', PDF 851쪽, CF-038).'
+- '파일 입력: 파일 선택 결과(형식·크기·개수) 오류는 파일을 고른 동작의 결과이므로 선택·드롭 직후 표시한다(FORM-063). 필수 파일 누락은 이 룰대로 다음 단계·제출 버튼을 눌렀을 때 표시한다.'
+relations:
+- type: refines
+  id: FORM-014
+  note: FORM-014(클라이언트·서버 모두 검증)의 클라이언트 검증 시점을 정함. GOV.UK는 클라이언트 검증 자체를 사용자 필요가 확인될 때만 추가하라고 해 관점 차이가 있음
+- type: refines
+  id: FORM-063
+  note: FORM-063이 파일 입력의 오류 표시 시점(선택·드롭 직후)을 정한다 — FORM-080 예외.
+- type: conflicts
+  id: FORM-003
+  note: 필드 옆 확인 버튼 결과·입력 중 조건 안내는 aria-describedby 로 연결한 role=status 텍스트로 오류를 식별·설명하고 aria-invalid 는 제출 때만 둔다.
+  decision: CF-068
+- type: conflicts
+  id: STATE-001
+  note: 제출 전 조건 안내는 상태 메시지다 — aria-describedby 연결에 더해 role=status(또는 aria-live=polite) 영역에 둔다.
+  decision: CF-068
+examples:
+  good:
+  - lang: html
+    code: |
+      <form novalidate>
+        <label for="email">이메일 주소</label>
+        <input id="email" type="email" autocomplete="email">
+        <button type="submit">다음</button>
+      </form>
+      <!-- 검증은 submit 이벤트에서만 실행 -->
+    note: 다음 버튼을 눌렀을 때 검증해 오류를 표시한다.
+  - lang: html
+    code: |
+      <label for="pw">비밀번호</label>
+      <input id="pw" type="password" autocomplete="new-password" aria-describedby="pw-rule">
+      <p id="pw-rule" role="status">8자 이상, 영문과 숫자를 함께 씁니다. 남은 조건: 숫자 포함</p>
+      <!-- 입력하는 동안 pw-rule 텍스트만 바꾸고 aria-invalid 는 설정하지 않는다 -->
+    note: 입력하는 동안 조건 충족 안내만 aria-describedby 로 연결한 role=status 텍스트로 바꾼다(오류 표시 아님, CF-038·CF-068).
+  bad:
+  - lang: html
+    code: |
+      <form novalidate>
+        <label for="email">이메일 주소</label>
+        <input id="email" type="email" autocomplete="email" onblur="validateEmail(this)">
+        <button type="submit">다음</button>
+      </form>
+    note: 필드를 벗어나는 순간(blur) 오류를 표시해 입력 흐름을 끊는다.
+  - lang: html
+    code: |
+      <form novalidate>
+        <label for="name">이름</label>
+        <input id="name" autocomplete="name" required>
+        <button type="submit" disabled>다음</button>
+      </form>
+    note: 필수 필드를 채우기 전까지 다음 버튼을 disabled로 막아 이유를 알 수 없고 버튼이 초점도 받지 못한다(CF-010).
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(curl로 GOV.UK·W3C 페이지 HTML을 받아 본문 텍스트와 대조): 원문 문장과 예외(사용자 조사·Character count)
+  확인. 원문 reference_system 권장 → SHOULD. FORM-053(글자 수 실시간 갱신)은 검증이 아닌 안내라 충돌 아님. 국내 서비스 관행(아이디 실시간 중복 확인 등)과의 관계는
+  CF-038에서 정함(조건 충족 안내 허용, KRDS 공공 프로젝트 Keyup·Focusout 예외). 2026-10-18 독립 검토: KRDS 가이드라인 PDF 851쪽 클라이언트 측 검증 표(Keyup·Focusout)
+  확인 → 공공 프로젝트 예외 추가. 허용 안내 정의(aria-invalid 미설정, aria-describedby 텍스트만 변경)와 다음 단계·제출 버튼 비활성화 금지(CF-010)를 측정 기준 (2)(3)에
+  넣음. (2026-10-18 시험 4 검토 반영) (가) 필드 옆 확인 버튼 결과가 허용 안내인지 오류인지, (나) 입력 중 조건 안내가 aria-describedby 만으로 충분한지(상태 메시지인지)
+  불명 → CF-068: 둘 다 제출 전 조건 안내로 허용하되 aria-describedby 대상에 role=status(또는 aria-live=polite)를 둔다. aria-describedby
+  는 초점을 받을 때만 읽혀 입력 중 바뀐 텍스트가 전달되지 않기 때문(WCAG 4.1.3, Understanding 4.1.3 ''results of an action''). statement·측정
+  기준 (2)를 고쳤다.'
+korean_specific: false
+tags:
+- research-state_copy_resp
+- reference-system
+decisions:
+- CF-010
+- CF-038

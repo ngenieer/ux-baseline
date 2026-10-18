@@ -1,0 +1,69 @@
+/* 모든 값이 토큰 — 위반 0이어야 한다 */
+.card {
+  padding: var(--space-padding-6);
+  margin-block: var(--space-gap-5) 0;
+  border-radius: var(--radius-medium1);
+  box-shadow: var(--shadow-2);
+  color: var(--color-text-basic);
+  background-color: var(--color-surface-white);
+  font-size: var(--font-size-body-medium);
+  line-height: var(--font-line-height-base);
+  transition: opacity var(--motion-duration-fast) var(--motion-easing-standard);
+  word-break: keep-all;
+}
+
+/* 초점 표시: outline 을 없애면 같은 상태에 대체 표시 (A11Y-016) */
+.button:focus-visible {
+  outline: none;
+  box-shadow: var(--shadow-2);
+}
+
+/* 스크린 리더 전용 텍스트 (A11Y-046·047) */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* 위치 변화는 transform 으로 (MOTION-012) */
+@keyframes slide-in {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+
+/* @font-face 의 font-family 는 서체 이름 정의라 토큰 대상이 아니다 — 주석으로 예외 표시 */
+@font-face {
+  /* stylelint-disable-next-line scale-unlimited/declaration-strict-value */
+  font-family: "Pretendard GOV";
+  src: url("pretendard-gov.woff2") format("woff2");
+  font-display: swap;
+}
+
+@media (min-width: 1024px) {
+  .card { letter-spacing: 0.01em; }
+}
+
+/* 컴포넌트 범위 규칙 */
+.data-table td { border-block-end: var(--space-scale-1) solid var(--color-border-gray-light); }
+.file-item__name { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.main-menu__panel { max-height: 70vh; overflow-y: auto; }
+.text-field { display: flex; flex-direction: column; gap: var(--space-gap-3); }
+.text-field__input { padding-inline: var(--space-padding-6); }
+.avatar { border-radius: 50%; }
+.feedback { position: static; }
+.card-list { display: grid; }
+.card-list > .card { overflow-wrap: anywhere; }
+.prose { max-inline-size: 40ic; }
+
+/* 강제 색상 모드에서 선택 표시를 시스템 색으로 살린다 (CF-064) */
+@media (forced-colors: active) {
+  .tabs__tab[aria-selected="true"] { border-color: Highlight; }
+}
+
+/* 동작 줄이기: 전환 없음(0s)은 MOTION-010 측정 기준이 허용한다 */
+@media (prefers-reduced-motion: reduce) {
+  .tabs__tab { transition-duration: 0s; animation-duration: 0ms; }
+}

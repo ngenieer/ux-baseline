@@ -1,0 +1,12 @@
+id: CF-029
+rules:
+- COPY-011
+against: KRDS 툴팁 컴포넌트('150자 내외')
+summary: 툴팁 분량이 기본 패턴(1~2단어 또는 한 문장)과 툴팁 컴포넌트(150자 내외)에서 다르다.
+principle: 3
+decision: 툴팁은 한 문장 이하, 최대 150자로 한다.
+reason: 두 기준을 합치면 판정 가능한 상한(한 문장·150자)이 된다(원칙 3).
+deviates_from_priority: false
+date: '2026-10-18'
+rule_changes:
+- 'COPY-011: statement 수정'

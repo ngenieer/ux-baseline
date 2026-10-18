@@ -1,0 +1,46 @@
+id: AI-010
+category: AI
+title: 적용 전 결과 편집
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: AI가 만든 결과(문서 초안·코드·양식 입력값 등)를 사용자 데이터에 적용하기 전에, 사용자가 그 결과를 직접 고칠 수 있는 편집 수단을 적용 버튼과 같은 화면에 제공한다.
+measurement:
+  criteria: AI 제안을 사용자 데이터에 반영하는 '적용'·'삽입'·'저장' 버튼이 있는 화면마다, 반영 전 제안 내용을 수정할 수 있는 편집 컨트롤(textarea·input·contenteditable
+    또는 '편집' 버튼으로 여는 편집 모드)이 있고, 적용 시 수정한 내용이 반영된다.
+  method: AI 제안 패널마다 제안 내용을 고친 뒤 적용해 결과에 수정이 반영되는지 확인한다.
+automation:
+  feasibility: none
+  checks: []
+  note: 자동 검사 어려움. 4단계 컴포넌트 규격(AI 제안 패널에 편집 모드 필수)과 E2E.
+rationale: AI 결과가 일부만 틀렸을 때 버리고 다시 만드는 것보다 고쳐 쓰는 것이 빠르고, 틀린 내용이 그대로 사용자 데이터에 들어가는 것을 막는다.
+sources:
+- ref: HAX_GUIDELINES_POSTER
+  locator: G9 Support efficient correction
+  note: '''Make it easy to edit, refine, or recover when the AI system is wrong.'''
+scope:
+  level: component
+  targets:
+  - AI 제안 패널
+  - AI 초안 적용 화면
+exceptions: []
+relations: []
+examples:
+  good:
+  - lang: html
+    code: "<section aria-label=\"AI 초안\">\n  <textarea aria-label=\"초안 편집\">안녕하세요, 신청 건 관련 …</textarea>\n  <button\
+      \ type=\"button\">본문에 적용</button>\n</section>"
+    note: 적용 버튼 옆에서 초안을 직접 고칠 수 있다.
+  bad:
+  - lang: html
+    code: "<section aria-label=\"AI 초안\">\n  <p>안녕하세요, 신청 건 관련 …</p>\n  <button type=\"button\">본문에 적용</button>\
+      \ <!-- 고칠 수 없음 -->\n</section>"
+    note: 초안을 고칠 수단 없이 바로 적용만 할 수 있다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(HAX 포스터 PDF curl): G9 ''Make it easy to edit, refine, or recover when the AI
+  system is wrong.'' 확인. 포스터(연구 기관 지침) 근거 SHOULD. AI 적용 후 되돌리기(STATE-039에서 떼어 낸 새 룰 후보)와는 다른 시점의 요구.'
+korean_specific: false
+tags:
+- research-ai

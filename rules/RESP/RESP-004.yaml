@@ -1,0 +1,57 @@
+id: RESP-004
+category: RESP
+title: 브레이크포인트 단계
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: MAY
+statement: 브레이크포인트를 3~6단계로 정의하고, KRDS 표준형 스타일을 쓰는 공공 서비스는 small 360px·medium 768px·large 1024px·xlarge 1280px 4단계를
+  쓴다.
+measurement:
+  criteria: (1) 레이아웃 토큰에 정의된 브레이크포인트(min-width) 개수가 3 이상 6 이하이다. (2) KRDS 표준형이면 min-width 값이 360px·768px·1024px·1280px
+    네 개이고, 미디어 쿼리 경계가 이 값과 그 직전 값(359/767/1023/1279px)만 쓴다.
+  method: 토큰 JSON의 breakpoint 항목 수와 값을 확인하고, stylelint로 미디어 쿼리 width 값을 허용 목록과 대조한다.
+automation:
+  feasibility: partial
+  checks:
+  - tool: stylelint
+    rule: media-feature-name-value-allowed-list
+    method: min-width/max-width 값을 토큰 브레이크포인트 값으로 제한
+  note: 미디어 쿼리 값은 stylelint로 판정 가능. 단계 수는 토큰 빌드 단계 커스텀 검사.
+rationale: 브레이크포인트 단계가 적으면 관리가 쉽지만 세분화가 어렵고, 많으면 세분화는 되지만 복잡해진다(KRDS). 표준형은 공공 서비스 간 레이아웃 일관성을 위한 KRDS 고정 값이다.
+sources:
+- ref: KRDS
+  locator: 디자인 스타일 > 레이아웃 > 브레이크포인트, 표준형 스타일 (가이드라인 PDF 2025.08 144~146쪽)
+  note: https://www.krds.go.kr/html/site/style/style_05.html
+scope:
+  level: global
+  targets:
+  - '@media (min-width)'
+  - 레이아웃 브레이크포인트 토큰
+exceptions:
+- KRDS 확장형 스타일은 3~6단계(xsmall ~359px, xxlarge 1440px~ 포함)를 쓰되 각 단계의 뷰포트·칼럼·가터·최소 스크린 마진 값을 지킨다(KRDS).
+- KRDS 표준형은 xsmall(359px 이하) 기기를 최적화 대상에 넣지 않는다(KRDS).
+relations:
+- type: depends
+  id: LAYOUT-004
+  note: 브레이크포인트별 최소 스크린 마진.
+examples:
+  good:
+  - lang: css
+    code: '@media (min-width: 768px) { .grid { grid-template-columns: repeat(8, 1fr); } }'
+    note: KRDS medium 경계 768px를 쓴다.
+  bad:
+  - lang: css
+    code: '@media (min-width: 800px) { … } /* 토큰에 없는 경계 */'
+    note: 토큰에 없는 800px 경계를 쓴다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(curl로 KRDS 페이지 HTML을 받아 텍스트로 직접 읽음): style_05 ''브레이크 포인트의 단계는 최소 3단계에서 6단계로
+  설정하여 사용한다'', 표 xsmall ~359/small 360/medium 768/large 1024/xlarge 1280/xxlarge 1440px, ''표준형 스타일은 small부터 xlarge까지
+  총 4단계의 브레이크 포인트를 적용한다'', ''표준형 스타일은 xsmall의 디바이스는 최적화에 포함되지 않는다'' 확인. 수치는 시스템 고유 선택(system-choice) → MAY(정책 2).
+  공공 표준형 서비스에서는 KRDS 적용 자체가 전제라 4단계 값을 지키는 것으로 읽는다. NAV-044·NAV-067이 768px 경계를 이 룰에서 가져감 — 원문 대조 완료. 1단계에 병합된 캐러셀
+  B:83(1023px 미만에서 분수형 식별자로 전환)은 브레이크포인트 단계 정의와 다른 요구라 출처에서 떼고 제안 파일에 새 룰 후보로 적음.'
+korean_specific: false
+tags:
+- krds
+- system-choice

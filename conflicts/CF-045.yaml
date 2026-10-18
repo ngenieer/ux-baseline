@@ -1,0 +1,12 @@
+id: CF-045
+rules:
+- TYPO-014
+against: 'KRDS 배지(텍스트 줄바꿈 금지)를 white-space: nowrap으로 구현할 때 RESP-002·RESP-003과의 충돌'
+summary: 배지 줄바꿈 금지를 nowrap으로 구현하면 200% 확대·320px 폭에서 잘림·넘침이 생긴다.
+principle: 1
+decision: '배지 문구를 짧게 써서 기본 크기에서 한 줄을 유지하고, white-space: nowrap으로 강제하지 않는다. 확대·좁은 화면에서는 줄바꿈을 허용한다.'
+reason: 접근성(원칙 1)이 시각 일관성보다 우선한다.
+deviates_from_priority: false
+date: '2026-10-18'
+rule_changes:
+- 'TYPO-014: statement 수정'

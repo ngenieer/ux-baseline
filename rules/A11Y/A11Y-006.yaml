@@ -1,0 +1,57 @@
+id: A11Y-006
+category: A11Y
+title: 녹화 영상 음성 해설
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: MUST
+statement: 사전 녹음된 동기화 미디어의 모든 영상 내용에 음성 해설을 제공한다.
+measurement:
+  criteria: 화면에만 나오는 정보가 있는 사전 녹음 영상마다 음성 해설이 들어간 버전 또는 해설 오디오 트랙을 선택할 수 있다. 원래 오디오가 화면 정보를 모두 말로 전달하면 해설이 없어도 통과한다.
+  method: 영상을 재생해 화면에만 있는 정보를 목록화하고, 음성 해설 버전·트랙이 그 정보를 말로 전달하는지 확인한다.
+automation:
+  feasibility: none
+  checks: []
+  note: 검사기 규칙 없음.
+rationale: AA 수준에서는 대본만으로 갈음할 수 없고 영상과 함께 들을 수 있는 음성 해설이 필요하다.
+sources:
+- ref: WCAG22
+  locator: SC 1.2.5 Audio Description (Prerecorded) (Level AA)
+  note: https://www.w3.org/TR/WCAG22/#audio-description-prerecorded
+- ref: WCAG22_UNDERSTANDING
+  locator: https://www.w3.org/WAI/WCAG22/Understanding/audio-description-prerecorded.html
+- ref: KRDS
+  locator: 컴포넌트 (여러 페이지) (가이드라인 PDF 2025.08 739쪽)
+  note: '같은 요구를 다루는 KRDS 컴포넌트: 접근 가능한 미디어 — 상세는 sources/extracts/KRDS-components.yaml'
+scope:
+  level: component
+  targets:
+  - video
+exceptions: []
+relations:
+- type: refines
+  id: A11Y-004
+  note: A11Y-004(A)는 해설 또는 대본 중 하나, 이 룰(AA)은 음성 해설을 요구
+examples:
+  good:
+  - lang: html
+    code: '<a href="guide-ad.mp4">음성 해설 버전으로 보기</a>
+
+      '
+    note: 음성 해설이 들어간 버전을 선택할 수 있음
+  bad:
+  - lang: html
+    code: '<!-- 대본만 있고 음성 해설 버전·트랙 없음 -->
+
+      '
+    note: 대본만 있고 음성 해설이 없음
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(sources/extracts/WCAG22-A-AA.yaml): statement·수치가 SC 원문과 일치함을 확인. 1단계에 이 룰로
+  병합된 KRDS 컴포넌트 항목(sources/extracts/KRDS-components.yaml)은 개별 페이지를 다시 열지 않았다 — 룰의 요구는 WCAG 원문 기준.'
+korean_specific: false
+tags:
+- wcag22
+- level-aa
+- new-in-2.0
+- krds

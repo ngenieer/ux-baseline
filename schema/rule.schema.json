@@ -1,0 +1,302 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/ngenieer/ux-baseline/schema/rule.schema.json",
+  "title": "ux-baseline 룰",
+  "description": "룰 1개 = YAML 파일 1개. 필드 형태만 검사한다. 단계(stage)·상태(status)별 필수 조건은 scripts/validate.py가 검사한다.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "category",
+    "stage",
+    "status",
+    "statement",
+    "sources"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[A-Z0-9]+-[0-9]{3}$",
+      "description": "카테고리 약어 + 3자리 번호. 한번 부여하면 바꾸지 않는다."
+    },
+    "category": {
+      "type": "string",
+      "pattern": "^[A-Z0-9]+$"
+    },
+    "title": {
+      "type": "string",
+      "description": "짧은 이름 (선택)"
+    },
+    "stage": {
+      "enum": [
+        "collected",
+        "normalized",
+        "resolved",
+        "platformed"
+      ],
+      "description": "collected=1단계 수집, normalized=2단계 정규화, resolved=3단계 충돌 해소, platformed=4단계 플랫폼화"
+    },
+    "status": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "value"
+      ],
+      "properties": {
+        "value": {
+          "enum": [
+            "candidate",
+            "confirmed",
+            "deprecated"
+          ],
+          "description": "후보 / 확정 / 폐기"
+        },
+        "reason": {
+          "type": "string",
+          "description": "폐기 사유 (deprecated면 필수)"
+        },
+        "superseded_by": {
+          "type": "string",
+          "pattern": "^[A-Z0-9]+-[0-9]{3}$"
+        }
+      }
+    },
+    "type": {
+      "enum": [
+        "rule",
+        "guide"
+      ],
+      "description": "rule=판정 가능, guide=판정 불가(측정 기준 없음). guide는 MUST가 될 수 없다."
+    },
+    "strength": {
+      "enum": [
+        "MUST",
+        "SHOULD",
+        "MAY"
+      ]
+    },
+    "statement": {
+      "type": "string",
+      "minLength": 1,
+      "description": "한 문장, 명령형"
+    },
+    "measurement": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "criteria"
+      ],
+      "properties": {
+        "criteria": {
+          "type": "string",
+          "minLength": 1,
+          "description": "지켰는지 판정하는 조건 (수치·셀렉터·체크 방법)"
+        },
+        "method": {
+          "type": "string",
+          "description": "판정 절차 (수동 체크 포함)"
+        }
+      }
+    },
+    "automation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "feasibility"
+      ],
+      "properties": {
+        "feasibility": {
+          "enum": [
+            "full",
+            "partial",
+            "none",
+            "undecided"
+          ]
+        },
+        "checks": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "tool"
+            ],
+            "properties": {
+              "tool": {
+                "type": "string",
+                "description": "stylelint, axe-core, eslint, custom 등"
+              },
+              "rule": {
+                "type": "string",
+                "description": "검사기의 규칙 ID (있으면)"
+              },
+              "method": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "note": {
+          "type": "string"
+        }
+      }
+    },
+    "rationale": {
+      "type": "string",
+      "description": "근거: 왜 필요한가"
+    },
+    "sources": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "ref"
+        ],
+        "properties": {
+          "ref": {
+            "type": "string",
+            "description": "sources/registry.yaml의 출처 ID"
+          },
+          "locator": {
+            "type": "string",
+            "description": "출처 안 위치 (예: SC 2.5.8, 3.2절)"
+          },
+          "note": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "level"
+      ],
+      "properties": {
+        "level": {
+          "enum": [
+            "global",
+            "component",
+            "situation"
+          ],
+          "description": "전체 / 특정 컴포넌트 / 특정 상황"
+        },
+        "targets": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "exceptions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "relations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "type",
+          "id"
+        ],
+        "properties": {
+          "type": {
+            "enum": [
+              "conflicts",
+              "depends",
+              "duplicates",
+              "refines"
+            ]
+          },
+          "id": {
+            "type": "string",
+            "pattern": "^[A-Z0-9]+-[0-9]{3}$"
+          },
+          "decision": {
+            "type": "string",
+            "pattern": "^CF-[0-9]{3}$",
+            "description": "충돌 해소 기록 ID (conflicts/CF-###.yaml)"
+          },
+          "note": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "examples": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "good": {
+          "$ref": "#/$defs/exampleList"
+        },
+        "bad": {
+          "$ref": "#/$defs/exampleList"
+        }
+      }
+    },
+    "needs_verification": {
+      "type": "boolean",
+      "description": "수치·출처 확인 필요 여부"
+    },
+    "verification_note": {
+      "type": "string"
+    },
+    "korean_specific": {
+      "type": "boolean",
+      "description": "한국어 웹 특수 룰 여부"
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "decisions": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^CF-[0-9]{3}$"
+      },
+      "description": "이 룰에 적용된 충돌 해소 결정(CF) 중 상대가 룰이 아닌 것(외부 기준과의 결정). 룰 간 결정은 relations[].decision 에 둔다."
+    }
+  },
+  "$defs": {
+    "exampleList": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "lang",
+          "code"
+        ],
+        "properties": {
+          "lang": {
+            "enum": [
+              "html",
+              "css",
+              "js",
+              "text"
+            ]
+          },
+          "code": {
+            "type": "string",
+            "minLength": 1
+          },
+          "note": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

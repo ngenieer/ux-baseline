@@ -1,0 +1,10 @@
+id: CF-016
+rules:
+- PERF-018
+- STATE-020
+summary: 스켈레톤(PERF-018)과 확정·불확정 진행 표시(STATE-020)의 선택 기준이 겹친다.
+principle: 3
+decision: '선택 순서: 화면(페이지) 로드 → 스켈레톤, 끝 지점을 아는 처리 → 확정 진행 표시, 끝을 모르는 처리 → 불확정 진행 표시.'
+reason: 대상별로 나누면 겹치지 않는다(원칙 3).
+deviates_from_priority: false
+date: '2026-10-18'

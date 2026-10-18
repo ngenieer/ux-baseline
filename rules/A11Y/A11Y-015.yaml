@@ -1,0 +1,74 @@
+id: A11Y-015
+category: A11Y
+title: 초점 순서
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: MUST
+statement: 순차 탐색 순서가 의미나 조작에 영향을 주는 페이지에서는 초점이 의미와 조작을 보존하는 순서로 이동하게 한다.
+measurement:
+  criteria: (1) Tab 순서가 시각적 읽기·작업 순서와 같다. (2) tabindex 값이 1 이상인 요소가 없다. (3) 대화상자·패널을 열면 초점이 그 안으로 가고, 닫으면 연 버튼으로
+    돌아간다. (4) 건너뛰기 링크 실행 시 초점이 목적지로 이동한다. (5) 화면에 보이지 않는 슬라이드·닫힌 메뉴의 요소에 초점이 가지 않는다.
+  method: Tab·Shift+Tab으로 페이지 전체를 이동하며 화면 순서와 비교하고, 모달·패널 열기/닫기 후 초점 위치를 확인하는 수동 점검.
+automation:
+  feasibility: partial
+  checks:
+  - tool: ux-baseline-check
+    rule: dialog-focus-in
+    method: 'ux-baseline check: 대화상자 여는 버튼을 Enter → 초점이 대화상자 안'
+  - tool: ux-baseline-check
+    rule: dialog-escape-return
+    method: 'ux-baseline check: Esc 로 닫으면 초점이 여는 버튼으로 돌아온다'
+  note: 'WCAG 태그가 붙은 axe 규칙 없음. 4단계 커스텀 검사: tabindex>0 금지(axe best-practice ''tabindex'' 또는 html-validate), 보이지
+    않는 요소의 초점 가능 여부 검사.'
+rationale: 초점 순서가 뒤섞이면 키보드·스크린 리더 사용자가 내용과 조작의 관계를 잃는다.
+sources:
+- ref: WCAG22
+  locator: SC 2.4.3 Focus Order (Level A)
+  note: https://www.w3.org/TR/WCAG22/#focus-order
+- ref: WCAG22_UNDERSTANDING
+  locator: https://www.w3.org/WAI/WCAG22/Understanding/focus-order.html
+- ref: KWCAG22
+  locator: 검사항목 6.1.2
+- ref: KRDS
+  locator: 컴포넌트 (여러 페이지) (가이드라인 PDF 2025.08 262·305·314·338·397·442·568·608쪽)
+  note: '같은 요구를 다루는 KRDS 컴포넌트: 건너뛰기 링크, 도움 패널, 모달, 사이드 메뉴, 캐러셀, 콘텐츠 내 탐색, 태그, 페이지네이션 — 상세는 sources/extracts/KRDS-components.yaml'
+scope:
+  level: global
+  targets: []
+exceptions: []
+relations: []
+examples:
+  good:
+  - lang: html
+    code: '<button type="button" id="open">필터</button>
+
+      <!-- 닫기 시: document.getElementById(''open'').focus() -->
+
+      '
+    note: 패널을 닫으면 연 버튼으로 초점 복귀
+  bad:
+  - lang: html
+    code: '<input tabindex="3"><input tabindex="1"><button tabindex="2">검색</button>
+
+      '
+    note: 양수 tabindex로 Tab 순서가 화면 순서와 달라짐
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(sources/extracts/WCAG22-A-AA.yaml): statement·수치가 SC 원문과 일치함을 확인. KWCAG 2.2
+  대응 항목 번호는 비공식 HTML 판 기준 매핑 — 공식 원문 대조 전(registry KWCAG22 verified=false). 룰의 요구·수치는 WCAG 원문만으로 성립. 1단계에 이 룰로 병합된
+  KRDS 컴포넌트 항목(sources/extracts/KRDS-components.yaml)은 개별 페이지를 다시 열지 않았다 — 룰의 요구는 WCAG 원문 기준. 2026-10-18 독립 검토:
+  A11Y-015 측정 기준 (1)(Tab 순서 = 시각적 읽기·작업 순서)은 WCAG 2.4.3(''focusable components receive focus in an order that preserves
+  meaning and operability'')보다 엄격한 체계 기준이다 — 2.4.3은 의미·조작이 보존되면 시각 순서와 다른 초점 순서도 허용한다. Understanding 2.4.3이 ''표현
+  순서가 프로그램 순서와 다르면 한쪽 표현의 사용자(예: 시각 사용자인 키보드 사용자)가 이해·조작하기 어려울 수 있다''고 경고하는 내용을 판정 가능한 조건 하나로 고정한 것이고, 화면마다 판단이
+  갈리지 않게 하려는 일관성(원칙 3) 근거다. 원문보다 엄격한 체계 선택. CF-058·CF-062가 이 기준에 따라 결정됐다.'
+korean_specific: false
+tags:
+- wcag22
+- level-a
+- new-in-2.0
+- kwcag22
+- krds
+decisions:
+- CF-058
+- CF-062

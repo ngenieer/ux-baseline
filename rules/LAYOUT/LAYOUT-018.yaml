@@ -1,0 +1,60 @@
+id: LAYOUT-018
+category: LAYOUT
+title: 콘텐츠 내 탐색
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 콘텐츠 내 탐색(목차)의 너비를 페이지마다 같은 고정값으로 정하고, 기본 글자 크기에서 개요 목록 항목 텍스트가 줄바꿈되지 않는 값으로 하되, 사용자가 텍스트를 확대했을 때는 항목
+  텍스트가 잘리지 않고 줄바꿈되게 한다.
+measurement:
+  criteria: (1) 다단 레이아웃(1024px 이상)에서 콘텐츠 내 탐색 컨테이너의 width(또는 inline-size)가 고정 길이 값(토큰)이며 페이지 간 같다. (2) 브라우저 기본 글자
+    크기·확대 100%에서 각 개요 링크의 높이가 한 줄(line-height 1개분)이다. 텍스트 확대·간격 조정 시에는 줄바꿈을 허용하고 잘리지 않아야 한다. (3) 뷰포트 너비 320 CSS
+    px에서 목차가 본문 위로 쌓이고 document.documentElement.scrollWidth ≤ clientWidth다.
+  method: 콘텐츠 내 탐색이 있는 페이지 3개 이상에서 컨테이너 너비와 가장 긴 항목의 줄 수를 확인한다.
+automation:
+  feasibility: none
+  checks: []
+  note: '4단계 커스텀 검사: 링크별 getClientRects().length == 1.'
+rationale: 항목 길이에 따라 너비가 바뀌거나 줄바꿈되면 목차가 버튼·다른 컨트롤과 혼동되고 훑어보기 어렵다.
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 콘텐츠 내 탐색 > 사용성 가이드라인 (가이드라인 PDF 2025.08 312쪽)
+  note: https://www.krds.go.kr/html/site/component/component_03_05.html
+scope:
+  level: component
+  targets:
+  - 콘텐츠 내 탐색
+  - nav.in-page-nav
+exceptions:
+- '목차를 본문 위로 쌓는 1단 레이아웃(1024px 미만, components/in-page-navigation)에서는 고정 너비를 쓰지 않는다: inline-size auto, max-inline-size
+  100%로 두어 가로 스크롤을 만들지 않는다(RESP-003, WCAG 1.4.10). 1024px 는 레이아웃의 다단→1단 전환 브레이크포인트로 바꿀 수 있다.'
+relations:
+- type: conflicts
+  id: RESP-002
+  note: 줄바꿈 없는 고정 너비는 기본 글자 크기에서만 요구한다. 텍스트를 확대하면 항목 텍스트가 잘리지 않고 줄바꿈되게 한다.
+  decision: CF-011
+examples:
+  good:
+  - lang: css
+    code: ".in-page-nav a { word-break: keep-all; overflow-wrap: anywhere; } /* 텍스트 확대 시 잘리지 않고 줄바꿈 */\n@media (min-width:\
+      \ 1024px) { /* 다단 레이아웃: 모든 페이지 같은 고정 너비 토큰 */\n  .in-page-nav { inline-size: var(--layout-in-page-navigation-width);\
+      \ }\n}\n/* 1024px 미만(320 CSS px 포함): 본문 위로 쌓고 고정 너비를 쓰지 않는다 */\n"
+    note: 다단 레이아웃에서는 고정 너비 토큰을 쓰고, 확대 시에는 항목 텍스트가 줄바꿈되며, 1024px 미만 1단 레이아웃에서는 본문 위로 쌓여 고정 너비를 쓰지 않는다.
+  bad:
+  - lang: css
+    code: '.in-page-nav { inline-size: max-content; } /* 항목 길이에 따라 페이지마다 너비가 달라짐 */
+
+      '
+    note: 목차 너비가 고정값이 아니라 페이지마다 달라진다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(curl로 KRDS 페이지 HTML을 받아 본문 텍스트를 직접 확인): 콘텐츠 내 탐색(component_03_05) ''콘텐츠 내 탐색
+  구성 요소의 너비는 충분히 넓어야 한다. 텍스트 길이에 따라 줄바꿈이 발생하지 않는 일관된 너비로 정의하여 버튼이나 다른 컨트롤과 혼동되지 않도록 한다.'' 확인. 원문 ''충분히 넓어야''를 ''기본
+  글자 크기에서 줄바꿈 없음''으로 바꿈. ''해야 한다'' → SHOULD + public-sector-must. 2026-10-18 독립 검토: 320 CSS px 리플로(RESP-003)와의 관계를
+  예외·측정 기준 (3)으로 추가(CF-011).'
+korean_specific: false
+tags:
+- krds
+- krds-component
+- public-sector-must

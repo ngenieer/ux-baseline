@@ -1,0 +1,55 @@
+id: STATE-004
+category: STATE
+title: 만족도 피드백 위치와 시점
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 만족도 평가 같은 사용자 피드백 요소는 본문 아래(화면 너비가 좁으면 반드시 본문 아래) 또는 본문 옆 사이드 영역에 두고, 버튼으로 축약해 화면에 고정(플로팅)하지 않으며, 새 기능에
+  대한 의견을 물을 때는 사용자가 그 기능 이용을 마친 뒤에 표시한다.
+measurement:
+  criteria: '(1) 피드백 요소가 DOM상 본문(main) 콘텐츠 뒤 또는 aside 안에 있다. (2) 피드백 요소와 그것을 여는 버튼에 position: fixed·sticky가 없다.
+    (3) 시점형(새 기능 의견) 피드백은 페이지 로드 시점에 보이지 않고, 대상 기능의 완료 이벤트(제출 완료 등) 뒤에 나타난다. (4) 사이드 배치 레이아웃은 본문과 사이드를 나란히 둘 수 없는
+    너비에서 피드백 요소를 본문 아래로 옮긴다.'
+  method: 데스크톱·모바일 너비에서 페이지를 열어 위치와 CSS position을 확인하고, 시점형 피드백은 새로 고침 직후와 기능 완료 직후의 표시 여부를 비교한다.
+automation:
+  feasibility: partial
+  checks:
+  - tool: stylelint
+    rule: ux-baseline/feedback-not-fixed
+    method: '피드백 클래스(기본 .feedback·.feedback__trigger)에 position: fixed|sticky 금지 (lint/plugins/ux-baseline.mjs)'
+  note: (1)(3)(4)는 수동 또는 E2E. 선택자 범위 규칙은 체계 기본 클래스 이름을 기준으로 하며, 프로젝트 클래스 이름이 다르면 classNames 옵션으로 바꾼다.
+rationale: 페이지 로딩 직후 강조된 피드백 요청이나 화면에 떠 있는 피드백 버튼은 본문 이용을 방해하고, 서비스를 쓰지 않은 상태의 응답은 의미가 없다(KRDS 사용자 피드백 패턴).
+sources:
+- ref: KRDS
+  locator: 기본 패턴 > 사용자 피드백 > 사용성 가이드라인·플랫폼 고려 사항 — '화면 하단 또는 본문의 사이드 영역에 배치한다', '작업이 완료된 후에 유도 메시지를 제공한다 … 출현해야
+    한다', '버튼으로 축약하여 플로팅 시키지 않고 화면 하단에 배치한다' (가이드라인 PDF 2025.08 807·809쪽)
+  note: https://www.krds.go.kr/html/site/global/global_05.html
+scope:
+  level: component
+  targets:
+  - 사용자 피드백(만족도 평가) 영역
+exceptions: []
+relations: []
+examples:
+  good:
+  - lang: html
+    code: "<main>…본문…\n  <section aria-labelledby=\"fb-t\" class=\"page-feedback\">\n    <h2 id=\"fb-t\">이 페이지에\
+      \ 만족하시나요?</h2>\n    <button type=\"button\">만족</button> <button type=\"button\">불만족</button>\n  </section>\n\
+      </main>\n"
+    note: 만족도 평가를 본문 뒤에 일반 흐름으로 둔다.
+  bad:
+  - lang: html
+    code: "<style>\n  .feedback-fab { position: fixed; inset-inline-end: var(--space-gap-4); inset-block-end: var(--space-gap-4);\
+      \ }\n</style>\n<button type=\"button\" class=\"feedback-fab\">의견 남기기</button>\n"
+    note: 피드백을 버튼으로 축약해 화면에 고정(플로팅)한다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(curl로 KRDS 페이지 HTML을 받아 텍스트로 직접 읽음): 사용자 피드백 패턴 global_05에서 배치·시점·플로팅 금지 문장
+  확인. 1단계 statement는 ''사이드 영역 배치 허용''을 빠뜨렸고 ''페이지 로딩 직후 띄우지 않음''은 원문상 새 기능 의견을 받는 시점형에 한정 — 고침. 별점 5개 이하·추가 질문 3개
+  이하·폐쇄형 첫 질문은 별도 룰 후보(제안 파일). 수집 때 ''같은 요구''로 붙은 AI 결과별 좋아요·싫어요 출처(HAX G15, PAIR, WWDC25)는 다른 요구(그리고 BACKLOG상 이
+  룰과 충돌 후보)라 이 룰에서 빼고 제안 파일에 AI 룰 분리로 옮김.'
+korean_specific: false
+tags:
+- krds
+- public-sector-must

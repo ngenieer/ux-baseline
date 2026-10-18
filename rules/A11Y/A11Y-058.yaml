@@ -1,0 +1,61 @@
+id: A11Y-058
+category: A11Y
+title: 요청하지 않은 새 창 금지
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: MUST
+statement: 사용자가 링크·버튼을 실행하지 않았는데 새 창·새 탭·팝업 창을 열지 않는다(페이지를 열 때 뜨는 팝업 창 포함).
+measurement:
+  criteria: (1) 페이지 load 이벤트부터 첫 사용자 조작(클릭·키 입력)까지 새 창·새 탭·팝업 창이 0개 열린다. (2) 그 뒤 열리는 모든 새 창·새 탭·팝업 창은 그 창을 여는 링크·버튼의
+    활성화(클릭·Enter·Space) 직후에만 열린다 — 타이머, 스크롤, 초점 이동, 입력값 변경, 다른 요소의 활성화로 열리는 창이 0개다.
+  method: E2E 도구로 페이지를 열고 조작 없이 popup·새 페이지 이벤트가 발생하는지 확인한 뒤, 시나리오 조작 중 발생한 popup 이벤트마다 직전 사용자 조작이 그 창을 여는 링크·버튼의
+    활성화였는지 확인한다.
+automation:
+  feasibility: partial
+  checks:
+  - tool: custom
+    method: Playwright context.on('page') / page.on('popup') 감시
+  note: 조작 이후의 새 창이 '사용자가 요청한 것'인지는 NAV-012 표시 여부와 함께 수동 확인.
+rationale: 예고 없는 새 창은 화면 낭독 사용자와 인지 장애 사용자가 현재 위치를 잃게 만든다. KWCAG 7.2.1은 사용자가 의도하지 않은 새 창·팝업을 금지한다.
+sources:
+- ref: KWCAG22
+  locator: 검사항목 7.2.1 사용자 요구에 따른 실행
+  note: 공식 원문 docx 대조 완료(2026-10-18)
+- ref: WCAG22
+  locator: SC 3.2.5 Change on Request (Level AAA)
+  note: 맥락 변화는 사용자 요청으로만 — AAA라 보조 근거
+scope:
+  level: global
+  targets:
+  - window.open
+  - a[target=_blank]
+  - 팝업 창
+exceptions: []
+relations:
+- type: refines
+  id: A11Y-024
+  note: A11Y-024는 초점에 의한 변화, 이 룰은 조작 없는 새 창 전반
+- type: depends
+  id: NAV-012
+  note: 사용자가 실행한 새 창은 NAV-012로 예고
+decisions:
+- CF-027
+examples:
+  good:
+  - lang: html
+    code: '<button type="button" onclick="window.open(''/notice'')">공지 보기(새 창)</button>
+
+      '
+    note: 사용자가 버튼을 실행했을 때만 새 창을 엶
+  bad:
+  - lang: html
+    code: "<script>\n  window.addEventListener('load', () => window.open('/event-popup'));\n</script>\n"
+    note: 페이지를 열자마자 요청하지 않은 팝업 창을 엶
+needs_verification: false
+verification_note: '2026-10-18 공식 원문 대조(KS X OT0003:2022 docx): 7.2.1 해설 ''새 창, 팝업창 등은 사용자가 인지하지 못한 상황에서 열리지 않아야
+  한다'', ''사용자가 예측할 수 없는 상황에서 새 창을 열어 정보를 전달해서는 안 된다'' 확인 — statement와 일치. 2026-10-18 독립 검토: 측정 기준을 load~첫 조작 구간에서
+  모든 새 창·팝업(여는 링크·버튼 활성화 직후에만)으로 넓힘(CF-027).'
+tags:
+- kwcag22

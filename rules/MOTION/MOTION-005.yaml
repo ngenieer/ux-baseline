@@ -1,0 +1,58 @@
+id: MOTION-005
+category: MOTION
+title: JS 애니메이션의 모션 줄이기 확인
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 'JavaScript로 실행하는 모션 애니메이션은 시작 전에 window.matchMedia(''(prefers-reduced-motion: no-preference)'')가 일치할
+  때만 실행한다.'
+measurement:
+  criteria: '모션 줄이기를 켠 상태(emulateMedia reducedMotion: ''reduce'')에서 JS로 시작되는 애니메이션(element.animate(), requestAnimationFrame
+    루프, 애니메이션 라이브러리 호출)이 위치·크기·회전을 바꾸지 않는다. 코드에서는 해당 호출이 prefers-reduced-motion 질의 결과로 분기된다.'
+  method: Technique SCR40 절차(모션 줄이기 켬 → 상호작용 → 필수이거나 억제되는지 확인). 런타임은 MOTION-004와 같은 Playwright 검사, 코드 리뷰로 matchMedia
+    분기 확인.
+automation:
+  feasibility: none
+  checks: []
+  note: '정적 판정용 기존 eslint 규칙 없음. 4단계 커스텀 eslint 규칙 후보: element.animate·gsap·anime 등 호출을 감싸는 함수 안에 prefers-reduced-motion
+    matchMedia 참조가 있는지.'
+rationale: CSS 미디어 쿼리는 JS로 직접 바꾸는 스타일에는 적용되지 않으므로 JS 애니메이션은 따로 설정을 확인해야 한다.
+sources:
+- ref: WCAG22_TECH_SCR40
+  locator: Example 1, Tests
+- ref: MQ5
+  locator: '12.1'
+scope:
+  level: global
+  targets:
+  - element.animate()
+  - requestAnimationFrame 애니메이션
+exceptions:
+- 기능이나 전달하는 정보에 필수인 애니메이션(WCAG 2.3.3).
+relations:
+- type: refines
+  id: MOTION-004
+  note: MOTION-004의 JS 구현 경로.
+examples:
+  good:
+  - lang: js
+    code: "const ok = window.matchMedia('(prefers-reduced-motion: no-preference)');\nconst dur = parseFloat(getComputedStyle(document.documentElement)\n\
+      \  .getPropertyValue('--motion-duration-short')); // 토큰 값(ms)\nif (ok.matches) {\n  el.animate([{ transform:\
+      \ 'translateY(8px)' }, { transform: 'none' }], dur);\n}"
+    note: matchMedia로 no-preference일 때만 JS 애니메이션을 실행하고 지속 시간은 토큰에서 읽는다.
+  bad:
+  - lang: js
+    code: "const dur = parseFloat(getComputedStyle(document.documentElement)\n  .getPropertyValue('--motion-duration-short'));\n\
+      el.animate([{ transform: 'translateY(8px)' }, { transform: 'none' }], dur); // 설정 확인 없음"
+    note: 사용자 모션 설정을 확인하지 않고 JS 애니메이션을 실행한다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(SCR40 curl): Example 1 matchMedia("(prefers-reduced-motion: no-preference)")
+  분기, 절차(''essential'' 또는 ''suppressed'') 확인. 1단계 statement의 ''change 이벤트로 설정 변경 반영''은 SCR40 원문에 없어 statement에서
+  뺐다 — 별도 MAY 후보로 제안 파일에 적음. 2.3.3 충분 기법(AAA) 근거 → SHOULD.'
+korean_specific: false
+tags:
+- wcag22
+- level-aaa
+- research-motion_perf

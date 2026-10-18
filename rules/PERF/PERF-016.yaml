@@ -1,0 +1,54 @@
+id: PERF-016
+category: PERF
+title: 시각 피드백 먼저, 나머지는 양보
+stage: platformed
+status:
+  value: confirmed
+type: guide
+strength: MAY
+statement: 클릭·탭·키 입력의 이벤트 핸들러에서는 다음 프레임에 그릴 시각 피드백(눌림 상태·선택 표시·로딩 표시)만 먼저 반영하고, 저장·분석 전송 같은 나머지 작업은 이후 태스크로 미룬다.
+measurement:
+  criteria: '점검 질문: (1) 이벤트 핸들러가 시각 갱신에 필요하지 않은 작업(네트워크 전송·분석 이벤트·대량 계산)을 동기적으로 실행하는가? (2) 그런 작업이 setTimeout·scheduler.yield
+    등으로 다음 태스크로 미뤄져 있는가?'
+  method: 코드 리뷰와 Chrome DevTools Performance 패널의 상호작용 트레이스로 핸들러의 긴 태스크를 확인한다.
+automation:
+  feasibility: none
+  checks: []
+  note: 정적 검사 불가. 결과는 INP(PERF-007)로 간접 확인.
+rationale: 핸들러가 모든 작업을 끝낸 뒤에야 화면을 그리면 입력에 대한 반응이 늦어진다. 시각 갱신만 먼저 하면 다음 프레임이 빨리 그려진다.
+sources:
+- ref: WEBDEV_OPT_INP
+  locator: Yield to allow rendering work to occur sooner
+  note: '''limit what gets run to just the logic required to apply visual updates for the next frame. Everything
+    else can be deferred to a subsequent task.'''
+scope:
+  level: global
+  targets:
+  - click·keydown·pointerup 이벤트 핸들러
+exceptions: []
+relations:
+- type: refines
+  id: PERF-007
+  note: INP를 낮추는 구현 기법.
+- type: depends
+  id: PERF-017
+  note: 시각 피드백 100ms 목표를 달성하는 수단.
+examples:
+  good:
+  - lang: js
+    code: "button.addEventListener('click', () => {\n  button.setAttribute('aria-pressed', 'true'); // 시각 갱신 먼저\n\
+      \  setTimeout(() => { saveSetting(); sendAnalytics(); }, 0);\n});"
+    note: 눌림 상태를 먼저 반영하고 저장·분석 전송은 다음 태스크로 미룬다.
+  bad:
+  - lang: js
+    code: "button.addEventListener('click', () => {\n  saveSettingSync(); sendAnalyticsSync(); // 긴 작업 뒤에야 화면 갱신\n\
+      \  button.setAttribute('aria-pressed', 'true');\n});"
+    note: 동기 작업이 끝난 뒤에야 눌림 상태가 바뀐다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(web.dev Optimize INP curl): ''A more advanced yielding technique involves structuring
+  the code in your event callbacks to limit what gets run to just the logic required to apply visual updates for
+  the next frame. Everything else can be deferred to a subsequent task.'' 확인. 원문이 ''고급 기법''으로 소개해 MAY, 코드 구조 판단이
+  필요해 guide. 1단계의 NNG_RESPONSE_TIMES 출처는 PERF-017 근거라 이 룰에서는 관계(depends)로만 연결.'
+korean_specific: false
+tags:
+- research-motion_perf

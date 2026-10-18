@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>내 신청 내역 - 민원 신청 서비스</title>
+  <link rel="stylesheet" href="tokens.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- 건너뛰기 링크: 문서의 첫 초점 요소 (NAV-001, skip-link 규격) -->
+  <div class="skip-link">
+    <a class="skip-link__link" href="#main-content">본문 바로가기</a>
+  </div>
+
+  <header class="site-header">
+    <div class="site-header__inner">
+      <a class="site-header__home" href="/">민원 신청 서비스</a>
+      <nav class="site-header__nav" aria-label="주 메뉴">
+        <ul class="site-header__menu">
+          <li><a class="site-header__link" href="/apply">신청하기</a></li>
+          <li><a class="site-header__link" href="/my/applications" aria-current="page">내 신청 내역</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="page">
+    <div id="main-content" class="page__heading" tabindex="-1">
+      <h1 class="page__title">내 신청 내역</h1>
+      <p class="page__lead">임시 저장한 신청서는 이어서 작성하거나 삭제할 수 있습니다. 접수한 신청서는 삭제할 수 없습니다.</p>
+    </div>
+
+    <!--
+      상태별 보기 탭 (tabs 규격)
+      - 탭을 누르거나 ←/→·Home/End 로 선택한다(자동 활성화, 로빙 tabindex).
+      - 선택 시 aria-selected·tabindex·패널 hidden 을 함께 바꾼다.
+      - 탭은 필터 결과가 0건이어도 비활성화하지 않고, 패널에 빈 이유를 쓴다(STATE-017, STATE-041).
+    -->
+    <div class="tabs">
+      <div class="tabs__list" role="tablist" aria-label="신청 상태별 보기">
+        <button type="button" class="tabs__tab" role="tab" id="tab-all" aria-selected="true" aria-controls="panel-all">전체</button>
+        <button type="button" class="tabs__tab" role="tab" id="tab-draft" aria-selected="false" aria-controls="panel-draft" tabindex="-1">임시 저장</button>
+        <button type="button" class="tabs__tab" role="tab" id="tab-received" aria-selected="false" aria-controls="panel-received" tabindex="-1">접수 완료</button>
+      </div>
+
+      <!-- 전체 패널 -->
+      <div class="tabs__panel" role="tabpanel" id="panel-all" aria-labelledby="tab-all" tabindex="0">
+        <!-- 삭제가 끝나면 이 건수가 3건 → 2건으로 바뀐다. 토스트 내용을 화면의 다른 곳에서도 확인할 수 있게 하는 근거다(CF-030). -->
+        <p class="list-count">신청서 <strong>3</strong>건</p>
+
+        <ul class="structured-list" role="list">
+          <!-- 카드 1: 임시 저장 — 삭제 가능 -->
+          <li class="structured-list__item" id="app-1001">
+            <span class="badge badge--gray">임시 저장</span>
+            <h2 class="structured-list__title" id="app-1001-title">청년 월세 지원 신청서</h2>
+            <dl class="structured-list__meta">
+              <div class="structured-list__meta-row">
+                <dt>신청 번호</dt>
+                <dd>-</dd>
+              </div>
+              <div class="structured-list__meta-row">
+                <dt>마지막 수정일</dt>
+                <dd><time datetime="2026-10-15">2026. 10. 15.</time></dd>
+              </div>
+            </dl>
+            <div class="structured-list__actions">
+              <a class="structured-list__cta" href="/my/applications/1001/edit" aria-describedby="app-1001-title">이어서 작성하기</a>
+              <!--
+                삭제 버튼: 누르면 delete-modal 을 dialog.showModal() 로 연다.
+                연 버튼을 기억해 두었다가, 취소·닫기·Esc 로 닫히면 초점을 이 버튼으로 돌려놓는다(A11Y-015).
+              -->
+              <button type="button" class="structured-list__action" aria-describedby="app-1001-title" aria-haspopup="dialog" aria-controls="delete-modal">삭제</button>
+            </div>
+          </li>
+
+          <!-- 카드 2: 접수 완료 — 삭제 불가. 삭제 버튼을 비활성으로 두지 않고 빼며, 이유를 텍스트로 쓴다. -->
+          <li class="structured-list__item" id="app-0987">
+            <span class="badge badge--success">접수 완료</span>
+            <h2 class="structured-list__title" id="app-0987-title">주민등록 등본 발급 신청서</h2>
+            <dl class="structured-list__meta">
+              <div class="structured-list__meta-row">
+                <dt>신청 번호</dt>
+                <dd>2026-0987</dd>
+              </div>
+              <div class="structured-list__meta-row">
+                <dt>마지막 수정일</dt>
+                <dd><time datetime="2026-10-02">2026. 10. 2.</time></dd>
+              </div>
+            </dl>
+            <div class="structured-list__actions">
+              <a class="structured-list__cta" href="/my/applications/0987" aria-describedby="app-0987-title">신청 내용 보기</a>
+              <p class="structured-list__note">접수한 신청서는 삭제할 수 없습니다.</p>
+            </div>
+          </li>
+
+          <!-- 카드 3: 처리 중 — 삭제 불가 -->
+          <li class="structured-list__item" id="app-0954">
+            <span class="badge badge--information">처리 중</span>
+            <h2 class="structured-list__title" id="app-0954-title">여권 재발급 신청서</h2>
+            <dl class="structured-list__meta">
+              <div class="structured-list__meta-row">
+                <dt>신청 번호</dt>
+                <dd>2026-0954</dd>
+              </div>
+              <div class="structured-list__meta-row">
+                <dt>마지막 수정일</dt>
+                <dd><time datetime="2026-09-28">2026. 9. 28.</time></dd>
+              </div>
+            </dl>
+            <div class="structured-list__actions">
+              <a class="structured-list__cta" href="/my/applications/0954" aria-describedby="app-0954-title">신청 내용 보기</a>
+              <p class="structured-list__note">처리 중인 신청서는 삭제할 수 없습니다.</p>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <!-- 임시 저장 패널 (선택 전에는 hidden) -->
+      <div class="tabs__panel" role="tabpanel" id="panel-draft" aria-labelledby="tab-draft" tabindex="0" hidden>
+        <p class="list-count">신청서 <strong>1</strong>건</p>
+        <ul class="structured-list" role="list">
+          <li class="structured-list__item">
+            <span class="badge badge--gray">임시 저장</span>
+            <h2 class="structured-list__title" id="draft-1001-title">청년 월세 지원 신청서</h2>
+            <dl class="structured-list__meta">
+              <div class="structured-list__meta-row">
+                <dt>신청 번호</dt>
+                <dd>-</dd>
+              </div>
+              <div class="structured-list__meta-row">
+                <dt>마지막 수정일</dt>
+                <dd><time datetime="2026-10-15">2026. 10. 15.</time></dd>
+              </div>
+            </dl>
+            <div class="structured-list__actions">
+              <a class="structured-list__cta" href="/my/applications/1001/edit" aria-describedby="draft-1001-title">이어서 작성하기</a>
+              <button type="button" class="structured-list__action" aria-describedby="draft-1001-title" aria-haspopup="dialog" aria-controls="delete-modal">삭제</button>
+            </div>
+          </li>
+        </ul>
+        <!-- 삭제 후 0건이 되면 목록 대신 빈 상태 문구를 보인다(STATE-041·042):
+             <p>임시 저장한 신청서가 없습니다. 신청서를 작성하다 저장하면 여기에 표시됩니다.</p>
+             <a href="/apply">새 신청서 작성하기</a> -->
+      </div>
+
+      <!-- 접수 완료 패널 (선택 전에는 hidden) -->
+      <div class="tabs__panel" role="tabpanel" id="panel-received" aria-labelledby="tab-received" tabindex="0" hidden>
+        <p class="list-count">신청서 <strong>1</strong>건</p>
+        <ul class="structured-list" role="list">
+          <li class="structured-list__item">
+            <span class="badge badge--success">접수 완료</span>
+            <h2 class="structured-list__title" id="received-0987-title">주민등록 등본 발급 신청서</h2>
+            <dl class="structured-list__meta">
+              <div class="structured-list__meta-row">
+                <dt>신청 번호</dt>
+                <dd>2026-0987</dd>
+              </div>
+              <div class="structured-list__meta-row">
+                <dt>마지막 수정일</dt>
+                <dd><time datetime="2026-10-02">2026. 10. 2.</time></dd>
+              </div>
+            </dl>
+            <div class="structured-list__actions">
+              <a class="structured-list__cta" href="/my/applications/0987" aria-describedby="received-0987-title">신청 내용 보기</a>
+              <p class="structured-list__note">접수한 신청서는 삭제할 수 없습니다.</p>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </main>
+
+  <!--
+    삭제 확인 대화상자 (modal 규격)
+    - 실제로는 open 속성 없이 두고, 삭제 버튼을 누르면 dialog.showModal() 로 연다.
+      showModal() 이 모달 밖을 inert 로 만들고 ::backdrop 딤드를 한 겹 그린다(A11Y-029, SHAPE-005).
+      여기 붙은 open 속성은 화면 한 장에 열린 상태를 보이기 위한 정적 표현이다.
+    - 연 직후 초점은 되돌릴 수 없는 동작이 아닌 '취소' 버튼(autofocus).
+    - 닫기(X)·Esc·취소는 같은 동작: 아무것도 지우지 않고 닫은 뒤 초점을 연 '삭제' 버튼으로 돌려놓는다(STATE-011).
+    - '삭제'를 누르면 처리 중 aria-disabled="true" 로 중복 전송을 막고(FORM-013),
+      성공하면 대화상자를 닫고 해당 카드를 목록에서 지운 뒤 건수를 갱신하고,
+      초점을 목록의 다음 카드 제목(없으면 목록 건수 문구)으로 옮기고, 하단 토스트에 결과를 넣는다.
+    - 삭제가 실패하면 대화상자를 닫지 않고 본문에 role="alert" 오류 문구를 보인다.
+  -->
+  <dialog class="modal" id="delete-modal" aria-labelledby="delete-modal-title" aria-describedby="delete-modal-desc delete-modal-warn" open>
+    <div class="modal__header">
+      <h2 class="modal__title" id="delete-modal-title">임시 저장한 신청서를 삭제할까요?</h2>
+      <button class="modal__close" type="button" aria-label="닫기">
+        <svg class="modal__close-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+    </div>
+    <div class="modal__body">
+      <p class="modal__text" id="delete-modal-desc">'청년 월세 지원 신청서' 임시 저장본 1건을 삭제합니다. 입력한 내용과 첨부파일 2개가 함께 지워집니다.</p>
+      <p class="modal__warning" id="delete-modal-warn">삭제한 신청서는 되돌릴 수 없습니다.</p>
+    </div>
+    <div class="modal__footer">
+      <button class="modal__action" type="button" autofocus>취소</button>
+      <button class="modal__action modal__action--primary" type="button">삭제</button>
+    </div>
+  </dialog>
+
+  <!--
+    결과 알림 토스트 (toast 규격)
+    - role="status" 영역은 페이지를 불러올 때부터 비어 있는 상태로 DOM 에 있다(STATE-001).
+    - 삭제가 끝나면 이 영역에 toast__message 를 넣는다. 초점은 옮기지 않는다.
+    - 3초 뒤 toast__message--leaving 을 붙여 사라지게 한 뒤 요소를 지운다.
+      결과는 목록 건수·카드 제거로도 확인할 수 있어 시간 제한(A11Y-014)에 해당하지 않는다(CF-030).
+    - 삭제는 되돌릴 수 없으므로 '되돌리기' 버튼이 없는 토스트를 쓴다(스낵바 아님, COPY-050).
+    - 아래 메시지는 삭제 직후 상태를 한 장에 보이기 위한 정적 표현이다.
+  -->
+  <div class="toast" role="status">
+    <p class="toast__message">신청서를 삭제했습니다.</p>
+  </div>
+</body>
+</html>

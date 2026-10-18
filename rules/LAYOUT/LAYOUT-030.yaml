@@ -1,0 +1,57 @@
+id: LAYOUT-030
+category: LAYOUT
+title: 달력
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 달력 셀에서 이벤트 텍스트가 생략되면 같은 이벤트를 손실 없이 볼 수 있는 표나 목록을 따로 제공하거나, 달력 표시 단위를 주·일로 바꿔 이벤트 표시 영역을 넓힌다.
+measurement:
+  criteria: '이벤트 텍스트가 잘리는 달력 셀(text-overflow: ellipsis 적용 또는 scrollWidth > clientWidth)이 하나라도 있으면, 같은 페이지에 그 달의
+    모든 이벤트를 전체 텍스트로 보여 주는 table 또는 ul/ol이 있거나 주·일 단위 보기로 전환할 수 있다.'
+  method: 이벤트가 많은 달 데이터로 달력을 열고 잘린 셀과 대체 목록(또는 보기 전환)의 존재를 확인한다.
+automation:
+  feasibility: none
+  checks: []
+  note: '4단계 커스텀 검사: 셀별 scrollWidth > clientWidth 탐지 후 대체 목록 존재 확인.'
+rationale: 셀에서 잘린 이벤트는 내용을 알 수 없고, 제목이 비슷하면 구분도 안 된다.
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 달력 > 사용성 가이드라인 (가이드라인 PDF 2025.08 371·374쪽)
+  note: https://www.krds.go.kr/html/site/component/component_04_03.html
+scope:
+  level: component
+  targets:
+  - 달력
+  - 이벤트 달력
+exceptions: []
+relations: []
+examples:
+  good:
+  - lang: html
+    code: '<table class="calendar">…<td><span class="event">청년 취업 박람회 사전…</span></td>…</table>
+
+      <h3>10월 일정 전체 목록</h3>
+
+      <ul><li><time datetime="2026-10-15">2026. 10. 15.</time> 청년 취업 박람회 사전 등록 마감</li></ul>
+
+      '
+    note: 셀에서 잘린 이벤트를 전체 텍스트 목록으로 함께 제공한다.
+  bad:
+  - lang: html
+    code: '<table class="calendar">…<td><span class="event">청년 취업 박람회 사전…</span></td>…</table>
+
+      <!-- 전체 텍스트 목록도, 주·일 보기 전환도 없음 -->
+
+      '
+    note: 말줄임된 이벤트를 손실 없이 볼 방법이 없다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(curl로 KRDS 페이지 HTML을 받아 본문 텍스트를 직접 확인): 달력(component_04_03) ''이벤트 정보가 복잡한 경우
+  정보를 손실 없이 확인할 수 있는 수단을 제공한다.'', ''표나 목록 컴포넌트를 활용한 별도의 이벤트 목록을 제공하여 … 정확하게 인지할 수 있도록 해야 한다. 달력의 표시 단위를 월이 아닌 주
+  또는 일로 변경하여 … 방법도 활용할 수 있다.'' 확인. 1단계에 빠진 주·일 단위 대안을 statement에 추가. ''해야 한다'' → SHOULD + public-sector-must.'
+korean_specific: false
+tags:
+- krds
+- krds-component
+- public-sector-must

@@ -1,0 +1,60 @@
+id: COPY-028
+category: COPY
+title: 목록 종결 부호
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 서술식 목록 항목의 마지막 문장에는 종결 부호(. ? !)를 쓰고, 개조식 목록 항목은 종결 부호를 생략할 수 있다.
+measurement:
+  criteria: '판정 대상: [data-ai-output] 밖에 있는 ul·ol(사람이 쓴 정적 목록). [data-ai-output] 안의 AI 생성 목록과 그 안의 중단된 항목(''…''로
+    끝남)은 대상이 아니다. 판정 텍스트: 각 li 에서 중첩 목록(ul·ol)과 인용(q·blockquote)을 뺀 텍스트. 서술식(종결어미로 끝나는) li 의 판정 텍스트가 . ? ! 중 하나로
+    끝난다. 개조식 li 는 종결 부호 유무를 따지지 않되, 같은 목록 안에서는 모두 쓰거나 모두 생략한다.'
+  method: 대상 목록의 항목을 서술식/개조식으로 분류(COPY-027 절차)한 뒤 서술식 항목 판정 텍스트의 마지막 문자를 확인한다.
+automation:
+  feasibility: none
+  checks: []
+  note: '4단계 커스텀 검사 후보: 종결어미로 끝나는 li 텍스트의 마지막 문자가 [.?!]인지 검사(형태소 분석 필요).'
+rationale: 문장 형식에 맞는 종결 부호를 써야 문장의 끝을 분명히 알 수 있다(KRDS 텍스트 목록).
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 텍스트 목록 > 사용성 가이드라인 (가이드라인 PDF 2025.08 490쪽)
+  note: https://www.krds.go.kr/html/site/component/component_04_13.html
+scope:
+  level: component
+  targets:
+  - ul > li
+  - ol > li
+  - 텍스트 목록
+  - '[data-ai-output] 밖의 목록'
+exceptions:
+- 개조식 목록의 마지막 문장에는 종결 부호를 생략할 수 있다(KRDS 원문).
+relations:
+- type: depends
+  id: COPY-027
+  note: 서술식·개조식 분류는 COPY-027
+examples:
+  good:
+  - lang: html
+    code: '<ul><li>신청서는 온라인으로 제출합니다.</li><li>결과는 문자로 알려 드립니다.</li></ul>
+
+      '
+    note: 서술식 항목 끝에 마침표를 찍는다
+  bad:
+  - lang: html
+    code: '<ul><li>신청서는 온라인으로 제출합니다</li><li>결과는 문자로 알려 드립니다</li></ul>
+
+      '
+    note: 서술식 항목인데 종결 부호가 없다
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(curl로 KRDS 페이지 HTML을 받아 텍스트로 직접 읽음): 텍스트 목록(component_04_13) ''서술식 목록의 가장 마지막
+  문장에는 반드시 종결 부호를 사용한다. 개조식 목록의 가장 마지막 문장에는 종결 부호를 생략할 수 있다'' 확인. 원문 ''목록의 가장 마지막 문장''을 ''각 항목의 마지막 문장''으로 해석함(목록
+  전체의 마지막 문장 하나로 읽을 여지 있음 — 3단계 확인). ''같은 목록 안에서 모두 쓰거나 모두 생략''은 COPY-027 일관성 요구에서 나온 이 체계의 판정 조건. 강도: ''반드시 사용한다''
+  → SHOULD + public-sector-must. (2026-10-18 T5 검토 반영) COPY-027 과 같은 이유로 판정 대상([data-ai-output] 밖의 사람이 쓴 목록)과 판정
+  텍스트(li 에서 중첩 목록·인용을 뺀 텍스트)를 정했다. 중단된 AI 항목(''…''로 끝남)은 AI 출력 안에 있어 대상이 아니다.'
+korean_specific: false
+tags:
+- krds
+- krds-component
+- public-sector-must

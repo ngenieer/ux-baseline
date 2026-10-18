@@ -1,0 +1,53 @@
+id: LAYOUT-044
+category: LAYOUT
+title: 표
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: MAY
+statement: 표에 세로 열 구분선을 쓰지 않는다.
+measurement:
+  criteria: table의 th·td에 border-left·border-right(또는 border-inline) 계산값이 0이다. 행 구분선(border-bottom)은 대상 아님.
+  method: 개발자 도구로 셀 테두리 계산값을 확인한다.
+automation:
+  feasibility: partial
+  checks:
+  - tool: stylelint
+    rule: ux-baseline/table-cell-no-vertical-border
+    method: td·th 규칙의 border-left·right·inline 금지(허용 클래스 .table--bordered) (lint/plugins/ux-baseline.mjs)
+  note: 예외(반드시 필요한 경우) 판단은 수동. 선택자 범위 규칙은 체계 기본 클래스 이름을 기준으로 하며, 프로젝트 클래스 이름이 다르면 classNames 옵션으로 바꾼다.
+rationale: 열 구분선은 시각적 복잡성을 높인다.
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 표 > 사용성 가이드라인 (가이드라인 PDF 2025.08 462·464쪽)
+  note: https://www.krds.go.kr/html/site/component/component_04_11.html
+scope:
+  level: component
+  targets:
+  - table
+  - th
+  - td
+exceptions:
+- 반드시 필요한 경우에는 열 구분선을 쓸 수 있다(KRDS 원문).
+relations: []
+examples:
+  good:
+  - lang: css
+    code: 'td, th { border-inline: 0; border-block-end: 1px solid var(--color-border-gray-light); } /* 행 구분선만 */
+
+      '
+    note: 세로 열 구분선 없이 행 구분선만 쓴다.
+  bad:
+  - lang: css
+    code: 'td, th { border: 1px solid var(--color-border-gray-light); } /* 세로 열 구분선 포함 */
+
+      '
+    note: 모든 셀에 좌우 테두리가 있어 세로 열 구분선이 생긴다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(curl로 KRDS 페이지 HTML을 받아 본문 텍스트를 직접 확인): 표(component_04_11) ''열 구분선의 사용을 지양한다.'',
+  ''시각적인 복잡성을 높이므로 반드시 필요한 경우를 제외하고 사용하지 않는 것이 바람직하다.'' 확인. ''지양·바람직'' → MAY.'
+korean_specific: false
+tags:
+- krds
+- krds-component

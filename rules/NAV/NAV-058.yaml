@@ -1,0 +1,58 @@
+id: NAV-058
+category: NAV
+title: 언어 변경 유형 선택
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: MAY
+statement: 지원 언어가 2개면 링크형 언어 변경을, 3개 이상이면 드롭다운형 언어 변경을 쓴다.
+measurement:
+  criteria: 지원 언어 수가 2이면 언어 변경이 단일 링크(상대 언어로 전환)이고, 3 이상이면 언어 목록을 여는 드롭다운 버튼이다.
+  method: 서비스 지원 언어 수와 언어 변경 컴포넌트 유형을 대조한다.
+automation:
+  feasibility: none
+  checks: []
+  note: 지원 언어 수는 서비스 설정 정보라 범용 자동 검사 불가. hreflang 대체 링크 수로 추정하는 커스텀 검사는 가능.
+rationale: 2개 언어는 한 번의 전환으로 충분하고, 3개 이상은 목록에서 고르게 해야 한다.
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 언어 변경 > 유형 (링크 / 드롭다운) (가이드라인 PDF 2025.08 716쪽)
+  note: https://www.krds.go.kr/html/site/component/component_10_01.html
+scope:
+  level: component
+  targets:
+  - 언어 변경
+exceptions: []
+relations:
+- type: depends
+  id: COPY-037
+  note: 링크형 레이블은 상대 언어 이름(COPY-037)
+examples:
+  good:
+  - lang: html
+    code: '<!-- 한국어·영어 2개 언어 서비스 -->
+
+      <a href="/en/" lang="en" hreflang="en">English</a>
+
+      '
+    note: 2개 언어 서비스에서 상대 언어로 바로 가는 링크를 쓴다.
+  bad:
+  - lang: html
+    code: '<!-- 한국어·영어 2개 언어인데 드롭다운 -->
+
+      <button type="button" aria-expanded="false"><svg aria-hidden="true" class="icon-globe">…</svg>Language</button>
+
+      <ul hidden><li><a href="/ko/" lang="ko">한국어</a></li><li><a href="/en/" lang="en">English</a></li></ul>
+
+      '
+    note: 2개 언어 서비스인데 드롭다운을 쓴다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(KRDS 페이지 curl 수신 후 텍스트 추출): 유형 절 ''서비스가 2개의 언어를 지원하는 경우, 두 언어 간 표시를 전환할 때 사용한다''(링크),
+  ''서비스가 3개 이상의 언어를 지원하는 경우 사용한다''(드롭다운) 확인. 1단계 locator ''디자인 가이드라인''은 실제로는 ''유형'' 절이라 고쳤다. 원문이 용례·유형 서술(사용하기 적합/사용한다)이라
+  MAY.'
+korean_specific: false
+tags:
+- krds
+- krds-component
+- system-choice

@@ -1,0 +1,65 @@
+id: COPY-010
+category: COPY
+title: 안내 영역·긴급 공지 하나
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 본문 상단의 안내 영역과 긴급 공지는 각각 한 화면에 1개 이하로 둔다.
+measurement:
+  criteria: '(1) 안내 영역은 main 안 본문 상단에서 본문 전반의 이용 안내(KRDS 예: 취소·수정 가능 여부, 전자서명·본인인증 절차 포함 여부, 제출할 증빙서류)를 모은 영역이며
+    .notice-area 또는 [data-ui="notice-area"] 로 표시한다. 긴급 공지는 .critical-alert(components/critical-alert.yaml) 또는 [data-ui="emergency-notice"]
+    다. (2) 한 화면(한 페이지의 한 시점 보이는 상태)에서 보이는 안내 영역 수 ≤ 1, 보이는 긴급 공지 수 ≤ 1. (3) AI 고지([data-ai-disclosure] — AI-001·AI-002)와
+    AI 기능 설명([data-ai-capabilities]·[data-ai-limitations] — AI-005)은 안내 영역으로 세지 않고 안내 영역 식별자를 붙이지 않는다. 이 요소를 안내
+    영역 안에 넣어도 안내 영역 1개로 센다.'
+  method: 페이지와 화면 상태마다 (1)의 셀렉터에 맞는 요소 중 보이는 것(hidden·display:none 제외)을 세고, 안내 영역 정의에 맞는데 식별자가 없는 영역이 없는지 확인한다.
+automation:
+  feasibility: none
+  checks: []
+  note: '4단계 커스텀 검사 후보: .notice-area, [data-ui=notice-area] 와 .critical-alert, [data-ui=emergency-notice] 별 보이는
+    요소 수가 1을 넘으면 실패(정적 HTML 이면 html-validate 규칙으로 가능). 식별자 없는 안내 영역은 수동.'
+rationale: 안내 영역이나 긴급 공지가 여러 개면 사용자가 가장 중요한 정보에 집중하지 못하고 안내 자체를 무시하게 된다(KRDS 도움 패턴·긴급 공지).
+sources:
+- ref: KRDS
+  locator: 기본 패턴 > 도움 > 안내 영역
+  note: https://www.krds.go.kr/html/site/global/global_02.html
+- ref: KRDS
+  locator: 컴포넌트 (여러 페이지)
+  note: '같은 요구를 다루는 KRDS 컴포넌트: 긴급 공지 — 상세는 sources/extracts/KRDS-components.yaml'
+scope:
+  level: component
+  targets:
+  - 안내 영역
+  - 긴급 공지
+exceptions: []
+relations:
+- type: depends
+  id: STATE-006
+  note: 긴급 공지를 쓰는 조건은 STATE-006
+examples:
+  good:
+  - lang: html
+    code: "<main>\n  <section class=\"notice-area\" aria-labelledby=\"na\"><h2 id=\"na\">신청 전 확인하세요</h2><ul><li>제출\
+      \ 후 수정할 수 없습니다.</li><li>본인인증이 필요합니다.</li></ul></section>\n  …\n</main>\n"
+    note: 안내 영역 1개에 확인 사항을 목록으로 모았다
+  - lang: html
+    code: "<main>\n  <p data-ai-disclosure>이 화면의 요약은 AI가 생성합니다.</p>\n  <section class=\"notice-area\" aria-labelledby=\"\
+      na2\"><h2 id=\"na2\">신청 전 확인하세요</h2><p>제출 후 수정할 수 없습니다.</p></section>\n  …\n</main>\n"
+    note: AI 고지는 안내 영역으로 세지 않아 안내 영역은 1개다.
+  bad:
+  - lang: html
+    code: "<main>\n  <section class=\"notice-area\">제출 후 수정 불가</section>\n  <section class=\"notice-area\">본인인증\
+      \ 필요</section>\n  <section class=\"notice-area\">증빙서류 안내</section>\n</main>\n"
+    note: 한 화면에 안내 영역이 3개다
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(curl로 KRDS 페이지 HTML을 받아 텍스트로 직접 읽음): 도움 패턴(global_02) 안내 영역 ''한 화면에 여러 개의 안내
+  영역을 사용하지 않는다'', 긴급 공지(component_04_02) ''여러 개의 긴급 공지를 사용하지 않는다'' 확인. 1단계에 ''긴급 공지 1개'' 항목이 이 룰로 병합돼 있어 statement에
+  명시. 강도: KRDS ''해야 한다·않는다'' 표현 → SHOULD + public-sector-must(정책 2). (2026-10-18 T5 검토 반영) ''안내 영역 컴포넌트''를 식별할 셀렉터가
+  없고 AI 법정 고지(AI-001·002)를 세는지 정하지 않아 판정이 갈렸다 → 안내 영역·긴급 공지의 셀렉터를 고정하고, AI 고지와 AI 기능 설명(AI-005)은 세지 않는다고 정했다. AI
+  고지는 법령(우선순위 1)이 요구하는 별도 표시라 KRDS 안내 영역(본문 이용 도움말)과 목적이 다르다. 안내 영역 정의는 KRDS global_02 안내 영역 설명과 예시(2026-10-18 curl
+  재확인)를 옮겼다. 셀렉터는 체계 식별자.'
+korean_specific: false
+tags:
+- krds
+- public-sector-must

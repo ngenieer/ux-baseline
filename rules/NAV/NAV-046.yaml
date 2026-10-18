@@ -1,0 +1,52 @@
+id: NAV-046
+category: NAV
+title: 링크 목적지
+stage: platformed
+status:
+  value: confirmed
+type: guide
+strength: SHOULD
+statement: 링크는 레이블이 설명하는 내용과 가장 관련 있는 목적지로 바로 연결하고, 목적지 페이지의 특정 섹션이 더 관련 있으면 그 섹션(#앵커)으로 연결한다.
+measurement:
+  criteria: '점검 질문: 링크를 실행한 뒤 레이블이 말한 정보를 찾으려고 추가 탐색(메뉴 이동·검색·긴 스크롤)이 필요한가? 필요하면 위반.'
+  method: '수동: 링크마다 실행해 도착 화면에서 레이블의 정보가 첫 화면 또는 링크된 섹션에 바로 보이는지 확인한다.'
+automation:
+  feasibility: none
+  checks: []
+  note: 목적지의 관련성은 사람 판단이 필요해 자동 검사 불가.
+rationale: 링크 실행 뒤 원하는 정보를 찾기 위한 부가 탐색을 줄인다.
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 링크 > 사용성 가이드라인 (링크는 레이블의 설명과 가장 관련성이 높은 목적지로 바로 이동할 수 있도록 구성한다) (가이드라인 PDF 2025.08 499·506쪽)
+  note: https://www.krds.go.kr/html/site/component/component_05_01.html
+scope:
+  level: component
+  targets:
+  - a[href]
+exceptions: []
+relations:
+- type: depends
+  id: COPY-002
+  note: 레이블이 목적을 설명한다는 전제(COPY-002, WCAG 2.4.4) 위에서 목적지를 맞춘다
+examples:
+  good:
+  - lang: html
+    code: '<a href="/guide/passport#documents">여권 발급 제출 서류</a>
+
+      '
+    note: 레이블이 말한 '제출 서류' 섹션 앵커로 바로 연결한다.
+  bad:
+  - lang: html
+    code: '<a href="/">여권 발급 제출 서류</a>  <!-- 홈으로 연결 -->
+
+      '
+    note: 레이블과 무관한 홈으로 연결해 추가 탐색이 필요하다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(KRDS 페이지 curl 수신 후 텍스트 추출): ''레이블의 설명과 가장 관련성이 높은 목적지로 바로 이동'', ''부가적인 탐색을
+  시도하지 않도록 적절한 목적지로 연결해야 한다. 적절한 경우 연결된 서비스의 특정 섹션이 목적지로 사용될 수 있다'' 확인. 판정에 사람 판단이 필요해 guide. 1단계에서 이 룰에 붙어 있던 PAIR_GUIDEBOOK·HAX_GUIDELINES_POSTER
+  출처(AI 답변의 문장·단락별 출처 링크 요구)는 같은 요구가 아니어서 뺐다 — 별도 AI 룰 신설을 제안 파일 notes에 기록. 원문 지시형 문장을 의무로 읽어 SHOULD + public-sector-must.'
+korean_specific: false
+tags:
+- krds
+- krds-component
+- public-sector-must

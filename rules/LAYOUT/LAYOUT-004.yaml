@@ -1,0 +1,58 @@
+id: LAYOUT-004
+category: LAYOUT
+title: 화면 좌우 최소 여백
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 화면 좌우 가장자리와 콘텐츠 사이 여백(스크린 마진)을 뷰포트 너비 768 CSS px 이상에서 24px 이상, 768px 미만에서 16px 이상으로 둔다.
+measurement:
+  criteria: 뷰포트 너비 360·767px에서 텍스트·이미지·컨트롤 등 콘텐츠 요소의 경계 상자가 뷰포트 좌우 가장자리에서 16px 이상, 768·1024·1280px에서 24px 이상 떨어져
+    있다. 배경색·배경 이미지만 있는 전체 너비 컨테이너의 배경은 대상이 아니다.
+  method: 각 뷰포트 너비에서 개발자 도구로 콘텐츠 컨테이너의 padding-inline 또는 margin-inline 계산값을 확인한다.
+automation:
+  feasibility: none
+  checks: []
+  note: '4단계 커스텀 검사: Playwright로 지정 너비마다 body 하위 텍스트·컨트롤 요소의 getBoundingClientRect().left / (innerWidth - right)
+    최솟값을 계산. 스크린 마진은 토큰(예: --layout-screen-margin)으로만 지정하게 해 stylelint로도 점검.'
+rationale: 가장자리에 붙은 요소는 모바일에서 터치하기 어렵고 오조작을 부른다(KRDS 사용 가이드).
+sources:
+- ref: KRDS
+  locator: 디자인 스타일 > 레이아웃 > 그리드 요소 / 사용 가이드 (가이드라인 PDF 2025.08 141·153쪽)
+  note: https://www.krds.go.kr/html/site/style/style_05.html
+scope:
+  level: global
+  targets:
+  - body
+  - main
+  - .container
+  - 레이아웃 컨테이너
+exceptions: []
+relations:
+- type: depends
+  id: RESP-004
+  note: 768px 경계는 RESP-004의 KRDS 브레이크포인트(medium)를 따른다.
+examples:
+  good:
+  - lang: css
+    code: '.container { padding-inline: var(--space-padding-6); } /* 16px: 768px 미만 */
+
+      @media (min-width: 768px) { .container { padding-inline: var(--space-padding-8); } } /* 24px */
+
+      '
+    note: 뷰포트 너비별 최소 스크린 마진(16px·24px)을 토큰으로 둔다.
+  bad:
+  - lang: css
+    code: '.container { padding-inline: 0; } /* 360px 화면에서 본문 텍스트·버튼이 화면 가장자리에 붙음 */
+
+      '
+    note: 스크린 마진이 0이라 콘텐츠가 뷰포트 가장자리에 닿는다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(curl로 KRDS 페이지 HTML을 받아 본문 텍스트를 직접 확인): 디자인 스타일 > 레이아웃(style_05) 스크린 마진 ''브레이크포인트별
+  최소 스크린 마진을 준수'', ''최소한의 마진을 필수로 설정한다'', ''large·medium 최소 24px, small 최소 16px''와 브레이크포인트 표(xsmall -359px·small
+  360px- 16px, medium 768px- 이상 24px) 확인. ''필수로 설정'' → SHOULD + public-sector-must.'
+korean_specific: false
+tags:
+- krds
+- public-sector-must

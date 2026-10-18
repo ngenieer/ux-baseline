@@ -1,0 +1,14 @@
+id: CF-020
+rules:
+- A11Y-026
+against: WCAG 2.2 (SC 4.1.1 Parsing 삭제)
+summary: WCAG 2.2는 마크업 문법 오류 기준을 삭제했지만 KWCAG 2.2 8.1.1은 유지한다.
+principle: 1
+decision: A11Y-026을 MUST로 유지한다. 국내 기준(KWCAG)이 요구하는 한 따른다.
+reason: 둘 다 우선순위 1이며 더 엄격한 국내 기준을 따른다. 구현 비용이 낮고 HTML 검사기로 자동 검사가 가능하다. KWCAG 8.1.1 원문은 '표준에서 특별히 정한 경우를 제외하고 시작
+  요소와 끝나는 요소가 정의되어야 한다'이므로, HTML 명세가 종료 태그 생략을 허용하는 요소는 위반으로 보지 않는다.
+deviates_from_priority: false
+date: '2026-10-18'
+rule_changes:
+- 'CF-020: 무의미한 ''A11Y-026: 강도 MUST → MUST'' 기록 삭제(강도 변경 없음). A11Y-026: 예외 추가 — HTML 명세가 허용하는 종료 태그 생략 (2026-10-18
+  독립 검토)'

@@ -1,0 +1,52 @@
+id: PERF-010
+category: PERF
+title: 늦게 로드되는 영역 공간 예약
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 광고·임베드(지도·동영상·SNS)·iframe처럼 늦게 로드되는 영역은 min-height 또는 aspect-ratio로 공간을 미리 예약하고, 콘텐츠가 오지 않아도 예약 공간을 접지
+  않고 자리표시자를 보여준다.
+measurement:
+  criteria: (1) iframe·광고 슬롯([data-ad-slot])·임베드 컨테이너의 로드 직후(내용 도착 전) 계산 높이가 0보다 크고, min-height 또는 aspect-ratio가
+    지정돼 있다. (2) 내용이 오지 않는 경우(광고 미노출·임베드 실패)에도 컨테이너 높이가 줄지 않고 자리표시자가 보인다.
+  method: Playwright로 네트워크를 지연·차단한 상태에서 컨테이너 높이를 로드 직후와 10초 뒤에 비교한다.
+automation:
+  feasibility: none
+  checks: []
+  note: 기존 규칙 없음. 4단계 커스텀 Playwright 검사(위 method).
+rationale: 임베드 위젯은 로드 전 크기를 모르므로 공간을 예약하지 않으면 도착하는 순간 콘텐츠를 밀어낸다. 예약한 공간을 접는 것도 콘텐츠를 삽입하는 것만큼 CLS를 만든다.
+sources:
+- ref: WEBDEV_OPT_CLS
+  locator: Ads, embeds, and other late-loaded content — Reserve space for late-loading content
+  note: '''add a min-height CSS rule to reserve space or … use the aspect-ratio'', ''Try to avoid collapsing the
+    reserved space by showing a placeholder'''
+scope:
+  level: component
+  targets:
+  - iframe
+  - '[data-ad-slot]'
+  - 지도·동영상·SNS 임베드
+exceptions:
+- 크기가 바뀌는 광고처럼 정확한 크기를 알 수 없으면 더 큰 컨테이너로 예약하거나 과거 데이터상 가장 흔한 크기로 예약할 수 있다(web.dev — 일부 이동 감수).
+relations:
+- type: refines
+  id: PERF-008
+examples:
+  good:
+  - lang: css
+    code: '.map-embed { aspect-ratio: 16 / 9; background: var(--color-surface-gray-subtle); }'
+    note: 지도 임베드 공간을 aspect-ratio로 예약하고 자리표시자 배경을 둔다.
+  bad:
+  - lang: html
+    code: <div class="ad-slot"></div> <!-- 높이 0, 광고 도착 시 300px로 늘어남 -->
+    note: 높이 0인 광고 슬롯이 광고 도착 시 늘어나 본문을 밀어낸다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(web.dev Optimize CLS curl): ''add a min-height CSS rule to reserve space or
+  … use the aspect-ratio'', ''a publisher can style a larger container … or choose the most likely size … based
+  on historical data'', ''Try to avoid collapsing the reserved space by showing a placeholder'' 확인. 가변 광고 예약 방식
+  두 안은 예외 칸에 원문대로 두고 기본값 선택은 3단계.'
+korean_specific: false
+tags:
+- research-motion_perf

@@ -1,0 +1,51 @@
+id: NAV-034
+category: NAV
+title: 사이드 메뉴 최대 2수준
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 사이드 메뉴 계층은 최대 2수준까지만 쓰고, 더 깊은 탐색은 하위 메뉴를 점진적으로 공개하는 헤더 있는 목록이나 본문의 보조 탐색 수단으로 제공한다.
+measurement:
+  criteria: 사이드 메뉴 nav 안 링크 목록의 중첩 깊이 ≤ 2. 3수준 이상 페이지로 가는 링크는 사이드 메뉴 밖(본문 안 목록·하위 탐색)에 있다.
+  method: 사이드 메뉴 DOM의 목록 중첩 깊이를 센다.
+automation:
+  feasibility: none
+  note: '4단계 커스텀 검사 가능: nav[aria-label=''사이드 메뉴''] 안 ul 최대 중첩 깊이 계산.'
+rationale: 사이드 메뉴 너비가 좁아 3수준 이상을 한 번에 보이면 인지와 탐색이 어려워진다.
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 사이드 메뉴 > 사용성 가이드라인 (가이드라인 PDF 2025.08 298·300쪽)
+  note: https://www.krds.go.kr/html/site/component/component_03_04.html — '메뉴의 계층 구조는 최대 2개 수준까지 사용한다.' / '2개 이상의
+    수준에 대한 탐색이 필요한 경우 더 깊은 수준의 메뉴를 점진적으로 공개하고 헤더가 있는 목록을 사용하거나, 본문에 보조적인 탐색 수단을 제공하는 것이 적절하다.'
+scope:
+  level: component
+  targets:
+  - 사이드 메뉴
+exceptions: []
+relations:
+- type: depends
+  id: NAV-022
+  note: 메인 메뉴 최대 3수준과 함께 정보 구조 깊이 상한
+examples:
+  good:
+  - lang: html
+    code: '<nav aria-label="사이드 메뉴"><ul><li><a>주민등록</a><ul><li><a>전입신고</a></li></ul></li></ul></nav>
+
+      '
+    note: 사이드 메뉴 중첩이 2수준이다.
+  bad:
+  - lang: html
+    code: '<nav aria-label="사이드 메뉴"><ul><li>…<ul><li>…<ul><li><a>3수준</a></li></ul></li></ul></li></ul></nav>
+
+      '
+    note: 사이드 메뉴 중첩이 3수준이다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(KRDS component_03_04 WebFetch): ''최대 2개 수준까지 사용한다'' 확인, 대안 문장은 ''적절하다''(권장).
+  단정형 → SHOULD. 원문 대안 문장의 ''2개 이상의 수준''은 문맥상 ''2수준을 넘는''으로 읽음. BACKLOG ''사이드 메뉴 페이지가 4수준 이상 유형도 설명'' 불일치는 이번 대조에서
+  해당 문장을 확인하지 못함 — 3단계에서 재확인.'
+korean_specific: false
+tags:
+- krds
+- krds-component

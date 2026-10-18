@@ -1,0 +1,57 @@
+id: A11Y-004
+category: A11Y
+title: 녹화 영상 음성 해설 또는 대체 미디어
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: MUST
+statement: 사전 녹음된 동기화 미디어에는 영상 내용의 음성 해설 또는 시간 기반 미디어 대체물(전체 대본)을 제공한다.
+measurement:
+  criteria: '사전 녹음 <video>(소리 포함)마다 다음 중 하나가 있다: (a) 음성 해설이 들어간 버전이나 해설 오디오 트랙, (b) 화면에만 나오는 정보(장면·자막 텍스트·동작)까지
+    담은 전체 대본(같은 페이지 또는 바로 옆 링크).'
+  method: 각 영상을 재생해 화면에만 있는 정보를 목록화하고, 음성 해설 또는 전체 대본이 그 정보를 모두 담는지 대조한다.
+automation:
+  feasibility: none
+  checks: []
+  note: 검사기 규칙 없음. 4단계 커스텀 검사로 <video> 주변의 대본 링크·해설 트랙(kind="descriptions") 존재만 확인할 수 있다.
+rationale: 시각장애 사용자는 영상에서 화면으로만 전달되는 정보를 음성 해설이나 대본으로 얻는다.
+sources:
+- ref: WCAG22
+  locator: SC 1.2.3 Audio Description or Media Alternative (Prerecorded) (Level A)
+  note: https://www.w3.org/TR/WCAG22/#audio-description-or-media-alternative-prerecorded
+- ref: WCAG22_UNDERSTANDING
+  locator: https://www.w3.org/WAI/WCAG22/Understanding/audio-description-or-media-alternative-prerecorded.html
+- ref: KRDS
+  locator: 컴포넌트 (여러 페이지) (가이드라인 PDF 2025.08 739·742쪽)
+  note: '같은 요구를 다루는 KRDS 컴포넌트: 접근 가능한 미디어 — 상세는 sources/extracts/KRDS-components.yaml'
+scope:
+  level: component
+  targets:
+  - video
+exceptions:
+- 미디어가 텍스트의 미디어 대체물이고 그렇다고 명확히 표시된 경우.
+relations: []
+examples:
+  good:
+  - lang: html
+    code: "<video controls src=\"guide.mp4\">\n  <track kind=\"captions\" src=\"guide.ko.vtt\" srclang=\"ko\" label=\"\
+      한국어\">\n</video>\n<a href=\"guide-transcript.html\">영상 전체 대본(화면 설명 포함)</a>\n"
+    note: 화면 정보까지 담은 전체 대본 링크 제공
+  bad:
+  - lang: html
+    code: '<video controls src="guide.mp4"></video>
+
+      <!-- 화면에만 나오는 절차 설명이 대본·해설 어디에도 없음 -->
+
+      '
+    note: 화면에만 나오는 정보의 대본·해설이 없음
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(sources/extracts/WCAG22-A-AA.yaml): statement·수치가 SC 원문과 일치함을 확인. 1단계에 이 룰로
+  병합된 KRDS 컴포넌트 항목(sources/extracts/KRDS-components.yaml)은 개별 페이지를 다시 열지 않았다 — 룰의 요구는 WCAG 원문 기준.'
+korean_specific: false
+tags:
+- wcag22
+- level-a
+- new-in-2.0
+- krds

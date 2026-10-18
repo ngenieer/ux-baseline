@@ -1,0 +1,53 @@
+id: STATE-005
+category: STATE
+title: 빈 값은 대시로 표시
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 구조화 목록 항목이나 표의 데이터 셀에 표시할 값이 없으면 그 자리를 비워 두지 않고 대시(-)를 표시한다.
+measurement:
+  criteria: 구조화 목록 항목의 각 정보 칸과 표의 td 중 데이터 값이 없는 것의 텍스트 내용이 '-'이다. 공백만 있거나 빈 문자열인 td·정보 칸이 0개다.
+  method: 값이 비는 레코드가 포함된 데이터로 목록·표를 렌더링해 빈 칸을 찾는다.
+automation:
+  feasibility: none
+  checks: []
+  note: '4단계 커스텀 검사: td 및 목록 정보 칸 셀렉터에서 textContent.trim()===''''인 요소를 실패로 보고(이미지·컨트롤만 있는 셀은 제외).'
+rationale: 정보가 비어 있으면 사용자는 로딩 실패인지 값이 없는 것인지 헷갈린다. 대시로 '정보 없음'을 명시한다(KRDS 구조화 목록·표).
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 구조화 목록 > 사용성 가이드라인 (가이드라인 PDF 2025.08 357쪽)
+  note: https://www.krds.go.kr/html/site/component/component_04_01.html
+- ref: KRDS
+  locator: 컴포넌트 > 표 > 사용성 가이드라인 — '데이터 값이 존재하지 않는 경우 셀을 비워두지 않고 대시(-)를 제공한다 … 안내해야 한다' (가이드라인 PDF 2025.08 466쪽)
+  note: https://www.krds.go.kr/html/site/component/component_04_11.html (STATE-018에서 병합)
+scope:
+  level: component
+  targets:
+  - table td
+  - 구조화 목록
+exceptions: []
+relations: []
+examples:
+  good:
+  - lang: html
+    code: '<tr><th scope="row">홍길동</th><td>010-1234-5678</td><td>-</td></tr>
+
+      '
+    note: 값이 없는 셀에 대시(-)를 넣어 누락이 아닌 "값 없음"임을 보여준다.
+  bad:
+  - lang: html
+    code: '<tr><th scope="row">홍길동</th><td>010-1234-5678</td><td></td></tr>
+
+      '
+    note: 빈 셀이라 값이 없는지 불러오지 못했는지 구분할 수 없다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(curl로 KRDS 페이지 HTML을 받아 텍스트로 직접 읽음): 구조화 목록 component_04_01 ''…대시(-)를 플레이스홀더로
+  제공한다'', 표 component_04_11 ''셀을 비워두지 않고 대시(-)를 제공한다 … 안내해야 한다'' 확인. 같은 요구라 STATE-018을 병합(정본은 번호가 작은 STATE-005).
+  스크린 리더가 ''-''를 ''대시''로 읽는지·''정보 없음'' 대체 이름을 줄지는 KRDS에 없음 — 지어내지 않음.'
+korean_specific: false
+tags:
+- krds
+- krds-component
+- public-sector-must

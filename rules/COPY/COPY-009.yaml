@@ -1,0 +1,122 @@
+id: COPY-009
+category: COPY
+title: 필수 정보는 숨기지 않음
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 사용자가 작업을 마치는 데 반드시 알아야 하는 정보는 별도 조작 없이 보이는 본문(인라인 텍스트)에 두고, 툴팁·맥락적 도움말·도움 패널·접힌 디스클로저·아코디언·캐러셀 안에만 두지
+  않는다.
+measurement:
+  criteria: 과업 분석으로 정한 필수 정보(입력 형식·자격 조건·제출 서류·마감일·수수료·취소 가능 여부 등)마다, 페이지를 연 직후 어떤 버튼·아이콘도 누르거나 호버하지 않은 상태에서 그 정보가
+    본문에 텍스트로 보인다. 툴팁·팝오버·패널·접힌 영역·캐러셀 슬라이드 안에는 보충 설명만 있다. 개인정보 수집·이용 동의 항목(FORM-024)에서는 수집·이용 목적, 수집 항목, 보유·이용 기간,
+    동의를 거부할 권리와 거부 시 불이익(개인정보 보호법 제15조 제2항 각 호)을 필수 정보로 보고, 그 항목의 동의 선택지와 같은 항목 안 접히지 않은 본문에 표시한다. 약관·처리방침 전문은 접힌
+    영역(details)이나 별도 화면에 둘 수 있다(CF-069).
+  method: 과업별 필수 정보 목록을 먼저 만들고, 페이지를 연 직후 화면(스크롤 포함, 상호작용 없음)에서 목록의 각 정보가 보이는지 확인한다.
+automation:
+  feasibility: none
+  checks: []
+  note: '필수 정보 판정은 과업 분석이 필요해 자동화 불가. 4단계 보조 검사: [role=tooltip]·details:not([open])·[hidden] 안에만 있는 텍스트를 목록으로 뽑아
+    검토 대상으로 표시.'
+rationale: 사용자 요청형 도움말(툴팁·팝오버·패널)과 접힌 영역은 사용자가 발견하지 못할 수 있으므로, 반드시 알아야 하는 정보를 그 안에만 두면 사용자가 과업에 실패한다(KRDS 도움 패턴·관련
+  컴포넌트).
+sources:
+- ref: KRDS
+  locator: 기본 패턴 > 도움 > 안내 영역 / 툴팁 / 인라인 텍스트 (가이드라인 PDF 2025.08 784·786쪽)
+  note: https://www.krds.go.kr/html/site/global/global_02.html
+- ref: KRDS
+  locator: 컴포넌트 (여러 페이지) (가이드라인 PDF 2025.08 605·380·627·749·406·424·657쪽)
+  note: '같은 요구를 다루는 KRDS 컴포넌트: 도움 패널, 디스클로저, 맥락적 도움말, 숨긴 콘텐츠, 아코디언, 캐러셀, 툴팁 — 상세는 sources/extracts/KRDS-components.yaml'
+- ref: HAX_GUIDELINES_POSTER
+  locator: G2 Make clear how well the system can do what it can do
+  note: '적용 사례(같은 요구 아님, AI 카테고리 검토): AI 결과 근처에 한계 고지를 보이는 텍스트로 둔다는 후보의 근거. G2 원문은 시스템이 얼마나 잘하는지 알리라는 원칙.'
+- ref: PAIR_GUIDEBOOK
+  locator: Explainability + Trust — calibrating trust
+  note: '적용 사례(같은 요구 아님, AI 카테고리 검토): 신뢰 보정을 위한 한계 설명.'
+- ref: APPLE_WWDC25_248
+  locator: hallucination 경고
+  note: '적용 사례(같은 요구 아님, AI 카테고리 검토): 사실 정보는 검증 후 제시 — hallucination 경고.'
+- ref: KR_PIPA
+  locator: 제15조 제2항, 제22조 제1항·제2항
+  note: 동의를 받을 때 알릴 사항(목적·항목·보유 기간·거부 권리와 불이익), '명확하게 인지할 수 있도록 알리고', 중요한 내용을 '명확히 표시하여 알아보기 쉽게' — 표시 위치(접힘 여부)는
+    정하지 않음.
+- ref: KR_PIPA_DECREE
+  locator: 제17조 제3항
+  note: 법 제22조 제2항의 '중요한 내용' — 홍보·판매 권유 연락 사실, 민감정보·고유식별정보, 보유·이용 기간, 제공받는 자와 그 이용 목적.
+- ref: UXB_SYSTEM_CHOICE
+  locator: CF-069
+  note: 법이 알리라고 한 동의 판단 정보를 이 룰의 '필수 정보'로 보고 접힌 영역 밖에 두게 한 체계 결정.
+scope:
+  level: global
+  targets:
+  - '[role=tooltip]'
+  - details
+  - 맥락적 도움말
+  - 도움 패널
+  - 아코디언
+  - 캐러셀
+  - 개인정보 동의 항목
+exceptions: []
+relations:
+- type: depends
+  id: STATE-010
+  note: 디스클로저 초기 접힘 상태는 STATE-010
+examples:
+  good:
+  - lang: html
+    code: |
+      <label for="doc">증빙서류</label>
+      <p id="doc-hint">주민등록등본(3개월 이내 발급) 1부를 PDF로 올리세요.</p>
+      <input type="file" id="doc" aria-describedby="doc-hint">
+    note: 필수 정보(서류 종류·발급 기한·형식)를 조작 없이 보이는 본문에 둔다
+  - lang: html
+    code: |
+      <fieldset>
+        <legend>[필수] 개인정보 수집·이용</legend>
+        <ul>
+          <li>수집 항목: 이름, 휴대전화 번호, 이메일 주소</li>
+          <li>이용 목적: 회원 식별, 주문·배송 안내</li>
+          <li>보유 기간: 회원 탈퇴 시까지</li>
+          <li>동의하지 않을 수 있으며, 동의하지 않으면 회원 가입을 할 수 없습니다.</li>
+        </ul>
+        <details><summary>개인정보 수집·이용 전문 보기</summary>…</details>
+        <label><input type="radio" name="c1" value="y" required> 동의함</label>
+        <label><input type="radio" name="c1" value="n"> 동의하지 않음</label>
+      </fieldset>
+    note: 동의 판단에 필요한 네 가지는 접히지 않은 본문에 두고 전문만 접었다(CF-069).
+  bad:
+  - lang: html
+    code: |
+      <label for="doc">증빙서류</label>
+      <button type="button" aria-label="증빙서류 안내" aria-describedby="tip">?</button>
+      <div role="tooltip" id="tip">주민등록등본(3개월 이내 발급) 1부를 PDF로 올리세요.</div>
+      <input type="file" id="doc">
+    note: 필수 정보가 툴팁 안에만 있어 호버·초점 전에는 보이지 않는다
+  - lang: html
+    code: |
+      <fieldset>
+        <legend>[필수] 개인정보 수집·이용</legend>
+        <label><input type="radio" name="c1" value="y" required> 동의함</label>
+        <label><input type="radio" name="c1" value="n"> 동의하지 않음</label>
+        <details><summary>내용 보기</summary>
+          <ul><li>수집 항목: …</li><li>이용 목적: …</li><li>보유 기간: …</li></ul>
+        </details>
+      </fieldset>
+    note: 수집 항목·목적·보유 기간이 접힌 영역 안에만 있어 펼치지 않으면 무엇에 동의하는지 모른다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(curl로 KRDS 페이지 HTML을 받아 텍스트로 직접 읽음): 도움 패턴(global_02) ''사용자가 작업을 완료하는 데 필요한
+  중요한 정보는 인라인 텍스트로 제공한다'', 디스클로저는 ''반드시 확인해야 할 중요한 정보를 담지 않아야 한다''; 도움 패널(component_08_01)·맥락적 도움말(08_03)·툴팁(08_05)
+  ''필수 정보를 ...에만 제공해서는 안 된다'' 확인 — statement에 맥락적 도움말·도움 패널을 넣음. 강도: KRDS ''해야 한다·않는다'' 표현 → SHOULD + public-sector-must(정책
+  2). 아코디언·캐러셀 항목은 1단계 병합 기록(KRDS-components.yaml)을 따랐고 해당 페이지 문장은 다시 열지 않음(캐러셀 페이지에서는 직접 문장을 찾지 못함). HAX G2·PAIR·APPLE
+  출처는 ''AI 한계 고지를 보이는 텍스트로'' 후보를 병합한 것 — HAX G2 원문은 시스템 성능 범위를 알리라는 원칙이며 ''항상 보이는 텍스트''까지 요구하지 않음. AI 카테고리 검토용으로
+  제안 파일 notes에 적음. (2026-10-18 시험 4 검토 반영) T6 에서 동의 판단 정보(수집 항목·목적·보유 기간)가 접힌 영역 안에만 있었는데 이 룰의 ''필수 정보''에 드는지 기준이
+  없었다 → 개인정보 동의 항목의 필수 정보를 개인정보 보호법 제15조 제2항 네 가지로 정하고 접히지 않은 본문에 두게 했다(CF-069). 2026-10-18 국가법령정보센터 조문 원문 확인(제15조,
+  제22조, 시행령 제17조). 법은 알릴 사항과 ''명확히 표시''를 요구하고 위치는 정하지 않으므로 위치 요구는 체계 결정(UXB_SYSTEM_CHOICE)이며 강도는 이 룰의 SHOULD 를 넘지
+  않는다. KRDS 동의 패턴(global_03) 예시는 ''약관읽기'' 버튼만 두고 요약 표시를 다루지 않는다.'
+korean_specific: false
+tags:
+- krds
+- public-sector-must
+decisions:
+- CF-069

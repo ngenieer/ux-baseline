@@ -1,0 +1,57 @@
+id: NAV-036
+category: NAV
+title: 사이드 메뉴를 두지 않는 경우
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: MAY
+statement: 화면이 5개 미만인 서비스와, 탐색 계층이 2수준 이내이며 메인 메뉴만으로 모든 화면에 도달할 수 있는 서비스에는 사이드 메뉴를 쓰지 않는다.
+measurement:
+  criteria: (1) 전체 화면 수 < 5 이거나 (2) 정보 구조 깊이 ≤ 2 이고 모든 화면이 메인 메뉴 링크로 도달 가능한 서비스에 사이드 메뉴 nav가 없다.
+  method: 정보 구조도에서 화면 수·깊이를 세고 메인 메뉴 링크 목록과 비교한다.
+automation:
+  feasibility: none
+  note: 정보 구조 데이터가 필요해 수동.
+rationale: 작은 서비스는 메인 메뉴나 다른 보조 탐색으로 정보 구조를 다 탐색할 수 있어 사이드 메뉴가 화면 폭만 차지한다.
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 사이드 메뉴 > 용례 (가이드라인 PDF 2025.08 294쪽)
+  note: 'https://www.krds.go.kr/html/site/component/component_03_04.html — 적합하지 않은 경우: ''화면 수가 5개 미만인 소규모 서비스는 메인
+    메뉴 또는 다른 보조적 탐색 수단을 통해 사이트 정보 구조를 충분히 탐색할 수 있다.'' / ''탐색 계층 구조가 2수준 이내이고 탐색 항목 수가 적은 경우'' / ''2수준까지 탐색 가능한 메인
+    메뉴를 통해 서비스의 정보 구조를 충분히 탐색할 수 있다.'''
+scope:
+  level: situation
+  targets:
+  - 화면 5개 미만 서비스
+  - 깊이 2 이하이며 메인 메뉴로 전체 도달 가능한 서비스
+exceptions: []
+relations:
+- type: depends
+  id: RESP-009
+  note: 좁은 화면에서 사이드 메뉴 숨김은 RESP-009
+examples:
+  good:
+  - lang: html
+    code: '<!-- 화면 4개 서비스: 메인 메뉴만 -->
+
+      <header><nav aria-label="메인 메뉴">…4개 링크…</nav></header><main>…</main>
+
+      '
+    note: 화면 4개 서비스에서 메인 메뉴만 둔다.
+  bad:
+  - lang: html
+    code: '<header><nav aria-label="메인 메뉴">…4개 링크…</nav></header>
+
+      <aside><nav aria-label="사이드 메뉴">…같은 4개 링크…</nav></aside>
+
+      '
+    note: 메인 메뉴와 같은 링크를 사이드 메뉴에 중복해 둔다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(KRDS component_03_04 WebFetch): 용례 문장·수치(5개 미만, 2수준 이내) 확인. 용례 ''적합하지 않은 경우''(금지
+  표현 아님) → MAY. ''항목 수가 적은''은 수치가 없어 조건으로 바꾸고 PREFERENCE 출처를 붙임. 확정 시 미검증 출처 PREFERENCE 제외(2026-10-18): ''메인 메뉴만으로
+  모든 화면에 도달''은 KRDS 원문 근거 문장(''메인 메뉴를 통해 충분히 탐색'')을 조건으로 옮긴 해석이고 수치 선택이 아니며, 근거는 KRDS 출처로 성립.'
+korean_specific: false
+tags:
+- krds
+- krds-component

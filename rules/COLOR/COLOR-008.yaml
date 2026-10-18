@@ -1,0 +1,18 @@
+id: COLOR-008
+category: COLOR
+title: 색각 이상자 혼동 조합
+stage: collected
+status:
+  value: deprecated
+  reason: COLOR-001로 병합
+  superseded_by: COLOR-001
+statement: 적색·녹색처럼 색각 이상자가 구분하기 어려운 색 조합을 쓸 때는 두 색의 명도 차이를 두거나 텍스트·아이콘을 함께 쓴다.
+sources:
+- ref: KRDS
+  locator: 디자인 스타일 > 색상 > 색약자를 위한 고려
+  note: https://www.krds.go.kr/html/site/style/style_02.html
+needs_verification: true
+verification_note: '2026-10-18 정규화: 같은 요구(색조만으로 구분하지 않고 명도 차이·텍스트·아이콘을 함께 쓴다)라 WCAG 1.4.1 기반 COLOR-001로 병합. Understanding 1.4.1 Note가 ''명도 차이로
+  3:1 이상이면 추가 시각 구분''으로 인정해 ''명도 차이'' 기준값도 COLOR-001에서 3:1로 정함. 출처(KRDS 색약자를 위한 고려)는 COLOR-001에 옮김.'
+tags:
+- krds

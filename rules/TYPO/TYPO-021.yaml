@@ -1,0 +1,51 @@
+id: TYPO-021
+category: TYPO
+title: 'line-break: anywhere 금지'
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: '본문 텍스트에 line-break: anywhere를 쓰지 않는다.'
+measurement:
+  criteria: '스타일시트·인라인 style에서 본문 요소에 적용되는 line-break: anywhere 선언이 0건(white-space: pre·break-spaces 로 표시하는 코드·터미널
+    출력 요소는 판정에서 뺀다).'
+  method: stylelint declaration-property-value-disallowed-list.
+automation:
+  feasibility: full
+  checks:
+  - tool: stylelint
+    rule: declaration-property-value-disallowed-list
+    method: '{ "line-break": ["anywhere"] }'
+  note: 코드·터미널 출력 전용 셀렉터는 stylelint-disable 주석으로 예외.
+rationale: 'line-break: anywhere는 구두점 주변·단어 중간까지 모든 글자 단위에서 줄을 바꿔, 닫는 괄호·마침표가 줄 첫머리에 오는 등 한글 조판 금칙을 깨뜨린다.'
+sources:
+- ref: CSS_TEXT_3
+  locator: 5.2 line-break (anywhere)
+  note: 구두점 주변·단어 중간 등 모든 문자 단위에서 줄바꿈하며 금칙을 무시
+- ref: KLREQ
+  locator: 7.1.2 글줄 시작 금칙, 7.1.3 글줄 끝 금칙
+  note: 닫는 괄호·마침표·쉼표 등은 줄 첫머리, 여는 괄호는 줄 끝에 올 수 없음
+scope:
+  level: global
+  targets:
+  - 본문 텍스트
+exceptions: []
+relations: []
+examples:
+  good:
+  - lang: css
+    code: p{line-break:auto}
+    note: 금칙을 지켜 닫는 괄호·마침표가 줄 첫머리에 오지 않는다
+  bad:
+  - lang: css
+    code: p{line-break:anywhere}
+    note: 금칙을 무시해 마침표·닫는 괄호가 줄 첫머리에 올 수 있다
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(CSS Text 3 §5.2, klreq 7.1.2·7.1.3 HTML): anywhere ''disregarding any prohibition
+  against line breaks'', Note ''typically seen in terminals'' 확인. klreq 글줄 시작 금칙(닫기 괄호·구독점 등)과 글줄 끝 금칙(열기 괄호) 확인
+  — klreq는 Group Note Draft(guide). 금칙 문장이 규칙형이라 SHOULD. 1단계 메모 유지: line-break의 loose/normal/strict 맞춤 규칙을 명세가 정한
+  것은 중국어·일본어뿐이라 한국어용 line-break 값을 정하는 룰은 근거 없음.'
+korean_specific: true
+tags:
+- research-typo

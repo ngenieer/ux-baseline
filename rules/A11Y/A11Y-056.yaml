@@ -1,0 +1,49 @@
+id: A11Y-056
+category: A11Y
+title: 음성지원은 보완 수단
+stage: platformed
+status:
+  value: confirmed
+type: guide
+strength: SHOULD
+statement: 음성지원(TTS)이 읽는 정보를 화면 텍스트로도 제공하고, 음성지원을 글자 크기 조절·대비 향상·쉬운 모드 같은 다른 접근성 기능의 대신으로 두지 않는다.
+measurement:
+  criteria: '점검 질문: 음성지원으로만 얻을 수 있는 정보가 있는가? 음성지원을 넣었다는 이유로 다른 접근성 기능(글자 크기 조절·대비·쉬운 모드)을 빼지 않았는가?'
+  method: 음성지원 대상 영역의 낭독 내용과 화면 텍스트를 비교하고 서비스의 접근성 기능 목록을 검토한다.
+automation:
+  feasibility: none
+  checks: []
+  note: 판정 불가(guide).
+rationale: 음성지원은 스크린 리더를 대체하지 못하는 보조 기능이라 이것만으로 접근성을 충족할 수 없다.
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 음성지원 > 개요
+  note: https://www.krds.go.kr/html/site/component/component_08_06.html
+scope:
+  level: component
+  targets:
+  - 음성지원
+exceptions: []
+relations: []
+examples:
+  good:
+  - lang: html
+    code: '<section><h2>신청 안내</h2><p>…</p><button type="button">이 영역 듣기</button></section>
+
+      '
+    note: 화면 텍스트가 있고 음성지원은 보완 버튼
+  bad:
+  - lang: html
+    code: '<button type="button">안내 듣기</button>
+
+      <!-- 같은 안내가 화면 텍스트로 없음 -->
+
+      '
+    note: 안내가 음성지원으로만 제공되고 화면 텍스트가 없음
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(WebFetch로 KRDS 페이지 재조회, 요약 모델 인용 확인): 개요 ''이는 시각 정보의 대체가 아닌 보완 수단으로서 다른 접근성
+  기능(글자 크기 조절, 대비 향상, 쉬운모드 등)과 함께 제공되는 것을 원칙으로 한다.'' 확인. 원칙 서술이고 ''함께 제공''의 범위가 판정 불가 → guide·SHOULD.'
+korean_specific: false
+tags:
+- krds
+- krds-component

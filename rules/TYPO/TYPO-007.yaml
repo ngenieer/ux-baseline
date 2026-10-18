@@ -1,0 +1,45 @@
+id: TYPO-007
+category: TYPO
+title: 제목·본문 크기 비율
+stage: platformed
+status:
+  value: confirmed
+type: guide
+strength: MAY
+statement: 타입 스케일을 새로 정할 때 제목(heading)과 본문 글자 크기 비율을 1.25~1.5배 범위에서 정한다.
+measurement:
+  criteria: '점검 질문: 타입 스케일 문서에서 본문 기본 크기와, 본문 바로 위 제목 단계(예: h4 또는 h3) 크기의 비율이 1.25~1.5 범위인가? 비교할 제목 단계는 서비스마다 다르므로
+    사람이 정한다.'
+  method: 수동 검토(타입 스케일 토큰 확인).
+automation:
+  feasibility: none
+  note: 어느 제목 단계와 비교할지 원문이 정하지 않아 결정적 판정 불가 → guide.
+rationale: 제목과 본문 크기 차이를 분명히 하면 사용자가 정보 계층을 파악하기 쉽다(KRDS).
+sources:
+- ref: KRDS
+  locator: 디자인 스타일 > 타이포그래피 > 글자 스케일 (가이드라인 PDF 2025.08 109쪽)
+  note: https://www.krds.go.kr/html/site/style/style_03.html
+scope:
+  level: situation
+  targets:
+  - 타입 스케일 재설정
+exceptions: []
+relations: []
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(KRDS https://www.krds.go.kr/html/site/style/style_03.html HTML을 curl로 받아 본문
+  확인): ''이상적인 heading과 body 간의 글자 크기 차이는 1.25~1.5배'', ''Type-scale을 재설정할 경우 기본 글자 사이즈를 기준으로 비율을 설정한다'' 확인. 원문 강도
+  ''이상적'' → MAY. KRDS 자체 스케일도 본문 17px 대비 heading small 19px(1.12배)·xsmall 17px(1.0배)로 이 범위를 벗어나는 단계가 있어 비교 대상이 모호
+  → guide로 분류.'
+korean_specific: false
+tags:
+- krds
+- system-choice
+examples:
+  good:
+  - lang: text
+    code: 본문 16px, 본문 바로 위 제목 단계 20px(1.25배) — 타입 스케일 재설정 시 기본 크기를 기준으로 비율을 정했다.
+    note: 제목:본문 비율이 1.25~1.5 범위다
+  bad:
+  - lang: text
+    code: 본문 16px, 본문 바로 위 제목 단계 17px(1.06배)로 정해 제목과 본문이 구분되지 않는다.
+    note: 비율이 1.25 미만이다

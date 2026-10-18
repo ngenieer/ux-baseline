@@ -1,0 +1,55 @@
+id: FORM-064
+category: FORM
+title: 파일 선택 버튼 강조 수준
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 같은 화면에 폼 제출 버튼 같은 최상위 강조 버튼이 있으면 파일 선택 버튼은 그보다 낮은 강조 수준의 버튼 스타일로 표시한다.
+measurement:
+  criteria: 같은 화면에 최상위 강조 버튼(주조색 채움 버튼, COLOR-015)이 있을 때 파일 선택 버튼은 주조색 채움 스타일이 아니고 윤곽선·텍스트 버튼 같은 하위 강조 스타일이다.
+  method: '수동 또는 E2E: 두 버튼의 버튼 변형 클래스(또는 계산된 배경색)를 비교한다.'
+automation:
+  feasibility: none
+  checks: []
+  note: 기존 검사기 규칙 없음. 4단계에서 버튼 변형 클래스(primary 등)를 기준으로 커스텀 검사 가능.
+rationale: KRDS는 페이지에 입력폼 제출 버튼 같은 최상위 수준 버튼이 있으면 파일 선택 버튼에 하위 위계 수준의 강조 표현을 써서 핵심 작업과 충돌하지 않게 하라고 한다.
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 파일 업로드 > 사용성 가이드라인(파일 선택 버튼을 ... 강조 수준으로 표현한다) (가이드라인 PDF 2025.08 706쪽)
+  note: 'https://www.krds.go.kr/html/site/component/component_09_04.html — 원문: ''하위 위계 수준의 버튼 강조 표현을 사용하여 핵심 작업과
+    파일 업로드 작업이 충돌하지 않도록 한다'''
+scope:
+  level: component
+  targets:
+  - 파일 선택 버튼
+exceptions: []
+relations:
+- type: depends
+  id: COLOR-015
+  note: 버튼 강조 단계(채움·윤곽선·텍스트) 정의는 COLOR-015
+examples:
+  good:
+  - lang: html
+    code: '<button type="button" class="btn-secondary">파일 선택</button>
+
+      <button type="submit" class="btn-primary">신청하기</button>
+
+      '
+    note: 파일 선택은 보조 버튼, 제출이 최상위 강조 버튼이다.
+  bad:
+  - lang: html
+    code: '<button type="button" class="btn-primary">파일 선택</button>
+
+      <button type="submit" class="btn-primary">신청하기</button>
+
+      '
+    note: 파일 선택 버튼이 제출 버튼과 같은 최상위 강조 스타일이다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(curl로 KRDS 페이지 HTML을 받아 본문 텍스트와 대조): 본문 문장 일치 확인. 제목의 ''적절한 강조 수준''은 본문의 ''하위
+  위계 수준''으로 바꿔 씀. 원문 강도 ''사용하여 ... 한다''(지시문) → SHOULD.'
+korean_specific: false
+tags:
+- krds
+- krds-component

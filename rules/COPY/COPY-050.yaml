@@ -1,0 +1,56 @@
+id: COPY-050
+category: COPY
+title: 토스트 문구 한 줄
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 토스트 메시지는 사용자 행동의 결과를 한 줄로 쓰고, 두 줄 이상의 설명이나 사용자의 추가 행동이 필요하면 토스트 대신 스낵바를 쓴다.
+measurement:
+  criteria: (1) 토스트 텍스트의 줄 수가 모든 지원 화면 너비에서 1이다. (2) 토스트 안에 button·a 같은 대화형 요소가 없다.
+  method: 토스트를 띄우는 동작마다 지원 중단점에서 토스트 텍스트 줄 수와 대화형 요소 유무를 확인한다.
+automation:
+  feasibility: none
+  checks: []
+  note: '4단계 커스텀 검사(Playwright): 토스트 표시 후 텍스트 줄 수와 내부 button/a 개수 측정.'
+rationale: 토스트는 잠깐 나타났다 사라지는 메시지라 한 줄로 읽혀야 하고, 행동이 필요한 메시지는 작업 버튼을 둘 수 있는 스낵바가 맞다(KRDS 토스트).
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 토스트 > 사용성 가이드라인
+  note: https://www.krds.go.kr/html/site/component/component_12_05.html
+scope:
+  level: component
+  targets:
+  - 토스트
+exceptions: []
+relations:
+- type: conflicts
+  id: STATE-037
+  note: '메시지 종류는 중요도로 먼저 나눈다: 반드시 읽고 확인해야 하는 내용 → 모달, 그렇지 않은 두 줄 이상 또는 추가 행동이 필요한 결과 알림 → 스낵바, 한 줄 결과 알림 → 토스트.'
+  decision: CF-004
+- type: depends
+  id: COPY-051
+  note: 스낵바 문구 분량은 COPY-051
+examples:
+  good:
+  - lang: html
+    code: '<div class="toast" role="status">저장했습니다.</div>
+
+      '
+    note: 행동 결과를 한 줄로 알리고 대화형 요소가 없다
+  bad:
+  - lang: html
+    code: '<div class="toast" role="status">임시 저장에 실패했습니다. 네트워크 연결을 확인한 뒤 다시 시도하세요. <button>다시 시도</button></div>
+
+      '
+    note: 두 문장 설명과 버튼이 필요한 내용을 토스트로 보여준다 — 스낵바 대상이다
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(curl로 KRDS 페이지 HTML을 받아 텍스트로 직접 읽음): 토스트(component_12_05) 사용성 가이드라인 ''사용자 행동에
+  대한 결과를 명확하고 간결하게 한 줄의 메시지로 제공한다. 결과 전달에 있어 두줄 이상의 설명 또는 사용자의 추가 행동이 필요한 경우 스낵바를 사용하는 것이 적합하다'' 확인. 같은 페이지 용례는
+  ''한 문장 이상의 긴 설명 → 모달''이라 STATE-037과 conflicts로 연결(새 충돌 후보, 제안 파일 conflicts). 강도: KRDS 단정형 서술(''~한다'') → SHOULD.
+  ''해야 한다'' 표현이 아니므로 public-sector-must 태그는 붙이지 않음.'
+korean_specific: false
+tags:
+- krds
+- krds-component

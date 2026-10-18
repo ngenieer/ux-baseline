@@ -1,0 +1,59 @@
+id: STATE-024
+category: STATE
+title: 도움·따라하기 패널 다시 열면 마지막 콘텐츠
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 도움 패널이나 따라하기 패널을 닫았다가 다시 열면(다른 패널로 전환했다가 돌아온 경우 포함) 사용자가 마지막으로 본 콘텐츠를 표시한다.
+measurement:
+  criteria: 패널에서 기본 상태가 아닌 콘텐츠 X(따라하기는 단계 N)로 이동 → 패널 닫기(또는 다른 패널로 전환) → 다시 열기 시 X(단계 N)가 표시된다.
+  method: 같은 페이지 안에서 위 절차를 수행한다.
+automation:
+  feasibility: none
+  checks: []
+  note: E2E 시나리오 테스트로 검사 가능.
+rationale: 다시 열 때마다 처음으로 돌아가면 사용자가 보던 도움말이나 진행 중인 따라하기 단계를 다시 찾아야 한다(KRDS 도움 패널·따라하기 패널).
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 도움 패널 > 사용성 가이드라인 (가이드라인 PDF 2025.08 605쪽)
+  note: https://www.krds.go.kr/html/site/component/component_08_01.html
+- ref: KRDS
+  locator: 컴포넌트 > 따라하기 패널 > 사용성 가이드라인 — '패널을 닫거나 도움 패널로 전환하였다 따라하기 패널을 다시 실행하더라도 본문은 사용자가 가장 마지막에 확인한 따라하기 콘텐츠를
+    표시해야 한다' (가이드라인 PDF 2025.08 615쪽)
+  note: https://www.krds.go.kr/html/site/component/component_08_02.html (STATE-026에서 병합)
+scope:
+  level: component
+  targets:
+  - 도움 패널
+  - 따라하기 패널
+exceptions: []
+relations:
+- type: depends
+  id: COPY-041
+  note: 처음 열 때는 COPY-041의 기본 상태, 다시 열 때는 이 룰
+examples:
+  good:
+  - lang: js
+    code: 'panel.addEventListener(''close'', () => sessionStorage.setItem(''help:last'', panel.dataset.topic));
+
+      openBtn.addEventListener(''click'', () => showHelp(sessionStorage.getItem(''help:last'') ?? ''intro''));
+
+      '
+    note: 패널을 다시 열면 마지막으로 본 주제를 보여준다.
+  bad:
+  - lang: js
+    code: 'openBtn.addEventListener(''click'', () => showHelp(''intro'')); // 항상 첫 화면으로 초기화
+
+      '
+    note: 다시 열 때마다 기본 화면으로 돌아가 보던 위치를 잃는다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(curl로 KRDS 페이지 HTML을 받아 텍스트로 직접 읽음): 도움 패널 component_08_01 ''패널을 닫았다가 다시 실행한
+  경우, 본문은 사용자가 가장 마지막에 확인한 도움 콘텐츠를 표시해야 한다'', 따라하기 패널 component_08_02 같은 취지 문장 확인. 같은 요구라 STATE-026 병합(정본은 번호가 작은
+  STATE-024).'
+korean_specific: false
+tags:
+- krds
+- krds-component
+- public-sector-must

@@ -1,0 +1,195 @@
+id: spinner
+title: 스피너
+status: confirmed
+summary: 요청 후 1초 안에 끝나지 않는 처리를 기다리는 동안, 처리가 일어나는 영역 안에 진행 중임을 보여 줄 때 쓴다.
+use_instead:
+- when: 화면(페이지) 첫 로드
+  use: 스켈레톤
+  rule: STATE-020
+- when: 파일 업로드처럼 진행률을 계산할 수 있고 가로 공간이 있는 처리
+  use: 진행 막대(progress) 또는 확정 스피너(spinner--determinate)
+  rule: STATE-020
+krds:
+  page: component_07_02.html
+  kit: html/code/spinner.html
+  kit_classes:
+    spinner: krds-spinner
+    spinner__indicator: krds-spinner::before
+    spinner__text: krds-spinner 텍스트 노드
+anatomy:
+- part: 루트(상태 영역)
+  class: spinner
+  element: div
+  required: true
+  note: role="status". 처리 영역 안에 비어 있는 상태로 미리 두고, 처리가 1초를 넘으면 안을 채운다(STATE-001, STATE-002, STATE-022).
+- part: 식별자
+  class: spinner__indicator
+  element: progress
+  required: true
+  note: 네이티브 progress 를 링 모양으로 그린다. 처리 영역(aria-busy 대상) 전체를 불러오는 로딩이면 aria-labelledby 로 처리 영역의 제목을 이름으로, aria-describedby
+    로 처리 중 텍스트를 설명으로 준다(WAI-ARIA progressbar, STATE-046). 버튼·입력 필드 안처럼 처리 영역 제목이 없는 컴포넌트 안 대기는 aria-labelledby 로 처리 중
+    텍스트를 이름으로 준다. 같은 요소를 이름과 설명에 함께 가리키지 않는다. 불확정이면 value 를 두지 않는다(STATE-020).
+- part: 확정 링
+  class: spinner__ring
+  element: svg
+  note: 확정 스피너(spinner--determinate)에서만 쓰는 시각 표현. aria-hidden="true". 값은 함께 두는 progress(value·max)가 보조기술에 전달한다.
+- part: 처리 중 텍스트
+  class: spinner__text
+  element: span
+  required: true
+  note: 무엇을 처리 중인지 화면에 텍스트로 쓴다(STATE-002). 예 '목록을 불러오는 중입니다.'
+markup: |-
+  <section class="spinner-demo" aria-labelledby="result-list-title" aria-busy="true">
+    <h2 id="result-list-title">검색 결과</h2>
+    <div class="spinner spinner--large" role="status">
+      <progress class="spinner__indicator" aria-labelledby="result-list-title" aria-describedby="result-list-loading"></progress>
+      <span class="spinner__text" id="result-list-loading">검색 결과를 불러오는 중입니다.</span>
+    </div>
+  </section>
+css: |-
+  .spinner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-gap-3);
+    color: var(--color-text-subtle);
+    font-size: var(--font-size-body-small);
+  }
+  .spinner__indicator {
+    display: inline-block;
+    flex-shrink: 0;
+    inline-size: var(--size-height-3);
+    block-size: var(--size-height-3);
+    appearance: none;
+    border: var(--border-width-variable-medium) solid var(--color-element-disabled-light);
+    border-block-start-color: var(--color-element-primary);
+    border-radius: var(--radius-max);
+    background-color: transparent;
+    color: transparent;
+    animation-name: spinner-rotate;
+    animation-duration: var(--motion-duration-max);
+    animation-timing-function: var(--motion-easing-linear);
+    animation-iteration-count: 10;
+  }
+  .spinner__indicator::-webkit-progress-bar,
+  .spinner__indicator::-webkit-progress-value {
+    background-color: transparent;
+  }
+  .spinner__indicator::-moz-progress-bar {
+    background-color: transparent;
+  }
+  .spinner--large {
+    flex-direction: column;
+  }
+  .spinner--large .spinner__indicator,
+  .spinner--large .spinner__ring {
+    inline-size: var(--size-height-7);
+    block-size: var(--size-height-7);
+  }
+  .spinner--small .spinner__indicator,
+  .spinner--small .spinner__ring {
+    inline-size: var(--size-height-2);
+    block-size: var(--size-height-2);
+  }
+  .spinner--page {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    flex-direction: column;
+    background-color: var(--color-surface-white-subtler);
+  }
+  .spinner--page .spinner__indicator {
+    inline-size: var(--size-height-7);
+    block-size: var(--size-height-7);
+    animation-iteration-count: infinite;
+  }
+  .spinner--determinate .spinner__indicator {
+    position: absolute;
+    inline-size: 1px;
+    block-size: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+    animation-name: none;
+  }
+  .spinner__ring {
+    flex-shrink: 0;
+    inline-size: var(--size-height-3);
+    block-size: var(--size-height-3);
+    transform: rotate(-90deg);
+  }
+  .spinner__track,
+  .spinner__fill {
+    fill: none;
+    stroke-width: 3;
+  }
+  .spinner__track {
+    stroke: var(--color-element-disabled-light);
+  }
+  .spinner__fill {
+    stroke: var(--color-element-primary);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .spinner__indicator {
+      animation-name: none;
+    }
+  }
+  @keyframes spinner-rotate {
+    to {
+      transform: rotate(1turn);
+    }
+  }
+states:
+- name: 대기(기본)
+  markup_change: spinner 영역(role=status)만 비어 있는 상태로 DOM 에 있다. 처리 시작 후 1초 안에 끝나면 아무것도 넣지 않는다(STATE-002).
+  rule: STATE-002
+- name: 처리 중(불확정)
+  markup_change: 처리가 1초를 넘으면 spinner__indicator 와 spinner__text 를 넣는다. 처리 영역에 aria-busy="true" 를 두고, 식별자 progress 는 처리 영역 제목을
+    aria-labelledby, 처리 중 텍스트를 aria-describedby 로 가리킨다(STATE-046).
+  rule: STATE-020
+- name: 처리 중(확정, spinner--determinate)
+  markup_change: 루트에 spinner--determinate, 식별자 progress 에 max="100" value(0~100)를 두고(시각적으로 숨김), 그 앞에 spinner__ring SVG(aria-hidden)를 넣는다 — 원 2개(spinner__track, spinner__fill)에 pathLength="100", spinner__fill 에 stroke-dasharray="<값> 100". 스크립트는 진행률이 바뀔 때마다 progress 의 value 와 spinner__fill 의 stroke-dasharray 속성을 함께 갱신한다. 링을 -90도 돌려 12시 방향에서 시계 방향으로 채운다(MOTION-003). 인라인 style 은 쓰지 않는다.
+  rule: MOTION-003
+- name: 완료
+  markup_change: 처리가 끝나면(확정 스피너는 100% 가 되면) 식별자와 텍스트를 지우고 결과를 표시한다. aria-busy 를 지운다. 결과 요약이 필요하면 같은 status 영역에 '검색 결과 24건' 같은 텍스트를 넣는다(STATE-001).
+  rule: STATE-019
+- name: 버튼·입력 필드 안(spinner--small)
+  markup_change: 버튼 안에서는 role="status" 를 버튼 안에 두지 않는다. 버튼 레이블을 '제출 중'으로 바꾸고 aria-disabled="true" 를 둔 뒤, 페이지의 별도 status 영역에 처리 중 텍스트를 넣는다. 입력 필드 안 스피너는 필드 오른쪽 안쪽에 겹쳐 두고 status 영역은 필드 밖(필드 다음 형제)에 둔다.
+  rule: STATE-022
+- name: 전체 화면 로딩(spinner--page)
+  markup_change: 다른 콘텐츠 없이 화면 전체를 덮는 로딩에만 쓴다. 이때만 회전을 무한 반복한다(CF-036).
+  rule: MOTION-001
+keyboard: []
+behavior:
+- 요청 후 1초가 지나도 끝나지 않을 때만 스피너를 표시하고(타이머로 1초 뒤 삽입, 그 전에 끝나면 취소), 처리 없이 타이머만으로 스피너를 보이지 않는다(STATE-002, STATE-019).
+- 처리 중 텍스트는 role="status" 영역으로 보조기술에 전달한다. status 영역은 미리 DOM 에 두고 내용만 넣는다(STATE-001).
+- 스피너는 처리되는 영역 안(제출은 제출 버튼 안)에 두고, 영역 전체를 불러올 때는 그 영역 가운데에 둔다(STATE-022). 크기는 배치 유형으로 정한다 — 버튼·메뉴 항목·입력 필드 안과 결과 내용을 대신하지 않는 상태 행(결과 영역 위·아래 한 줄)은 spinner--small, 결과가 들어갈 영역(aria-busy 대상)의 내용을 대신하는 영역 로딩은 spinner--large, 화면 전체는 spinner--page. 크기 변형 없는 기본 스피너는 쓰지 않는다(STATE-021).
+- 한 화면에 스피너를 2개 이상 동시에 표시하지 않는다. 컴포넌트 안 small 스피너와 파일 항목별 진행 표시는 예외다(STATE-023).
+- 회전은 다른 콘텐츠와 함께 보이므로 5초(motion-duration-max 500ms × 10회)가 지나면 멈춘다. 처리 중 텍스트는 처리가 끝날 때까지 그대로 보여 상태를 전한다. 다른 콘텐츠 없이 화면 전체를 덮는 spinner--page 만 무한 회전한다(MOTION-001, CF-036).
+- 모션 줄이기 설정(prefers-reduced-motion reduce)에서는 회전하지 않는다. 상태는 텍스트로 전한다(MOTION-004).
+- 진행률을 계산할 수 있는 처리에는 확정 스피너(또는 진행 막대)를 쓰고 progress 의 value 를 링 표시와 함께 갱신한다. 100% 가 되면 스피너를 숨기고 결과를 표시한다(STATE-020, MOTION-003).
+- 진행 중 색(element-primary)과 트랙 색(element-disabled-light)의 대비 3:1 이상을 유지한다(COLOR-003).
+rules:
+- A11Y-025
+- COLOR-003
+- MOTION-001
+- MOTION-003
+- MOTION-004
+- MOTION-010
+- SHAPE-001
+- STATE-001
+- STATE-002
+- STATE-019
+- STATE-020
+- STATE-021
+- STATE-022
+- STATE-023
+- STATE-046
+kit_differences:
+- KRDS 키트는 처리 중 텍스트를 '로딩 중'(sr-only)과 'Loading data..'로 따로 쓰고 진행 표시 요소에 role·이름이 없다 — 이 규격은 보이는 한국어 텍스트 하나를 쓰고, 식별자를 네이티브 progress(암묵 역할 progressbar)로 만들고 처리 영역 로딩이면 영역 제목을 이름·그 텍스트를 설명으로, 컴포넌트 안 대기면 그 텍스트를 이름으로 준다(STATE-002, STATE-020, STATE-046).
+- KRDS 키트 회전은 900ms 무한 반복이다 — 이 규격은 모션 토큰(motion-duration-max)만 쓰고(MOTION-010), 다른 콘텐츠와 함께 보이는 스피너는 5초 뒤 회전을 멈춘다(MOTION-001, CF-036).
+- KRDS 키트는 입력 필드 스피너의 role="status" 를 필드 안에 겹쳐 둔다 — 이 규격은 status 영역을 필드 밖에 둔다.
+notes:
+- 크기(기본 1.25rem, small 1rem, large 3rem)는 기본만 KRDS 키트(size-height-3)를 따랐고 small·large 는 KRDS 키트에 값이 없어 체계 크기 토큰에서 고른 선호 값이다(STATE-021 은 크기 값을 4단계 토큰에서 정한다고 했다).
+- 5초 뒤 회전을 멈추는 방식은 정지 버튼을 따로 두지 않고 MOTION-001(WCAG 2.2.2 '5초를 넘게 움직이는 콘텐츠')을 지키는 방법이다. 회전이 멈춰도 '불러오는 중' 텍스트가 남아 있으므로 멈춤을 처리 완료로 오해하지 않는다.
+- markup 의 section.spinner-demo 는 처리 영역을 보여 주기 위한 예시 래퍼다.

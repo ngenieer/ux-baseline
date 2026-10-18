@@ -1,0 +1,53 @@
+id: LAYOUT-046
+category: LAYOUT
+title: 텍스트 목록
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 중첩 텍스트 목록은 수준마다 들여쓰기로 계층을 구분하고 3수준 이내로 구성한다.
+measurement:
+  criteria: (1) ul·ol 중첩 깊이 ≤ 3. (2) 하위 수준 목록 항목의 텍스트 시작 x좌표가 상위 수준보다 오른쪽이다(padding-inline-start 또는 margin-inline-start
+    > 0).
+  method: 중첩 목록의 DOM 깊이와 수준별 시작 위치를 확인한다.
+automation:
+  feasibility: partial
+  checks:
+  - tool: custom
+    method: querySelectorAll('ul ul ul ul, ol ol ol ol, ul ol ol ol, ol ul ul ul')로 4수준 이상 탐지
+  note: 들여쓰기 존재는 계산 스타일 확인(커스텀).
+rationale: 글자 크기만으로는 수준을 구분하기 어렵고, 수준이 깊으면 항목 간 상하 관계를 이해하기 어렵다.
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 텍스트 목록 > 사용성 가이드라인 (가이드라인 PDF 2025.08 487·491·492쪽)
+  note: https://www.krds.go.kr/html/site/component/component_04_13.html
+scope:
+  level: component
+  targets:
+  - ul
+  - ol
+  - 텍스트 목록
+exceptions: []
+relations: []
+examples:
+  good:
+  - lang: css
+    code: 'ul ul, ol ol { padding-inline-start: var(--space-padding-8); } /* 수준마다 들여쓰기, 중첩은 3수준까지 */
+
+      '
+    note: 하위 목록이 들여쓰기로 구분된다.
+  bad:
+  - lang: css
+    code: 'ul ul, ol ol { padding-inline-start: 0; } /* 하위 목록이 상위와 같은 위치에서 시작 */
+
+      '
+    note: 들여쓰기가 없어 목록 계층이 보이지 않는다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(curl로 KRDS 페이지 HTML을 받아 본문 텍스트를 직접 확인): 텍스트 목록(component_04_13) ''들여쓰기를 활용하여
+  계층 구조를 명확하게 구분한다.'', ''각 수준별로 적절한 들여쓰기 여백을 설정'', ''목록은 3수준 이내로 구성한다.'' 확인. 들여쓰기 수치는 원문에 없어 ''0보다 큼''으로만 판정. 지시형
+  → SHOULD.'
+korean_specific: false
+tags:
+- krds
+- krds-component

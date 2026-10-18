@@ -1,0 +1,50 @@
+id: STATE-040
+category: STATE
+title: 스낵바 아이콘
+stage: platformed
+status:
+  value: confirmed
+type: guide
+strength: MAY
+statement: 스낵바 아이콘은 메시지 의미 전달을 돕는 경우에만 메시지 왼쪽에 두고, 메시지 텍스트보다 눈에 띄게 표현하지 않는다.
+measurement:
+  criteria: '점검 질문: (1) 아이콘이 메시지 왼쪽(DOM상 메시지 앞)에 있는가? (2) 아이콘 없이도 메시지 의미가 같은가 — 같다면 아이콘이 필요한가? (3) 아이콘 크기·색이 메시지
+    텍스트보다 시선을 먼저 끄는가?'
+  method: 스낵바 사용처를 점검 질문으로 검토한다.
+automation:
+  feasibility: none
+  checks: []
+  note: (1)은 커스텀 검사 가능, (2)(3)은 판단.
+rationale: 아이콘이 메시지보다 두드러지면 메시지 톤과 어긋나고 주의를 흩뜨린다(KRDS 스낵바).
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 스낵바 > 사용성 가이드라인
+  note: https://www.krds.go.kr/html/site/component/component_12_06.html
+scope:
+  level: component
+  targets:
+  - 스낵바
+exceptions: []
+relations:
+- type: depends
+  id: A11Y-001
+  note: 의미를 전달하는 아이콘이면 대체 텍스트, 메시지와 중복이면 장식 처리
+examples:
+  good:
+  - lang: html
+    code: "<div class=\"snackbar\" role=\"status\">\n  <svg class=\"icon icon--sm\" aria-hidden=\"true\">…</svg><span>업로드에\
+      \ 실패했습니다</span>\n</div>\n"
+    note: 의미를 돕는 작은 아이콘을 메시지 왼쪽에 둔다.
+  bad:
+  - lang: html
+    code: "<div class=\"snackbar\" role=\"status\">\n  <span>업로드에 실패했습니다</span><svg class=\"icon icon--xl\" aria-hidden=\"\
+      true\">…</svg>\n</div>\n"
+    note: 아이콘을 메시지 오른쪽에 텍스트보다 크게 둬 시선을 먼저 끈다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(curl로 KRDS 페이지 HTML을 받아 텍스트로 직접 읽음): 스낵바 component_12_06 ''아이콘은 반드시 필요한 경우에만
+  사용한다. … 필요 시 메시지 좌측에 … 시각적으로 부각되지 않게 사용하며 … 적합하다'' 확인. ''부각되지 않게''는 수치 기준이 없어 type: guide, 근거 문장이 ''적합하다''로 끝나
+  MAY.'
+korean_specific: false
+tags:
+- krds
+- krds-component

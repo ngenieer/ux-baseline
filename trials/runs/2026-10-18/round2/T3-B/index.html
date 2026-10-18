@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>내 신청 내역 - 임시 저장 신청서 삭제</title>
+  <!-- 토큰을 먼저 불러온 뒤 화면 스타일을 불러온다 -->
+  <link rel="stylesheet" href="tokens.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!--
+    이 문서는 "임시 저장 신청서 삭제" 흐름 세 상태를 한 장에 함께 보여 준다(시연용).
+      1) 목록 화면  2) 열린 삭제 확인 대화상자  3) 삭제 후 결과 알림
+    실제 화면에서는 2와 3이 동시에 보이지 않는다. 상호작용은 각 요소 옆 주석에 적는다.
+  -->
+  <a class="skip-link" href="#main">본문 바로가기</a>
+
+  <!-- 대화상자가 열려 있는 동안 배경은 inert 상태가 되므로(showModal) 이 영역은 조작·탐색되지 않는다 -->
+  <main id="main" class="page">
+    <h1 class="page__title">내 신청 내역</h1>
+    <p class="page__desc">임시 저장한 신청서는 이어서 작성하거나 삭제할 수 있습니다. 접수된 신청서는 삭제할 수 없습니다.</p>
+
+    <!--
+      상태별 보기: 스크립트 없이도 동작하도록 탭 위젯(role="tablist") 대신 링크 목록으로 만든다.
+      - 각 링크는 같은 화면을 ?status= 값으로 다시 불러온다(서버 필터). 현재 보기에는 aria-current="page".
+      - 키보드: Tab 으로 링크 사이를 이동, Enter 로 선택.
+    -->
+    <nav class="filter" aria-label="상태별 보기">
+      <ul class="filter__list">
+        <li><a class="filter__link" href="?status=all" aria-current="page">전체 <span class="filter__count">3</span></a></li>
+        <li><a class="filter__link" href="?status=draft">임시 저장 <span class="filter__count">1</span></a></li>
+        <li><a class="filter__link" href="?status=submitted">접수 완료 <span class="filter__count">1</span></a></li>
+      </ul>
+    </nav>
+
+    <section aria-labelledby="list-title">
+      <h2 id="list-title" class="sr-only" tabindex="-1">신청서 목록 (전체 3건)</h2>
+      <!-- 삭제가 끝나면 지운 카드가 사라지므로, 초점을 이 제목(tabindex="-1")으로 옮겨 초점이 사라지지 않게 한다 -->
+
+      <ul class="card-list">
+        <li>
+          <article class="card" aria-labelledby="app-1-title">
+            <div class="card__head">
+              <h3 id="app-1-title" class="card__title">청년 월세 한시 특별지원 신청서</h3>
+              <p class="badge badge--draft"><span class="sr-only">상태: </span>임시 저장</p>
+            </div>
+            <p class="card__meta">마지막 수정 <time datetime="2026-10-15T14:32">2026. 10. 15. 오후 2:32</time></p>
+            <div class="card__actions">
+              <a class="btn btn--primary" href="/apply/1024/edit">이어서 작성하기<span class="sr-only">: 청년 월세 한시 특별지원 신청서</span></a>
+              <!--
+                삭제 버튼: 누르면 dialog.showModal() 로 #delete-dialog 를 연다.
+                aria-haspopup="dialog" 로 대화상자가 열린다는 것을 알린다.
+                대화상자를 취소·닫기로 닫으면 초점을 이 버튼으로 되돌린다.
+              -->
+              <button type="button" class="btn btn--danger-outline" aria-haspopup="dialog" aria-controls="delete-dialog">삭제<span class="sr-only">: 청년 월세 한시 특별지원 신청서</span></button>
+            </div>
+          </article>
+        </li>
+
+        <li>
+          <article class="card" aria-labelledby="app-2-title">
+            <div class="card__head">
+              <h3 id="app-2-title" class="card__title">국민내일배움카드 발급 신청서</h3>
+              <p class="badge badge--submitted"><span class="sr-only">상태: </span>접수 완료</p>
+            </div>
+            <p class="card__meta">마지막 수정 <time datetime="2026-10-02T09:10">2026. 10. 2. 오전 9:10</time></p>
+            <div class="card__actions">
+              <a class="btn btn--secondary" href="/apply/0987">신청 내용 보기<span class="sr-only">: 국민내일배움카드 발급 신청서</span></a>
+            </div>
+            <!-- 접수된 신청서는 삭제 버튼을 비활성으로 두지 않고 없애며, 이유를 글로 알린다 -->
+            <p class="card__note">접수된 신청서는 삭제할 수 없습니다.</p>
+          </article>
+        </li>
+
+        <li>
+          <article class="card" aria-labelledby="app-3-title">
+            <div class="card__head">
+              <h3 id="app-3-title" class="card__title">주거급여 수급자 변경 신고서</h3>
+              <p class="badge badge--progress"><span class="sr-only">상태: </span>처리 중</p>
+            </div>
+            <p class="card__meta">마지막 수정 <time datetime="2026-09-28T16:05">2026. 9. 28. 오후 4:05</time></p>
+            <div class="card__actions">
+              <a class="btn btn--secondary" href="/apply/0951">신청 내용 보기<span class="sr-only">: 주거급여 수급자 변경 신고서</span></a>
+            </div>
+            <p class="card__note">처리 중인 신청서는 삭제할 수 없습니다.</p>
+          </article>
+        </li>
+      </ul>
+    </section>
+  </main>
+
+  <!--
+    삭제 확인 대화상자 (시연을 위해 열린 상태로 그린다)
+    - 실제로는 open 속성 없이 두고 삭제 버튼에서 dialog.showModal() 로 연다.
+      showModal() 은 배경을 inert 로 만들고, 초점을 대화상자 안에 가두고, Esc 로 닫히게 한다.
+      정적 시연에서는 ::backdrop 이 그려지지 않으므로 .dialog-backdrop 으로 대신 그린다.
+    - 처음 초점: 되돌릴 수 없는 동작이므로 "취소" 버튼(autofocus)에 둔다.
+    - 닫기(X)·취소·Esc: 아무것도 지우지 않고 닫은 뒤, 초점을 눌렀던 "삭제" 버튼으로 되돌린다.
+    - 삭제: 서버 요청 동안 버튼을 "삭제하는 중…"으로 바꾸고 aria-busy="true", 중복 누름을 막는다.
+      성공하면 대화상자를 닫고 카드를 목록에서 없앤 뒤, 초점을 #list-title 로 옮기고 결과 알림을 띄운다.
+      실패하면 대화상자를 닫지 않고 .dialog__body 위에 오류 문구(role="alert")를 보여 준다.
+  -->
+  <div class="dialog-backdrop" aria-hidden="true"></div>
+  <dialog id="delete-dialog" class="dialog" open aria-labelledby="delete-dialog-title" aria-describedby="delete-dialog-desc">
+    <div class="dialog__header">
+      <h2 id="delete-dialog-title" class="dialog__title">임시 저장한 신청서를 삭제할까요?</h2>
+      <form method="dialog">
+        <button type="submit" class="icon-btn" value="close" aria-label="닫기">
+          <svg class="icon-btn__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M6 6l12 12M18 6L6 18" />
+          </svg>
+        </button>
+      </form>
+    </div>
+
+    <div class="dialog__body" id="delete-dialog-desc">
+      <p>다음 신청서와 작성한 내용이 모두 지워집니다.</p>
+      <dl class="summary">
+        <div class="summary__row">
+          <dt>신청서</dt>
+          <dd>청년 월세 한시 특별지원 신청서</dd>
+        </div>
+        <div class="summary__row">
+          <dt>마지막 수정</dt>
+          <dd><time datetime="2026-10-15T14:32">2026. 10. 15. 오후 2:32</time></dd>
+        </div>
+        <div class="summary__row">
+          <dt>지워지는 내용</dt>
+          <dd>입력한 항목 전체, 첨부파일 2개(임대차계약서.pdf, 소득증빙.jpg)</dd>
+        </div>
+      </dl>
+      <p class="notice notice--danger">
+        <svg class="notice__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <circle cx="12" cy="12" r="9" /><path d="M12 7v6M12 16v1" />
+        </svg>
+        <span><strong>삭제하면 되돌릴 수 없습니다.</strong> 같은 신청을 하려면 처음부터 다시 작성해야 합니다.</span>
+      </p>
+    </div>
+
+    <!-- 버튼 순서: 안전한 동작(취소)을 먼저 두고 위험한 동작(삭제)을 뒤에 둔다. 버튼 문구는 동작을 그대로 쓴다 -->
+    <form method="dialog" class="dialog__actions">
+      <button type="submit" value="cancel" class="btn btn--secondary" autofocus>취소</button>
+      <button type="submit" value="delete" class="btn btn--danger">삭제</button>
+    </form>
+  </dialog>
+
+  <!--
+    삭제 결과 알림 (토스트)
+    - role="status"(aria-live="polite") 영역은 페이지를 불러올 때부터 비어 있는 상태로 두고,
+      삭제가 끝나면 그 안에 문구를 넣어 화면낭독기가 읽게 한다. (시연을 위해 내용을 채워 둔다)
+    - 초점은 옮기지 않는다. 자동으로 사라지게 하지 않고, "알림 닫기" 버튼이나 다음 화면 이동 때 닫는다(WCAG 2.2.1).
+    - 화면 하단에 고정되므로 본문 아래쪽 여백(scroll-padding-bottom)을 확보해 초점 요소를 가리지 않게 한다(WCAG 2.4.11).
+  -->
+  <div class="toast-region" role="status">
+    <div class="toast">
+      <svg class="toast__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <circle cx="12" cy="12" r="9" /><path d="M8 12.5l2.5 2.5L16 9.5" />
+      </svg>
+      <p class="toast__text">신청서를 삭제했습니다</p>
+      <button type="button" class="toast__close" aria-label="알림 닫기">
+        <svg class="icon-btn__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path d="M6 6l12 12M18 6L6 18" />
+        </svg>
+      </button>
+    </div>
+  </div>
+</body>
+</html>

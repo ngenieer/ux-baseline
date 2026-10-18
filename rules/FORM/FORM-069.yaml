@@ -1,0 +1,50 @@
+id: FORM-069
+category: FORM
+title: 슬라이더 최솟값·최댓값 표시
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 범위 슬라이더의 최솟값과 최댓값을 텍스트로 화면에 표시한다.
+measurement:
+  criteria: 슬라이더 트랙 양 끝 근처에 최솟값·최댓값 텍스트가 보이고, 그 값이 input의 min·max(또는 aria-valuemin·aria-valuemax)와 같다.
+  method: 'DOM 검사: min·max 속성값과 화면 텍스트를 대조한다.'
+automation:
+  feasibility: none
+  checks: []
+  note: 기존 검사기 규칙 없음. 4단계 커스텀 DOM 검사로 판정 가능.
+rationale: KRDS는 사용자에게 슬라이더 선택 값의 최솟값과 최댓값 정보를 제공하여야 한다고 한다.
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 범위 슬라이더 > 사용성 가이드라인(범위 정보를 표시하여야 한다)
+  note: https://www.krds.go.kr/html/site/component/component_12_01.html
+scope:
+  level: component
+  targets:
+  - input[type=range]
+  - '[role="slider"]'
+exceptions: []
+relations: []
+examples:
+  good:
+  - lang: html
+    code: "<style>.slider output { display: block; }</style>\n<div class=\"slider\">\n  <label for=\"vol\">음량</label>\n\
+      \  <output id=\"volOut\" for=\"vol\">40</output>\n  <span aria-hidden=\"true\">0</span>\n  <input id=\"vol\"\
+      \ type=\"range\" min=\"0\" max=\"100\" step=\"10\" value=\"40\" oninput=\"volOut.value = this.value\">\n \
+      \ <span aria-hidden=\"true\">100</span>\n</div>\n"
+    note: 트랙 양 끝에 min·max와 같은 0과 100을 표시했다.
+  bad:
+  - lang: html
+    code: "<div class=\"slider\">\n  <label for=\"vol\">음량</label>\n  <output id=\"volOut\" for=\"vol\">40</output>\n\
+      \  <input id=\"vol\" type=\"range\" min=\"0\" max=\"100\" step=\"10\" value=\"40\" oninput=\"volOut.value\
+      \ = this.value\">\n</div>\n"
+    note: 최솟값·최댓값 텍스트가 없어 범위를 알 수 없다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(curl로 KRDS 페이지 HTML을 받아 본문 텍스트와 대조): 문장 일치 확인. 원문 강도 ''표시하여야 한다/제공하여야 한다''
+  → SHOULD + public-sector-must.'
+korean_specific: false
+tags:
+- krds
+- krds-component
+- public-sector-must

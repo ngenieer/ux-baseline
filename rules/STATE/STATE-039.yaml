@@ -1,0 +1,47 @@
+id: STATE-039
+category: STATE
+title: 스낵바 작업 버튼
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 스낵바 작업 버튼은 메시지와 직접 관련된 행동(되돌리기·재시도·목록 이동 등)에만 텍스트 버튼으로 최대 1개 두고, 메시지 오른쪽에 둔다.
+measurement:
+  criteria: 스낵바마다 닫기 버튼을 뺀 작업 버튼이 0~1개이고, 텍스트 버튼 스타일이며, DOM·시각 순서에서 메시지 다음(오른쪽)에 있다. 버튼 레이블이 메시지가 알린 결과에 대한 행동이다.
+  method: 스낵바 사용처별로 버튼 수·스타일·위치·레이블을 확인한다.
+automation:
+  feasibility: none
+  checks: []
+  note: '4단계 커스텀 검사: 스낵바 규격 안 작업 버튼(닫기 제외) 수 ≤ 1.'
+rationale: 버튼이 여럿이거나 무관한 행동이 붙으면 간단한 조치를 제공하는 스낵바의 목적에서 벗어난다(KRDS 스낵바).
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 스낵바 > 사용성 가이드라인
+  note: https://www.krds.go.kr/html/site/component/component_12_06.html
+scope:
+  level: component
+  targets:
+  - 스낵바
+exceptions: []
+relations: []
+examples:
+  good:
+  - lang: html
+    code: "<div class=\"snackbar\" role=\"status\">\n  <span>메일을 보관함으로 옮겼습니다</span>\n  <button type=\"button\" class=\"\
+      btn-text\">되돌리기</button>\n  <button type=\"button\" aria-label=\"닫기\">×</button>\n</div>\n"
+    note: 메시지와 직접 관련된 텍스트 버튼 1개를 메시지 오른쪽에 둔다.
+  bad:
+  - lang: html
+    code: "<div class=\"snackbar\" role=\"status\">\n  <span>메일을 보관함으로 옮겼습니다</span>\n  <button type=\"button\" class=\"\
+      btn-text\">되돌리기</button>\n  <button type=\"button\" class=\"btn-text\">새 메일 쓰기</button>\n</div>\n"
+    note: 작업 버튼이 2개이고 그중 하나는 메시지와 관련 없는 행동이다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(curl로 KRDS 페이지 HTML을 받아 텍스트로 직접 읽음): 스낵바 component_12_06 ''메시지와 직접 관련된 추가 행동을
+  위한 작업 버튼을 필요 시 제공한다 … 텍스트 형태 … 최대 1개만 제공하며, 메시지 우측에 구분하여 제공한다'', 구조 ''5. 작업 버튼(선택) … 텍스트 버튼 사용'' 확인. 수집 때 ''같은
+  요구''로 붙은 AI 적용 후 되돌리기 출처(HAX G9, PAIR)는 다른 요구라 빼고 제안 파일에 AI 룰 분리로 옮김.'
+korean_specific: false
+tags:
+- krds
+- krds-component
+- public-sector-must

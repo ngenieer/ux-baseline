@@ -1,0 +1,14 @@
+id: CF-026
+rules:
+- COPY-056
+against: KS X ISO 8601(YYYY-MM-DD) — 원문 미확인
+summary: 화면 날짜 표기는 한글 맞춤법 문장 부호 규정('2026. 10. 18.')과 국가표준 ISO 형식 중 무엇을 따를지.
+principle: 3
+decision: 사람이 읽는 화면 표기는 한글 맞춤법 형식을 따르고, 기계 판독용 값은 time 요소의 datetime 속성에 YYYY-MM-DD로 넣는다. 시각까지 나타내면 YYYY-MM-DDTHH:MM
+  또는 YYYY-MM-DDTHH:MM:SS 로 넣는다.
+reason: 사람과 기계가 읽는 값을 나누면 두 기준을 모두 지킬 수 있다.
+deviates_from_priority: false
+date: '2026-10-18'
+rule_changes:
+- 'COPY-056: statement 수정'
+- 'COPY-056: datetime 에 날짜+시각(YYYY-MM-DDTHH:MM(:SS)) 허용을 statement·측정 기준 (3)에 명시 (2026-10-18 시험 4 검토 반영)'

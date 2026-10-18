@@ -1,0 +1,20 @@
+id: CF-055
+rules:
+- NAV-044
+- NAV-067
+- RESP-010
+- RESP-012
+- RESP-013
+against: KRDS 컴포넌트 페이지의 '좁은 화면·모바일 레이아웃·작은 디스플레이' 표현(너비 수치 없음) vs KRDS 레이아웃 브레이크포인트 모드 정의
+summary: 컴포넌트 페이지는 좁은 화면의 너비를 주지 않아 룰마다 768px·1024px 경계를 다르게 썼다. KRDS 레이아웃 원문(PDF 153쪽)은 Mobile 모드를 small·medium(360~1023px,
+  태블릿 포함), PC 모드를 large 이상(1024px~)으로 정의한다.
+principle: 3
+decision: KRDS 컴포넌트의 '좁은 화면·모바일 레이아웃·작은 디스플레이'는 KRDS Mobile 모드, 즉 뷰포트 1024px 미만으로 판정한다. NAV-044·RESP-010·RESP-012·RESP-013의
+  768px 경계를 1024px로 바꾸고, NAV-067(1024px)은 그대로 둔다. 토큰의 PC 반응형 경계(1024px)와 같다.
+reason: 같은 체계 안에서 '모바일' 경계가 룰마다 다르면 AI가 화면마다 다른 경계를 쓴다(일관성, 원칙 3). KRDS가 스스로 정의한 모드 경계를 따르면 출처와도 맞고 tokens.css의
+  PC 미디어 쿼리와도 일치한다. 접근성·과업 완료 원칙은 경계값을 정하지 않는다.
+deviates_from_priority: false
+date: '2026-10-18'
+rule_changes:
+- 'NAV-044·RESP-010·RESP-012·RESP-013: 768px → 1024px (statement·측정 기준·예시)'
+- 'NAV-067: 근거 추가'

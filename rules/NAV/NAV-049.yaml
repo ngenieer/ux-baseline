@@ -1,0 +1,49 @@
+id: NAV-049
+category: NAV
+title: 넘치는 탭의 탐색 컨트롤
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 탭 목록이 컨테이너 너비 안에 다 표시되지 않으면 숨은 탭을 여는 팝업 버튼이나 탭 목록을 좌우로 이동하는 컨트롤을 제공한다.
+measurement:
+  criteria: '[role=tablist]의 scrollWidth가 clientWidth보다 큰 모든 뷰포트에서, 탭 목록 옆에 숨은 탭 목록을 여는 버튼 또는 좌·우 이동 버튼이 보인다.'
+  method: 여러 뷰포트 너비로 렌더링해 tablist 넘침 여부와 이동 컨트롤 존재를 확인한다.
+automation:
+  feasibility: none
+  checks: []
+  note: 기존 검사기 규칙 없음. 4단계 커스텀 E2E 검사(scrollWidth > clientWidth일 때 컨트롤 존재)로 자동화 가능.
+rationale: '탭이 많으면(원문: 6개 초과) 인지 부담이 커지고 레이아웃이 깨진다. 보이지 않는 탭은 찾을 수단이 있어야 한다.'
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 탭 > 사용성 가이드라인 (탭의 항목 수가 많아 일렬로 배치하기 어려운 경우 별도의 탐색 컨트롤을 제공한다) (가이드라인 PDF 2025.08 454쪽)
+  note: https://www.krds.go.kr/html/site/component/component_04_10.html
+scope:
+  level: component
+  targets:
+  - '[role=tablist]'
+  - 탭
+exceptions: []
+relations: []
+examples:
+  good:
+  - lang: html
+    code: "<div class=\"tabs\">\n  <button aria-label=\"이전 탭 보기\">‹</button>\n  <div role=\"tablist\" style=\"overflow-x:auto\"\
+      >…</div>\n  <button aria-label=\"다음 탭 보기\">›</button>\n</div>\n"
+    note: 넘친 탭 목록 양옆에 좌·우 이동 버튼이 있다.
+  bad:
+  - lang: html
+    code: '<div role="tablist" style="overflow:hidden; white-space:nowrap">…9개 탭, 뒤쪽 3개가 잘림…</div>
+
+      '
+    note: 넘친 탭을 잘라 숨기고 이동 수단을 주지 않는다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(KRDS 페이지 curl 수신 후 텍스트 추출): ''탭이 6개를 초과하면 … 모든 탭이 영역의 너비에서 넘치지 않고 표시될 수 없는
+  경우, 숨겨진 탭을 탐색할 수 있는 팝업 버튼을 제공하거나 탭을 좌/우로 이동할 수 있는 컨트롤 요소를 제공해야 한다'' 확인. 원문의 발동 조건은 ''넘침''이고 6개는 근거 서술이라 statement에서
+  6개를 조건으로 쓰지 않았다. 원문 지시형 문장을 의무로 읽어 SHOULD + public-sector-must.'
+korean_specific: false
+tags:
+- krds
+- krds-component
+- public-sector-must

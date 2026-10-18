@@ -1,0 +1,59 @@
+id: FORM-006
+category: FORM
+title: 중요 제출 오류 예방
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: MUST
+statement: 사용자에게 법적 약정이나 금융 거래를 일으키거나, 사용자가 관리하는 저장 데이터를 수정·삭제하거나, 시험 응답을 제출하는 페이지에는 제출 취소 가능, 제출 전 오류 검사와 수정 기회,
+  최종 제출 전 검토·확인·수정 단계 중 하나 이상을 제공한다.
+measurement:
+  criteria: '대상 페이지(계약·약관 동의 제출, 결제·이체, 사용자 데이터 수정·삭제, 시험 답안 제출)마다 다음 중 하나 이상이 성립한다: (1) 제출 후 사용자가 직접 취소·되돌릴 수 있는
+    수단이 있다, (2) 제출 시 입력 오류를 검사하고 오류가 있으면 수정할 수 있게 되돌아온다, (3) 최종 제출 버튼 전에 입력 내용 전체를 보여주고 수정으로 돌아갈 수 있는 검토 단계(페이지·대화상자)가
+    있다.'
+  method: 대상 페이지 목록을 만들고 각 흐름을 끝까지 수행해 세 수단 중 무엇이 있는지 기록한다(수동).
+automation:
+  feasibility: none
+  note: 대상 판별과 흐름 확인이 사람 판단. 4단계에서 E2E 시나리오(검토 단계 존재·취소 수단 존재)로 만들 수 있다.
+rationale: 되돌리기 어려운 제출에서 실수하면 손해가 크다. 장애 사용자는 입력 실수 가능성이 더 높아 확인·취소 수단이 필요하다.
+sources:
+- ref: WCAG22
+  locator: SC 3.3.4 Error Prevention (Legal, Financial, Data) (Level AA)
+  note: https://www.w3.org/TR/WCAG22/#error-prevention-legal-financial-data
+- ref: WCAG22_UNDERSTANDING
+  locator: https://www.w3.org/WAI/WCAG22/Understanding/error-prevention-legal-financial-data.html
+scope:
+  level: situation
+  targets:
+  - 법적 약정·금융 거래 제출
+  - 사용자 데이터 수정·삭제
+  - 시험 응답 제출
+exceptions: []
+relations:
+- type: depends
+  id: FORM-003
+  note: (2) 검사·수정 기회를 택하면 오류 식별(WCAG 3.3.1) 요구를 함께 만족해야 한다.
+examples:
+  good:
+  - lang: html
+    code: "<h1>결제 내용 확인</h1>\n<dl>\n  <dt>결제 금액</dt><dd>12,000원</dd>\n  <dt>결제 수단</dt><dd>신용카드</dd>\n</dl>\n<a href=\"\
+      /pay/step1\">결제 정보 수정</a>\n<button type=\"submit\">12,000원 결제하기</button>\n"
+    note: 최종 결제 전에 입력 내용 전체를 보여주고 수정으로 돌아갈 수 있는 검토 단계가 있다.
+  bad:
+  - lang: html
+    code: '<!-- 카드 정보 입력 화면에서 바로 결제를 실행하고, 검토 단계·취소 수단·제출 전 오류 검사가 모두 없다 -->
+
+      <button type="submit">12,000원 결제하기</button>
+
+      '
+    note: 결제(금융 거래)를 되돌리거나 검토할 방법이 하나도 없다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(WCAG22-A-AA.yaml SC 3.3.4): 대상 4종과 세 수단(Reversible·Checked·Confirmed)을 원문대로
+  반영. 1단계에 붙어 있던 PAIR_GUIDEBOOK·HAX_GUIDELINES_POSTER 출처는 ''AI 대행 동작 실행 전 확인''이라는 다른 요구라 이 룰에서 떼어 제안 파일 notes로 옮김(AI
+  룰 후보).'
+korean_specific: false
+tags:
+- wcag22
+- level-aa
+- new-in-2.0

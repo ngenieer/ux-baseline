@@ -1,0 +1,53 @@
+id: LAYOUT-047
+category: LAYOUT
+title: 라디오 버튼
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 라디오 버튼의 레이블은 원형 양식(컨트롤)의 오른쪽에 둔다.
+measurement:
+  criteria: 각 라디오 버튼에서 레이블 텍스트 경계 상자의 left ≥ input[type=radio](또는 커스텀 양식) 경계 상자의 right이고, 둘의 세로 중심이 같은 줄에 있다.
+  method: 라디오 그룹을 360·1280px에서 확인한다.
+automation:
+  feasibility: none
+  checks: []
+  note: '4단계 커스텀 검사: input과 연결된 label의 bounding box 비교.'
+rationale: 레이블이 항상 같은 위치에서 시작해야 옵션을 일관되게 읽을 수 있다.
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 라디오 버튼 > 사용성 가이드라인 (가이드라인 PDF 2025.08 526·528쪽)
+  note: https://www.krds.go.kr/html/site/component/component_06_01.html
+scope:
+  level: component
+  targets:
+  - input[type=radio]
+  - 라디오 버튼
+exceptions: []
+relations:
+- type: depends
+  id: SPACE-002
+  note: 가로 배치 시 옵션 간 간격은 SPACE-002.
+examples:
+  good:
+  - lang: html
+    code: '<label><input type="radio" name="gender" value="m"> 남성</label>
+
+      '
+    note: 레이블이 라디오 양식 오른쪽에 있다.
+  bad:
+  - lang: html
+    code: '<label>남성 <input type="radio" name="gender" value="m"></label>
+
+      '
+    note: 레이블이 라디오 양식 왼쪽에 있다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(curl로 KRDS 페이지 HTML을 받아 본문 텍스트를 직접 확인): 라디오 버튼(component_06_01) ''라디오 버튼은 수직으로,
+  라디오 버튼의 레이블은 양식의 오른쪽에 배치한다.'', ''레이블은 양식의 오른쪽에 배치해 일관된 위치에서 텍스트를 읽을 수 있도록 해야 한다.'' 확인. 수직 배치는 ''좋다''(MAY 수준)라
+  이 룰에 넣지 않음. ''해야 한다'' → SHOULD + public-sector-must.'
+korean_specific: false
+tags:
+- krds
+- krds-component
+- public-sector-must

@@ -1,0 +1,49 @@
+id: COPY-024
+category: COPY
+title: 숫자 배지 상한 표기
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: MAY
+statement: '숫자형 배지의 값이 표시 상한을 넘으면 ''상한+'' 형식(예: 999+)으로 쓰고 ''+999''처럼 기호를 앞에 두지 않는다.'
+measurement:
+  criteria: 숫자형 배지 값 n이 상한 L(KRDS 예시 999)보다 크면 표시 텍스트가 정확히 `${L}+`이다. n ≤ L이면 n을 그대로 쓴다.
+  method: 배지 렌더링 함수에 L, L+1, 10L을 넣어 출력을 확인한다.
+automation:
+  feasibility: none
+  checks: []
+  note: '4단계: 배지 포맷 함수 단위 테스트(format(1000) === ''999+'').'
+rationale: 표시 공간이 작은 배지에서 자릿수를 제한하고, 상한을 넘었음을 일관된 형식으로 알린다(KRDS 배지 예시).
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 배지 > 정보 변경 내역 / 예시
+  note: https://www.krds.go.kr/html/site/component/component_04_06.html
+scope:
+  level: component
+  targets:
+  - 숫자형 배지
+exceptions: []
+relations: []
+examples:
+  good:
+  - lang: html
+    code: '<span class="badge" aria-label="새 알림 999개 넘음">999+</span>
+
+      '
+    note: 상한 999를 넘으면 '999+'로 쓴다
+  bad:
+  - lang: html
+    code: '<span class="badge">+999</span>
+
+      '
+    note: 기호를 앞에 둔 '+999'를 쓴다
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(curl로 KRDS 페이지 HTML을 받아 텍스트로 직접 읽음): 배지(component_04_06) 정보 변경 내역 ''2025-02-04
+  배지 컴포넌트 숫자형 표시방법 수정(+999 ⟶ 999+)'', 예시 ''999+'' 확인. 규범 문장이 아닌 예시·변경 내역이므로 MAY + system-choice. 상한값 999는 KRDS 예시값이며
+  원문이 상한을 규정하지는 않음. 예시의 aria-label 문구는 이 체계의 예.'
+korean_specific: false
+tags:
+- krds
+- krds-component
+- system-choice

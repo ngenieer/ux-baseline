@@ -1,0 +1,59 @@
+id: COPY-020
+category: COPY
+title: 텍스트 없는 아이콘 버튼 제한
+stage: platformed
+status:
+  value: confirmed
+type: guide
+strength: MAY
+statement: 텍스트 레이블 없는 아이콘 버튼은 설정·닫기·공감처럼 대부분의 사용자가 다른 서비스에서 익혀 의미를 아는 기능에만 쓴다.
+measurement:
+  criteria: '점검 질문: 보이는 텍스트 없이 아이콘만 있는 버튼마다, 그 아이콘이 프로젝트가 정한 ''공통 인지 아이콘 목록''(KRDS 예: 설정·닫기·공감, COPY-016 예: 검색·로그인)에
+    있는가? 목록 밖이면 텍스트 레이블을 함께 표시했는가?'
+  method: 아이콘 단독 버튼 목록을 뽑아 공통 인지 아이콘 목록과 대조한다. 목록에 넣을지는 사용성 테스트나 팀 합의로 정한다.
+automation:
+  feasibility: none
+  checks: []
+  note: 공통 인지 아이콘 목록을 정하면 4단계에서 커스텀 검사(아이콘 식별자 화이트리스트)로 바꿀 수 있다.
+rationale: 아이콘만으로는 기능의 의미·용도를 정확히 전달하기 어려워, 학습된 아이콘이 아니면 사용자가 기능을 이해하지 못한다(KRDS 버튼).
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 버튼 > 사용성 가이드라인 (가이드라인 PDF 2025.08 517쪽)
+  note: https://www.krds.go.kr/html/site/component/component_05_02.html
+scope:
+  level: component
+  targets:
+  - button
+  - 아이콘 버튼
+exceptions: []
+relations:
+- type: depends
+  id: A11Y-054
+  note: 아이콘 단독 버튼에는 툴팁(A11Y-054)
+- type: depends
+  id: A11Y-001
+  note: 아이콘 단독 버튼의 접근 가능한 이름
+examples:
+  good:
+  - lang: html
+    code: '<button type="button" aria-label="닫기"><svg aria-hidden="true">…</svg></button>
+
+      <button type="button"><svg aria-hidden="true">…</svg>엑셀로 내려받기</button>
+
+      '
+    note: 널리 아는 '닫기'만 아이콘 단독이고 나머지는 텍스트를 함께 표시한다
+  bad:
+  - lang: html
+    code: '<button type="button" aria-label="엑셀로 내려받기"><svg aria-hidden="true">…</svg></button>
+
+      '
+    note: 의미를 짐작하기 어려운 내려받기 아이콘을 텍스트 없이 쓴다
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(curl로 KRDS 페이지 HTML을 받아 텍스트로 직접 읽음): 버튼(component_05_02) ''텍스트 레이블이 없는 아이콘
+  버튼은 대부분의 사용자가 ... 의미를 명확하게 이해하고 있는 경우(예 - 설정, 닫기, 공감 등)가 아니라면 사용하지 않는 것이 바람직하다'' 확인. ''바람직하다'' → 강도: KRDS ''적합하다·바람직하다·이상적''
+  등 권장 표현 → MAY(정책 2). ''대부분의 사용자가 아는지''는 사람이 판단해야 해 type: guide.'
+korean_specific: false
+tags:
+- krds
+- krds-component
+- system-choice

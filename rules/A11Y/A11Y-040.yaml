@@ -1,0 +1,68 @@
+id: A11Y-040
+category: A11Y
+title: 드롭다운 목록 닫기(바깥 클릭·Esc)
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 셀렉트·언어 변경·화면 크기 조정 같은 드롭다운의 옵션 목록이 펼쳐진 상태에서 레이블·컨테이너·목록이 아닌 영역을 클릭하면 목록을 접고, Esc를 누르면 목록을 접은 뒤 초점을 컨테이너로
+  옮긴다.
+measurement:
+  criteria: (1) 목록을 펼친 상태에서 레이블·컨테이너·목록 밖을 클릭하면 목록이 닫히고 aria-expanded="false"가 된다. (2) 목록 안 어디에 초점이 있든 Esc를 누르면
+    목록이 닫히고 document.activeElement가 컨테이너(드롭다운을 연 요소)다.
+  method: 각 드롭다운에서 바깥 클릭과 Esc를 수행해 목록 상태와 초점 위치를 확인한다.
+automation:
+  feasibility: none
+  checks: []
+  note: '4단계 커스텀 검사: Playwright 시나리오.'
+rationale: 키보드 사용자가 목록을 빠져나온 뒤 위치를 잃지 않고, 마우스 사용자가 바깥 클릭으로 목록을 닫을 수 있게 한다.
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 언어 변경 > 상호작용 가이드라인 (가이드라인 PDF 2025.08 726쪽)
+  note: https://www.krds.go.kr/html/site/component/component_10_01.html
+- ref: KRDS
+  locator: 컴포넌트 > 화면 크기 조정 > 상호작용 가이드라인 (가이드라인 PDF 2025.08 735쪽)
+  note: https://www.krds.go.kr/html/site/component/component_10_02.html — 같은 요구(바깥 클릭 축소, Esc 축소 후 컨테이너로 초점)
+- ref: KRDS
+  locator: 컴포넌트 > 셀렉트 > 상호작용 가이드라인 (가이드라인 PDF 2025.08 557쪽)
+  note: https://www.krds.go.kr/html/site/component/component_06_03.html — 같은 요구(바깥 클릭 축소, Esc 축소 후 컨테이너로 초점)
+- ref: KRDS
+  locator: 컴포넌트 > 셀렉트 > 상호작용 가이드라인 (목록 확장 및 축소 — Click) (가이드라인 PDF 2025.08 557쪽)
+  note: https://www.krds.go.kr/html/site/component/component_06_03.html
+scope:
+  level: component
+  targets:
+  - 커스텀 셀렉트
+  - 언어 변경 드롭다운
+  - 화면 크기 조정 드롭다운
+exceptions: []
+relations:
+- type: refines
+  id: A11Y-012
+- type: refines
+  id: A11Y-015
+examples:
+  good:
+  - lang: html
+    code: '<!-- keydown Escape: list.hidden = true; trigger.setAttribute(''aria-expanded'',''false''); trigger.focus();
+      -->
+
+      '
+    note: Esc로 목록을 닫고 초점을 연 요소로 되돌림
+  bad:
+  - lang: html
+    code: '<!-- Esc를 누르면 목록은 닫히지만 초점이 body로 떨어짐 -->
+
+      '
+    note: Esc로 닫은 뒤 초점이 body로 떨어짐
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(WebFetch로 KRDS 페이지 재조회, 요약 모델 인용 확인): 언어 변경·화면 크기 조정·셀렉트 세 페이지 모두 ''옵션 목록이
+  확장된 상태에서 (셀렉트의) 레이블, 컨테이너, 옵션 목록이 아닌 영역을 Click 하면 옵션 목록은 축소되어야 한다.''와 Esc ''옵션 목록을 축소하고 컨테이너로 초점이 이동해야 한다.'' 확인.
+  1단계 statement의 ''드롭다운 버튼''을 원문 표현 ''컨테이너''로 고침. ''해야 한다'' → SHOULD + public-sector-must. 셀렉트 페이지의 같은 요구(NAV-051,
+  A11Y-012에 병합된 C:51)를 이 룰로 모으는 안은 제안 파일 cross_merges.'
+korean_specific: false
+tags:
+- krds
+- krds-component
+- public-sector-must

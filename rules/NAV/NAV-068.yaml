@@ -1,0 +1,50 @@
+id: NAV-068
+category: NAV
+title: 탭바 메뉴 크기 동일
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 탭바의 모든 탭 메뉴를 같은 너비와 높이로 표시한다.
+measurement:
+  criteria: 탭바 안 탭 메뉴 요소들의 getBoundingClientRect() 너비 차이와 높이 차이가 각각 1px 이하이다.
+  method: 여러 뷰포트에서 탭 메뉴 요소 크기를 스크립트로 측정해 비교한다.
+automation:
+  feasibility: none
+  checks: []
+  note: '기존 검사기 규칙 없음. 4단계 커스텀 렌더링 검사로 완전 자동화 가능. CSS에서 flex: 1 1 0 또는 grid-template-columns: repeat(n, 1fr)로 구현.'
+rationale: 메뉴 간 차이를 혼란 없이 인식하고 빠르게 선택하게 하며 일관된 탐색 경험을 준다.
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 탭바 > 사용성 가이드라인 (탭 메뉴의 크기를 동일하게 유지한다) (가이드라인 PDF 2025.08 342쪽)
+  note: https://www.krds.go.kr/html/site/component/component_12_07.html
+scope:
+  level: component
+  targets:
+  - 탭바
+exceptions: []
+relations: []
+examples:
+  good:
+  - lang: css
+    code: '.tab-bar { display: grid; grid-template-columns: repeat(5, 1fr); }
+
+      '
+    note: grid 1fr 열로 모든 탭 너비·높이가 같다.
+  bad:
+  - lang: css
+    code: '.tab-bar { display: flex; }
+
+      .tab-bar a { padding: 0 var(--space-gap-2); }  /* 레이블 길이에 따라 너비가 달라짐 */
+
+      '
+    note: 레이블 길이에 따라 탭 너비가 달라진다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(KRDS 페이지 curl 수신 후 텍스트 추출): ''탭 바 내의 모든 메뉴는 동일한 너비와 높이를 가져야 한다'' 확인. 허용 오차
+  1px는 서브픽셀 반올림을 감안한 이 체계의 측정 선택. 원문 지시형 문장을 의무로 읽어 SHOULD + public-sector-must.'
+korean_specific: false
+tags:
+- krds
+- krds-component
+- public-sector-must

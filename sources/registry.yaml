@@ -1,0 +1,856 @@
+# 출처 레지스트리. 룰은 sources[].ref 로 여기의 id를 참조한다.
+#
+# type:
+#   standard          표준 (WCAG, KWCAG, KRDS 등) — 최우선
+#   research          검증된 연구 (원 논문·보고서까지 확인한 것만)
+#   guide             표준 기관의 해설·작성 가이드 (WCAG Understanding, APG 등)
+#   reference_system  유명 디자인 시스템 (Material, HIG 등) — 참고 사례, 그대로 정답으로 삼지 않음
+#   experience        실무 경험 — 근거를 note에 적는다
+#   preference        근거 없는 관행·취향 — 표준 기반 룰과 구분용
+#
+# verified: 공식 원문(발행처가 게시한 문서)을 직접 열어 URL·버전을 확인했을 때만 true.
+#           비공식 사본으로만 확인했으면 false.
+#           확정(confirmed) 룰은 verified: true 인 출처만 인용할 수 있다.
+#           룰이 인용한 내용이 원문과 맞는지는 각 룰의 needs_verification 으로 따로 관리한다.
+sources:
+  - id: WCAG22
+    title: Web Content Accessibility Guidelines (WCAG) 2.2
+    type: standard
+    publisher: W3C
+    version: 2.2 (W3C Recommendation, 2024-12-12)
+    url: https://www.w3.org/TR/WCAG22/
+    verified: true
+    accessed: '2026-10-18'
+    note: '고정 판: https://www.w3.org/TR/2024/REC-WCAG22-20241212/ . 원문 데이터는 w3c/wcag 저장소 태그 WCAG22-20241212 에서 추출 (sources/extracts/WCAG22-A-AA.yaml).
+      4.1.1 Parsing 은 2.2에서 삭제(obsolete).'
+  - id: WCAG22_UNDERSTANDING
+    title: Understanding WCAG 2.2
+    type: guide
+    publisher: W3C WAI
+    version: 2026-02-11 갱신본
+    url: https://www.w3.org/WAI/WCAG22/Understanding/
+    verified: true
+    accessed: '2026-10-18'
+    note: 비규범(informative) 해설. 측정 기준·예외 해석의 근거로 쓰되 요구사항 자체는 WCAG22 를 따른다.
+  - id: ARIA_APG
+    title: ARIA Authoring Practices Guide (APG)
+    type: guide
+    publisher: W3C WAI
+    url: https://www.w3.org/WAI/ARIA/apg/
+    verified: true
+    accessed: '2026-10-18'
+    note: 버전 표기 없음. 컴포넌트별 역할·키보드 규격의 근거로 인용할 때 패턴 페이지 URL을 locator 로 남긴다.
+  - id: KWCAG22
+    title: 한국형 웹 콘텐츠 접근성 지침 2.2 (KS X OT0003)
+    type: standard
+    publisher: 국립전파연구원 (방송통신표준)
+    version: '2.2 (KS X OT0003:2022, 개정 2022-12-28)'
+    url: https://www.rra.go.kr/ko/reference/kcsList_view.do?nb_seq=5247&nb_type=6
+    verified: true
+    accessed: '2026-10-18'
+    note: >-
+      2026-10-18 방송통신표준자료실 첨부 원문 '(KS X OT0003) 한국형웹콘텐츠접근성지침2.2.docx'
+      (FileDownSvl file_parentseq=5247 file_seq=1, 276,866바이트, sha256 3b56208351db475edc460a59b158c8cb205918148d418e28501d5245fd250aa4)를
+      내려받아 본문을 읽고 KWCAG 근거 룰과 대조했다. 원문 파일은 저장소에 넣지 않는다(저작권). 이전 대조에 쓴 비공식 HTML 판
+      https://a11ykr.github.io/kwcag22/ 과 검사항목 문장이 같음을 확인(5.4.4, 6.4.4, 7.2.1, 8.1.1).
+  - id: KRDS
+    title: 디지털 정부서비스 UI/UX 가이드라인 (KRDS, Korea Design System)
+    type: standard
+    publisher: 행정안전부
+    version: 가이드라인 2025-08 판 / HTML Component Kit v1.1.0 (2026-01-13)
+    url: https://www.krds.go.kr/
+    verified: true
+    accessed: '2026-10-18'
+    note: '리소스 목록: https://www.krds.go.kr/html/site/outline/outline_05.html . 공공 프로젝트용 기준. 사이트의 디자인 스타일·기본 패턴 페이지를
+      읽었다(2026-10-18). 가이드라인 PDF 원본과의 대조는 아래 기록. 수치 대조용 토큰: github.com/KRDS-uiux/krds-uiux v1.1.0 (커밋 d6bb184). 저작권정책(2026-10-19 확인, https://www.krds.go.kr/html/site/utility/utility_06.html 2025-05-13 갱신분): 공공누리 제1유형 — 출처 표시, 상업적 이용·변경·2차적 저작물 배포 허용, 공공기관 후원·특수관계 오인 표시 금지. 출처 표기 문구는 NOTICE.md. 2026-10-18 가이드라인 PDF
+      원본(디지털 정부서비스 UIUX 가이드라인(2025.08).pdf, 1181쪽, 40,468,910바이트, sha256 ea63bc306b510085b7b5e5fa26c4fbf49e3871387d850f253d6626bbabf9aec7,
+      krds.go.kr 공지 nttId=9 첨부)을 내려받아 레이아웃·형태·선명한 화면 모드 절을 대조했다. 원본은 저장소에 넣지 않는다. 2026-10-18 KRDS 를 출처로 쓴 확정 룰 전체(약 400개)를 이 PDF 와 대조해 각 locator 끝에 (가이드라인 PDF 2025.08 N쪽)을 붙였다(N = PDF 쪽 번호). 원문과 다른 룰 9개를 고쳤다. PDF 에 없는 컴포넌트(토스트·스낵바·바텀시트·범위 슬라이더·수량 토글·플로팅 버튼·음성지원·뒤로가기 버튼·파비콘)를 근거로 한 룰은 웹 페이지만 근거라 쪽 번호가 없다. PDF 와 웹 수치가 다르면 더 늦은 날짜의 판을 따른다(예: NAV-021 은 2026-01-13 웹 수정분).'
+  - id: DTCG_FORMAT
+    title: Design Tokens Format Module 2025.10
+    type: standard
+    publisher: W3C Design Tokens Community Group
+    version: 2025.10 (Final Community Group Report, 2025-10-28)
+    url: https://www.w3.org/community/reports/design-tokens/CG-FINAL-format-20251028/
+    verified: true
+    accessed: '2026-10-18'
+    note: 'W3C 정식 표준이 아니며 표준화 트랙도 아니라고 문서에 명시. 토큰 ''형식''의 근거로만 쓴다(UX 요구사항 근거 아님). 최신판 안내: https://www.designtokens.org'
+  - id: CSS_TEXT_3
+    title: CSS Text Module Level 3
+    type: standard
+    publisher: W3C
+    version: CRD 2026-08-14
+    url: https://www.w3.org/TR/css-text-3/
+    verified: true
+    note: §1.3 언어 태그, §5.1 word-break, §5.2 line-break, §5.4 overflow-wrap, §6.4 text-justify, §7.2 letter-spacing
+      원문 확인. text-justify는 at-risk 기능.
+    accessed: '2026-10-18'
+  - id: CSS_TEXT_4
+    title: CSS Text Module Level 4
+    type: standard
+    publisher: W3C
+    version: WD 2026-08-14
+    url: https://www.w3.org/TR/css-text-4/
+    verified: true
+    note: '§5.4 text-wrap-style(balance/pretty/avoid-short-last-line), word-break: auto-phrase 원문 확인. Working Draft라
+      값·동작이 바뀔 수 있음.'
+    accessed: '2026-10-18'
+  - id: CSS_FONTS_4
+    title: CSS Fonts Module Level 4
+    type: standard
+    publisher: W3C
+    version: WD 2026-10-16
+    url: https://www.w3.org/TR/css-fonts-4/
+    verified: true
+    note: §2.1.5 generic family는 content language에 따라 합성 가능, §4.9 font-display 기간 권장값(block 3s, swap 100ms 이하), §6.2
+      content language로 OpenType 언어 시스템 추론 원문 확인.
+    accessed: '2026-10-18'
+  - id: KLREQ
+    title: Requirements for Hangul Text Layout and Typography (한국어 텍스트 레이아웃 및 타이포그래피를 위한 요구사항)
+    type: guide
+    publisher: W3C Internationalization Working Group
+    version: Group Note Draft 2026-03-21
+    url: https://www.w3.org/TR/klreq/
+    verified: true
+    note: 규범 표준이 아닌 Group Note Draft(W3C 보증 없음). 주로 조판(인쇄) 요구사항 기술이며 웹 구현 해법은 범위 밖이라고 스스로 밝힘. 줄 길이·본문 크기 권장값 없음, 여러
+      절 TBD.
+    accessed: '2026-10-18'
+  - id: MDN_BCD
+    title: MDN browser-compat-data
+    type: guide
+    publisher: MDN (Mozilla)
+    version: 8.1.6 (2026-10-15)
+    url: https://github.com/mdn/browser-compat-data
+    verified: true
+    note: unpkg로 data.json을 직접 받아 css.properties.* 지원 버전을 조회함. 지원 현황은 시간에 따라 바뀌므로 플랫폼화 시 재조회 필요.
+    accessed: '2026-10-18'
+  - id: MDN_FONT_SIZE
+    title: font-size - CSS | MDN
+    type: guide
+    publisher: MDN (Mozilla)
+    url: https://developer.mozilla.org/en-US/docs/Web/CSS/font-size
+    verified: true
+    note: px 글자 크기는 일부 브라우저에서 사용자가 크기를 바꿀 수 없어 접근성이 없다는 Note, 사용자 기본 글꼴 크기 기준 상대값 권장 확인.
+    accessed: '2026-10-18'
+  - id: MDN_LANG
+    title: lang - HTML global attribute | MDN
+    type: guide
+    publisher: MDN (Mozilla)
+    url: https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/lang
+    verified: true
+    note: lang 상속, 빈 값=unknown, 스크린 리더 발음 목적 확인.
+    accessed: '2026-10-18'
+  - id: WEBDEV_FONT_BP
+    title: Best practices for fonts
+    type: guide
+    publisher: Google (web.dev) — Katie Hempenius, Barry Pollard
+    version: Last updated 2022-10-04
+    url: https://web.dev/articles/font-best-practices
+    verified: true
+    note: curl로 원문 확인(WebFetch 권한 요청은 시간 초과). 2022년 문서라 브라우저 기본 차단 시간(Chromium·Firefox 최대 3초, Safari 무기한) 서술은 현재 동작
+      재확인 필요.
+    accessed: '2026-10-18'
+  - id: SHIN_PARK_2003
+    title: 읽기 형태, 줄 길이, 줄 간격이 한글 웹 문서의 가독성에 미치는 영향 (신종현·박민용, 대한산업공학회지 29(3):197-205, 2003)
+    type: research
+    publisher: 대한산업공학회
+    version: 2003-09
+    url: https://koreascience.or.kr/article/JAKO200310103403108.pdf
+    verified: true
+    note: PDF 확인. 피험자 18명, 굴림 12pt, 17인치 CRT. 줄 길이 10/30/50자, 줄 간격 50%/100%/200%(=0.5줄/1줄/2줄, 기준 크기 미정의 → CSS line-height로
+      환산 불가). 자간은 변수 아님.
+    accessed: '2026-10-18'
+  - id: DYSON_KIPPING_1998
+    title: The Effects of Line Length and Method of Movement on Patterns of Reading from Screen (Dyson & Kipping,
+      Visible Language 32(2), 1998)
+    type: research
+    publisher: Visible Language
+    version: '1998-08-01'
+    url: https://journals.uc.edu/index.php/vl/article/view/5671
+    verified: false
+    note: '초록만 확인(본문 PDF 미확인). 영문 화면 읽기: 100자/줄이 25자/줄보다 빠르고 이해도 동일, 주관적 선호는 55자/줄. 영어 대상이라 한글에 그대로 적용 불가.'
+    accessed: '2026-10-18'
+  - id: JUNG_1997_THESIS
+    title: 영상매체에 구현되는 한글의 가독성에 관한 연구 (정재우, 한성대 석사학위논문, 1997)
+    type: research
+    publisher: 한성대학교
+    version: '1997'
+    url: https://dspace.hansung.ac.kr/handle/2024.oak/7911
+    verified: false
+    note: '저장소 초록만 확인, 본문 미확인. 동료 심사 논문이 아닌 석사논문. 행간 150% 이상 권장, 자간 좁을수록 읽기 속도 증가(10→0: 7%, 0→-10: 3%)라고 하나 자간 단위(-10
+      등)의 정의와 실험 조건 확인 필요.'
+    accessed: '2026-10-18'
+  - id: MQ5
+    title: Media Queries Level 5
+    type: standard
+    publisher: W3C (CSS WG)
+    version: WD 2026-02-19
+    url: https://www.w3.org/TR/mediaqueries-5/#prefers-reduced-motion
+    verified: true
+    note: 12.1 prefers-reduced-motion (값 no-preference | reduce). reduce = 전정기관 민감자에게 불편을, 주의력 결핍자에게 산만함을 주는 모션 기반
+      애니메이션을 '제거하거나 대체'한 인터페이스를 선호. Working Draft라 명세 자체는 '작업 중' 문서임.
+    accessed: '2026-10-18'
+  - id: WCAG22_TECH_C39
+    title: 'Technique C39: Using the CSS prefers-reduced-motion query to prevent motion'
+    type: guide
+    publisher: W3C WAI
+    url: https://www.w3.org/WAI/WCAG22/Techniques/css/C39
+    verified: true
+    note: '2.3.3 충분 기법. 검사 절차: OS 모션 줄이기 켬 → 상호작용 유발 모션마다 ''필수인지'' 또는 ''억제되는지'' 확인. no-preference 안에서만 모션을 켜는 역방향
+      작성도 예시로 듦.'
+    accessed: '2026-10-18'
+  - id: WCAG22_TECH_SCR40
+    title: 'Technique SCR40: Using the CSS prefers-reduced-motion query in JavaScript to prevent motion'
+    type: guide
+    publisher: W3C WAI
+    url: https://www.w3.org/WAI/WCAG22/Techniques/client-side-script/SCR40
+    verified: true
+    note: 'matchMedia(''(prefers-reduced-motion: no-preference)'')로 JS 애니메이션 실행 여부 결정. 검사 절차는 C39와 같음.'
+    accessed: '2026-10-18'
+  - id: CSS_VIEW_TRANSITIONS_1
+    title: CSS View Transitions Module Level 1
+    type: standard
+    publisher: W3C (CSS WG)
+    version: CRD 2024-03-28
+    url: https://www.w3.org/TR/css-view-transitions-1/
+    verified: true
+    note: DOM은 즉시 바뀌고 전환은 스냅숏 의사 요소로 그려짐. '전환 트리(view transition tree)는 접근성 트리에 노출되지 않는다'고 명시. 모션 줄이기 대응에 관한 규범 문구는
+      없음.
+    accessed: '2026-10-18'
+  - id: CHROME_VT_SAME_DOC
+    title: Same-document view transitions for single-page applications
+    type: guide
+    publisher: Google Chrome for Developers
+    url: https://developer.chrome.com/docs/web-platform/view-transitions/same-document
+    verified: true
+    note: '''React to the reduced motion preference'' 절: @media (prefers-reduced-motion)에서 ::view-transition-group/old/new
+      animation:none 예시. 동시에 ''모션 줄이기 선호가 모션 0을 뜻하지는 않으며 더 미묘한 애니메이션을 쓸 수 있다''고 함. cross-document 문서(…/cross-document)에는
+      reduced-motion 언급을 찾지 못함.'
+    accessed: '2026-10-18'
+  - id: WEBDEV_PRM
+    title: 'prefers-reduced-motion: Sometimes less movement is more'
+    type: guide
+    publisher: web.dev (Google)
+    version: Last updated 2019-03-11
+    url: https://web.dev/articles/prefers-reduced-motion
+    verified: true
+    note: 시차 스크롤이 전정기관 장애를 유발할 수 있음, 자동 재생 동영상 자제 등을 reduced-motion 변형의 예로 듦. 오래된 문서(2019).
+    accessed: '2026-10-18'
+  - id: NNG_ANIM_DURATION
+    title: 'Executing UX Animations: Duration and Motion Characteristics'
+    type: guide
+    publisher: Nielsen Norman Group (Page Laubheimer)
+    version: '2020-02-09'
+    url: https://www.nngroup.com/articles/animation-duration/
+    verified: true
+    note: 대부분의 애니메이션 100–500ms, 단순 피드백(체크박스·토글) 약 100ms, 큰 화면 변화(모달) 200–300ms, 500ms면 굼뜨게 느껴짐. 이 수치를 뒷받침하는 실험 인용은
+      없음(참고문헌 Pratt 2010은 '움직임이 주의를 끈다'는 연구로 지속 시간과 무관). 전문가 가이드로만 취급.
+    accessed: '2026-10-18'
+  - id: MATERIAL3_MOTION_TOKENS
+    title: Material Design 3 motion system tokens (md-sys-motion)
+    type: reference_system
+    publisher: Google (material-components/material-web)
+    version: '@material/web 2.4.1, tokens v0_192'
+    url: https://www.npmjs.com/package/@material/web
+    verified: true
+    note: 'npm 패키지 tokens/versions/v0_192/_md-sys-motion.scss를 직접 읽음: short1–4 = 50/100/150/200ms, medium1–4 = 250/300/350/400ms,
+      long1–4 = 450/500/550/600ms, extra-long1–4 = 700/800/900/1000ms. m3.material.io 문서 페이지는 JS 렌더링이라 본문 확인 못 함.
+      연구 근거 아님.'
+    accessed: '2026-10-18'
+  - id: WEBDEV_VITALS
+    title: Web Vitals
+    type: guide
+    publisher: web.dev (Google)
+    version: Last updated 2024-10-31
+    url: https://web.dev/articles/vitals
+    verified: true
+    note: LCP ≤2.5s, INP ≤200ms, CLS ≤0.1. 측정 기준은 페이지 로드의 75번째 백분위, 모바일·데스크톱 분리. 세 지표 모두 p75에서 충족해야 통과. FID는 2024년
+      INP로 대체됐다고 명시.
+    accessed: '2026-10-18'
+  - id: WEBDEV_CWV_THRESHOLDS
+    title: How the Core Web Vitals metrics thresholds were defined
+    type: guide
+    publisher: web.dev (Google)
+    version: Last updated 2025-05-07
+    url: https://web.dev/articles/defining-core-web-vitals-thresholds
+    verified: true
+    note: 'poor 경계: LCP >4000ms, INP >500ms, CLS >0.25. p75를 고른 이유(방문 4회 중 3회 충족, 이상치 영향 적음). 임계값은 기기 구분 없이 같고 주로
+      모바일 기준으로 정함 — WEBDEV_VITALS의 ''모바일·데스크톱 분리 측정''과 모순은 아님(같은 값을 기기군별로 따로 평가).'
+    accessed: '2026-10-18'
+  - id: WEBDEV_INP_CWV_2024
+    title: Interaction to Next Paint becomes a Core Web Vital on March 12
+    type: guide
+    publisher: web.dev blog (Google)
+    version: Last updated 2024-01-31
+    url: https://web.dev/blog/inp-cwv-march-12
+    verified: true
+    note: 2024-03-12 INP가 Core Web Vital이 되고 FID는 폐기(deprecated)·제외.
+    accessed: '2026-10-18'
+  - id: WEBDEV_INP
+    title: Interaction to Next Paint (INP)
+    type: guide
+    publisher: web.dev (Google)
+    version: Last updated 2025-09-02
+    url: https://web.dev/articles/inp
+    verified: true
+    note: ≤200ms good, 200<x≤500 needs improvement, >500 poor. 측정 대상은 클릭·탭·키 입력(호버·스크롤·줌은 제외). iframe 내 상호작용 포함.
+    accessed: '2026-10-18'
+  - id: WEBDEV_LCP
+    title: Largest Contentful Paint (LCP)
+    type: guide
+    publisher: web.dev (Google)
+    version: Last updated 2025-09-04
+    url: https://web.dev/articles/lcp
+    verified: true
+    note: '후보 요소: img, video(poster/첫 프레임), url() 배경 이미지, 텍스트 블록. <svg> 요소는 후보 아님.'
+    accessed: '2026-10-18'
+  - id: WEBDEV_CLS
+    title: Cumulative Layout Shift (CLS)
+    type: guide
+    publisher: web.dev (Google)
+    version: Last updated 2023-04-12
+    url: https://web.dev/articles/cls
+    verified: true
+    note: ≤0.1 good, >0.25 poor. 세션 윈도(이동 간격 <1s, 최대 5s) 중 최대값. 사용자 입력 후 500ms 이내 이동은 hadRecentInput으로 제외(스크롤·핀치줌은
+      '입력'이 아님).
+    accessed: '2026-10-18'
+  - id: WEBDEV_OPT_CLS
+    title: Optimize Cumulative Layout Shift
+    type: guide
+    publisher: web.dev (Google)
+    version: Last updated 2025-02-07
+    url: https://web.dev/articles/optimize-cls
+    verified: true
+    note: 'img/video에 width·height 또는 CSS aspect-ratio, 광고·임베드·iframe 공간 예약(min-height/aspect-ratio), 광고 미노출 시 예약
+      공간을 접지 말 것, 사용자 상호작용 없는 콘텐츠 삽입 금지, top/left 애니메이션 대신 transform, 웹폰트 대체 글꼴 지정·font-display: optional, bfcache
+      적격성.'
+    accessed: '2026-10-18'
+  - id: WEBDEV_OPT_LCP
+    title: Optimize Largest Contentful Paint
+    type: guide
+    publisher: web.dev (Google)
+    version: Last updated 2025-03-31
+    url: https://web.dev/articles/optimize-lcp
+    verified: true
+    note: LCP 리소스는 HTML에서 발견 가능해야 함(data-src 같은 JS 지연 로딩 금지), fetchpriority=high, 높은 우선순위 이미지는 1~2개를 넘으면 효과 없음.
+    accessed: '2026-10-18'
+  - id: WEBDEV_OPT_INP
+    title: Optimize Interaction to Next Paint
+    type: guide
+    publisher: web.dev (Google)
+    version: Last updated 2025-09-02
+    url: https://web.dev/articles/optimize-inp
+    verified: true
+    note: 이벤트 콜백에서 다음 프레임의 시각 갱신에 필요한 로직만 실행하고 나머지는 이후 태스크로 미룸(yield). 긴 태스크 분할.
+    accessed: '2026-10-18'
+  - id: WEBDEV_LAZY_IMG
+    title: Browser-level image lazy loading for the web
+    type: guide
+    publisher: web.dev (Google)
+    version: Last updated 2024-08-13
+    url: https://web.dev/articles/browser-level-image-lazy-loading
+    verified: true
+    note: 첫 뷰포트에 보이는 이미지, 특히 LCP 이미지에는 lazy 금지. lazy 이미지에도 width/height 필요(없으면 0×0으로 계산돼 갤러리 전체가 즉시 로드될 수 있음). Chrome
+      거리 임계값 4G 1250px / 3G 이하 2500px(2020-07 변경).
+    accessed: '2026-10-18'
+  - id: HTML_LS
+    title: HTML Living Standard — 2.5.7 Lazy loading attributes
+    type: standard
+    publisher: WHATWG
+    version: Living Standard (2026-10-18 열람)
+    url: https://html.spec.whatwg.org/multipage/urls-and-fetching.html#lazy-loading-attributes
+    verified: true
+    note: loading 속성 값 lazy | eager, 누락·무효 기본값 eager.
+    accessed: '2026-10-18'
+  - id: REACT_USEOPTIMISTIC
+    title: useOptimistic — React reference
+    type: guide
+    publisher: React (Meta)
+    url: https://react.dev/reference/react/useOptimistic
+    verified: true
+    note: 프레임워크 문서. Action 실패 시 낙관적 상태 이전 값으로 되돌아가고 오류는 잡아서 사용자에게 메시지로 보여줄 수 있다고 설명. 프레임워크 중립 원칙상 패턴 근거로만 사용. 낙관적
+      UI 일반 원칙의 표준·연구 출처는 찾지 못함.
+    accessed: '2026-10-18'
+  - id: NNG_RESPONSE_TIMES
+    title: 'Response Times: The 3 Important Limits'
+    type: guide
+    publisher: Nielsen Norman Group (Jakob Nielsen)
+    version: 1993 (Usability Engineering 5장 발췌), 이후 보강
+    url: https://www.nngroup.com/articles/response-times-3-important-limits/
+    verified: true
+    note: '0.1s(즉각 반응 느낌, 특별한 피드백 불필요)/1.0s(사고 흐름 유지)/10s(주의 유지 한계, 넘으면 완료 예상 피드백). 근거로 Miller 1968, Card et al. 1991
+      인용. 보강 절: 10초 넘으면 percent-done 표시와 중단 수단. 2~10초에 percent-done은 과하다는 언급.'
+    accessed: '2026-10-18'
+  - id: NNG_PROGRESS
+    title: Progress Indicators Make a Slow System Less Insufferable
+    type: guide
+    publisher: Nielsen Norman Group (Katie Sherwin)
+    version: '2014-10-26'
+    url: https://www.nngroup.com/articles/progress-indicators/
+    verified: true
+    note: 루프형(스피너) 2–10초, percent-done 10초 이상, 1초 미만엔 루프 애니메이션이 오히려 산만. '기다리는 이유' 텍스트 병기. 근거로 Myers 1985, Nah 2004
+      인용 — 그러나 2/10초 경계 자체는 연구 결과가 아닌 권고.
+    accessed: '2026-10-18'
+  - id: NNG_SKELETON
+    title: Skeleton Screens 101
+    type: guide
+    publisher: Nielsen Norman Group
+    version: 2023-06-04, last reviewed 2026-09-02
+    url: https://www.nngroup.com/articles/skeleton-screens/
+    verified: true
+    note: 스켈레톤은 전체 페이지 로드에만, 10초 미만 대기에; 1초 미만이면 스켈레톤·스피너 불필요; 파일 업로드 등 프로세스엔 진행 막대; 레이아웃 정보 없는 frame-display 스켈레톤
+      금지. 근거로 Mejtoft 2018 인용.
+    accessed: '2026-10-18'
+  - id: MYERS_1985
+    title: The importance of percent-done progress indicators for computer-human interfaces
+    type: research
+    publisher: Brad A. Myers, Proc. ACM CHI '85, pp. 11-17
+    version: '1985'
+    url: https://www.cs.cmu.edu/~bam/papers/percentdoneCHI85.pdf
+    verified: true
+    note: 저자 사본 PDF 직접 읽음. 지연 10초 고정 또는 1~17초 무작위 조건 실험에서 진행 표시 선호가 유의(p=0.0006), 86.1%가 진행 표시를 좋아함. 고정 응답 시간 선호는
+      유의하지 않음. '몇 초부터 진행률을 써야 한다'는 임계값은 이 논문이 제시하지 않음 — 10초 기준은 Nielsen의 권고.
+    accessed: '2026-10-18'
+  - id: MILLER_1968
+    title: Response time in man-computer conversational transactions
+    type: research
+    publisher: Robert B. Miller, Proc. AFIPS Fall Joint Computer Conference vol. 33, pp. 267-277
+    version: '1968'
+    url: https://doi.org/10.1145/1476589.1476628
+    verified: false
+    note: ACM DL 403으로 원문을 열지 못함(PDF 링크도 403). 0.1/1/10초 수치가 이 논문에 그대로 있는지 확인 필요 — Nielsen이 인용한 2차 정보만 확인됨.
+    accessed: '2026-10-18'
+  - id: CARD_1991
+    title: The information visualizer, an information workspace
+    type: research
+    publisher: Card, Robertson, Mackinlay, Proc. ACM CHI '91, pp. 181-188
+    version: '1991'
+    url: https://doi.org/10.1145/108844.108874
+    verified: false
+    note: ACM DL 403, 초록도 출판사가 비공개. 0.1s(지각 처리)/1s(즉각 응답)/10s(단위 과업) 구분이 원문에 있는지 확인 필요.
+    accessed: '2026-10-18'
+  - id: MEJTOFT_2018
+    title: 'The effect of skeleton screens: Users'' perception of speed and ease of navigation'
+    type: research
+    publisher: Mejtoft, Långström, Söderström, ECCE 2018
+    version: '2018'
+    url: https://doi.org/10.1145/3232078.3232086
+    verified: false
+    note: '본문 미확인, Semantic Scholar 초록만 읽음: 스켈레톤 쪽이 체감 속도·탐색 용이성 평균 점수가 높았으나 스피너 쪽이 기사 찾기는 더 빨랐고, 모든 비교에서 유의한 차이 없음.
+      → ''스켈레톤이 낫다''는 연구 근거로 쓸 수 없음.'
+    accessed: '2026-10-18'
+  - id: HAX_GUIDELINES_POSTER
+    title: Guidelines for Human-AI Interaction (18 guidelines poster)
+    type: research
+    publisher: Microsoft Research
+    version: 2019-03 (poster PDF)
+    url: https://www.microsoft.com/en-us/research/uploads/prod/2019/03/AI_Guidelines_Poster_PrintQuality.pdf
+    verified: true
+    note: Microsoft 공식 포스터로 18개 지침 제목·설명을 직접 확인. 지침 번호(G1~G18)와 4단계 묶음(Initially/During/When wrong/Over time) 근거.
+    accessed: '2026-10-18'
+  - id: HAX_CHI2019
+    title: Guidelines for Human-AI Interaction (Amershi et al., CHI 2019)
+    type: research
+    publisher: ACM CHI 2019 / Microsoft Research
+    version: CHI 2019
+    url: https://www.microsoft.com/en-us/research/publication/guidelines-for-human-ai-interaction/
+    verified: false
+    note: 논문 본문 열기 실패(권한 차단). 프로젝트 페이지(microsoft.com/research/project/guidelines-for-human-ai-interaction/)에서 CHI
+      2019·4단계 검증 과정 언급만 확인. 저자 목록·검증 참가자 수 등 확인 필요.
+    accessed: '2026-10-18'
+  - id: PAIR_GUIDEBOOK
+    title: People + AI Guidebook (Explainability + Trust, Errors + Graceful Failure, Feedback + Control)
+    type: reference_system
+    publisher: Google PAIR
+    version: guidebook-v2 (2019 출간 후 갱신, 날짜 표기 없음)
+    url: https://pair.withgoogle.com/guidebook-v2/chapters
+    verified: true
+    note: errors-failing 장(https://pair.withgoogle.com/chapter/errors-failing/)과 Explainability+Trust·Errors PDF를
+      직접 확인. 오류 유형(시스템 한계·맥락 오류·failstate·배경 오류), 신뢰도 표시 방식 근거. 생성형 AI·인용·스트리밍은 다루지 않음.
+    accessed: '2026-10-18'
+  - id: EU_AI_ACT_ART50
+    title: Regulation (EU) 2024/1689 (AI Act) Article 50 — Transparency obligations
+    type: standard
+    publisher: European Union
+    version: 적용 2026-08-02; 50(2) 기존 출시 생성형 시스템 표시 의무 유예 2026-12-02 (AI Omnibus, Regulation (EU) 2026/1744)
+    url: https://publications.europa.eu/resource/cellar/dc8116a1-3fe6-11ef-865a-01aa75ed71a1.0006.03/DOC_1
+    verified: true
+    note: 조문 원문 열기 실패. 적용일·Omnibus 유예는 법률사무소 해설 2건(Cooley, Goodwin)이 일치. 50(5) 고지 시점('늦어도 첫 상호작용·노출 시')과 접근성 요구 문구는
+      원문 확인 필요. 집행위 Art.50 가이드라인 2026-07-20 채택, AI Office 생성 콘텐츠 투명성 행동강령(자율) 존재 — 원문 미확인. / 2026-10-18 정규화 때 EU 출판국
+      공식 사본(OJ L 2024/1689 영문)으로 제50조 (1)~(7) 원문 확인. EUR-Lex 페이지는 자동 접근 불가.
+    accessed: '2026-10-18'
+  - id: COOLEY_ART50_2026
+    title: 'EU AI Act: Transparency Obligations Take Effect 2 August 2026'
+    type: guide
+    publisher: Cooley LLP
+    version: '2026-08-03'
+    url: https://www.cooley.com/news/insight/2026/2026-08-03-eu-ai-act-transparency-obligations-take-effect-2-august-2026
+    verified: true
+    note: 법률사무소 2차 해설. Art.50 적용일, 2026-12-02 유예, 집행위 가이드라인(2026-07-20), 행동강령(AI 생성 콘텐츠 표시 아이콘 포함) 언급. 1차 출처 대체 불가.
+    accessed: '2026-10-18'
+  - id: GOODWIN_ART50_2026
+    title: 'Not Delayed, Not Deferred: EU AI Act Transparency Obligations Are Now in Force'
+    type: guide
+    publisher: Goodwin Procter
+    version: 2026-08
+    url: https://www.goodwinlaw.com/en/insights/publications/2026/08/alerts-technology-dpc-eu-ai-act-transparency-obligations-now-in-force
+    verified: true
+    note: 법률사무소 2차 해설. AI Omnibus(Regulation (EU) 2026/1744, 2026-07-27 발효)가 Art.50 적용일을 바꾸지 않았다고 서술.
+    accessed: '2026-10-18'
+  - id: KR_AI_BASIC_ACT
+    title: 인공지능 발전과 신뢰 기반 조성 등에 관한 기본법 (법률 제20676호) 제31조 인공지능 투명성 확보 의무
+    type: standard
+    publisher: 대한민국 (법제처 국가법령정보센터)
+    version: 법률 제21311호 (2026-01-20 일부개정, 시행 2026-07-21)
+    url: https://www.law.go.kr/LSW/lsInfoR.do?lsiSeq=282791&chrClsCd=010202&efYd=20260721&ancYnChk=0
+    verified: true
+    note: 국가법령정보센터 원문으로 제31조 1~4항, 제43조 확인(2026-10-18). 과태료(제43조 제1항)는 제31조 제1항 고지 위반만 대상 — 제2·3항 표시 의무는 과태료 대상 아님.
+      제정 판은 법률 제20676호.
+    accessed: '2026-10-18'
+  - id: KR_AI_BASIC_ACT_DECREE
+    title: 인공지능기본법 시행령 제23조 (투명성 확보 방법)
+    type: standard
+    publisher: 대한민국
+    version: 대통령령 제36580호 (2026-08-18 타법개정, 시행 2026-08-20)
+    url: https://www.law.go.kr/LSW/lsInfoR.do?lsiSeq=288781&chrClsCd=010202&efYd=20260820
+    verified: true
+    note: 국가법령정보센터 원문으로 제23조 확인(2026-10-18). 고지 방법에 약관 기재·기계 판독·소프트웨어 확인도 허용 — 화면 텍스트 표시는 법보다 강한 체계 선택(3단계 결정 대상).
+    accessed: '2026-10-18'
+  - id: MSIT_AI_TRANSPARENCY_GUIDE
+    title: 인공지능 투명성 확보 가이드라인
+    type: guide
+    publisher: 과학기술정보통신부 (게시 한국지능정보사회진흥원)
+    version: 2026-01 (파일명 260126, 33쪽)
+    url: https://nia.or.kr/site/nia_kor/ex/bbs/View.do?cbIdx=99835&bcIdx=28987
+    verified: true
+    accessed: '2026-10-18'
+    note: >-
+      NIA 'AI기본법 시행 및 하위법령 공개' 게시물 첨부 '1._260126_인공지능_투명성_확보_가이드라인.pdf'
+      (1,670,902바이트, sha256 f3c9206fc9e8b33d1ac7cf973bb00422efd2b0296347fa0346456bd807ef020d)를 내려받아 본문을 읽었다.
+      과기정통부 보도자료(korea.kr newsId=156740669, 첨부 odt)와 내용 일치. 원문 파일은 저장소에 넣지 않는다.
+  - id: SHINKIM_3142
+    title: 법무법인 세종 뉴스레터 — 인공지능기본법·시행령·투명성 가이드라인
+    type: guide
+    publisher: 법무법인(유) 세종
+    version: 2026-01
+    url: https://www.shinkim.com/kor/media/newsletter/pdf/3142
+    verified: true
+    note: 2차 해설. 제31조 각 항·시행령 제23조·가이드라인 요지 확인용. 조문 원문 대체 불가.
+    accessed: '2026-10-18'
+  - id: MDN_ARIA_LIVE
+    title: 'ARIA: aria-live attribute'
+    type: guide
+    publisher: MDN Web Docs
+    url: https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Attributes/aria-live
+    verified: true
+    note: polite/assertive/off 사용 지침, 빈 live region을 먼저 두고 내용 갱신. 자주 바뀌는 콘텐츠는 off 권장. ARIA 명세(w3c.github.io/aria)
+      원문은 열지 못함.
+    accessed: '2026-10-18'
+  - id: MDN_ARIA_BUSY
+    title: 'ARIA: aria-busy attribute'
+    type: guide
+    publisher: MDN Web Docs
+    url: https://developer.mozilla.org/docs/Web/Accessibility/ARIA/Attributes/aria-busy
+    verified: true
+    note: aria-busy=true 동안 live region 변경을 노출하지 않고 false가 되면 한 번 알림. 실제 스크린 리더 지원 편차는 확인 필요(a11ysupport.io).
+    accessed: '2026-10-18'
+  - id: MDN_ARIA_LOG
+    title: 'ARIA: log role'
+    type: guide
+    publisher: MDN Web Docs
+    url: https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/ARIA_Techniques/Using_the_log_role
+    verified: true
+    note: log는 암묵적 aria-live=polite, aria-atomic=false. 새 항목은 끝에만 추가. 접근 가능한 이름 필수.
+    accessed: '2026-10-18'
+  - id: WCAG22_TECH_ARIA23
+    title: 'WCAG 2.2 Technique ARIA23: Using role=log to identify sequential information updates'
+    type: guide
+    publisher: W3C WAI
+    version: WCAG 2.2 Techniques
+    url: https://w3.org/WAI/WCAG22/Techniques/aria/ARIA23.html
+    verified: true
+    note: SC 4.1.3 충분 기법. 채팅 기록 예시. 스크린 리더별 지원 편차 명시.
+    accessed: '2026-10-18'
+  - id: APPLE_HIG_GENAI
+    title: Human Interface Guidelines — Generative AI
+    type: reference_system
+    publisher: Apple
+    url: https://developer.apple.com/design/human-interface-guidelines/generative-ai
+    verified: false
+    note: 페이지 열기 실패. Apple 개발자 포럼 스레드 799064에 인용된 문장('Communicate where your app uses AI')만 간접 확인. 'Machine learning'
+      HIG 페이지도 미확인.
+    accessed: '2026-10-18'
+  - id: APPLE_WWDC25_248
+    title: WWDC25 Session 248 — Explore prompt design & safety for on-device foundation models
+    type: reference_system
+    publisher: Apple
+    version: WWDC25
+    url: https://developer.apple.com/videos/play/wwdc2025/248
+    verified: true
+    note: 세션 페이지 확인. 가드레일 오류 처리(사용자가 기다리는 기능은 알림·대안 행동 제시), 오류 유발 프롬프트 되돌리기, 피드백 UI와 수집 데이터 고지.
+    accessed: '2026-10-18'
+  - id: GOVUK_ERROR_SUMMARY
+    title: GOV.UK Design System — Error summary
+    type: reference_system
+    publisher: Government Digital Service (UK)
+    url: https://design-system.service.gov.uk/components/error-summary
+    verified: true
+    note: 검증 오류가 1개여도 요약 표시, main 상단(브레드크럼·뒤로 링크 아래, h1 위), 각 오류를 해당 필드로 링크, 문구는 인라인 오류와 동일. role=alert는 루트가 아닌 내부
+      요소(v4.4.0).
+    accessed: '2026-10-18'
+  - id: GOVUK_VALIDATION
+    title: GOV.UK Design System — Validation (Recover from validation errors)
+    type: reference_system
+    publisher: Government Digital Service (UK)
+    url: https://design-system.service.gov.uk/patterns/validation
+    verified: true
+    note: 'title에 ''Error: '' 접두, 오류 요약으로 초점 이동, 필드 이탈 시 검증하지 말고 제출 시 검증, 서버 검증 필수, 입력값 유지.'
+    accessed: '2026-10-18'
+  - id: GOVUK_ERROR_MESSAGE
+    title: GOV.UK Design System — Error message
+    type: reference_system
+    publisher: Government Digital Service (UK)
+    url: https://design-system.service.gov.uk/components/error-message
+    verified: true
+    note: 시각적으로 숨긴 'Error:' 접두, valid/invalid·forbidden 등 금지, please·sorry·oops 금지, 빈 필드는 지시형, 규칙 위반은 서술형.
+    accessed: '2026-10-18'
+  - id: GOVUK_404
+    title: GOV.UK Design System — Page not found pages
+    type: reference_system
+    publisher: Government Digital Service (UK)
+    url: https://design-system.service.gov.uk/patterns/page-not-found-pages
+    verified: true
+    note: 기술 용어(404)·유머(oops)·빨간 경고 텍스트·브레드크럼 금지, 주소 확인 안내, 연락처는 사용자 필요가 있을 때만. 페이지 자체에 '추가 연구 필요' 명시.
+    accessed: '2026-10-18'
+  - id: GOVUK_500
+    title: GOV.UK Design System — There is a problem with the service pages
+    type: reference_system
+    publisher: Government Digital Service (UK)
+    url: https://design-system.service.gov.uk/patterns/problem-with-the-service-pages
+    verified: true
+    note: 'H1 ''Sorry, there is a problem with the service'', ''Try again later.'', 입력값 저장 여부 고지(예: 30일 보관), 기술 용어(500)·''technical
+      difficulties'' 금지. 5명 사용성 테스트 언급.'
+    accessed: '2026-10-18'
+  - id: GOVUK_503
+    title: GOV.UK Design System — Service unavailable pages
+    type: reference_system
+    publisher: Government Digital Service (UK)
+    url: https://design-system.service.gov.uk/patterns/service-unavailable-pages
+    verified: true
+    note: 재개 요일·날짜·시각 명시, 영구 종료면 대안 안내, 'maintenance' 같은 모호어 금지, 503·셧터 페이지.
+    accessed: '2026-10-18'
+  - id: NA_ERROR_PAGES
+    title: The National Archives Design System — Error pages
+    type: reference_system
+    publisher: The National Archives (UK)
+    url: https://design-system.nationalarchives.gov.uk/patterns/error-pages/
+    verified: true
+    note: 오류 유형 7종을 HTTP 응답 코드(404, 503 등)에 대응. 세션 만료 지침은 없음.
+    accessed: '2026-10-18'
+  - id: HMRC_TIMEOUT
+    title: HMRC design patterns — Service timeout
+    type: reference_system
+    publisher: HM Revenue & Customs (UK)
+    url: https://design.tax.service.gov.uk/hmrc-design-patterns/service-timeout
+    verified: true
+    note: 비활동 15분(900초) 만료, 13분에 경고(2분 남김), 마지막 1분 카운트다운, '로그인 유지' 버튼, 만료 후 저장 여부 고지. 사용성 테스트 5명, 보조기술 연구 부족 명시.
+    accessed: '2026-10-18'
+  - id: NNG_EMPTY_STATES
+    title: 'Designing Empty States in Complex Applications: 3 Guidelines'
+    type: experience
+    publisher: Nielsen Norman Group (Kate Kaplan)
+    version: '2021-09-19'
+    url: https://nngroup.com/articles/empty-state-interface-design
+    verified: true
+    note: 시스템 상태 표시, 학습 단서, 직접 경로(버튼·링크) 3원칙. 연구 방법·표본 없음 → research가 아니라 experience로 분류.
+    accessed: '2026-10-18'
+  - id: NNG_NO_RESULTS
+    title: 'Search: No Results Pages (SERP) — ''No Results'' Pages'
+    type: experience
+    publisher: Nielsen Norman Group (Kathryn Whitenton)
+    version: '2014-01-05'
+    url: https://nngroup.com/articles/search-no-results-serp/
+    verified: true
+    note: 결과 없음을 분명히 알림, 검색어 재표시·검색어가 남은 검색창·유사 검색어·철자 교정·다른 단어 제안, 조롱으로 읽힐 유머 금지. 관찰·시선추적 사례 기반이나 정식 연구 설계 없음.
+    accessed: '2026-10-18'
+  - id: CARBON_EMPTY
+    title: Carbon Design System — Empty states pattern
+    type: reference_system
+    publisher: IBM
+    url: https://carbondesignsystem.com/patterns/empty-states-pattern/
+    verified: true
+    note: 빈 상태 3유형(데이터 없음/사용자 행동 결과/오류 관리). 빈 상태는 원래 요소(표와 헤더)를 대체. 여러 빈 상태가 함께 보이면 tertiary 버튼. '사용자가 비운 상태'는 별도
+      유형으로 다루지 않음.
+    accessed: '2026-10-18'
+  - id: WEBDEV_OFFLINE
+    title: Offline UX design guidelines
+    type: guide
+    publisher: web.dev (Google; Mustafa Kurtuldu, Thomas Steiner)
+    version: '2016-11-10'
+    url: https://web.dev/articles/offline-ux-design-guidelines
+    verified: true
+    note: 상태 변화 즉시 알림, 연결 필요한 동작만 비활성화, 전체 화면 모달로 막지 않기, 색만으로 표시 금지, 'offline' 대신 행동 기반 문구. 2016년 글이라 오래됨.
+    accessed: '2026-10-18'
+  - id: WAI_ARIA_12
+    title: Accessible Rich Internet Applications (WAI-ARIA) 1.2
+    type: standard
+    publisher: W3C
+    version: REC 2023-06-06
+    url: https://www.w3.org/TR/wai-aria-1.2/
+    verified: true
+    note: aria-busy 상태, progressbar(aria-valuenow SHOULD, 불확정이면 생략 SHOULD, 영역 로딩 시 aria-describedby+aria-busy SHOULD,
+      name required), status(암묵 polite·atomic), alert(암묵 assertive·atomic).
+    accessed: '2026-10-18'
+  - id: WCAG22_TECHNIQUES
+    title: Techniques for WCAG 2.2 (G139, F12)
+    type: guide
+    publisher: W3C WAI
+    url: https://www.w3.org/WAI/WCAG22/Techniques/general/G139
+    verified: true
+    note: 'G139: 오류로 바로 이동하는 링크 제공(3.3.1·3.3.3 권고 기법). F12: 세션 시간 제한이 있는데 재인증 수단이 없으면 2.2.5 실패. 기법은 비규범.'
+    accessed: '2026-10-18'
+  - id: ACT_META_VIEWPORT
+    title: ACT Rule b4f0c3 — Meta viewport allows for zoom
+    type: guide
+    publisher: W3C WAI (AG WG 승인)
+    version: Rule Version 1, 2022-10-25
+    url: https://www.w3.org/WAI/standards-guidelines/act/rules/b4f0c3
+    verified: true
+    note: user-scalable≠no, maximum-scale≥2. 매핑은 1.4.4, 배경 설명에서 1.4.10도 언급.
+    accessed: '2026-10-18'
+  - id: AXE_META_VIEWPORT
+    title: axe-core rules meta-viewport / meta-viewport-large
+    type: guide
+    publisher: Deque Systems
+    version: axe 4.9
+    url: https://dequeuniversity.com/rules/axe/4.9/meta-viewport
+    verified: true
+    note: 'meta-viewport: user-scalable=no 또는 maximum-scale<2 실패(WCAG 1.4.4 태그). meta-viewport-large: maximum-scale<5
+      실패, Deque best practice(WCAG 아님) — https://dequeuniversity.com/rules/axe/4.9/meta-viewport-large'
+    accessed: '2026-10-18'
+  - id: CSS_MQ4
+    title: Media Queries Level 4
+    type: standard
+    publisher: W3C
+    version: CRD 2026-02-19
+    url: https://www.w3.org/TR/mediaqueries-4/
+    verified: true
+    note: pointer(none/coarse/fine), hover(none/hover), any-pointer/any-hover. '호버에 의존하지 않는 레이아웃' 권고, any-* 만으로 호버·정밀
+      포인팅 의존 설계 시 나쁜 경험 경고.
+    accessed: '2026-10-18'
+  - id: KR_HANGUL_ORTHO
+    title: 한글 맞춤법(부록 문장 부호 포함) 및 해설
+    type: standard
+    publisher: 국립국어원(문화체육관광부 고시)
+    version: 문장 부호 2014 개정 반영본(사이트 게시본)
+    url: https://korean.go.kr/kornorms/regltn/regltnView.do?regltn_code=0001
+    verified: true
+    note: 마침표(2) 숫자 연월일 '1919. 3. 1.'(일 마침표 생략 불가), 쌍점(3) 시·분 구분 '10:20'(앞뒤 붙임), 물결표 기간·범위(붙임표 허용), 제43항 숫자+단위 붙여
+      쓰기 허용, 제44항 만 단위 띄어쓰기, 자릿점 쉼표는 규정 외지만 막지 않음. 고시 번호·개정일은 페이지에서 따로 확인하지 못함.
+    accessed: '2026-10-18'
+  - id: KR_ADMIN_REG
+    title: 행정업무의 운영 및 혁신에 관한 규정 제7조(문서 작성의 방법)
+    type: standard
+    publisher: 대한민국 정부(대통령령)
+    version: '대통령령 제36728호, 2026-09-29 타법개정, 시행 2026-10-02'
+    url: https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=290525
+    verified: true
+    accessed: '2026-10-18'
+    note: >-
+      law.go.kr lsInfoR.do?lsiSeq=290525 본문을 받아 제7조를 직접 읽었다. ②간결·명확, 일반화되지 않은 약어·전문용어 회피,
+      ④아라비아 숫자, ⑤날짜는 연·월·일 글자 생략 후 온점, 시·분은 24시각제로 숫자 표기하고 글자 생략 후 쌍점(특별한 사유가 있으면 다른 방법 가능).
+      공문서 대상 규정이라 웹 UI 적용은 유추.
+  - id: KS_X_ISO_8601
+    title: KS X ISO 8601 데이터 요소 및 교환 형식 — 날짜와 시간의 표현
+    type: standard
+    publisher: 국가기술표준원
+    url: https://standard.go.kr/KSCI/standardIntro/getStandardSearchList.do
+    verified: false
+    note: Wikipedia(Date and time notation in South Korea)에 'KS X ISO8601, 구 KS X 1511'로 언급. 표준 원문·현행 여부 미확인 — 확인
+      필요.
+    accessed: '2026-10-18'
+  - id: US_FPLG
+    title: Federal Plain Language Guidelines
+    type: guide
+    publisher: Plain Language Action and Information Network (US)
+    version: March 2011, Rev. 1 May 2011
+    url: https://www.fai.gov/sites/fai/files/2016-12-22-Federal-Rulemaking-VAAR-FederalPLGuidelines.pdf
+    verified: true
+    note: '''Write short sentences: Express only one idea in each sentence.'' 문장 길이 수치 없음. 근거는 법률 문서 작성 지침서들(연구 아님).
+      현행 웹판은 digital.gov/guides/plain-language/writing/clear-short.'
+    accessed: '2026-10-18'
+  - id: DIGITALGOV_PL
+    title: Plain language guide — Clear and short
+    type: guide
+    publisher: digital.gov (GSA, US)
+    url: https://digital.gov/guides/plain-language/writing/clear-short
+    verified: true
+    note: 문장당 한 생각, 문단 150단어·3~8문장 권장, 250단어 초과 금지 — 'Writing experts recommend'라고만 적혀 관행(전문가 의견)이다. 영어 기준.
+    accessed: '2026-10-18'
+  - id: GOVUK_BLOG_25WORDS
+    title: 'Sentence length: why 25 words is our limit (Inside GOV.UK blog)'
+    type: experience
+    publisher: Government Digital Service (UK)
+    version: '2014-08-04'
+    url: https://insidegovuk.blog.gov.uk/2014/08/04/sentence-length-why-25-words-is-our-limit/
+    verified: true
+    note: 25단어 한계 근거는 블로그(strainindex)와 Ann Wylie 인용 — 원 연구 미확인. 영어 단어 수 기준이라 한국어 어절 수로 옮길 근거 없음.
+    accessed: '2026-10-18'
+  - id: UXB_CHARTER
+    title: ux-baseline 프로젝트 지침 (claude.ai 프로젝트 "웹프로젝트 를 위한 UI/UX")
+    type: guide
+    publisher: 시즐론 (sizlon)
+    url: https://github.com/ngenieer/ux-baseline/blob/main/docs/charter.md
+    verified: true
+    accessed: '2026-10-18'
+    note: 이 체계의 운영 지침 원문(docs/charter.md 에 사본). '디자인 토큰' 절 — 색·간격·타이포·반경·그림자·모션 값은 DTCG 토큰으로만 정의하고 "토큰에 없는 값을 직접 쓰지 말 것"을 MUST 룰로 둔다. 외부 근거가 아니라 체계 내부 결정의 근거로만 인용한다.
+  - id: UXB_SYSTEM_CHOICE
+    title: ux-baseline 체계 선택 결정 기록 (conflicts/CF-###.yaml)
+    type: preference
+    publisher: 시즐론 (sizlon)
+    url: https://github.com/ngenieer/ux-baseline/tree/main/conflicts
+    verified: true
+    accessed: '2026-10-18'
+    note: 1차 출처 없이 이 체계가 정한 선택을 결정 기록(CF)으로 남긴 것. 원문은 저장소의 conflicts/ 파일이라 verified true. 인용할 때 locator 에 CF ID를 쓰고, 룰의 decisions 에 같은 CF가 있어야 한다(검증기 검사). 근거 강도는 선호(우선순위 4)이므로 이 출처만으로 MUST가 될 수 없다.
+  - id: PREFERENCE
+    title: 출처 없는 관행·체계 내부 선택
+    type: preference
+    verified: false
+    accessed: '2026-10-18'
+    note: 1차 출처를 찾지 못한 관행이나 이 체계가 스스로 정한 선택을 표시하는 자리표시 출처. verified 가 false 이므로 이 출처만 가진 룰은 확정할 수 없다 — 근거를 찾거나 결정
+      기록(CF)을 남겨야 한다.
+  - id: WEBDEV_ANIM_GUIDE
+    title: Animations guide (web.dev)
+    type: guide
+    publisher: Google web.dev
+    url: https://web.dev/articles/animations-guide
+    verified: true
+    accessed: '2026-10-18'
+    note: 정규화 중 MOTION 묶음이 원문 확인 후 제안.
+  - id: KR_PIPA
+    title: 개인정보 보호법
+    type: standard
+    publisher: 대한민국 국회 / 개인정보보호위원회
+    url: https://www.law.go.kr/법령/개인정보보호법
+    verified: true
+    accessed: '2026-10-18'
+    note: 2026-10-18 국가법령정보센터 조문 페이지(lsSideInfoP.do?lsiSeq=283839) 원문 확인 — 제15조 제2항(동의 받을 때 알릴 사항 4가지 —
+      수집·이용 목적, 수집 항목, 보유·이용 기간, 동의 거부 권리와 불이익), 제22조(동의를 받는 방법 — 제1항 동의 사항 구분·명확한 인지, 제2항 중요한 내용 명확히 표시,
+      제5항 선택 동의 거부를 이유로 서비스 거부 금지). 제30조(개인정보 처리방침의 수립 및 공개)는 아직 원문 미확인 — COPY-017 등을 MUST로 올릴 근거 후보.
+  - id: KR_PIPA_DECREE
+    title: 개인정보 보호법 시행령
+    type: standard
+    publisher: 대한민국 정부 / 개인정보보호위원회
+    url: https://www.law.go.kr/법령/개인정보보호법시행령
+    verified: true
+    accessed: '2026-10-18'
+    note: 2026-10-18 국가법령정보센터 조문 페이지(lsSideInfoP.do?lsiSeq=289537&joNo=0017) 원문 확인 — 제17조(동의를 받는 방법) 제1항(자유로운
+      의사, 구체적·명확한 내용, 쉬운 문구, 동의 여부를 명확하게 표시할 수 있는 방법 제공), 제3항(법 제22조 제2항의 '중요한 내용' — 홍보·판매 권유 연락 사실, 민감정보·여권번호
+      등, 보유·이용 기간, 제공받는 자와 그 이용 목적), 제4항(동의 여부를 선택할 수 있다는 사실 표시). 법 제22조 제2항의 '보호위원회 고시'(표시 방법)는 원문 미확인.
+  - id: KR_ECOMMERCE_ACT
+    title: 전자상거래 등에서의 소비자보호에 관한 법률
+    type: standard
+    publisher: 대한민국 국회 / 공정거래위원회
+    url: https://www.law.go.kr/법령/전자상거래등에서의소비자보호에관한법률
+    verified: false
+    accessed: '2026-10-18'
+    note: 제10조(사이버몰의 운영) — 조문 원문 미확인. COPY-018 근거 후보.

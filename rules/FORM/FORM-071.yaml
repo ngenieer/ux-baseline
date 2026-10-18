@@ -1,0 +1,62 @@
+id: FORM-071
+category: FORM
+title: 슬라이더가 맞지 않는 경우
+stage: platformed
+status:
+  value: confirmed
+type: guide
+strength: MAY
+statement: 정확한 수치·단위를 입력해야 하는 값이나 'ON/OFF'·'낮음/보통/높음'처럼 이름 붙은 선택지 중 하나를 고르는 값은 범위 슬라이더로 받지 않는다.
+measurement:
+  criteria: '점검 질문: 슬라이더로 받는 값이 정확한 수치가 중요한 값(금액·나이·수량 등)인가? 이름 붙은 선택지 몇 개 중 하나인가? 어느 쪽이면 텍스트 입력·라디오·토글로 바꿨는가?'
+  method: 수동 검토
+automation:
+  feasibility: none
+  checks: []
+  note: 값의 성격 판단이 필요해 자동화 불가.
+rationale: KRDS는 정확한 값이 중요한 경우와 'ON/OFF', '낮음/보통/높음'처럼 명확한 단일 선택이 효율적인 경우를 범위 슬라이더 사용에 적합하지 않은 경우로 든다.
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 범위 슬라이더 > 용례(사용하기 적합하지 않은 경우)
+  note: 'https://www.krds.go.kr/html/site/component/component_12_01.html — 원문: ''사용하기 적합하지 않은 경우'' (대안 컴포넌트는 명시하지
+    않음)'
+scope:
+  level: component
+  targets:
+  - input[type=range]
+  - '[role="slider"]'
+exceptions: []
+relations:
+- type: refines
+  id: FORM-041
+  note: ON/OFF 선택은 토글 사용 조건(FORM-041)으로 판단
+examples:
+  good:
+  - lang: html
+    code: '<label for="age">나이</label>
+
+      <input id="age" inputmode="numeric" maxlength="3">
+
+      '
+    note: 정확한 수치가 중요한 나이를 텍스트 입력으로 받는다.
+  bad:
+  - lang: html
+    code: '<label for="age">나이</label>
+
+      <output id="ageOut" for="age">30</output>
+
+      <span aria-hidden="true">0</span>
+
+      <input id="age" type="range" min="0" max="120" step="12" value="30" oninput="ageOut.value = this.value">
+
+      <span aria-hidden="true">120</span>
+
+      '
+    note: 정확한 값이 필요한 나이를 슬라이더로 받는다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(curl로 KRDS 페이지 HTML을 받아 본문 텍스트와 대조): 문장·예시 일치 확인. 원문 강도 ''적합하지 않은 경우''(권고)
+  → MAY. 판정이 판단이라 guide.'
+korean_specific: false
+tags:
+- krds
+- krds-component

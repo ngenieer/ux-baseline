@@ -1,0 +1,48 @@
+id: TYPO-005
+category: TYPO
+title: 행간을 상대 단위로
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: line-height 값은 px 같은 절대 단위가 아니라 단위 없는 수, em, % 중 하나로 지정한다.
+measurement:
+  criteria: 스타일시트와 인라인 style의 line-height 선언 값에 px, pt, cm, mm, in, pc, Q 단위가 0건. 디자인 토큰의 line-height 값도 단위 없는 수
+    또는 %.
+  method: stylelint declaration-property-unit-disallowed-list 로 소스 검사.
+automation:
+  feasibility: full
+  checks:
+  - tool: stylelint
+    rule: declaration-property-unit-disallowed-list
+    method: '{ "line-height": ["px", "pt", "cm", "mm", "in", "pc", "Q"] }'
+  note: 인라인 style 속성은 stylelint 대상이 아니므로 HTML 린트(커스텀)로 보완.
+rationale: 글자 크기가 바뀌어도 행간이 비례해 바뀌어야 확대·글자 크기 조정 시 줄이 겹치지 않는다(KRDS).
+sources:
+- ref: KRDS
+  locator: 디자인 스타일 > 타이포그래피 > 줄 간격 (가이드라인 PDF 2025.08 105쪽)
+  note: https://www.krds.go.kr/html/site/style/style_03.html
+scope:
+  level: global
+  targets:
+  - line-height 선언 전체
+exceptions: []
+relations: []
+examples:
+  good:
+  - lang: css
+    code: body{line-height:1.5}
+    note: 단위 없는 수라 글자 크기가 바뀌어도 비율이 유지된다
+  bad:
+  - lang: css
+    code: body{line-height:24px}
+    note: px 고정이라 글자를 키우면 줄이 겹친다
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(KRDS https://www.krds.go.kr/html/site/style/style_03.html HTML을 curl로 받아 본문
+  확인): ''다양한 글자 크기에 대응하기 위해 px 단위가 아닌 em 또는 % 등 상대적 단위를 사용한다'' 확인. 단위 없는 수는 원문에 명시되지 않았으나 ''등 상대적 단위''에 포함된다고 해석.
+  1단계 메모: KRDS HTML 키트에도 line-height: 2.4rem 같은 rem 고정값이 일부 있음 — rem은 이 룰에서 금지하지 않는다.'
+korean_specific: false
+tags:
+- krds
+- public-sector-must

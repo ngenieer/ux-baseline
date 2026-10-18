@@ -1,0 +1,50 @@
+id: RESP-007
+category: RESP
+title: 넓은 화면 메인 메뉴 1수준 펼침
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 헤더 너비가 메인 메뉴 1수준 항목 전체를 한 줄에 담을 수 있으면 1수준 항목 전체를 메뉴 막대에 펼쳐 보이게 한다.
+measurement:
+  criteria: 1수준 항목 전체 너비의 합이 헤더 메뉴 영역 너비 이하인 모든 뷰포트에서 1수준 항목이 모두 보이고, 햄버거·더보기 버튼을 눌러야 보이는 1수준 항목이 없다.
+  method: 브레이크포인트별로 렌더링해 1수준 링크 수와 화면에 보이는 링크 수를 비교한다.
+automation:
+  feasibility: none
+  checks: []
+  note: 4단계 커스텀 Playwright 검사.
+rationale: 넓은 화면에서 1수준 메뉴를 숨기면 사용자가 서비스의 정보 구조를 한눈에 파악하지 못한다.
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 메인 메뉴 > 플랫폼에 대한 고려 사항 (가이드라인 PDF 2025.08 276쪽)
+  note: https://www.krds.go.kr/html/site/component/component_03_02.html
+scope:
+  level: component
+  targets:
+  - 메인 메뉴
+  - header nav
+exceptions: []
+relations:
+- type: refines
+  id: RESP-005
+  note: 햄버거 메뉴로 바꾸는 조건의 반대 조건.
+examples:
+  good:
+  - lang: html
+    code: <nav aria-label="주 메뉴"><ul><li><a href="/a">민원</a></li><li><a href="/b">정책</a></li><li><a href="/c">소식</a></li></ul></nav>
+    note: 넓은 화면에서 1수준 메뉴 전체를 메뉴 막대에 펼친다.
+  bad:
+  - lang: html
+    code: '<!-- 1280px에서도 1수준 메뉴를 햄버거 안에만 둠 -->
+
+      <button aria-expanded="false">전체 메뉴</button>'
+    note: 1280px에서도 1수준 메뉴를 햄버거 안에만 둔다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(curl로 KRDS 페이지 HTML을 받아 텍스트로 직접 읽음): ''화면 너비가 충분한 경우에는 1수준 메뉴 전체를 확인할 수 있도록
+  표현한다'' 확인. 수치가 없어 ''1수준 항목이 한 줄에 들어가는 너비''로 조건을 바꿈. 지시형 → SHOULD + public-sector-must.'
+korean_specific: false
+tags:
+- krds
+- krds-component
+- public-sector-must

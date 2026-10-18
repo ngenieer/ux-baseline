@@ -1,0 +1,50 @@
+id: STATE-035
+category: STATE
+title: 바텀시트 용도
+stage: platformed
+status:
+  value: confirmed
+type: guide
+strength: MAY
+statement: 바텀시트는 현재 화면을 유지한 채 하는 일시적인 짧은 상호작용(옵션 선택·부가 정보 확인)에만 쓰고, 오래 검토해야 하는 정보, 항상 필요한 정보·도구, 서비스 절차의 한 단계에는
+  쓰지 않는다.
+measurement:
+  criteria: '점검 질문: (1) 시트 내용이 항상 보여야 하는 정보·도구인가? (2) 서비스 신청 절차의 필수 단계인가? (3) 정책 안내처럼 읽는 데 오래 걸리는 내용인가? — 하나라도 ''예''면
+    위반.'
+  method: 바텀시트 사용처 목록을 점검 질문으로 검토한다.
+automation:
+  feasibility: none
+  checks: []
+  note: ''
+rationale: 바텀시트는 화면 일부를 가리는 일시적 UI라 오래 쓰거나 늘 필요한 내용에는 맞지 않는다(KRDS).
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 바텀시트 > 상호작용 가이드라인/용례
+  note: https://www.krds.go.kr/html/site/component/component_12_03.html
+scope:
+  level: component
+  targets:
+  - 바텀시트
+exceptions: []
+relations: []
+examples:
+  good:
+  - lang: text
+    code: '목록 정렬 기준(최신순·조회순)을 고르는 바텀시트
+
+      '
+    note: 현재 화면을 유지한 짧은 옵션 선택이다.
+  bad:
+  - lang: text
+    code: '개인정보 처리방침 전문(30개 조항)을 바텀시트로 표시
+
+      '
+    note: 오래 읽어야 하는 내용을 일시적 시트에 담는다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(curl로 KRDS 페이지 HTML을 받아 텍스트로 직접 읽음): 바텀시트 component_12_03 용례 ''항상 필요로 하는 정보를
+  표시하는 경우·사용자 여정의 한 스텝으로 사용하는 경우 적합하지 않다'', 사용성 ''짧은 상호작용에만 … 바람직하다 … 상당한 시간을 소비해야 하는 경우 사용하지 않는 것이 좋다'' 확인. ''오래
+  검토''는 수치 기준이 없어 type: guide, 근거 문장이 ''바람직하다·좋다''라 MAY.'
+korean_specific: false
+tags:
+- krds
+- krds-component

@@ -1,0 +1,51 @@
+id: STATE-013
+category: STATE
+title: 모달 안 다단계 절차 금지
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 다단계 절차(2단계 이상 이어지는 입력·선택)를 모달 안에서 진행하지 않고 별도 화면에서 진행한다.
+measurement:
+  criteria: 모달 안에서 액션 버튼(다음·확인 등)을 눌렀을 때 같은 모달 안에 다른 입력·선택 단계가 이어서 나타나지 않는다. 모달 안에 단계 표시기(1/3 등)가 없다.
+  method: 모달을 여는 모든 흐름을 끝까지 진행해 단계 수를 센다.
+automation:
+  feasibility: none
+  checks: []
+  note: 모달 규격 안에 단계 표시기 컴포넌트를 넣으면 실패로 보는 커스텀 검사 가능.
+rationale: 기본 화면에서 벗어난 모달에서 다단계 절차를 진행하면 맥락을 잃기 쉽고 안내 장치를 쓰기 어렵다. KRDS는 '모달은 최후의 수단'이라고 쓴다.
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 모달 > 용례 (가이드라인 PDF 2025.08 387쪽)
+  note: https://www.krds.go.kr/html/site/component/component_04_05.html
+scope:
+  level: component
+  targets:
+  - dialog
+  - 모달
+exceptions: []
+relations: []
+examples:
+  good:
+  - lang: html
+    code: '<!-- 3단계 신청 절차는 별도 페이지로 진행 -->
+
+      <a href="/apply/step-1">보조금 신청하기</a>
+
+      '
+    note: 다단계 절차를 별도 화면에서 진행한다.
+  bad:
+  - lang: html
+    code: "<dialog open aria-labelledby=\"s-t\">\n  <h2 id=\"s-t\">1/3 단계: 기본 정보</h2> …\n  <button type=\"button\"\
+      >다음</button>\n</dialog>\n"
+    note: 모달 안에서 여러 입력 단계를 이어 진행한다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(curl로 KRDS 페이지 HTML을 받아 텍스트로 직접 읽음): 모달 component_04_05 용례 ''모달은 최후의 수단이다'',
+  ''다단계 프로세스, 복잡한 사용자 플로(Flow)가 진행되는 것을 피해야 한다'' 확인. ''복잡한 플로''는 판정 기준이 없어 statement에서 빼고 ''2단계 이상''으로 한정. FORM-011(모달
+  입력 5개 이하)과 BACKLOG 충돌(KRDS 모달은 입력폼 자체를 피하라 함)은 FORM-011 쪽에서 처리.'
+korean_specific: false
+tags:
+- krds
+- krds-component
+- public-sector-must

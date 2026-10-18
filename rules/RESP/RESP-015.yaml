@@ -1,0 +1,50 @@
+id: RESP-015
+category: RESP
+title: 화면 크기 조정 옵션 수
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: MAY
+statement: 화면 크기 조정 컴포넌트의 배율 옵션은 5개 이하로 둔다.
+measurement:
+  criteria: '화면 크기 조정 옵션 목록의 항목 수가 5 이하이다(KRDS 기본: 작게 90%, 보통 100%, 조금 크게 110%, 크게 130%, 가장 크게 150%).'
+  method: 옵션 목록 항목 수를 센다.
+automation:
+  feasibility: none
+  checks: []
+  note: 4단계 커스텀 DOM 검사(옵션 role=option 또는 li 개수 ≤ 5).
+rationale: 옵션이 많을수록 인지 부담이 커진다(KRDS).
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 화면 크기 조정 > 구조, 사용성 가이드라인 (가이드라인 PDF 2025.08 727, 729~731쪽)
+  note: https://www.krds.go.kr/html/site/component/component_10_02.html
+scope:
+  level: component
+  targets:
+  - 화면 크기 조정
+exceptions: []
+relations:
+- type: depends
+  id: RESP-002
+  note: 배율을 바꿔도 콘텐츠·기능 손실이 없어야 한다.
+examples:
+  good:
+  - lang: html
+    code: "<ul role=\"listbox\" aria-label=\"화면 크기\">\n  <li role=\"option\">작게 90%</li><li role=\"option\" aria-selected=\"\
+      true\">보통 100%</li>\n  <li role=\"option\">조금 크게 110%</li><li role=\"option\">크게 130%</li><li role=\"option\"\
+      >가장 크게 150%</li>\n</ul>"
+    note: 배율 옵션이 KRDS 기본 5개다.
+  bad:
+  - lang: html
+    code: "<ul role=\"listbox\" aria-label=\"화면 크기\">\n  <li role=\"option\">80%</li><li role=\"option\">90%</li><li\
+      \ role=\"option\" aria-selected=\"true\">100%</li>\n  <li role=\"option\">110%</li><li role=\"option\">120%</li><li\
+      \ role=\"option\">130%</li><li role=\"option\">150%</li>\n</ul>"
+    note: 배율 옵션이 7개로 5개를 넘는다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(curl로 KRDS 페이지 HTML을 받아 텍스트로 직접 읽음): 구조 옵션 a~e(90/100/110/130/150%), 사용성 ''옵션을
+  5개 이내로 제공한다'', ''서비스 특성에 따라 확대/축소 옵션값을 추가하거나 제거할 수 있다. … 5개 이내로 제공하는 것이 바람직하다'' 확인. ''바람직하다'' → MAY.'
+korean_specific: false
+tags:
+- krds
+- krds-component

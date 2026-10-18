@@ -1,0 +1,181 @@
+id: text-area
+title: 텍스트 영역
+status: confirmed
+summary: 사유·의견·상세 설명처럼 여러 문장으로 된 텍스트를 입력받을 때 쓴다.
+use_instead:
+- when: 한 줄로 끝나는 값(이름·이메일·전화번호·검색어 등)을 받는 경우
+  use: text-field
+  rule: FORM-054
+- when: 텍스트 영역 하나의 레이블·안내문이 두 개 이상의 질문을 묻는 경우
+  use: 질문마다 나눈 텍스트 영역, 응답이 정해진 질문은 라디오 버튼·체크박스
+  rule: FORM-055
+krds:
+  page: component_09_02.html
+  kit: html/code/textarea.html
+  kit_classes:
+    text-area: form-group
+    text-area__label: form-tit label
+    text-area__input: krds-input (textarea)
+    text-area__count: textarea-count
+    text-area__count-current: count-now
+anatomy:
+- part: 루트
+  class: text-area
+  element: div
+  required: true
+  note: text-field 와 같은 순서로 레이블 → 부가 설명 → 텍스트 영역 → 글자 수 → 시스템 메시지를 위에서 아래로 쌓는다(FORM-009, FORM-052).
+- part: 레이블
+  class: text-area__label
+  element: label
+  required: true
+  note: for 로 textarea id 와 연결한다(FORM-004, A11Y-025). 필수·선택 표시는 서비스 전체에서 한 방식만 쓴다(FORM-012).
+- part: 부가 설명
+  class: text-area__hint
+  element: p
+  note: 무엇을 쓰는지·형식 안내는 플레이스홀더가 아니라 여기에 쓴다(FORM-017). textarea 의 aria-describedby 로 연결한다.
+- part: 텍스트 영역
+  class: text-area__input
+  element: textarea
+  required: true
+  note: rows 는 예상 최대 입력 길이에 비례해 정한다(FORM-051). 글자 수 제한이 있으면 maxlength 를 준다. 복사·붙여넣기를 막지 않는다(FORM-018).
+- part: 글자 수
+  class: text-area__count
+  element: p
+  note: 글자 수 제한이 있을 때만 넣는다. 텍스트 영역 바로 다음에 두고 내용은 '현재/최대'(예 43/500) 숫자만 쓴다(FORM-052, CF-039). textarea 의 aria-describedby
+    로 연결해 초점을 받을 때 읽히게 한다.
+- part: 현재 글자 수
+  class: text-area__count-current
+  element: span
+  note: 입력·삭제·붙여넣기 때마다 스크립트가 갱신하는 숫자(FORM-053).
+- part: 한도 도달 알림
+  class: text-area__status
+  element: p
+  note: role="status" 와 .sr-only 를 준 빈 요소. 최대 글자 수에 도달했을 때만 문장을 넣어 보조기술에 한 번 알린다(STATE-001).
+- part: 시스템 메시지(오류)
+  class: text-area__message
+  element: p
+  note: 제출 시 오류가 있을 때만 넣는다(FORM-080). textarea 의 aria-describedby 에 id 를 더한다(FORM-003).
+markup: |-
+  <div class="text-area">
+    <label class="text-area__label" for="inquiry-detail">문의 내용 (필수)</label>
+    <p class="text-area__hint" id="inquiry-detail-hint">문의할 서비스 이름과 겪은 문제를 함께 적어 주세요.</p>
+    <textarea class="text-area__input" id="inquiry-detail" name="inquiry_detail" rows="8" maxlength="500" required aria-describedby="inquiry-detail-hint inquiry-detail-count">여권 재발급 신청 화면에서 사진 파일을 올리면 다음 단계로 넘어가지 않습니다.</textarea>
+    <p class="text-area__count" id="inquiry-detail-count"><span class="text-area__count-current">43</span>/500</p>
+    <p class="text-area__status sr-only" role="status"></p>
+  </div>
+  <div class="text-area text-area--error">
+    <label class="text-area__label" for="refund-reason">환불 사유 (필수)</label>
+    <p class="text-area__hint" id="refund-reason-hint">환불을 요청하는 이유를 적어 주세요.</p>
+    <textarea class="text-area__input" id="refund-reason" name="refund_reason" rows="4" maxlength="200" required aria-invalid="true" aria-describedby="refund-reason-hint refund-reason-count refund-reason-error"></textarea>
+    <p class="text-area__count" id="refund-reason-count"><span class="text-area__count-current">0</span>/200</p>
+    <p class="text-area__status sr-only" role="status"></p>
+    <p class="text-area__message" id="refund-reason-error">환불 사유를 입력해 주세요. 예: 신청 기간이 지나 서비스를 이용하지 못했습니다.</p>
+  </div>
+css: |-
+  .text-area {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-gap-3);
+  }
+  .text-area__label {
+    color: var(--color-text-basic);
+    font-size: var(--font-size-label-medium);
+    font-weight: var(--font-weight-bold);
+  }
+  .text-area__hint {
+    color: var(--color-text-subtle);
+    font-size: var(--font-size-body-small);
+  }
+  .text-area__input {
+    inline-size: 100%;
+    padding-block: var(--space-padding-4);
+    padding-inline: var(--space-padding-6);
+    border: var(--space-scale-1) solid var(--color-input-border);
+    border-radius: var(--radius-medium3);
+    background-color: var(--color-input-surface);
+    color: var(--color-text-basic);
+    font-family: inherit;
+    font-size: var(--font-size-body-medium);
+    line-height: var(--font-line-height-base);
+    resize: vertical;
+  }
+  .text-area__input:focus-visible {
+    outline: var(--space-scale-2) solid var(--color-input-border-active);
+    outline-offset: var(--space-scale-1);
+  }
+  .text-area__input:disabled {
+    border-color: var(--color-input-border-disabled);
+    background-color: var(--color-input-surface-disabled);
+    color: var(--color-text-disabled);
+  }
+  .text-area--error .text-area__input {
+    border-color: var(--color-input-border-error);
+  }
+  .text-area__count {
+    align-self: flex-end;
+    color: var(--color-text-subtle);
+    font-size: var(--font-size-body-small);
+  }
+  .text-area__count-current {
+    color: var(--color-text-basic);
+    font-weight: var(--font-weight-bold);
+  }
+  .text-area__message {
+    color: var(--color-text-danger);
+    font-size: var(--font-size-body-small);
+  }
+states:
+- name: 오류
+  markup_change: 루트에 text-area--error, textarea 에 aria-invalid="true", 시스템 메시지 p 를 넣고 그 id 를 aria-describedby 에
+    더한다. 메시지는 항목 이름·문제·고치는 방법을 담는다(FORM-003·005, COPY-005).
+  rule: FORM-003
+- name: 글자 수 제한 없음
+  markup_change: maxlength 를 빼고 글자 수(text-area__count)·한도 도달 알림(text-area__status)을 넣지 않는다. aria-describedby 에서
+    글자 수 id 를 뺀다.
+  rule: FORM-052
+- name: 비활성
+  markup_change: textarea 에 disabled. 값을 바꿀 수 없다는 이유를 부가 설명에 쓴다.
+- name: 읽기 전용
+  markup_change: textarea 에 readonly. 값은 선택·복사할 수 있어야 한다(FORM-018).
+keyboard:
+- key: Tab
+  action: 텍스트 영역으로 초점을 옮긴다. 초점 표시가 보인다(A11Y-016). 텍스트 영역 안에서 Tab 을 가로채지 않는다(A11Y-011).
+- key: Enter
+  action: 텍스트 영역 안에서 줄을 바꾼다. 폼을 제출하지 않는다(FORM-002).
+behavior:
+- 입력·삭제·붙여넣기(input 이벤트)마다 text-area__count-current 를 현재 글자 수로 바꾼다(FORM-053). 글자 수 세는 방식은 maxlength·서버 검증과 같게 한다.
+- 글자 수 표시는 aria-live 로 두지 않는다 — 입력할 때마다 낭독이 입력 소리와 겹친다. aria-describedby 로 연결해 초점을 받을 때 읽히게 하고, 최대 글자 수에 도달하면 text-area__status
+  에 '최대 500자를 모두 입력했습니다.' 같은 문장을 한 번 넣는다(STATE-001).
+- 오류는 텍스트 영역을 벗어날 때(blur)가 아니라 다음 단계·제출 버튼을 눌렀을 때 표시한다(FORM-080). 오류를 표시한 뒤에도 입력한 값을 지우지 않는다(FORM-016).
+- copy·cut·paste 이벤트를 막지 않는다(FORM-018).
+- 값을 바꾸는 것만으로 제출·페이지 이동·새 창 열기를 하지 않는다(FORM-002).
+rules:
+- A11Y-011
+- A11Y-016
+- A11Y-025
+- COLOR-003
+- COPY-005
+- FORM-002
+- FORM-003
+- FORM-004
+- FORM-005
+- FORM-009
+- FORM-012
+- FORM-016
+- FORM-017
+- FORM-018
+- FORM-051
+- FORM-052
+- FORM-053
+- FORM-054
+- FORM-055
+- FORM-080
+- STATE-001
+kit_differences:
+- KRDS 키트는 글자 수(textarea-count)를 textarea 와 aria-describedby 로 연결하지 않는다 — 이 규격은 연결해 스크린 리더 사용자도 한도를 알 수 있게 한다(A11Y-025,
+  FORM-052).
+- KRDS 키트 예시는 플레이스홀더에 '플레이스홀더' 문구를 넣는다 — 이 규격은 안내를 부가 설명에 쓰고 플레이스홀더를 쓰지 않는다(FORM-017).
+- KRDS 페이지 본문은 '남은 글자 수'를, 키트는 '0/100' 을 보인다 — 이 규격은 '현재/최대' 형식 하나로 통일한다(CF-039).
+notes:
+- rows 값은 예시다(500자 → rows 8, 200자 → rows 4). 실제 값은 각 필드의 예상 최대 입력 길이로 정한다(FORM-051).
+- 한도 도달 알림(text-area__status)은 .sr-only 유틸리티(components/sr-only.yaml)를 쓴다.

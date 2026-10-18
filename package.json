@@ -1,0 +1,51 @@
+{
+  "name": "@sizlon/ux-baseline",
+  "version": "0.2.1",
+  "description": "웹 UI/UX 기준 — 디자인 토큰, 기본 스타일, 검사기 설정(stylelint·html-validate·axe-core), AI 에이전트용 지침·스킬, 검사 명령(ux-baseline check)",
+  "type": "module",
+  "license": "(MIT AND CC-BY-4.0)",
+  "private": true,
+  "repository": "github:ngenieer/ux-baseline",
+  "engines": { "node": ">=22" },
+  "bin": { "ux-baseline": "kit/cli.mjs" },
+  "exports": {
+    "./tokens.css": "./tokens/build/tokens.css",
+    "./base.css": "./tokens/base.css",
+    "./tokens.json": "./tokens/ux-baseline.tokens.json",
+    "./stylelint": "./lint/stylelint.config.mjs",
+    "./stylelint-plugin": "./lint/plugins/ux-baseline.mjs",
+    "./html-validate": "./kit/html-validate.mjs",
+    "./axe.config.json": "./lint/axe.config.json",
+    "./axe.high-contrast.config.json": "./lint/axe.high-contrast.config.json",
+    "./rule-map.yaml": "./lint/rule-map.yaml",
+    "./rules.json": "./dist/rules.json",
+    "./check": "./kit/lib/check.mjs",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "kit/cli.mjs",
+    "kit/html-validate.mjs",
+    "kit/lib/",
+    "dist/",
+    "tokens/build/tokens.css",
+    "tokens/base.css",
+    "tokens/ux-baseline.tokens.json",
+    "lint/stylelint.config.mjs",
+    "lint/plugins/",
+    "lint/.htmlvalidate.json",
+    "lint/axe.config.json",
+    "lint/axe.high-contrast.config.json",
+    "lint/rule-map.yaml",
+    "CHANGELOG.md",
+    "NOTICE.md",
+    "LICENSE"
+  ],
+  "dependencies": {
+    "axe-core": "^4.14.0",
+    "html-validate": "^11.16.3",
+    "playwright-core": "1.56.1",
+    "stylelint": "^17.16.0",
+    "stylelint-declaration-strict-value": "^1.11.0",
+    "yaml": "^2.9.1"
+  }
+}

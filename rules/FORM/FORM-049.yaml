@@ -1,0 +1,63 @@
+id: FORM-049
+category: FORM
+title: 기억하지 못하는 날짜에는 날짜 선택기
+stage: platformed
+status:
+  value: confirmed
+type: guide
+strength: SHOULD
+statement: 서비스 이용 시점에서 먼 과거·미래 날짜, 요일이 중요한 날짜, 인접 날짜와 비교해 고르는 날짜(예약일·방문일 등)를 받는 단일·범위 날짜 입력 필드에는 날짜 선택기를 함께 제공한다.
+measurement:
+  criteria: '점검 질문: 날짜 필드가 사용자가 외우고 있지 않은 날짜(예약일·방문일·관람일 등)를 받는가? 그렇다면 필드 옆에 날짜 선택기를 여는 버튼이 있는가?'
+  method: 수동 검토
+automation:
+  feasibility: none
+  checks: []
+  note: 대상 필드 선정이 판단이라 자동화 불가. 대상으로 지정된 필드에 선택기 버튼이 있는지는 4단계 커스텀 검사 가능.
+rationale: KRDS는 단일·범위 입력 필드에서 사용자가 기억하지 못하는 과거·미래 날짜나 범위를 요청하면 날짜 선택기를 함께 제공해야 한다고 하고, 멀리 떨어진 날짜·요일이 중요한 경우·인접
+  날짜 비교가 필요한 경우를 날짜 선택기가 적합한 상황으로 든다.
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 날짜 입력 필드 > 유형(단일 입력 필드·범위 입력 필드) (가이드라인 PDF 2025.08 665~666쪽)
+  note: 'https://www.krds.go.kr/html/site/component/component_09_01.html — 원문: ''날짜 선택기를 함께 제공해야 한다'''
+- ref: KRDS
+  locator: 컴포넌트 > 날짜 입력 필드 > 유형(날짜 선택기가 있는 입력 필드) (가이드라인 PDF 2025.08 666쪽)
+  note: https://www.krds.go.kr/html/site/component/component_09_01.html — 적합한 상황과 예(예약일, 방문/관람일)
+scope:
+  level: component
+  targets:
+  - 날짜 입력 필드
+exceptions:
+- 사용자가 이미 알고 있는 날짜(주민등록번호 앞자리·생년월일 등)를 받는 단일 입력 필드 — KRDS는 이를 단일 입력 필드의 용도로 든다. 생년월일은 FORM-021 참고.
+relations: []
+examples:
+  good:
+  - lang: html
+    code: '<label for="visit">방문 희망일</label>
+
+      <input id="visit" inputmode="numeric" aria-describedby="visit-help">
+
+      <button type="button" aria-controls="visit-cal">달력 열기</button>
+
+      <p id="visit-help">날짜를 입력하거나 달력에서 골라 주세요.</p>
+
+      '
+    note: 먼 미래의 예약일 입력 필드 옆에 날짜 선택기를 여는 버튼을 두었다.
+  bad:
+  - lang: html
+    code: '<!-- 몇 달 뒤 방문일을 숫자로만 입력하게 함 -->
+
+      <label for="visit">방문 희망일</label>
+
+      <input id="visit" inputmode="numeric">
+
+      '
+    note: 외우고 있지 않은 날짜인데 날짜 선택기가 없다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(curl로 KRDS 페이지 HTML을 받아 본문 텍스트와 대조): 문장·예시 일치 확인. 원문 강도 ''함께 제공해야 한다'' → SHOULD
+  + public-sector-must. 같은 페이지 접근성 가이드라인의 ''날짜 선택기를 써도 입력 필드를 사용 불가·읽기 전용으로 바꾸지 않는다''는 별도 룰 후보(이 룰에 넣지 않음).'
+korean_specific: false
+tags:
+- krds
+- krds-component
+- public-sector-must

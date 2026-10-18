@@ -1,0 +1,59 @@
+id: NAV-041
+category: NAV
+title: 무한 스크롤 사용 조건
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 무한 스크롤은 항목 수 추정치가 있고 사용자가 목록 끝으로 이동할 필요가 없는 목록에만 쓰고, 무한 스크롤을 쓰는 목록에는 페이지네이션을 함께 두지 않는다.
+measurement:
+  criteria: (1) 무한 스크롤 목록과 페이지네이션 컴포넌트가 같은 목록에 함께 있지 않다. (2) 무한 스크롤 목록에는 전체 또는 추정 항목 수가 표시된다. (3) 무한 스크롤 목록 아래에
+    사용자가 도달해야 하는 콘텐츠(푸터 링크 등)가 없다.
+  method: '(1)(2)는 DOM 확인, (3)은 수동: 목록 끝 아래 영역에 과업에 필요한 링크·정보가 있는지 확인한다.'
+automation:
+  feasibility: none
+  checks: []
+  note: 기존 검사기 규칙 없음. (1)은 커스텀 검사(무한 스크롤 표식 클래스와 페이지네이션 nav 동시 존재)로 자동화 가능.
+rationale: 무한 스크롤은 키보드 사용자가 목록 뒤 콘텐츠에 도달하기 어렵게 만든다. 두 방식을 함께 쓰면 현재 위치와 이동 방식이 혼란스럽다.
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 페이지네이션 > 용례 (무한 스크롤 기능을 사용할 때) (가이드라인 PDF 2025.08 318쪽)
+  note: https://www.krds.go.kr/html/site/component/component_03_06.html
+scope:
+  level: situation
+  targets:
+  - 긴 목록
+  - 무한 스크롤
+  - 페이지네이션
+exceptions: []
+relations:
+- type: depends
+  id: NAV-007
+  note: 긴 목록은 기본적으로 페이지 단위로 나눔(NAV-007). 이 룰은 무한 스크롤을 택할 때의 조건
+examples:
+  good:
+  - lang: html
+    code: '<p>검색 결과 약 1,200건</p>
+
+      <ul id="feed">…</ul>  <!-- 무한 스크롤, 페이지네이션 없음, 목록 아래 필수 링크 없음 -->
+
+      '
+    note: 무한 스크롤 목록에 추정 항목 수가 있고 페이지네이션이 없다.
+  bad:
+  - lang: html
+    code: '<ul id="feed">…</ul>  <!-- 무한 스크롤 -->
+
+      <nav aria-label="페이지"><a href="?page=2">2</a> …</nav>
+
+      '
+    note: 무한 스크롤 목록 아래에 페이지네이션을 함께 두었다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(KRDS 페이지 curl 수신 후 텍스트 추출): ''무한 스크롤 기능을 사용하는 경우, 페이지네이션을 사용하지 않는다'', ''사용하지
+  않는 것이 좋으며, 항목 개수에 대한 추정치가 있고 사용자가 항목 목록의 끝으로 이동할 필요가 없을 때만 사용한다'' 확인. 무한 스크롤 자체 자제는 원문 ''좋으며''(권장)이고 병행 금지는 ''~하지
+  않는다'' — 강도는 후자 기준 SHOULD + public-sector-must. 판정 (2)(3)은 원문 조건을 화면에서 확인할 수 있게 바꾼 해석.'
+korean_specific: false
+tags:
+- krds
+- krds-component
+- public-sector-must

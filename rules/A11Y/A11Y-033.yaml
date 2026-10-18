@@ -1,0 +1,50 @@
+id: A11Y-033
+category: A11Y
+title: 캐러셀 인디케이터 방향키
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 캐러셀 페이지네이션 인디케이터 그룹에 초점이 있을 때 ←·→ 방향키로 이전·다음 콘텐츠로 선택을 바꾸게 한다.
+measurement:
+  criteria: '인디케이터 그룹(예: role="tablist" 또는 인디케이터 버튼 묶음) 안의 항목에 초점을 두고 → 를 누르면 다음 슬라이드, ← 를 누르면 이전 슬라이드가 선택되고 표시된다.'
+  method: 인디케이터에 Tab으로 진입해 ←·→를 눌러 선택·표시 변화를 확인한다.
+automation:
+  feasibility: none
+  checks: []
+  note: '4단계 커스텀 검사: Playwright 키보드 시나리오.'
+rationale: 인디케이터를 한 그룹으로 묶고 방향키로 이동하게 하면 Tab 정지점이 줄고 슬라이드 탐색이 일관된다.
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 캐러셀 > 상호작용 가이드라인 > 슬라이드 탐색 (가이드라인 PDF 2025.08 443쪽)
+  note: https://www.krds.go.kr/html/site/component/component_04_09.html
+scope:
+  level: component
+  targets:
+  - 캐러셀 인디케이터
+exceptions: []
+relations:
+- type: refines
+  id: A11Y-011
+examples:
+  good:
+  - lang: html
+    code: "<div role=\"tablist\" aria-label=\"슬라이드 선택\">\n  <button role=\"tab\" aria-selected=\"true\" tabindex=\"\
+      0\">1</button>\n  <button role=\"tab\" aria-selected=\"false\" tabindex=\"-1\">2</button>\n</div>\n"
+    note: 인디케이터를 tablist로 묶고 로빙 tabindex로 방향키 이동
+  bad:
+  - lang: html
+    code: '<!-- 인디케이터가 각각 Tab 정지점이고 방향키에 반응하지 않음 -->
+
+      '
+    note: 인디케이터가 방향키에 반응하지 않음
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(WebFetch로 KRDS 페이지 재조회, 요약 모델 인용 확인): 상호작용 가이드라인 ''페이지네이션 인디케이터의 경우 인디케이터 그룹에
+  초점이 있을 때 키보드 방향키 ←, →를 눌러 다음 또는 이전 콘텐츠로 선택을 전환한다.'' 확인. 원문은 강도어 없는 상호작용 명세(서술형) → SHOULD(public-sector-must 태그
+  없음).'
+korean_specific: false
+tags:
+- krds
+- krds-component
+- krds-descriptive

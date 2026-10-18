@@ -1,0 +1,52 @@
+id: LAYOUT-015
+category: LAYOUT
+title: 푸터
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 푸터 정보는 서비스 로고, 연락처, 유틸리티 링크, 정책 링크, 저작권 정보 순서로 배치하고, 사유를 기록하지 않고는 이 순서를 바꾸지 않는다.
+measurement:
+  criteria: footer 안 DOM 순서와 시각 순서가 서비스 로고 → 연락처 → 유틸리티 링크 → 정책 링크 → 저작권 정보다.
+  method: 푸터 마크업 순서와 화면 배치를 확인한다.
+automation:
+  feasibility: none
+  checks: []
+  note: '4단계: 푸터 컴포넌트 규격에 슬롯 순서를 고정하고 템플릿 검사로 순서를 확인.'
+rationale: 모든 공공 서비스에서 푸터 정보 순서가 같아야 브랜드가 확립되고 사용자가 정보를 같은 자리에서 찾는다.
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 푸터 > 사용성 가이드라인 (가이드라인 PDF 2025.08 249쪽)
+  note: https://www.krds.go.kr/html/site/component/component_02_04.html
+scope:
+  level: component
+  targets:
+  - footer
+exceptions:
+- '원문: 명확한 이유가 있으면 기본 순서를 바꿀 수 있다 — 그 이유를 기록한다.'
+relations:
+- type: refines
+  id: RESP-006
+  note: RESP-006은 좁은 화면에서 세로 재배열할 때도 이 순서를 유지하라는 반응형 구체화.
+examples:
+  good:
+  - lang: html
+    code: "<footer>\n  <img src=\"/img/service-logo.svg\" alt=\"민원24시\">\n  <address>(30112) 세종특별자치시 도움6로 42 · 대표전화\
+      \ 110</address>\n  <ul class=\"utility-links\"><li><a href=\"/sitemap\">사이트맵</a></li></ul>\n  <ul class=\"\
+      policy-links\"><li><a href=\"/privacy\">개인정보처리방침</a></li></ul>\n  <p><small>© 행정안전부</small></p>\n</footer>\n"
+    note: 서비스 로고 → 연락처 → 유틸리티 링크 → 정책 링크 → 저작권 순서다.
+  bad:
+  - lang: html
+    code: "<footer>\n  <ul class=\"policy-links\"><li><a href=\"/privacy\">개인정보처리방침</a></li></ul>\n  <img src=\"\
+      /img/service-logo.svg\" alt=\"민원24시\">\n  <address>(30112) 세종특별자치시 도움6로 42 · 대표전화 110</address>\n  <ul class=\"\
+      utility-links\"><li><a href=\"/sitemap\">사이트맵</a></li></ul>\n  <p><small>© 행정안전부</small></p>\n</footer>\n"
+    note: 기록된 사유 없이 정책 링크를 서비스 로고보다 앞에 두었다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(curl로 KRDS 페이지 HTML을 받아 본문 텍스트를 직접 확인): 푸터(component_02_04) ''명확한 이유 없이 기본
+  순서를 변경해서는 안 된다.'', ''푸터 섹션의 정보는 서비스 로고, 연락처, 유틸리티 링크, 정책 링크, 저작권 정보의 순으로 제공한다.'' 확인. ''안 된다'' → SHOULD + public-sector-must.'
+korean_specific: false
+tags:
+- krds
+- krds-component
+- public-sector-must

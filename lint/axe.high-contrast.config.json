@@ -1,0 +1,13 @@
+{
+  "$comment": "COLOR-009 선명한 화면 모드 검사용 axe-core 설정. 페이지를 <html data-theme=\"high-contrast\"> 상태로 바꾼 뒤 axe.config.json 과 별도로 돌린다. color-contrast-enhanced(AAA, 일반 텍스트 7:1·큰 텍스트 4.5:1)로 헤딩·레이블 7:1을 확인한다. 본문 15:1은 axe 규칙이 없어 E2E에서 대비를 직접 계산한다.",
+  "runOnly": {
+    "type": "rule",
+    "values": [
+      "color-contrast-enhanced"
+    ]
+  },
+  "resultTypes": [
+    "violations",
+    "incomplete"
+  ]
+}

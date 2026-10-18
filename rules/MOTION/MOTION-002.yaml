@@ -1,0 +1,69 @@
+id: MOTION-002
+category: MOTION
+title: 초당 3~50회 번쩍임 금지
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: MUST
+statement: 초당 3회 이상 깜빡이거나 번쩍이는 콘텐츠를 두지 않는다(상한 없음, 면적·휘도 임계값 예외를 쓰지 않는다).
+measurement:
+  criteria: 모든 동영상·애니메이션·깜빡이는 UI에서 어떤 1초 구간에도 깜빡임·번쩍임(상대 휘도 10% 이상의 반대 방향 변화 쌍 또는 적색 번쩍임)이 3회 이상 일어나지 않는다. 번쩍이는
+    면적·휘도가 WCAG 임계값 미만이거나 KWCAG 면적 기준(화면의 10%) 이하여도 예외로 보지 않는다(CF-037).
+  method: 깜빡이거나 번쩍이는 요소가 있으면 화면 녹화를 PEAT 등 광과민성 분석 도구로 검사하거나, 프레임 단위로 휘도 변화 쌍을 세어 초당 횟수를 계산한다. CSS 애니메이션은 duration·iteration으로
+    초당 반복 수를 계산한다.
+automation:
+  feasibility: none
+  checks: []
+  note: '기존 린트·axe 규칙 없음. 4단계 커스텀: CSS 애니메이션의 duration·iterations와 opacity/color 키프레임으로 초당 반복 횟수를 계산해 3회 초과 후보를
+    경고(면적·휘도는 수동).'
+rationale: 1초에 3회를 넘는 번쩍임은 광과민성 발작을 일으킬 수 있다.
+sources:
+- ref: WCAG22
+  locator: SC 2.3.1 Three Flashes or Below Threshold (Level A)
+  note: https://www.w3.org/TR/WCAG22/#three-flashes-or-below-threshold
+- ref: WCAG22_UNDERSTANDING
+  locator: https://www.w3.org/WAI/WCAG22/Understanding/three-flashes-or-below-threshold.html
+  note: 정의 general flash and red flash thresholds, 341×256 px 블록 설명
+- ref: KWCAG22
+  locator: 검사항목 6.3.1
+- ref: KRDS
+  locator: 컴포넌트 > 스플래시 스크린 > 접근성 가이드라인 (가이드라인 PDF 2025.08 483쪽)
+  note: https://www.krds.go.kr/html/site/component/component_04_12.html — 기준 이상의 번쩍임·깜빡임이 발생하지 않도록 유의(수치 없음)
+scope:
+  level: global
+  targets:
+  - video
+  - canvas
+  - '[style*=animation]'
+  - 스플래시 스크린
+exceptions: []
+relations: []
+examples:
+  good:
+  - lang: css
+    code: '/* --motion-duration-slow: 400ms, 2회 반복 → 전체 0.8초 동안 2회만 깜빡임 */
+
+      .notice-dot { animation: pulse var(--motion-duration-slow) var(--motion-easing-standard) 2; }'
+    note: 토큰 값 400ms 주기로 2번만 깜빡여 어떤 1초 구간에도 2회다(3회 미만).
+  bad:
+  - lang: css
+    code: '/* --motion-duration-fast: 200ms, 무한 반복 → 초당 5회 번쩍임 */
+
+      .alert { animation: blink var(--motion-duration-fast) var(--motion-easing-linear) infinite; }'
+    note: 토큰 값 200ms 주기로 무한 반복해 1초에 5회 번쩍인다(3회 이상).
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(sources/extracts/WCAG22-A-AA.yaml, Understanding 2.3.1 curl): SC 문장과 임계값 정의(10%·0.80·25%/10도·341×256
+  블록·0.1도 패턴 예외) 확인. KWCAG 2.2 대응 항목 번호는 비공식 HTML 판 기준 매핑 — 공식 원문 대조 전(registry KWCAG22 verified=false). 룰의 요구·수치는
+  WCAG 원문만으로 성립. KWCAG 6.3.1은 비공식 판에서 ''초당 3~50회''로 기술 — 3회를 금지 범위에 넣는 것으로 읽히면 WCAG(3회 이하 허용)보다 엄격. 제안 파일 conflicts
+  후보. KRDS 스플래시 페이지는 수치 없이 ''유의한다''만 씀(curl 확인). 2026-10-18 측정 기준을 3단계 결정(statement 변경)에 맞춰 고침. 2026-10-18 독립 검토(review)
+  반영: 이전 statement 의 ''50회 이하'' 상한은 WCAG 2.3.1(상한 없음)을 좁혀 삭제. KWCAG 6.3.1 해설의 면적 10%·정지 수단·3초 미만 조건도 쓰지 않는 체계 결정(CF-037).'
+korean_specific: false
+tags:
+- wcag22
+- level-a
+- new-in-2.0
+- kwcag22
+- krds
+decisions:
+- CF-037

@@ -1,0 +1,46 @@
+id: NAV-017
+category: NAV
+title: 푸터 링크 묶기
+stage: platformed
+status:
+  value: confirmed
+type: guide
+strength: MAY
+statement: 푸터 링크가 직관적으로 탐색되지 않으면 목적별·유형별 그룹으로 묶는다.
+measurement:
+  criteria: '점검 질문: 푸터 링크를 처음 보는 사용자가 원하는 링크가 어느 묶음에 있을지 예측할 수 있는가? 묶음마다 제목이 있는가?'
+  method: 사용자 테스트나 전문가 검토로 판단(기준 개수 없음).
+automation:
+  feasibility: none
+  note: 판단이 필요해 자동 검사 대상 아님.
+rationale: 세로로 긴 페이지에서 자주 찾는 링크를 하단에서 바로 찾게 한다.
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 푸터 > 사용성 가이드라인 (가이드라인 PDF 2025.08 250쪽)
+  note: https://www.krds.go.kr/html/site/component/component_02_04.html — '필요하다면 목적별/유형별로 군집화하여 직관적으로 탐색할 수 있게 한다.'(기준
+    개수 없음)
+scope:
+  level: component
+  targets:
+  - 푸터
+exceptions: []
+relations: []
+examples:
+  good:
+  - lang: html
+    code: "<footer>\n  <section aria-labelledby=\"f1\"><h2 id=\"f1\">이용 안내</h2><ul>…</ul></section>\n  <section\
+      \ aria-labelledby=\"f2\"><h2 id=\"f2\">정책</h2><ul>…</ul></section>\n</footer>\n"
+    note: 링크를 제목이 있는 목적별 묶음으로 나눈다.
+  bad:
+  - lang: html
+    code: '<footer><a>…</a><a>…</a><a>…</a><a>…</a><a>…</a><a>…</a><a>…</a><a>…</a></footer>
+
+      '
+    note: 링크 8개가 묶음·제목 없이 나열된다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(KRDS component_02_04 WebFetch): ''필요하다면 … 할 수 있게 한다'' 확인 — 조건이 판단이라 guide,
+  강도 MAY.'
+korean_specific: false
+tags:
+- krds
+- krds-component

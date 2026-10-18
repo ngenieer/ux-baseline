@@ -1,0 +1,75 @@
+id: STATE-021
+category: STATE
+title: 스피너 크기 선택
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: '스피너 크기는 배치 유형으로 정한다: 버튼·메뉴 항목·입력 필드 안과 결과 내용을 대신하지 않는 상태 행에는 작은 크기를, 결과가 들어갈 영역의 내용을 대신하는 영역 로딩과 페이지
+  전체 로딩에는 큰 크기를 쓴다.'
+measurement:
+  criteria: '스피너가 보이는 상태에서 배치 유형을 아래 순서로 정하고, 유형별 크기 변형을 쓴다. (A) 컨트롤 안 — 스피너가 button·[role=button]·[role=menuitem]·[role=option]
+    또는 입력 필드 컴포넌트 루트(input·textarea·select 를 감싼 text-field·select 등)의 하위에 있다: spinner--small. (D) 페이지 전체 — 스피너가
+    다른 콘텐츠 없이 뷰포트 전체를 덮는다: spinner--page. (C) 영역 대체 — 스피너가 처리 결과가 들어갈 요소(STATE-046 의 aria-busy 대상 영역) 안에 있고, 표시되는
+    동안 그 요소 안에 스피너·처리 중 텍스트·그 요소의 제목(h1~h6) 외에 보이는 내용이 없거나 스피너가 내용을 덮는 오버레이다: spinner--large. (B) 그 밖의 배치 — 결과 영역
+    위·아래의 한 줄 상태 행(처리 중 텍스트·중단 버튼과 함께), 결과 일부와 함께 보이는 진행 표시 등: spinner--small. 크기 변형이 없는 기본 스피너는 (A)~(D) 어디에도 쓰지
+    않는다. 크기 값은 spinner 규격 토큰(small = --size-height-2, large·page = --size-height-7)이며, (A)·(B)에서 스피너 식별자 높이는 그 컨트롤·행의
+    높이를 넘지 않는다.'
+  method: 스피너가 보이는 화면 상태마다 DOM 에서 스피너의 조상(A)·덮는 범위(D)·대상 영역의 다른 보이는 내용(C)을 확인해 유형을 정하고, 크기 변형 클래스를 확인한다.
+automation:
+  feasibility: none
+  checks: []
+  note: '4단계 커스텀 검사 후보: (A)는 스피너 조상 셀렉터로 정적 판정, (C)·(D)는 표시 상태 DOM 에서 aria-busy 대상 영역의 다른 보이는 자식 유무와 덮는 범위로 판정(E2E).
+    판정 결과와 크기 변형 클래스(spinner--small|large|page)를 비교한다.'
+rationale: 공간이 제한된 컨트롤 안에서는 작은 스피너가, 페이지 전체 대기에는 눈에 띄는 큰 스피너가 대기 상태를 알아보기 쉽다(KRDS).
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 스피너 > 사용성 가이드라인
+  note: https://www.krds.go.kr/html/site/component/component_07_02.html
+scope:
+  level: component
+  targets:
+  - 스피너
+exceptions: []
+relations: []
+examples:
+  good:
+  - lang: html
+    code: '<button type="submit"><span class="spinner spinner--sm" aria-hidden="true"></span> 조회</button>
+
+      '
+    note: 버튼 안 대기에는 버튼 높이를 넘지 않는 작은 스피너를 쓴다.
+  - lang: html
+    code: "<!-- (B) 결과 영역 위 한 줄 상태 행 — 결과는 아래에 이어서 나온다 -->\n<div class=\"result__progress\">\n  <div class=\"spinner\
+      \ spinner--small\"><progress class=\"spinner__indicator\" aria-labelledby=\"pg\"></progress><span class=\"\
+      spinner__text\" id=\"pg\">요약을 만드는 중입니다.</span></div>\n  <button type=\"button\">생성 중단</button>\n</div>\n<!--\
+      \ (C) 결과 목록 자리를 스피너가 대신한다 -->\n<section aria-labelledby=\"rt\" aria-busy=\"true\">\n  <h2 id=\"rt\">검색 결과</h2>\n\
+      \  <div class=\"spinner spinner--large\" role=\"status\"><progress class=\"spinner__indicator\" aria-labelledby=\"\
+      rl\"></progress><span class=\"spinner__text\" id=\"rl\">검색 결과를 불러오는 중입니다.</span></div>\n</section>"
+    note: 결과를 대신하지 않는 상태 행은 작은 크기, 결과 자리를 대신하는 영역 로딩은 큰 크기를 쓴다.
+  bad:
+  - lang: html
+    code: '<!-- 버튼 안에 대형(48px) 스피너가 들어가 버튼 높이를 늘린다 -->
+
+      <button type="submit"><span class="spinner spinner--lg" aria-hidden="true"></span> 조회</button>
+
+      '
+    note: 컨트롤 안에 큰 크기 스피너를 쓴다.
+  - lang: html
+    code: "<!-- (C) 영역 내용을 대신하는데 기본 크기 스피너를 쓴다 -->\n<section aria-labelledby=\"rt\" aria-busy=\"true\">\n  <h2 id=\"\
+      rt\">검색 결과</h2>\n  <div class=\"spinner\" role=\"status\"><progress class=\"spinner__indicator\" aria-labelledby=\"\
+      rl\"></progress><span class=\"spinner__text\" id=\"rl\">검색 결과를 불러오는 중입니다.</span></div>\n</section>"
+    note: 영역 내용을 대신하는 로딩에 크기 변형 없는 기본 스피너를 쓴다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(curl로 KRDS 페이지 HTML을 받아 텍스트로 직접 읽음): 스피너 component_07_02 ''상황에 맞는 적절한 크기의 스피너를
+  사용한다 … 큰 크기의 스피너 … 작은 스피너를 사용한다'' 확인. KRDS 페이지에 크기 수치가 없어 판정이 불가능 → type: guide. 크기 값은 KRDS 토큰(krds-uiux v1.1.0)에서
+  4단계에 확인. (2026-10-18 T5 검토 반영) 결과 영역 위 한 줄 상태 표시(텍스트+중단 버튼+작은 스피너)가 ''영역 전체 로딩''(큰 크기)인지 ''컴포넌트 안 대기''(작은 크기)인지
+  판정이 갈렸다 → KRDS 원문(''페이지 전체의 맥락이 변경되거나 공간적으로 제약이 없는 요소 = 큰 크기, 버튼·메뉴 항목·입력 필드와 같이 세로 및 가로 공간이 제한된 경우 = 작은 스피너'',
+  2026-10-18 curl 재확인)을 배치 유형 4가지(A 컨트롤 안, D 페이지 전체, C 영역 대체, B 그 밖)로 나눠 모든 배치가 한 유형에 들게 했다. 결과를 대신하지 않는 상태 행(B)을
+  작은 크기로 둔 것은 ''세로 공간이 한 줄로 제한된 배치''라는 체계 해석이다. 크기 값이 4단계 spinner 규격 변형(small·large 값은 선호 값 — components/spinner.yaml
+  notes)으로 정해져 판정이 가능해졌으므로 type: guide → rule. 강도는 SHOULD 유지. 규격 markup 의 영역 로딩 예시에 spinner--large 를 붙였다.'
+korean_specific: false
+tags:
+- krds
+- krds-component

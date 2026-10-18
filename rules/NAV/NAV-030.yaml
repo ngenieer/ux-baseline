@@ -1,0 +1,53 @@
+id: NAV-030
+category: NAV
+title: 브레드크럼 한 줄
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 브레드크럼은 한 줄로 표시한다.
+measurement:
+  criteria: 모든 지원 화면 너비에서 브레드크럼 목록의 모든 li 박스 top 값이 같다(줄바꿈 없음).
+  method: 최소 지원 너비(320 CSS px)부터 넓은 화면까지 너비를 바꾸며 브레드크럼이 두 줄이 되는지 확인한다.
+automation:
+  feasibility: none
+  note: '4단계 커스텀 검사 가능: Playwright로 여러 뷰포트에서 li의 offsetTop 집합 크기가 1인지 확인.'
+rationale: 여러 줄이 되면 계층 구조를 한눈에 보여줄 수 없다.
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 브레드크럼 > 사용성 가이드라인 (가이드라인 PDF 2025.08 282·286쪽)
+  note: https://www.krds.go.kr/html/site/component/component_03_03.html — '브레드크럼은 단일 행으로 제공한다.'
+scope:
+  level: component
+  targets:
+  - 브레드크럼
+exceptions: []
+relations:
+- type: depends
+  id: NAV-031
+  note: 넓은 화면 축약 규칙으로 한 줄 유지
+- type: depends
+  id: RESP-008
+  note: 좁은 화면 축약 규칙으로 한 줄 유지
+examples:
+  good:
+  - lang: css
+    code: '.breadcrumb ol { display: flex; flex-wrap: nowrap; min-width: 0; }
+
+      .breadcrumb li:last-child { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+      '
+    note: 줄바꿈을 막고 마지막 항목을 말줄임해 한 줄을 유지한다.
+  bad:
+  - lang: css
+    code: '.breadcrumb ol { display: flex; flex-wrap: wrap; }  /* 좁아지면 두 줄 */
+
+      '
+    note: 좁아지면 브레드크럼이 두 줄로 넘어간다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(KRDS component_03_03 WebFetch): ''단일 행으로 제공한다'' 확인. 단정형 → SHOULD.'
+korean_specific: false
+tags:
+- krds
+- krds-component

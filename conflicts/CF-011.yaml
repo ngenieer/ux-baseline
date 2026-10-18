@@ -1,0 +1,16 @@
+id: CF-011
+rules:
+- LAYOUT-018
+- RESP-002
+summary: 목차 너비를 줄바꿈 없는 고정값으로 정하라(LAYOUT-018)는 요구가 텍스트 200% 확대 시 손실 금지(RESP-002)와 부딪힌다.
+principle: 1
+decision: 줄바꿈 없는 고정 너비는 기본 글자 크기에서만 요구한다. 텍스트를 확대하면 항목 텍스트가 잘리지 않고 줄바꿈되게 한다.
+reason: 접근성(원칙 1)이 레이아웃 일관성보다 우선한다. 같은 이유로 뷰포트 320 CSS px(400% 확대)에서는 고정 너비 목차가 가로 스크롤을 만들지 않도록 본문 위로 쌓는다(RESP-003,
+  WCAG 1.4.10).
+deviates_from_priority: false
+date: '2026-10-18'
+rule_changes:
+- 'LAYOUT-018: statement 수정'
+- 'LAYOUT-018: 예외·측정 기준 (3) 추가 — 320 CSS px에서 고정 너비 해제, 본문 위로 쌓기. 좋은 예시 갱신 (2026-10-18 독립 검토)'
+- 'LAYOUT-018: 예외를 ''목차를 본문 위로 쌓는 1단 레이아웃(1024px 미만, components/in-page-navigation)''으로 넓힘, 320px 은 측정 기준 (3)에만
+  둠, 좋은 예 토큰을 --layout-in-page-navigation-width 로 (2026-10-18 재검증)'

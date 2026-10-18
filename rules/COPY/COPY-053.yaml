@@ -1,0 +1,70 @@
+id: COPY-053
+category: COPY
+title: 오류 요약과 인라인 오류 문구 일치
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 오류 요약의 각 항목 문구를 해당 필드 옆에 표시하는 오류 메시지와 같은 문장으로 쓴다.
+measurement:
+  criteria: 오류 요약의 각 링크 텍스트가, 링크 대상 필드의 인라인 오류 메시지 텍스트(시각적으로 숨긴 '오류:' 접두 제외)와 문자열로 같다.
+  method: 빈 폼·잘못된 값 폼을 제출해 오류 요약 링크 텍스트와 대상 필드의 aria-describedby 오류 텍스트를 비교한다.
+automation:
+  feasibility: none
+  checks: []
+  note: '4단계 E2E 검사: 요약 a[href^=''#''] 텍스트 == 대상 필드 aria-describedby 오류 요소 텍스트(접두 제거).'
+rationale: 요약과 필드 옆 문구가 다르면 사용자가 둘을 같은 오류로 연결하지 못하고, 스크린 리더 사용자는 서로 다른 설명을 두 번 듣는다(GOV.UK 오류 요약·오류 메시지).
+sources:
+- ref: GOVUK_ERROR_SUMMARY
+  locator: Error text matches inline error message
+- ref: GOVUK_ERROR_MESSAGE
+  locator: Use the same message next to the field and in the error summary
+scope:
+  level: component
+  targets:
+  - 오류 요약
+  - 인라인 오류 메시지
+exceptions: []
+relations:
+- type: depends
+  id: FORM-077
+  note: 오류 요약 표시·초점은 FORM-077
+- type: depends
+  id: FORM-078
+  note: 요약 항목은 필드 링크(FORM-078)
+- type: depends
+  id: COPY-005
+  note: 문구 자체의 작성 기준은 COPY-005
+examples:
+  good:
+  - lang: html
+    code: '<div class="error-summary"><h2>입력 내용을 확인하세요</h2><ul><li><a href="#email">이메일 주소에 @가 없습니다.</a></li></ul></div>
+
+      …
+
+      <p id="email-err"><span class="sr-only">오류:</span> 이메일 주소에 @가 없습니다.</p>
+
+      <input id="email" aria-describedby="email-err" aria-invalid="true">
+
+      '
+    note: 오류 요약 링크 문구가 인라인 오류 메시지와 같은 문장이다
+  bad:
+  - lang: html
+    code: '<div class="error-summary"><h2>입력 내용을 확인하세요</h2><ul><li><a href="#email">이메일 오류</a></li></ul></div>
+
+      …
+
+      <p id="email-err"><span class="sr-only">오류:</span> 이메일 주소에 @가 없습니다.</p>
+
+      <input id="email" aria-describedby="email-err" aria-invalid="true">
+
+      '
+    note: 오류 요약 문구 '이메일 오류'가 인라인 메시지와 다르다
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(curl로 GOV.UK 페이지를 받아 텍스트로 읽음): Error summary ''make sure the error messages
+  in the error summary are worded the same as those which appear next to the inputs with errors'', Error message
+  ''Use the same message next to the field and in the error summary'' 확인. reference_system 권장이라 SHOULD.'
+korean_specific: false
+tags:
+- research-state_copy_resp

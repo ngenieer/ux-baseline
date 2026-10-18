@@ -1,0 +1,52 @@
+id: LAYOUT-058
+category: LAYOUT
+title: 코치마크
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 한 과업의 코치마크 팝오버 너비는 가장 긴 지시 사항 텍스트를 기준으로 정해 모든 단계에서 같게 한다.
+measurement:
+  criteria: 같은 과업의 모든 코치마크 단계에서 팝오버 렌더링 너비가 같다(±1px).
+  method: 코치마크를 처음부터 끝까지 진행하며 단계별 팝오버 너비를 기록한다.
+automation:
+  feasibility: none
+  checks: []
+  note: '4단계 커스텀 검사: 단계 진행 자동화 후 너비 비교.'
+rationale: 단계마다 팝오버 크기가 바뀌면 시선이 흔들리고 같은 안내 흐름으로 인식되지 않는다.
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 코치마크 > 사용성 가이드라인 (가이드라인 PDF 2025.08 638·641쪽)
+  note: https://www.krds.go.kr/html/site/component/component_08_04.html
+scope:
+  level: component
+  targets:
+  - 코치마크
+exceptions: []
+relations:
+- type: depends
+  id: COPY-046
+  note: 지시 사항 3줄 이내(COPY-046)를 지키는 너비로 정한다.
+examples:
+  good:
+  - lang: css
+    code: '.coachmark[data-task="apply"] { inline-size: 20em; } /* 이 과업에서 가장 긴 지시 문구 기준, 모든 단계 동일 */
+
+      '
+    note: 한 과업의 모든 코치마크 단계가 같은 너비다.
+  bad:
+  - lang: css
+    code: '.coachmark { inline-size: max-content; } /* 단계마다 문구 길이에 따라 너비가 바뀜 */
+
+      '
+    note: 단계마다 팝오버 너비가 달라진다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(curl로 KRDS 페이지 HTML을 받아 본문 텍스트를 직접 확인): 코치마크(component_08_04) ''팝오버 영역의 너비를
+  일관되게 유지한다.'', ''코치마크 팝오버 영역의 너비는 최대 지시 사항 텍스트 길이를 고려하여 결정한다. 하나의 과업에 대해 제공되는 모든 코치마크 팝오버는 동일한 너비를 갖도록 표현해야 한다.''
+  확인. ''해야 한다'' → SHOULD + public-sector-must.'
+korean_specific: false
+tags:
+- krds
+- krds-component
+- public-sector-must

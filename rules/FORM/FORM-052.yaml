@@ -1,0 +1,72 @@
+id: FORM-052
+category: FORM
+title: 글자 수 제한 표시
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: '글자 수 제한이 있는 텍스트 영역에는 레이블 바로 다음이나 입력 영역 바로 다음에 ''현재 글자 수/최대 글자 수''(예: 37/100) 형식으로 글자 수를 텍스트로 표시한다.'
+measurement:
+  criteria: '글자 수 제한(maxlength 속성 또는 서버 검증 한도)이 있는 textarea마다, 그 레이블 바로 다음 요소 또는 textarea 바로 다음 요소에 글자 수 표시가 있고,
+    그 요소에서 시각적으로 숨긴(sr-only) 텍스트를 뺀 화면 표시 텍스트가 정규식 ^\d+/\d+$와 맞으며 / 뒤의 숫자가 한도와 같다. 시각적으로 숨긴 보조기술용 문맥 텍스트(예: ''입력한
+    글자 수'', ''최대'')는 함께 있어도 된다(CF-039).'
+  method: 'DOM 검사: textarea[maxlength]의 인접 요소에서 시각적으로 숨긴 자손(clip·1px 등 sr-only 패턴)을 뺀 텍스트가 ''n/maxlength'' 형식인지
+    확인. 서버 한도만 있는 필드는 수동 확인.'
+automation:
+  feasibility: none
+  checks: []
+  note: 기존 검사기 규칙 없음. 4단계 커스텀 DOM 검사로 textarea[maxlength] 인접 요소의 숫자 텍스트를 확인 가능.
+rationale: KRDS는 입력 가능 글자 수에 제한이 있으면 레이블 다음 또는 입력 영역 다음 요소로 글자 수 정보를 제공해 제출 전에 제약을 예측하게 하라고 한다. 표시 형식은 KRDS 구조 설명·예시
+  화면·키트와 같은 '현재/최대'로 정했다 — 최대 글자 수가 보이고 남은 글자 수는 두 숫자의 차로 알 수 있다(사용성 가이드라인 05의 '남은 입력 가능 글자 수'와 다른 선택, CF-039).
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 텍스트 영역 > 사용성 가이드라인(입력 가능한 글자 수에 제한이 있는 경우 사용자에게 글자 수 정보를 제공한다) (가이드라인 PDF 2025.08 683쪽)
+  note: 'https://www.krds.go.kr/html/site/component/component_09_02.html — 원문: ''레이블 다음 또는 입력 영역 다음 요소로 최대 글자 수와
+    남은 입력 가능 글자 수 정보를 제공한다'''
+scope:
+  level: component
+  targets:
+  - textarea[maxlength]
+  - 글자 수 제한이 있는 텍스트 영역
+exceptions: []
+relations: []
+examples:
+  good:
+  - lang: html
+    code: '<label for="memo">문의 내용</label>
+
+      <textarea id="memo" maxlength="100" aria-describedby="memo-count"></textarea>
+
+      <p id="memo-count">0/100</p>
+
+      '
+    note: 입력 영역 바로 다음에 현재 글자 수/최대 글자 수를 표시했다(CF-039 형식).
+  - lang: html
+    code: '<label for="memo2">문의 내용</label>
+
+      <textarea id="memo2" maxlength="100" aria-describedby="memo2-count"></textarea>
+
+      <p id="memo2-count"><span class="sr-only">입력한 글자 수</span>37/100</p>
+
+      '
+    note: 화면에 보이는 텍스트는 37/100이고, 보조기술용 문맥 텍스트는 sr-only로 함께 둔다(CF-039).
+  bad:
+  - lang: html
+    code: '<label for="memo">문의 내용</label>
+
+      <textarea id="memo" maxlength="100"></textarea>
+
+      '
+    note: 글자 수 제한이 있는데 글자 수 표시가 없다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(curl로 KRDS 페이지 HTML을 받아 본문 텍스트와 대조): 사용성 가이드라인 문장 일치 확인. 원문 강도 ''제공한다''(지시문)
+  → SHOULD. 출처 내부 불일치: 같은 페이지 구조 설명은 ''입력 가능한 글자 수와 입력된 글자 수'', 예시 화면은 ''0/100''(입력한 글자 수/최대)으로 표시해 ''남은 글자 수''와
+  다름 — 3단계에서 표기 방식 결정 필요 → CF-039에서 현재/최대로 결정(이유 기록). 2026-10-18 측정 기준을 3단계 결정(statement 변경)에 맞춰 고침. 2026-10-18
+  독립 검토: KRDS PDF 677쪽 구조 설명·683쪽 사용성 05 대조, 측정을 화면에 보이는 텍스트로 한정.'
+korean_specific: false
+tags:
+- krds
+- krds-component
+decisions:
+- CF-039

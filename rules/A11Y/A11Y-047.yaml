@@ -1,0 +1,53 @@
+id: A11Y-047
+category: A11Y
+title: 숨긴 콘텐츠 크기 0 금지
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 숨긴 콘텐츠에 width:0, height:0, font-size:0, line-height:0을 쓰지 않는다.
+measurement:
+  criteria: 숨긴 텍스트 클래스(.sr-only 등)에 width:0, height:0, font-size:0, line-height:0 선언이 없다.
+  method: 숨긴 텍스트 클래스 정의를 검사한다.
+automation:
+  feasibility: none
+  checks:
+  - tool: stylelint
+    rule: ux-baseline/sr-only-no-zero-size
+    method: '숨긴 텍스트 클래스 선택자에 width|height|font-size|line-height: 0 선언이 있으면 오류 (lint/plugins/ux-baseline.mjs)'
+  note: 기존 검사기 규칙 없음. 4단계 커스텀 stylelint 규칙으로 완전 판정 가능(숨긴 텍스트 클래스 이름을 프로젝트 설정으로 지정).
+rationale: 크기 0 스타일은 마크업과 스크린 리더 종류에 따라 정보가 무시될 수 있다.
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 숨긴 콘텐츠 > 사용성 가이드라인 (가이드라인 PDF 2025.08 750쪽)
+  note: https://www.krds.go.kr/html/site/component/component_11_02.html
+scope:
+  level: component
+  targets:
+  - .sr-only
+  - 숨긴 콘텐츠
+exceptions: []
+relations: []
+examples:
+  good:
+  - lang: css
+    code: '.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+
+      '
+    note: 1px 크기와 clip-path로 시각적으로만 숨김
+  bad:
+  - lang: css
+    code: '.sr-only { font-size: 0; line-height: 0; }
+
+      '
+    note: font-size·line-height 0으로 숨김
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(WebFetch로 KRDS 페이지 재조회, 요약 모델 인용 확인): ''width:0, height:0, font-size:0, line-height:0과
+  같은 스타일이 적용되었을 때 … 정보가 무시될 수 있으므로 사용하지 않아야 한다.'' 확인. ''않아야'' → SHOULD + public-sector-must. 검사기 규칙은 4단계에서 작성(커스텀)하며
+  작성 후 full.'
+korean_specific: false
+tags:
+- krds
+- krds-component
+- public-sector-must

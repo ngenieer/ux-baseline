@@ -1,0 +1,55 @@
+id: COPY-012
+category: COPY
+title: 공식 배너
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 공식 디지털 정부서비스가 아닌 사이트에서는 공식 배너('이 누리집은 대한민국 공식 전자정부 누리집입니다')를 쓰지 않는다.
+measurement:
+  criteria: 운영 주체가 정부기관이 아닌 사이트의 모든 페이지에 공식 배너 컴포넌트와 '대한민국 공식 전자정부 누리집' 문구가 없다.
+  method: 사이트 운영 주체를 확인하고, 비공식 사이트면 전체 템플릿에서 공식 배너 컴포넌트·문구를 검색한다.
+automation:
+  feasibility: none
+  checks: []
+  note: '4단계 커스텀 검사: 프로젝트 설정 is_official_gov=false 이면 ''공식 전자정부 누리집'' 문자열·공식 배너 클래스 검출 시 실패.'
+rationale: 정부 공식 서비스가 아닌 곳에 공식 배너가 있으면 사용자가 공식 서비스로 오인한다(KRDS 공식 배너).
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 공식 배너 > 사용성 가이드라인 (가이드라인 PDF 2025.08 225쪽)
+  note: https://www.krds.go.kr/html/site/component/component_02_01.html
+scope:
+  level: situation
+  targets:
+  - 공식 배너
+  - 비공식(민간) 사이트
+exceptions: []
+relations: []
+examples:
+  good:
+  - lang: html
+    code: '<!-- 민간 서비스: 공식 배너 없이 자체 헤더로 시작 -->
+
+      <header><a href="/">시즐론 서비스</a></header>
+
+      '
+    note: 민간 서비스가 공식 배너 없이 자체 헤더로 시작한다
+  bad:
+  - lang: html
+    code: '<!-- 민간 서비스인데 공식 배너 사용 -->
+
+      <div class="official-banner">이 누리집은 대한민국 공식 전자정부 누리집입니다.</div>
+
+      '
+    note: 민간 서비스가 정부 공식 배너 문구를 쓴다
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(curl로 KRDS 페이지 HTML을 받아 텍스트로 직접 읽음): 공식 배너(component_02_01) ''공식 디지털 정부서비스가
+  아닌 사이트에서는 배너를 사용하지 않아야 한다'', 배너 문구 ''이 누리집은 대한민국 공식 전자정부 누리집입니다.'' 확인. 강도: KRDS ''해야 한다·않는다'' 표현 → SHOULD + public-sector-must(정책
+  2).'
+korean_specific: false
+tags:
+- krds
+- krds-component
+- public-sector
+- public-sector-must

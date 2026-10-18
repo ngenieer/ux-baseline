@@ -1,0 +1,59 @@
+id: PERF-002
+category: PERF
+title: 한글 웹폰트 서브셋·unicode-range 분할
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 한글 웹폰트는 unicode-range로 나눈 여러 서브셋 파일로 제공해, 페이지에 쓰인 글자가 속한 범위의 파일만 내려받게 한다.
+measurement:
+  criteria: 한글 웹폰트 font-family마다 (1) 같은 family·weight·style에 대한 @font-face 규칙이 2개 이상이고 각각 unicode-range 디스크립터를 가진다.
+    (2) 그 unicode-range들의 합이 한글 음절 U+AC00–D7A3 전체를 덮는다(희귀 음절 누락 방지).
+  method: CSS를 파싱해 한글 family별 @font-face 개수·unicode-range를 검사하고, 범위 합집합이 U+AC00–D7A3을 포함하는지 계산한다.
+automation:
+  feasibility: none
+  checks: []
+  note: 기존 검사기 규칙 없음. 4단계 빌드 검사(위 method). 단일 woff2 파일 크기 임계값은 출처가 없어 정하지 않음.
+rationale: CJK 글꼴은 1만 자가 넘어 파일이 크다. unicode-range로 나누면 브라우저가 페이지에 쓰인 글자가 있는 서브셋만 내려받아 전송량과 텍스트 표시 지연이 줄어든다.
+sources:
+- ref: WEBDEV_FONT_BP
+  locator: Font delivery — Subset fonts / unicode-range
+  note: '''A font file is downloaded if the page contains one or more characters matching the unicode range'', ''CJK
+    fonts may have over 10,000 characters'''
+- ref: CSS_FONTS_4
+  locator: '4.5 Character range: the unicode-range descriptor'
+scope:
+  level: global
+  targets:
+  - '@font-face (한글 글꼴)'
+exceptions: []
+relations:
+- type: depends
+  id: PERF-003
+  note: 서브셋 파일 형식은 WOFF2.
+- type: depends
+  id: TYPO-030
+  note: 서브셋에 없는 글자는 generic family의 시스템 한글 글꼴로 대체된다.
+examples:
+  good:
+  - lang: css
+    code: '@font-face { font-family: "Pretendard GOV"; src: url(/f/pg-0.woff2) format("woff2"); unicode-range: U+AC00-B9FF;
+      font-display: swap; }
+
+      @font-face { font-family: "Pretendard GOV"; src: url(/f/pg-1.woff2) format("woff2"); unicode-range: U+BA00-D7A3;
+      font-display: swap; }'
+    note: unicode-range로 나눈 서브셋 두 개가 한글 음절 U+AC00–D7A3 전체를 덮는다.
+  bad:
+  - lang: css
+    code: '@font-face { font-family: "Pretendard GOV"; src: url(/f/pretendard-gov-full.woff2) format("woff2"); }
+      /* 한 파일 */'
+    note: 한글 전체를 한 파일로 제공해 글자 몇 개에도 전체를 내려받는다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(web.dev Best practices for fonts curl, CSS Fonts 4 §4.5 확인): unicode-range
+  다운로드 조건과 ''CJK fonts may have over 10,000 characters'' 확인. U+AC00–D7A3이 한글 음절 블록 전체(11,172자)라는 것은 Python unicodedata(Unicode
+  15.1)로 처음·끝 이름 확인. 측정 기준 (2)는 KS X 1001 2,350자만 담은 서브셋이 사용자 입력의 희귀 음절을 폴백 글꼴로 섞어 보이게 하는 문제를 막으려는 체계 조건. 서브셋·자체
+  호스팅 전 글꼴 라이선스 확인 필요(web.dev).'
+korean_specific: true
+tags:
+- research-typo

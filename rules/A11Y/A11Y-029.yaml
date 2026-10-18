@@ -1,0 +1,64 @@
+id: A11Y-029
+category: A11Y
+title: 모달 안 초점 가두기
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 모달이 열려 있는 동안 키보드 초점과 스크린 리더 가상 초점이 모달 안에서만 이동하게 하고, 마지막 상호작용 요소에서 Tab을 누르면 첫 요소로, 첫 요소에서 Shift+Tab을 누르면
+  마지막 요소로 초점을 옮긴다.
+measurement:
+  criteria: (1) 모달이 열린 동안 모달 밖 콘텐츠는 inert 또는 aria-hidden="true"이거나 모달이 <dialog>.showModal()/aria-modal="true"로 열려
+    가상 커서가 밖으로 나가지 않는다. (2) 마지막 상호작용 요소에서 Tab → 첫 상호작용 요소로 초점 이동. (3) 첫 상호작용 요소에서 Shift+Tab → 마지막 상호작용 요소로 초점 이동.
+    (4) X(닫기) 버튼이 있는 모달은 Esc를 누르면 닫히고 닫기 버튼을 누른 것과 결과가 같다. X 버튼이 없는 승인 요청 모달(STATE-012)은 Esc로 닫지 않아도 된다(CF-035).
+  method: 모달을 열고 Tab·Shift+Tab을 반복해 초점이 모달 밖으로 나가지 않는지, 스크린 리더 가상 커서로 모달 밖을 읽을 수 없는지 확인한다. X 버튼이 있는 모달은 Esc를 눌러
+    닫히는지 확인한다.
+automation:
+  feasibility: partial
+  checks:
+  - tool: ux-baseline-check
+    rule: dialog-focus-trap
+    method: 'ux-baseline check: 모달에서 Tab 12회 동안 초점이 모달 밖 페이지 요소로 가지 않는다'
+  note: '4단계 커스텀 검사: Playwright로 모달 열기 후 Tab을 (상호작용 요소 수+1)회 눌러 document.activeElement가 항상 모달 안인지 검사.'
+rationale: '모달 뒤 콘텐츠로 초점이 새면 키보드·스크린 리더 사용자가 모달을 놓친다(KRDS 근거: KWCAG 2.2 초점 이동, WCAG Focus Order·No Keyboard Trap).'
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 모달 > 접근성 가이드라인 / 상호작용 가이드라인 (가이드라인 PDF 2025.08 397~398쪽)
+  note: https://www.krds.go.kr/html/site/component/component_04_05.html
+scope:
+  level: component
+  targets:
+  - dialog[open]
+  - '[role=dialog][aria-modal=true]'
+  - 모달
+exceptions: []
+relations:
+- type: refines
+  id: A11Y-015
+- type: depends
+  id: A11Y-012
+  note: 모달 안에 가두더라도 Esc·닫기 버튼으로 빠져나올 수 있어야 한다
+examples:
+  good:
+  - lang: html
+    code: "<dialog id=\"m\" aria-labelledby=\"m-t\">\n  <h2 id=\"m-t\">신청을 취소할까요?</h2>\n  <button type=\"button\"\
+      >신청 취소</button>\n  <button type=\"button\">닫기</button>\n</dialog>\n<script>document.getElementById('m').showModal();</script>\n"
+    note: showModal()로 열어 바깥이 inert가 되고 Tab이 모달 안에서 순환
+  bad:
+  - lang: html
+    code: "<div class=\"modal\" role=\"dialog\" aria-labelledby=\"m-t\">\n  <h2 id=\"m-t\">신청을 취소할까요?</h2>\n  <button\
+      \ type=\"button\">신청 취소</button>\n  <button type=\"button\">닫기</button>\n</div>\n<!-- 뒤쪽 페이지가 inert/aria-hidden\
+      \ 처리되지 않아 Tab이 모달 밖으로 나감 -->\n"
+    note: 모달 밖 콘텐츠가 inert가 아니어서 초점이 밖으로 나감
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(WebFetch로 KRDS 페이지 재조회, 요약 모델 인용 확인): 접근성 가이드라인 ''모달이 활성화된 상태에서 키보드 초점 및 스크린
+  리더의 가상 초점은 모달 내부에서만 이동해야 한다''와 상호작용 가이드라인의 Tab·Shift+Tab 순환 서술 확인. ''해야 한다'' → SHOULD + public-sector-must. (모달
+  열기·닫기 시 초점 이동 문장은 A11Y-015에 병합된 KRDS B:46.)'
+korean_specific: false
+tags:
+- krds
+- krds-component
+- public-sector-must
+decisions:
+- CF-035

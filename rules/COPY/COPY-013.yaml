@@ -1,0 +1,55 @@
+id: COPY-013
+category: COPY
+title: 운영기관 식별자 문구
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 운영기관 식별자의 안내 텍스트는 '이 누리집은 [운영기관명]에서 운영하는 누리집입니다.' 형식에서 대괄호 부분만 바꿔 쓰고, 요소 배치를 바꾸지 않는다.
+measurement:
+  criteria: (1) 운영기관 식별자 안내 텍스트가 정규식 ^이 누리집은 .+에서 운영하는 누리집입니다\.$ 과 일치하고, 운영기관이 여럿이면 기관명을 쉼표(,)로 구분한다. (2) 요소 순서(운영기관
+    로고 → 안내 텍스트)가 KRDS 규격과 같다.
+  method: 식별자 컴포넌트의 텍스트를 정규식으로 검사하고, 마크업 순서를 KRDS HTML Component Kit 규격과 비교한다.
+automation:
+  feasibility: none
+  checks: []
+  note: '4단계 커스텀 검사: 식별자 컴포넌트 textContent 정규식 검사.'
+rationale: 모든 디지털 정부서비스에서 식별자가 같은 형식으로 제공돼야 사용자가 운영 주체를 신뢰할 수 있다(KRDS 운영기관 식별자).
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 운영기관 식별자 > 사용성 가이드라인 (가이드라인 PDF 2025.08 231쪽)
+  note: https://www.krds.go.kr/html/site/component/component_02_02.html
+scope:
+  level: component
+  targets:
+  - 운영기관 식별자
+exceptions: []
+relations:
+- type: depends
+  id: COPY-014
+  note: 식별자를 쓸 수 있는 사이트 조건은 COPY-014
+examples:
+  good:
+  - lang: html
+    code: '<div class="identifier"><img src="/img/mois.svg" alt="행정안전부"><p>이 누리집은 행정안전부에서 운영하는 누리집입니다.</p></div>
+
+      '
+    note: 규정 문장에서 기관명만 바꾸고 로고 → 안내 텍스트 순서를 지킨다
+  bad:
+  - lang: html
+    code: '<div class="identifier"><p>본 사이트는 행정안전부 소관입니다.</p><img src="/img/mois.svg" alt="행정안전부"></div>
+
+      '
+    note: 문장을 바꾸고 로고와 텍스트 순서를 뒤집었다
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(curl로 KRDS 페이지 HTML을 받아 텍스트로 직접 읽음): 운영기관 식별자(component_02_02) ''안내 텍스트와 요소의
+  배치를 변경하지 않는다'', 안내 텍스트 예시 ''(운영기관 로고) 이 누리집은 [운영기관명]에서 운영하는 누리집입니다.'', ''대괄호 부분을 변형하여 사용하며, 운영 기관이 여러 개인 경우 쉼표로
+  구분'' 확인(2025-09-01 텍스트 수정 반영본). 원문 강도 ''변경하지 않는다'' → 강도: KRDS ''해야 한다·않는다'' 표현 → SHOULD + public-sector-must(정책
+  2).'
+korean_specific: false
+tags:
+- krds
+- krds-component
+- public-sector
+- public-sector-must

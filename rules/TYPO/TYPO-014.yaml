@@ -1,0 +1,52 @@
+id: TYPO-014
+category: TYPO
+title: 배지 텍스트 한 줄
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: '배지 문구는 기본 글자 크기에서 한 줄로 표시되는 길이로 쓰고, white-space: nowrap으로 줄바꿈을 막지 않아 텍스트 확대·좁은 화면에서는 줄바꿈되게 한다.'
+measurement:
+  criteria: (1) 기본 확대(100%)·서비스가 지원하는 각 레이아웃 기준 너비에서 배지 요소의 텍스트 줄 수(요소 내용 높이 ÷ 계산값 line-height, 반올림)가 1. (2) 배지
+    요소의 계산된 white-space가 nowrap이 아니다.
+  method: 커스텀 스크립트로 배지 셀렉터(.badge 등)의 줄 수를 계산한다.
+automation:
+  feasibility: partial
+  checks:
+  - tool: ux-baseline-check
+    rule: badge-nowrap
+    method: 'ux-baseline check: .badge 의 계산 white-space 가 nowrap 이면 경고(상속 포함) — 측정 기준 (2). (1) 줄 수는 수동'
+  note: 커스텀 검사로 자동화 가능.
+rationale: 배지는 핵심 정보를 빠르게 파악하도록 하는 짧은 표식이라 줄바꿈되면 인지가 늦어진다(KRDS 배지).
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 배지 > 사용성 가이드라인 (가이드라인 PDF 2025.08 401~402쪽)
+  note: https://www.krds.go.kr/html/site/component/component_04_06.html
+scope:
+  level: component
+  targets:
+  - 배지
+exceptions: []
+relations: []
+examples:
+  good:
+  - lang: html
+    code: <span class="badge">신규</span>
+    note: 짧은 문구라 기본 크기에서 한 줄이고, nowrap 없이 확대 시 줄바꿈된다
+  bad:
+  - lang: html
+    code: <span class="badge">추가 서류 제출 후 처리 대기 중</span>
+    note: 문구가 길어 기본 크기에서 두 줄로 표시된다
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(KRDS https://www.krds.go.kr/html/site/component/component_04_06.html HTML을
+  curl로 받아 본문 확인): ''핵심 정보를 간결하게 요약하고 텍스트에 줄바꿈이 발생하지 않도록 해야 한다'' 확인 → SHOULD + public-sector-must. white-space:nowrap으로
+  구현하면 200% 확대·320px 폭에서 잘림이 생길 수 있음 — RESP-002·RESP-003과의 충돌 후보로 제안 파일에 기록. 해결 방향은 짧은 레이블(COPY). 2026-10-18 측정
+  기준을 3단계 결정(statement 변경)에 맞춰 고침.'
+korean_specific: false
+tags:
+- krds
+- krds-component
+- public-sector-must
+decisions:
+- CF-045

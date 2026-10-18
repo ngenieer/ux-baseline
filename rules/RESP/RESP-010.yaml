@@ -1,0 +1,72 @@
+id: RESP-010
+category: RESP
+title: 좁은 화면 페이지네이션 배치
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 모바일 레이아웃(RESP-004 기준 1024px 미만)에서는 페이지네이션을 데이터 목록 아래에 두고, 이전 버튼·숫자 링크 목록·다음 버튼을 DOM 순서와 같은 순서로 배치하며,
+  한 줄에 들어가지 않으면 이 순서대로 세로로 쌓는다.
+measurement:
+  criteria: 1024px 미만 뷰포트에서 (1) 페이지네이션의 top ≥ 데이터 목록 bottom, (2) 이전 버튼·숫자 링크 목록·다음 버튼의 시각 순서(왼쪽→오른쪽, 위→아래)가 DOM
+    순서와 같고, CSS order·grid 배치로 순서를 바꾸지 않는다.
+  method: 360px·768px 너비로 렌더링해 (1) 페이지네이션 top과 데이터 목록 bottom의 y좌표를 비교하고, (2) 이전 버튼·숫자 링크 목록·다음 버튼의 getBoundingClientRect()를
+    위→아래(y), 같은 줄이면 왼쪽→오른쪽(x)으로 정렬한 순서가 DOM 순서(이전 → 숫자 링크 목록 → 다음)와 같은지 비교한다. CSS order·grid-row·grid-column 지정
+    여부도 확인한다.
+automation:
+  feasibility: none
+  checks: []
+  note: 4단계 커스텀 Playwright 검사.
+rationale: 순차 탐색 버튼을 접근하기 쉬운 곳에 두어 작은 화면에서 숫자 링크를 탐색하는 피로와 인접 영역 오터치를 줄인다(KRDS).
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 페이지네이션 > 플랫폼에 대한 고려 사항 (가이드라인 PDF 2025.08 330쪽)
+  note: https://www.krds.go.kr/html/site/component/component_03_06.html
+- ref: KRDS
+  locator: 디자인 스타일 > 레이아웃 > 브레이크포인트(PDF 153쪽)
+  note: 모드 Mobile = small 360px·medium 768px('태블릿을 포함한 소형 디바이스'), PC = large 1024px 이상
+- ref: UXB_SYSTEM_CHOICE
+  locator: CF-055
+  note: KRDS의 '좁은 화면·모바일 레이아웃·작은 디스플레이'를 Mobile 모드(1024px 미만)로 해석
+scope:
+  level: component
+  targets:
+  - 페이지네이션
+  - nav[aria-label*=페이지]
+exceptions: []
+relations:
+- type: refines
+  id: LAYOUT-019
+  note: 목록 아래 배치를 좁은 화면에서 구체화.
+- type: depends
+  id: NAV-044
+  note: 좁은 화면 숫자 링크 7개 이하.
+examples:
+  good:
+  - lang: html
+    code: "<nav class=\"pagination\" aria-label=\"목록 페이지\">\n  <a class=\"pagination__prev\" href=\"?page=2\">이전</a>\n\
+      \  <ol class=\"pagination__list\">\n    <li><a href=\"?page=2\">2</a></li>\n    <li><a href=\"?page=3\" aria-current=\"\
+      page\">3</a></li>\n    <li><a href=\"?page=4\">4</a></li>\n  </ol>\n  <a class=\"pagination__next\" href=\"\
+      ?page=4\">다음</a>\n</nav>"
+    note: 좁은 화면에서도 이전 → 숫자 → 다음 DOM 순서대로 보인다(넘치면 이 순서로 세로로 쌓음).
+  bad:
+  - lang: css
+    code: "@media (max-width: 1023px) {\n  .pagination { display: grid; }\n  .pagination__list { order: 3; } /*\
+      \ 숫자를 이전·다음 아래로 옮김 → Tab 순서와 시각 순서가 다름 */\n}"
+    note: CSS order로 시각 순서만 바꿔 키보드 초점 순서와 어긋난다(A11Y-015).
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(curl로 KRDS 페이지 HTML을 받아 텍스트로 직접 읽음): ''화면 너비가 충분하지 않은 경우 이전/다음 버튼, 숫자 링크 목록을
+  수직으로 배치한다'', ''데이터 목록 하단에 이전/다음 버튼을 배치하고 그 아래에 숫자 링크 목록을 배치한다'' 확인. 원문은 ''좁은 화면'' 너비를 주지 않음 — 768px 경계는 RESP-004(KRDS
+  medium) 적용이라는 체계 해석이고 NAV-044와 같은 기준. 해석이라 needs_verification=true로 남김(NAV-044와 함께 3단계에서 확정). → SHOULD + public-sector-must.
+  KRDS 가이드라인 PDF(2025.08, 1181쪽) 원문 대조 2026-10-18: 레이아웃 브레이크포인트 표에서 Mobile 모드가 small(360)·medium(768)이고 PC 모드가 large(1024)
+  이상임을 확인 — 768px 경계를 1024px로 고침(CF-055). 2026-10-18 CF-058: KRDS의 ''이전·다음 버튼 아래 숫자 링크'' 배치는 넓은 화면(이전·숫자·다음)과 DOM
+  순서를 다르게 만들어 A11Y-008·015(MUST)와 양립하지 않아 DOM 순서 유지로 고침. 2026-10-18 독립 검토: method에 x·y 시각 순서와 DOM 순서 비교 절차를 넣음(CF-058).'
+korean_specific: false
+tags:
+- krds
+- krds-component
+- public-sector-must
+decisions:
+- CF-055
+- CF-058

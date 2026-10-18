@@ -1,0 +1,69 @@
+id: LAYOUT-055
+category: LAYOUT
+title: 파일 업로드
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 업로드한 파일 이름은 한 줄로 표시하고 파일 항목 컨테이너를 넘치면 말줄임표로 줄이되, 줄인 경우 전체 이름을 키보드 초점과 마우스 호버에서 보이는 툴팁이나 펼침으로 볼 수 있게 한다.
+measurement:
+  criteria: '파일 항목의 파일명 요소에 white-space: nowrap, overflow: hidden, text-overflow: ellipsis가 적용돼 높이가 한 줄이고, 이름이 잘린
+    항목(scrollWidth > clientWidth)은 초점·호버 시 전체 이름이 화면에 보인다(title 속성만으로 대신하지 않는다).'
+  method: 긴 파일명(100자)을 올려 360px 너비에서 표시를 확인하고, 1280px 창에서 브라우저 확대 200% 상태로 잘린 이름에 초점·호버를 주거나 펼침 버튼을 눌러 전체 이름이 화면에
+    보이는지 확인한다(CF-061).
+automation:
+  feasibility: partial
+  checks:
+  - tool: stylelint
+    method: '파일명 클래스(기본 .file-item__name)에 white-space: nowrap·overflow: hidden·text-overflow: ellipsis 필수 (lint/plugins/ux-baseline.mjs)'
+    rule: ux-baseline/file-name-ellipsis
+  note: 렌더링 결과(한 줄)는 커스텀 검사. 선택자 범위 규칙은 체계 기본 클래스 이름을 기준으로 하며, 프로젝트 클래스 이름이 다르면 classNames 옵션으로 바꾼다.
+rationale: 파일명이 여러 줄로 늘어나면 파일 목록이 길어져 훑어보기 어렵다.
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 파일 업로드 > 사용성 가이드라인 (가이드라인 PDF 2025.08 701·709쪽)
+  note: https://www.krds.go.kr/html/site/component/component_09_04.html
+scope:
+  level: component
+  targets:
+  - 파일 업로드 파일 항목
+exceptions: []
+relations:
+- type: depends
+  id: A11Y-010
+  note: '잘린 이름을 보여 주는 툴팁은 A11Y-010(호버·포커스 추가 콘텐츠: 초점·포인터를 옮기지 않고 닫기, 포인터를 올려도 유지, 호버·초점이 없어질 때까지 유지)을 지킨다.'
+examples:
+  good:
+  - lang: css
+    code: '.file-item__name { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; } /* 한 줄, 넘치면 말줄임
+      */
+
+      '
+    note: 파일명이 한 줄로 표시되고 넘치면 말줄임표로 줄어든다.
+  - lang: html
+    code: "<li class=\"file-item\">\n  <span class=\"file-item__name\" tabindex=\"0\" aria-describedby=\"file-1-full\"\
+      >2026년_사업계획서_최종_수정본_제출용.pdf</span>\n  <span role=\"tooltip\" id=\"file-1-full\" class=\"tooltip\">2026년_사업계획서_최종_수정본_제출용.pdf</span>\n\
+      </li>"
+    note: 잘린 이름은 초점·호버 때 툴팁으로 전체를 보여 준다(CF-061).
+  - lang: html
+    code: "<li class=\"file-item\">\n  <span class=\"file-item__name\" id=\"file-2-name\">2026년_사업계획서_최종_수정본_제출용.pdf</span>\n\
+      \  <button type=\"button\" aria-expanded=\"false\" aria-controls=\"file-2-name\">전체 이름 보기</button>\n</li>"
+    note: 펼침 버튼을 누르면 aria-expanded="true"로 바꾸고 이름을 줄바꿈해 전체를 보여 준다(CF-061).
+  bad:
+  - lang: css
+    code: '.file-item__name { overflow-wrap: anywhere; } /* 긴 파일명이 여러 줄로 늘어나 항목 높이가 제각각 */
+
+      '
+    note: 파일명이 여러 줄로 줄바꿈되어 항목이 한 줄이 아니다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(curl로 KRDS 페이지 HTML을 받아 본문 텍스트를 직접 확인): 파일 업로드(component_09_04) ''업로드된 파일 이름
+  텍스트를 두 줄로 제공하지 않는다.'', ''파일 이름이 길어 텍스트가 파일 항목 컨테이너를 벗어나는 경우 말줄임표를 사용한다.'' 확인. ''않는다'' → SHOULD + public-sector-must.
+  잘린 전체 이름에 접근하는 수단은 원문에 없음.'
+korean_specific: false
+tags:
+- krds
+- krds-component
+- public-sector-must
+decisions:
+- CF-061

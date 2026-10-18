@@ -1,0 +1,49 @@
+id: TYPO-006
+category: TYPO
+title: 글자 두께 종류 제한
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: MAY
+statement: 한 서비스에서 쓰는 font-weight 값을 4종 이하로 하고, 300 이하(thin·extra light·light)와 800 이상(extra bold·black) 값은 쓰지 않는다.
+measurement:
+  criteria: 스타일시트 전체의 font-weight 선언에서 서로 다른 값의 수 ≤ 4, 그리고 100·200·300·800·900·lighter 값이 0건.
+  method: stylelint 커스텀 또는 토큰 검사로 font-weight 값 집합을 모은다.
+automation:
+  feasibility: partial
+  checks:
+  - tool: stylelint
+    rule: declaration-property-value-disallowed-list
+    method: '{ "font-weight": ["100", "200", "300", "800", "900", "lighter"] }'
+  note: '''4종 이하'' 집계는 기존 규칙이 없어 커스텀(토큰의 fontWeight 값 개수 검사).'
+rationale: 가는 두께는 배경과 구분이 어렵고 지나치게 두꺼운 두께는 시각 피로를 준다. 두께 종류가 많으면 사용자가 정보 중요도를 혼동할 수 있다(KRDS).
+sources:
+- ref: KRDS
+  locator: 디자인 스타일 > 타이포그래피 > 글자 두께 (가이드라인 PDF 2025.08 104쪽)
+  note: https://www.krds.go.kr/html/site/style/style_03.html
+scope:
+  level: global
+  targets:
+  - font-weight 선언·토큰 전체
+exceptions: []
+relations: []
+examples:
+  good:
+  - lang: css
+    code: :root{--font-weight-regular:400;--font-weight-medium:500;--font-weight-bold:700}
+    note: 두께 3종, 300 이하·800 이상 없음
+  bad:
+  - lang: css
+    code: .caption{font-weight:300}
+    note: 300(light)은 배경과 구분이 어렵다
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(KRDS https://www.krds.go.kr/html/site/style/style_03.html HTML을 curl로 받아 본문
+  확인): ''텍스트의 두께 사용은 최대 4가지 정도로 제한하는 것이 이상적'', ''light, thin은 배경과 구분이 어렵고 extra bold는 시각적 피로'' 확인. 원문 강도는 ''이상적''(권장)
+  → MAY. KRDS 표준형은 400·700 두 가지, 이상적 예시는 400·500·700. 이름→수치 대응(Thin 100, Extra Light 200, Light 300, Extra Bold
+  800, Black 900)은 CSS Fonts 4 §font-weight 표로 확인. extra light(200)와 black(900)은 원문이 직접 언급하지 않았지만 thin~light, extra
+  bold 이상 범위로 보고 포함함.'
+korean_specific: false
+tags:
+- krds
+- system-choice

@@ -1,0 +1,2906 @@
+{
+ "A11Y-001": {
+  "category": "A11Y",
+  "strength": "MUST",
+  "title": "대체 텍스트",
+  "statement": "텍스트가 아닌 콘텐츠(이미지·아이콘·그래프·차트 등)에는 같은 목적을 전달하는 텍스트 대체를 제공하고, 장식용·서식용 콘텐츠는 보조기술이 무시하도록 처리한다."
+ },
+ "A11Y-002": {
+  "category": "A11Y",
+  "strength": "MUST",
+  "title": "오디오 전용·비디오 전용 대체 수단",
+  "statement": "사전 녹음된 오디오 전용 콘텐츠에는 같은 정보를 담은 대본을, 사전 녹음된 비디오 전용 콘텐츠에는 같은 정보를 담은 대본 또는 오디오 트랙을 제공한다."
+ },
+ "A11Y-003": {
+  "category": "A11Y",
+  "strength": "MUST",
+  "title": "녹화 영상 자막",
+  "statement": "사전 녹음된 동기화 미디어(영상+소리)의 모든 오디오 내용에 시간 동기화된 자막을 제공한다."
+ },
+ "A11Y-004": {
+  "category": "A11Y",
+  "strength": "MUST",
+  "title": "녹화 영상 음성 해설 또는 대체 미디어",
+  "statement": "사전 녹음된 동기화 미디어에는 영상 내용의 음성 해설 또는 시간 기반 미디어 대체물(전체 대본)을 제공한다."
+ },
+ "A11Y-005": {
+  "category": "A11Y",
+  "strength": "MUST",
+  "title": "실시간 영상 자막",
+  "statement": "실시간 동기화 미디어(생중계 영상)의 모든 오디오 내용에 자막을 제공한다."
+ },
+ "A11Y-006": {
+  "category": "A11Y",
+  "strength": "MUST",
+  "title": "녹화 영상 음성 해설",
+  "statement": "사전 녹음된 동기화 미디어의 모든 영상 내용에 음성 해설을 제공한다."
+ },
+ "A11Y-007": {
+  "category": "A11Y",
+  "strength": "MUST",
+  "title": "정보와 관계의 마크업",
+  "statement": "시각적으로 표현한 정보·구조·관계(제목, 목록, 표, 입력 그룹, 레이블 연결 등)를 마크업으로 프로그램이 판별할 수 있게 하거나 텍스트로 제공한다."
+ },
+ "A11Y-008": {
+  "category": "A11Y",
+  "strength": "MUST",
+  "title": "의미 있는 읽기 순서",
+  "statement": "읽는 순서가 의미에 영향을 주는 콘텐츠는 DOM 순서를 시각적 읽기 순서와 같게 한다."
+ },
+ "A11Y-009": {
+  "category": "A11Y",
+  "strength": "MUST",
+  "title": "자동 재생 오디오 제어",
+  "statement": "페이지가 열리거나 바뀔 때 자동으로 재생하는 소리는 3초 안에 끝나게 하고, 3초 이상 이어지는 소리를 자동으로 재생하면 시스템 음량과 별개인 멈춤·일시정지·음량 조절 수단과 지정 키(Esc)로 멈추는 기능을 함께 제공한다."
+ },
+ "A11Y-010": {
+  "category": "A11Y",
+  "strength": "MUST",
+  "title": "호버·포커스 추가 콘텐츠",
+  "statement": "호버나 키보드 초점으로 나타나는 추가 콘텐츠는 초점·포인터를 옮기지 않고 닫을 수 있고(Esc 등), 그 위로 포인터를 옮겨도 사라지지 않으며, 호버·초점이 없어지거나 사용자가 닫거나 정보가 무효가 될 때까지 유지한다."
+ },
+ "A11Y-011": {
+  "category": "A11Y",
+  "strength": "MUST",
+  "title": "키보드 조작",
+  "statement": "모든 기능을 키 입력 타이밍에 의존하지 않는 키보드 조작만으로 쓸 수 있게 한다."
+ },
+ "A11Y-012": {
+  "category": "A11Y",
+  "strength": "MUST",
+  "title": "키보드 함정 금지",
+  "statement": "키보드 초점이 들어갈 수 있는 모든 컴포넌트에서 키보드만으로 초점을 빼낼 수 있게 하고, 수정자 없는 방향키·Tab 같은 표준 방법이 아니면 빠져나오는 방법을 안내한다."
+ },
+ "A11Y-013": {
+  "category": "A11Y",
+  "strength": "MUST",
+  "title": "문자 단축키",
+  "statement": "문자·숫자·구두점·기호 키 하나로 동작하는 단축키를 두면 끄기, 수정 키(Ctrl·Alt 등)를 포함하도록 재설정, 해당 컴포넌트에 초점이 있을 때만 동작 중 하나 이상을 제공한다."
+ },
+ "A11Y-014": {
+  "category": "A11Y",
+  "strength": "MUST",
+  "title": "시간 제한 조절",
+  "statement": "보안 등 필수 사유가 없으면 콘텐츠에 시간 제한을 두지 않고, 시간 제한을 둘 때는 각 제한마다 시작 전에 끄기, 시작 전에 기본값의 10배 이상으로 조정, 만료 전 경고와 함께 20초 이상의 여유를 주고 단순 동작으로 10회 이상 연장 중 하나를 제공한다."
+ },
+ "A11Y-015": {
+  "category": "A11Y",
+  "strength": "MUST",
+  "title": "초점 순서",
+  "statement": "순차 탐색 순서가 의미나 조작에 영향을 주는 페이지에서는 초점이 의미와 조작을 보존하는 순서로 이동하게 한다."
+ },
+ "A11Y-016": {
+  "category": "A11Y",
+  "strength": "MUST",
+  "title": "초점 표시",
+  "statement": "키보드로 조작할 수 있는 모든 UI에서 키보드 초점 표시가 보이게 한다."
+ },
+ "A11Y-017": {
+  "category": "A11Y",
+  "strength": "MUST",
+  "title": "포인터 제스처 대체",
+  "statement": "다중 포인터(핀치·두 손가락) 또는 경로 기반 제스처(스와이프·그리기)로 하는 모든 기능을 경로 없는 단일 포인터 조작(탭·클릭)으로도 할 수 있게 한다."
+ },
+ "A11Y-018": {
+  "category": "A11Y",
+  "strength": "MUST",
+  "title": "포인터 취소",
+  "statement": "단일 포인터로 실행하는 기능은 down 이벤트에서 실행하지 않거나, up 이벤트에서 완료하면서 완료 전 중단·완료 후 되돌리기 수단을 제공하거나, up 이벤트가 down 이벤트의 결과를 되돌리게 한다."
+ },
+ "A11Y-019": {
+  "category": "A11Y",
+  "strength": "MUST",
+  "title": "레이블을 이름에 포함",
+  "statement": "텍스트나 텍스트 이미지로 된 레이블이 보이는 UI 컴포넌트는 접근 가능한 이름에 보이는 텍스트를 그대로 포함한다."
+ },
+ "A11Y-020": {
+  "category": "A11Y",
+  "strength": "MUST",
+  "title": "동작 기반 작동 대체",
+  "statement": "기기를 흔들거나 기울이는 동작 또는 사용자 몸짓으로 실행되는 기능은 UI 컴포넌트로도 실행할 수 있게 하고, 동작 반응을 끌 수 있게 한다."
+ },
+ "A11Y-021": {
+  "category": "A11Y",
+  "strength": "MUST",
+  "title": "드래그 대체",
+  "statement": "드래그로 하는 모든 기능을 드래그 없는 단일 포인터 조작(클릭·탭)으로도 할 수 있게 한다."
+ },
+ "A11Y-022": {
+  "category": "A11Y",
+  "strength": "MUST",
+  "title": "페이지 기본 언어",
+  "statement": "각 페이지의 기본 언어를 html 요소의 lang 속성에 유효한 BCP 47 언어 태그로 지정한다(한국어 페이지는 lang=\"ko\")."
+ },
+ "A11Y-023": {
+  "category": "A11Y",
+  "strength": "MUST",
+  "title": "부분 언어",
+  "statement": "페이지 기본 언어와 다른 언어로 된 구절·문장에는 그 요소에 lang 속성으로 언어를 지정한다."
+ },
+ "A11Y-024": {
+  "category": "A11Y",
+  "strength": "MUST",
+  "title": "초점 시 맥락 변화 금지",
+  "statement": "UI 컴포넌트가 초점을 받는 것만으로 맥락 변화(새 창 열기, 페이지 이동, 폼 제출, 초점 이동, 화면 의미를 바꾸는 콘텐츠 변경)를 일으키지 않는다."
+ },
+ "A11Y-025": {
+  "category": "A11Y",
+  "strength": "MUST",
+  "title": "이름·역할·값",
+  "statement": "모든 UI 컴포넌트(폼 요소·링크·스크립트로 만든 위젯)의 이름과 역할을 프로그램으로 판별할 수 있게 하고, 사용자가 설정하는 상태·속성·값과 그 변경을 보조기술에 전달한다."
+ },
+ "A11Y-026": {
+  "category": "A11Y",
+  "strength": "MUST",
+  "title": "마크업 오류 방지",
+  "statement": "마크업에서 요소의 열고 닫음 불일치, 잘못된 중첩, 한 요소 안의 속성 중복, 문서 안의 id 중복을 없앤다."
+ },
+ "A11Y-058": {
+  "category": "A11Y",
+  "strength": "MUST",
+  "title": "요청하지 않은 새 창 금지",
+  "statement": "사용자가 링크·버튼을 실행하지 않았는데 새 창·새 탭·팝업 창을 열지 않는다(페이지를 열 때 뜨는 팝업 창 포함)."
+ },
+ "AI-001": {
+  "category": "AI",
+  "strength": "MUST",
+  "title": "AI 상호작용 사전 고지",
+  "statement": "사용자가 AI 시스템과 직접 대화·상호작용하는 화면에는 사용자의 첫 입력을 받기 전에 상대가 AI라는 사실을 화면 텍스트로 표시한다."
+ },
+ "AI-002": {
+  "category": "AI",
+  "strength": "MUST",
+  "title": "서비스 내 AI 생성물 표시",
+  "statement": "생성형 AI 결과물을 서비스 화면 안에서 보여줄 때는 (a) 결과물 영역 안이나 바로 옆의 'AI 생성' 표시, (b) 그 서비스 화면에 계속 보이는 AI 로고·문구, (c) 첫 이용 전 화면 안내 중 하나 이상으로 AI가 생성했다는 사실을 표시하고, 로고·아이콘으로 표시하면 접근 가능한 이름을 준다."
+ },
+ "AI-003": {
+  "category": "AI",
+  "strength": "MUST",
+  "title": "반출 AI 생성물 표시",
+  "statement": "AI 생성 결과물을 다운로드·공유로 서비스 밖으로 내보낼 때는 결과물 자체에 사람이 인식할 수 있는 표시(가시 로고·머리말·음성 안내)나 기계 판독 표시(메타데이터·워터마크)를 넣고, 기계 판독 표시만 쓰면 AI 생성 사실을 알리는 안내 문구를 내보내기 화면에 1회 이상 보여준다."
+ },
+ "AI-004": {
+  "category": "AI",
+  "strength": "MUST",
+  "title": "딥페이크 결과물 상시 표시",
+  "statement": "실제와 구분하기 어려운 가상의 이미지·영상·음성(딥페이크)을 다운로드·공유로 서비스 밖으로 내보낼 때는 사람이 보거나 들어서 알 수 있는 AI 생성 표시를 결과물에 넣고 기계 판독 표시만으로 대신하지 않으며, 영상은 AI로 생성한 재생 구간 전체에 표시를 보이고, 이미지는 이미지 안에 표시하고, 음성은 재생 시작 부분에 음성으로 안내한다."
+ },
+ "COLOR-001": {
+  "category": "COLOR",
+  "strength": "MUST",
+  "title": "색만으로 정보 전달 금지",
+  "statement": "색만으로 정보를 전달하거나 동작·응답 요청·요소를 구분하지 않고, 텍스트·아이콘·패턴·밑줄 같은 다른 시각 단서를 함께 쓰거나 두 색의 명도 대비를 3:1 이상으로 한다."
+ },
+ "COLOR-002": {
+  "category": "COLOR",
+  "strength": "MUST",
+  "title": "텍스트 명도 대비",
+  "statement": "텍스트와 텍스트 이미지는 배경과의 명도 대비를 4.5:1 이상으로 하고, 큰 텍스트(18pt=24px 이상, 또는 굵게 14pt≈18.66px 이상)는 3:1 이상으로 한다."
+ },
+ "COLOR-003": {
+  "category": "COLOR",
+  "strength": "MUST",
+  "title": "비텍스트 대비",
+  "statement": "UI 컴포넌트와 그 상태를 식별하는 데 필요한 시각 정보(경계·아이콘·상태 표시)와 내용 이해에 필요한 그래픽 부분은 인접 색과 3:1 이상 대비를 갖게 한다."
+ },
+ "COLOR-022": {
+  "category": "COLOR",
+  "strength": "MUST",
+  "title": "색 값은 토큰만 사용",
+  "statement": "color·background-color·border-color·outline-color·fill·stroke·text-decoration-color 값은 색 토큰(CSS 변수 var(--color-*))에서만 고르고 CSS에 #hex·rgb()·hsl()·색 이름을 직접 쓰지 않는다."
+ },
+ "COPY-001": {
+  "category": "COPY",
+  "strength": "MUST",
+  "title": "감각적 특성에만 의존하지 않는 안내",
+  "statement": "콘텐츠를 이해하고 조작하는 데 필요한 안내 문구가 모양·색·크기·화면 위치·방향·소리 같은 감각적 특성만으로 대상을 가리키지 않게 쓴다."
+ },
+ "COPY-002": {
+  "category": "COPY",
+  "strength": "MUST",
+  "title": "링크 목적",
+  "statement": "링크의 목적을 링크 텍스트만으로, 또는 링크 텍스트와 프로그램으로 판별되는 링크 맥락(같은 문장·문단·목록 항목·표 셀·aria-describedby)으로 알 수 있게 쓴다."
+ },
+ "COPY-003": {
+  "category": "COPY",
+  "strength": "MUST",
+  "title": "설명적인 제목과 레이블",
+  "statement": "제목(h1~h6, role=heading)과 폼 컨트롤·컴포넌트의 레이블은 그 영역의 주제나 컨트롤의 목적을 밝히는 말로 쓴다."
+ },
+ "COPY-004": {
+  "category": "COPY",
+  "strength": "MUST",
+  "title": "일관된 식별",
+  "statement": "여러 페이지에서 같은 기능을 하는 컴포넌트에는 같은 이름·레이블·아이콘·대체 텍스트를 쓴다."
+ },
+ "FORM-001": {
+  "category": "FORM",
+  "strength": "MUST",
+  "title": "입력 목적 지정",
+  "statement": "사용자 본인에 관한 정보를 받는 입력 필드 중 목적이 HTML 자동완성 토큰(name, email, tel, bday, street-address 등)에 해당하는 필드에는 그 목적에 맞는 autocomplete 값을 지정한다."
+ },
+ "FORM-002": {
+  "category": "FORM",
+  "strength": "MUST",
+  "title": "입력 시 맥락 변화 금지",
+  "statement": "입력 필드·셀렉트·라디오 버튼·체크박스·파일 선택의 값을 바꾸거나 항목을 선택하는 것만으로 폼 제출, 페이지 이동, 새 창 열기, 모달 열기, 선택한 항목이 뜻하는 기능(삭제·정렬·저장 등) 실행을 일으키지 않고, 이런 동작은 함께 제공한 실행 버튼을 눌렀을 때만 일으킨다. 값 입력을 마친 뒤 초점을 다음 필드로 옮기는 동작은 입력 전에 그 동작을 텍스트로 알린 경우에만 쓴다(FORM-026)."
+ },
+ "FORM-003": {
+  "category": "FORM",
+  "strength": "MUST",
+  "title": "오류 식별",
+  "statement": "입력 오류를 자동으로 감지하면 오류가 난 항목을 식별하고 오류 내용을 텍스트로 설명한다."
+ },
+ "FORM-004": {
+  "category": "FORM",
+  "strength": "MUST",
+  "title": "레이블 또는 안내",
+  "statement": "사용자 입력을 받는 모든 컴포넌트에 무엇을 입력하는지 알려주는 보이는 레이블이나 입력 안내를 제공한다."
+ },
+ "FORM-005": {
+  "category": "FORM",
+  "strength": "MUST",
+  "title": "오류 수정 제안",
+  "statement": "입력 오류를 자동으로 감지했고 올바른 값의 형식·범위·허용 값을 알고 있으면 오류 메시지에 그 수정 방법을 텍스트로 제시한다. 보안이나 콘텐츠 목적을 해치는 경우만 예외로 한다."
+ },
+ "FORM-006": {
+  "category": "FORM",
+  "strength": "MUST",
+  "title": "중요 제출 오류 예방",
+  "statement": "사용자에게 법적 약정이나 금융 거래를 일으키거나, 사용자가 관리하는 저장 데이터를 수정·삭제하거나, 시험 응답을 제출하는 페이지에는 제출 취소 가능, 제출 전 오류 검사와 수정 기회, 최종 제출 전 검토·확인·수정 단계 중 하나 이상을 제공한다."
+ },
+ "FORM-007": {
+  "category": "FORM",
+  "strength": "MUST",
+  "title": "반복 입력 방지",
+  "statement": "한 절차 안에서 사용자가 이미 입력했거나 제공받은 정보를 다시 입력해야 하면 그 값을 자동으로 채우거나 사용자가 선택해 채울 수 있게 한다. 다시 입력하는 것이 본질인 경우, 보안상 필요한 경우, 이전 정보가 더 이상 유효하지 않은 경우만 예외로 한다."
+ },
+ "FORM-008": {
+  "category": "FORM",
+  "strength": "MUST",
+  "title": "접근 가능한 인증",
+  "statement": "인증 절차의 어느 단계에도 인지 기능 테스트(비밀번호 기억, 문자 받아쓰기, 퍼즐, 계산 등)만을 통과 수단으로 두지 않는다. 인지 기능 테스트가 없는 다른 인증 수단, 비밀번호 관리자 자동 입력·붙여넣기 같은 보조 수단, 사물 인식, 사용자가 제공한 콘텐츠 식별 중 하나를 제공하면 예외로 한다."
+ },
+ "LAYOUT-001": {
+  "category": "LAYOUT",
+  "strength": "MUST",
+  "title": "초점이 가려지지 않게",
+  "statement": "키보드 초점을 받은 컴포넌트가 작성자가 만든 콘텐츠(고정 헤더·고정 푸터·쿠키 배너·비모달 대화상자 등)에 완전히 가려지지 않게 한다."
+ },
+ "LAYOUT-002": {
+  "category": "LAYOUT",
+  "strength": "MUST",
+  "title": "포인터 대상 최소 크기",
+  "statement": "포인터 입력 대상은 24×24 CSS px 이상으로 만들고, 더 작으면 각 대상 경계 상자 중심에 지름 24 CSS px 원을 그렸을 때 그 원이 다른 대상이나 다른 작은 대상의 원과 겹치지 않게 배치한다."
+ },
+ "LAYOUT-003": {
+  "category": "LAYOUT",
+  "strength": "MUST",
+  "title": "콘텐츠 간 구분",
+  "statement": "이웃한 콘텐츠 블록은 테두리, 구분선, 서로 다른 무늬, 배경색 명도 차이, 줄 간격·글자 간격 조절 중 하나 이상으로 시각적으로 구분한다."
+ },
+ "MOTION-001": {
+  "category": "MOTION",
+  "strength": "MUST",
+  "title": "움직이는 콘텐츠 정지",
+  "statement": "자동으로 시작해 5초를 넘게 다른 콘텐츠와 함께 움직이거나 깜빡이거나 스크롤되는 콘텐츠와, 자동으로 시작해 다른 콘텐츠와 함께 표시되는 자동 갱신 콘텐츠에는 일시정지·정지·숨기기 수단(자동 갱신은 갱신 빈도 조절도 가능)을 제공한다."
+ },
+ "MOTION-002": {
+  "category": "MOTION",
+  "strength": "MUST",
+  "title": "초당 3~50회 번쩍임 금지",
+  "statement": "초당 3회 이상 깜빡이거나 번쩍이는 콘텐츠를 두지 않는다(상한 없음, 면적·휘도 임계값 예외를 쓰지 않는다)."
+ },
+ "MOTION-010": {
+  "category": "MOTION",
+  "strength": "MUST",
+  "title": "모션 값은 토큰으로만",
+  "statement": "애니메이션·전환의 지속 시간(duration)과 이징(easing)은 모션 디자인 토큰(CSS 변수)에서만 고르고 CSS·JS에 ms 값이나 cubic-bezier() 값을 직접 쓰지 않는다."
+ },
+ "NAV-001": {
+  "category": "NAV",
+  "strength": "MUST",
+  "title": "반복 영역 건너뛰기",
+  "statement": "여러 페이지에 반복되는 콘텐츠 블록(헤더·메인 메뉴 등)이 있는 페이지에는 그 블록을 건너뛰어 본문으로 가는 건너뛰기 링크를 문서의 첫 초점 요소로 제공한다."
+ },
+ "NAV-002": {
+  "category": "NAV",
+  "strength": "MUST",
+  "title": "페이지 제목",
+  "statement": "각 페이지의 <title>에 그 페이지의 주제나 목적을 설명하는 제목을 넣는다."
+ },
+ "NAV-003": {
+  "category": "NAV",
+  "strength": "MUST",
+  "title": "여러 찾기 방법",
+  "statement": "절차의 결과나 한 단계가 아닌 페이지는 사이트 안에서 그 페이지를 찾는 방법을 두 가지 이상 제공한다."
+ },
+ "NAV-004": {
+  "category": "NAV",
+  "strength": "MUST",
+  "title": "일관된 내비게이션",
+  "statement": "여러 페이지에 반복되는 내비게이션은 사용자가 바꾸지 않는 한 매번 같은 상대 순서로 둔다."
+ },
+ "NAV-005": {
+  "category": "NAV",
+  "strength": "MUST",
+  "title": "일관된 도움 위치",
+  "statement": "여러 페이지에 반복하는 도움 수단(담당자 연락처, 연락 수단, 자가 도움말, 자동 상담)은 사용자가 바꾸지 않는 한 다른 콘텐츠에 대해 같은 상대 순서에 둔다."
+ },
+ "NAV-006": {
+  "category": "NAV",
+  "strength": "MUST",
+  "title": "고정된 참조 위치 정보",
+  "statement": "페이지 구분이 있는 전자출판문서 형식의 웹 페이지에는 각 페이지로 이동하는 기능과, 서식·플랫폼이 바뀌어도 유지되는 참조 위치 정보(페이지 번호 등)를 제공한다."
+ },
+ "RESP-001": {
+  "category": "RESP",
+  "strength": "MUST",
+  "title": "화면 방향 고정 금지",
+  "statement": "콘텐츠의 보기와 조작을 세로 또는 가로 한 방향으로 고정하지 않는다. 특정 방향이 필수인 콘텐츠만 예외로 한다."
+ },
+ "RESP-002": {
+  "category": "RESP",
+  "strength": "MUST",
+  "title": "텍스트 200% 확대",
+  "statement": "자막과 텍스트 이미지를 제외한 텍스트를 보조기술 없이 200%까지 확대해도 콘텐츠와 기능이 손실되지 않게 한다."
+ },
+ "RESP-003": {
+  "category": "RESP",
+  "strength": "MUST",
+  "title": "리플로우",
+  "statement": "세로 스크롤 콘텐츠는 너비 320 CSS px, 가로 스크롤 콘텐츠는 높이 256 CSS px에 해당하는 화면에서 정보와 기능의 손실 없이, 두 방향 스크롤 없이 이용할 수 있게 한다. 사용이나 의미 전달에 2차원 배치가 필요한 부분만 예외로 한다."
+ },
+ "SHAPE-001": {
+  "category": "SHAPE",
+  "strength": "MUST",
+  "title": "반경은 단계 토큰에서",
+  "statement": "모서리 반경은 디자인 토큰의 단계 값에서만 고르고, 같은 크기 단계에 속하거나 함께 배치되는 비슷한 크기의 컴포넌트에는 같은 반경 토큰을 쓴다."
+ },
+ "SPACE-001": {
+  "category": "SPACE",
+  "strength": "MUST",
+  "title": "간격은 정의된 스케일에서만",
+  "statement": "margin·padding·gap 등 모든 간격 값은 디자인 토큰의 간격 스케일(KRDS: number 원시 토큰과 gap·padding 토큰)에서만 고르고 CSS에 px 값을 직접 쓰지 않는다."
+ },
+ "STATE-001": {
+  "category": "STATE",
+  "strength": "MUST",
+  "title": "상태 메시지",
+  "statement": "초점을 옮기지 않고 화면에 표시하는 상태 메시지(작업 결과, 대기 상태, 진행 상황, 오류 발생 알림)는 role(status·alert·log·progressbar) 또는 aria-live 속성으로 지정해 보조기술이 초점 이동 없이 사용자에게 전달할 수 있게 한다."
+ },
+ "TYPO-001": {
+  "category": "TYPO",
+  "strength": "MUST",
+  "title": "텍스트 이미지 금지",
+  "statement": "CSS로 같은 시각 표현을 낼 수 있는 텍스트 정보는 텍스트 이미지가 아닌 실제 텍스트로 제공한다."
+ },
+ "TYPO-002": {
+  "category": "TYPO",
+  "strength": "MUST",
+  "title": "텍스트 간격 조정 허용",
+  "statement": "사용자가 행간을 글자 크기의 1.5배, 문단 뒤 간격을 2배, 자간을 0.12배, 단어 간격을 0.16배 이상으로 바꿔도 콘텐츠와 기능이 손실되지 않게 한다."
+ },
+ "TYPO-032": {
+  "category": "TYPO",
+  "strength": "MUST",
+  "title": "글자 크기·서체·두께·행간은 토큰만 사용",
+  "statement": "font-size·font-family·font-weight·line-height 값은 타이포그래피 토큰(var(--font-size-*), var(--font-family-*), var(--font-weight-*), var(--font-line-height-*))에서만 고르고 CSS에 수치나 서체 이름을 직접 쓰지 않는다."
+ },
+ "A11Y-027": {
+  "category": "A11Y",
+  "strength": "SHOULD",
+  "title": "로고 대체 텍스트에 '로고' 금지",
+  "statement": "헤더의 이미지 로고에는 대체 텍스트를 제공하되, 대체 텍스트에 '로고'라는 단어를 넣지 않는다."
+ },
+ "A11Y-028": {
+  "category": "A11Y",
+  "strength": "SHOULD",
+  "title": "콘텐츠 내 탐색에 h1 금지",
+  "statement": "콘텐츠 내 탐색(페이지 안 링크 목록)의 제목과 링크에 h1 요소를 쓰지 않는다."
+ },
+ "A11Y-029": {
+  "category": "A11Y",
+  "strength": "SHOULD",
+  "title": "모달 안 초점 가두기",
+  "statement": "모달이 열려 있는 동안 키보드 초점과 스크린 리더 가상 초점이 모달 안에서만 이동하게 하고, 마지막 상호작용 요소에서 Tab을 누르면 첫 요소로, 첫 요소에서 Shift+Tab을 누르면 마지막 요소로 초점을 옮긴다."
+ },
+ "A11Y-030": {
+  "category": "A11Y",
+  "strength": "SHOULD",
+  "title": "배지는 비대화형",
+  "statement": "배지를 대화형 요소로 만들지 않는다: 배지에 a·button 마크업, role=\"link\"·role=\"button\", 0 이상의 tabindex를 주지 않는다."
+ },
+ "A11Y-031": {
+  "category": "A11Y",
+  "strength": "SHOULD",
+  "title": "펼침 버튼 실행 후 초점 유지",
+  "statement": "아코디언 헤더나 패널 안의 펼침 버튼에 초점이 있을 때 Enter·Space로 펼침 상태를 바꾸고, 바꾼 뒤에도 초점을 그 버튼에 유지한다."
+ },
+ "A11Y-032": {
+  "category": "A11Y",
+  "strength": "SHOULD",
+  "title": "비대화형 이미지는 초점·클릭 없음",
+  "statement": "링크·버튼이 아니거나 그 일부가 아닌 이미지는 키보드 초점을 받지 않고 마우스 클릭에 반응하지 않게 한다."
+ },
+ "A11Y-033": {
+  "category": "A11Y",
+  "strength": "SHOULD",
+  "title": "캐러셀 인디케이터 방향키",
+  "statement": "캐러셀 페이지네이션 인디케이터 그룹에 초점이 있을 때 ←·→ 방향키로 이전·다음 콘텐츠로 선택을 바꾸게 한다."
+ },
+ "A11Y-034": {
+  "category": "A11Y",
+  "strength": "SHOULD",
+  "title": "라디오 그룹 방향키",
+  "statement": "라디오 그룹에서 ↑·← 를 누르면 이전 옵션으로, ↓·→ 를 누르면 다음 옵션으로 초점을 옮기고 그 값을 선택한다."
+ },
+ "A11Y-035": {
+  "category": "A11Y",
+  "strength": "SHOULD",
+  "title": "Space 키로 선택",
+  "statement": "라디오 버튼·체크박스·토글 스위치에 초점이 있을 때 Space 키를 누르면 값을 선택(체크박스·토글은 상태 전환)하게 한다."
+ },
+ "A11Y-036": {
+  "category": "A11Y",
+  "strength": "SHOULD",
+  "title": "셀렉트 목록 열고 닫기",
+  "statement": "커스텀 셀렉트 컨테이너에 초점이 있을 때 Enter 또는 Space를 누르면 옵션 목록을 펼치거나 접는다."
+ },
+ "A11Y-037": {
+  "category": "A11Y",
+  "strength": "SHOULD",
+  "title": "셀렉트 옵션 Enter 선택",
+  "statement": "커스텀 셀렉트의 옵션에 초점이 있을 때 Enter를 누르면 그 옵션 값을 선택하고 목록을 접는다."
+ },
+ "A11Y-038": {
+  "category": "A11Y",
+  "strength": "SHOULD",
+  "title": "닫힌 커스텀 셀렉트 방향키 동작",
+  "statement": "목록이 닫힌 커스텀 셀렉트(선택 전용 콤보박스)에 초점이 있을 때 ↓ 키는 선택값을 바꾸지 않고 목록을 열고, ↑·Home·End 키는 목록을 열며 시각 초점을 첫 옵션·첫 옵션·마지막 옵션으로 옮긴다."
+ },
+ "A11Y-039": {
+  "category": "A11Y",
+  "strength": "SHOULD",
+  "title": "태그 삭제 후 초점 이동",
+  "statement": "태그를 삭제하면 키보드 초점을 삭제한 태그의 이전 태그로 옮기고, 첫 번째 태그를 삭제했으면 새 첫 번째 태그로, 남은 태그가 없으면 태그 목록 컨테이너로 옮긴다."
+ },
+ "A11Y-040": {
+  "category": "A11Y",
+  "strength": "SHOULD",
+  "title": "드롭다운 목록 닫기(바깥 클릭·Esc)",
+  "statement": "셀렉트·언어 변경·화면 크기 조정 같은 드롭다운의 옵션 목록이 펼쳐진 상태에서 레이블·컨테이너·목록이 아닌 영역을 클릭하면 목록을 접고, Esc를 누르면 목록을 접은 뒤 초점을 컨테이너로 옮긴다."
+ },
+ "A11Y-041": {
+  "category": "A11Y",
+  "strength": "SHOULD",
+  "title": "미디어 유형 분류(커버 이미지·배경음)",
+  "statement": "화면이 단순 커버 이미지뿐인 비디오는 오디오 전용 콘텐츠로, 소리가 단순 배경음뿐인 비디오는 비디오 전용 콘텐츠로 분류해 그 유형의 대체 수단(A11Y-002)을 제공한다."
+ },
+ "A11Y-042": {
+  "category": "A11Y",
+  "strength": "SHOULD",
+  "title": "수어 대체 콘텐츠 검토",
+  "statement": "모든 사용자가 알아야 할 중요 정보를 멀티미디어로만 제공하면 수어 대체 콘텐츠 제공을 검토하고 그 결정을 기록한다."
+ },
+ "A11Y-043": {
+  "category": "A11Y",
+  "strength": "SHOULD",
+  "title": "자막 가림·흐림 금지",
+  "statement": "자막이 주변 요소에 가려지거나 흐리게 표시되지 않게 하고, 화면의 중요한 시각 요소와 겹치면 자막 위치를 옮긴다."
+ },
+ "A11Y-046": {
+  "category": "A11Y",
+  "strength": "SHOULD",
+  "title": "숨긴 콘텐츠에 display:none 금지",
+  "statement": "스크린 리더에 전달할 숨긴 콘텐츠에는 display:none이나 visibility:hidden을 쓰지 않고 시각적 숨김 스타일(clip·1px 크기 등)을 쓴다."
+ },
+ "A11Y-047": {
+  "category": "A11Y",
+  "strength": "SHOULD",
+  "title": "숨긴 콘텐츠 크기 0 금지",
+  "statement": "숨긴 콘텐츠에 width:0, height:0, font-size:0, line-height:0을 쓰지 않는다."
+ },
+ "A11Y-048": {
+  "category": "A11Y",
+  "strength": "SHOULD",
+  "title": "숨긴 대화형 요소 위치 유지",
+  "statement": "대화형 요소를 시각적으로 숨길 때 text-indent나 top·left 값으로 본래 위치 밖으로 옮기지 않고 top·left를 auto로 유지한다."
+ },
+ "A11Y-049": {
+  "category": "A11Y",
+  "strength": "SHOULD",
+  "title": "숨긴 텍스트도 서비스 언어로",
+  "statement": "서비스 제공 언어를 바꾸면 숨긴 콘텐츠(스크린 리더 전용 텍스트·aria-label)의 텍스트도 같은 언어로 바꾼다."
+ },
+ "A11Y-050": {
+  "category": "A11Y",
+  "strength": "SHOULD",
+  "title": "패널 닫을 때 초점 복귀",
+  "statement": "도움 패널·따라하기 패널을 닫기 버튼(Click·Enter·Space)으로 닫으면 키보드 초점을 그 패널을 연 버튼으로 옮긴다."
+ },
+ "A11Y-052": {
+  "category": "A11Y",
+  "strength": "SHOULD",
+  "title": "코치마크 그만보기 후 초점",
+  "statement": "코치마크의 '그만보기'를 Click·Enter·Space로 실행하면 코치마크 팝오버를 숨기고 키보드 초점을 따라하기 패널의 따라하기 실행 버튼으로 옮긴다."
+ },
+ "A11Y-053": {
+  "category": "A11Y",
+  "strength": "SHOULD",
+  "title": "툴팁과 title 속성 병용 금지",
+  "statement": "툴팁 컴포넌트를 단 요소에 title 속성을 함께 쓰지 않는다."
+ },
+ "A11Y-054": {
+  "category": "A11Y",
+  "strength": "SHOULD",
+  "title": "아이콘 전용 버튼에 툴팁",
+  "statement": "텍스트 레이블 없이 아이콘만 있는 메뉴·기능 버튼에는 툴팁을 제공한다."
+ },
+ "A11Y-055": {
+  "category": "A11Y",
+  "strength": "SHOULD",
+  "title": "대화형 팝오버는 맥락적 도움말",
+  "statement": "팝오버 안에 링크·버튼 같은 대화형 요소가 필요하면 툴팁 대신 맥락적 도움말을 쓴다."
+ },
+ "A11Y-056": {
+  "category": "A11Y",
+  "strength": "SHOULD",
+  "title": "음성지원은 보완 수단",
+  "statement": "음성지원(TTS)이 읽는 정보를 화면 텍스트로도 제공하고, 음성지원을 글자 크기 조절·대비 향상·쉬운 모드 같은 다른 접근성 기능의 대신으로 두지 않는다."
+ },
+ "A11Y-057": {
+  "category": "A11Y",
+  "strength": "SHOULD",
+  "title": "음성지원 요약 낭독·중복 금지",
+  "statement": "음성지원은 영역의 텍스트 전체를 그대로 읽지 않고 사용자에게 필요한 정보를 요약해 읽으며, 스크린 리더가 읽는 내용과 같은 내용을 중복해서 제공하지 않는다."
+ },
+ "AI-005": {
+  "category": "AI",
+  "strength": "SHOULD",
+  "title": "AI 능력 범위 안내",
+  "statement": "AI 기능의 첫 화면(대화·결과가 없는 상태)에 그 기능으로 할 수 있는 작업의 예시와 할 수 없는 작업을 텍스트로 보여준다."
+ },
+ "AI-006": {
+  "category": "AI",
+  "strength": "SHOULD",
+  "title": "신뢰도 표시 형식",
+  "statement": "AI 결과의 신뢰도를 숫자(예: 80%)로 보여줄 때는 그 숫자가 무엇을 뜻하는지 설명을 함께 표시하고, 범주(높음·보통·낮음)로 보여줄 때는 범주마다 사용자가 할 행동을 함께 표시한다."
+ },
+ "AI-007": {
+  "category": "AI",
+  "strength": "SHOULD",
+  "title": "근거 부족 표시",
+  "statement": "검색·문서 근거를 바탕으로 답하는 AI 기능에서 답변이나 답변의 항목에 쓸 근거 자료를 찾지 못했거나 일부만 찾았으면, 그 답변이나 항목과 함께 근거가 없거나 일부만 확인됐다는 사실을 텍스트로 표시한다."
+ },
+ "AI-010": {
+  "category": "AI",
+  "strength": "SHOULD",
+  "title": "적용 전 결과 편집",
+  "statement": "AI가 만든 결과(문서 초안·코드·양식 입력값 등)를 사용자 데이터에 적용하기 전에, 사용자가 그 결과를 직접 고칠 수 있는 편집 수단을 적용 버튼과 같은 화면에 제공한다."
+ },
+ "AI-011": {
+  "category": "AI",
+  "strength": "SHOULD",
+  "title": "AI 실패 유형 구분 표시",
+  "statement": "AI 응답 실패를 그 기능이 낼 수 있는 유형별로 시스템 오류(네트워크·서버·시간 초과), 결과 없음(요청에 해당하는 답을 찾지 못함), 정책상 거절(안전·정책 사유로 답하지 않음)로 나누고, 유형마다 서로 다른 문구와 상태 값으로 표시한다."
+ },
+ "AI-012": {
+  "category": "AI",
+  "strength": "SHOULD",
+  "title": "결과 없음(답 없음) 안내",
+  "statement": "AI가 결과를 찾지 못하면 오류 색·오류 아이콘·role=\"alert\" 없이 표시하고, 찾지 못한 이유의 범위(지원하지 않는 요청·자료 없음 등)와 대안 경로(요청 바꾸기 예시·사람 상담·일반 검색 등) 1개 이상을 함께 보여준다."
+ },
+ "AI-013": {
+  "category": "AI",
+  "strength": "SHOULD",
+  "title": "정책상 거절의 명시",
+  "statement": "AI가 정책·안전 사유로 요청을 거절하면 거절했다는 사실을 텍스트로 밝히고, 거절을 시스템 오류 문구나 재시도 버튼으로 표시하지 않는다."
+ },
+ "AI-014": {
+  "category": "AI",
+  "strength": "SHOULD",
+  "title": "모호한 요청의 해석 명시",
+  "statement": "사용자 요청이 여러 뜻으로 해석될 수 있고 해석에 따라 결과가 달라지면, 결과를 만들기 전에 해석 선택지를 보여주거나 어떤 해석으로 답했는지 결과 위쪽에 표시한다."
+ },
+ "AI-015": {
+  "category": "AI",
+  "strength": "SHOULD",
+  "title": "스트리밍 응답에 assertive 금지",
+  "statement": "스트리밍으로 채워지는 AI 응답 요소와 그 조상 요소에 aria-live=\"assertive\"나 role=\"alert\"를 쓰지 않는다."
+ },
+ "AI-016": {
+  "category": "AI",
+  "strength": "SHOULD",
+  "title": "피드백 전송 데이터 고지",
+  "statement": "AI 결과에 대한 피드백을 보내는 화면에는 피드백과 함께 전송되는 데이터(대화 내용 포함 여부)와 그 데이터의 사용 목적을 제출 버튼 앞에 텍스트로 알린다."
+ },
+ "AI-017": {
+  "category": "AI",
+  "strength": "SHOULD",
+  "title": "AI 기능 전역 제어",
+  "statement": "사용자가 요청하지 않아도 동작하는 AI 기능(자동 제안·자동 요약·자동 실행 등)은 설정 화면에서 끄고 켤 수 있게 하고, 끈 설정을 다시 켤 때까지 유지한다."
+ },
+ "AI-018": {
+  "category": "AI",
+  "strength": "SHOULD",
+  "title": "AI 기능 변경 고지",
+  "statement": "AI 기능이 새로 추가되거나 기존 AI 기능이 할 수 있는 작업이 바뀌면, 변경 후 사용자가 그 기능을 처음 쓸 때 변경 내용을 한 번 알린다."
+ },
+ "COLOR-005": {
+  "category": "COLOR",
+  "strength": "SHOULD",
+  "title": "강조 색 면적 제한",
+  "statement": "강조(accent) 색은 한 화면 면적의 5% 이하로 쓴다."
+ },
+ "COLOR-006": {
+  "category": "COLOR",
+  "strength": "SHOULD",
+  "title": "비활성 상태에 투명도 금지",
+  "statement": "비활성(disabled) 상태를 표현할 때 알파 값이 1 미만인 색(투명도 색)을 쓰지 않고 팔레트의 불투명 색을 쓴다."
+ },
+ "COLOR-007": {
+  "category": "COLOR",
+  "strength": "SHOULD",
+  "title": "상태 색은 같은 색조",
+  "statement": "상호작용 요소의 기본·hover·pressed(active) 상태 색은 같은 색상 계열 토큰 안에서 명도 단계만 올리거나 내려 표현하고 다른 색상 계열로 바꾸지 않는다."
+ },
+ "COLOR-009": {
+  "category": "COLOR",
+  "strength": "SHOULD",
+  "title": "고대비 모드 대비 기준",
+  "statement": "선명한 화면 모드(고대비 모드)를 제공하면 그 모드에서 본문 텍스트는 15:1, 헤딩·레이블 텍스트는 7:1, 아이콘은 7:1(선 두께를 기본 모드보다 굵게 바꾼 아이콘은 4.5:1), 시각 보조 요소는 4.5:1 이상 명도 대비를 갖게 한다."
+ },
+ "COLOR-010": {
+  "category": "COLOR",
+  "strength": "SHOULD",
+  "title": "고대비 모드 전환 무손실",
+  "statement": "선명한 화면 모드로 전환해도 일반 모드와 같은 정보와 기능을 제공하고, 선명한 화면 모드에서 식별되지 않는 래스터 이미지(JPEG·PNG·GIF)는 모드별 버전을 따로 제공한다."
+ },
+ "COLOR-011": {
+  "category": "COLOR",
+  "strength": "SHOULD",
+  "title": "고대비 모드 링크 밑줄·외곽선",
+  "statement": "선명한 화면 모드에서는 본문의 모든 인라인 링크와 푸터의 모든 링크에 밑줄을 표시하고, 버튼·입력·선택 컴포넌트의 외곽선과 링크 밑줄을 기본 모드보다 굵게 한다."
+ },
+ "COLOR-012": {
+  "category": "COLOR",
+  "strength": "SHOULD",
+  "title": "공식 배너 주목도",
+  "statement": "공식 배너는 헤더의 내비게이션·기능 버튼보다 시각적 주목도가 낮게 표현한다."
+ },
+ "COLOR-013": {
+  "category": "COLOR",
+  "strength": "SHOULD",
+  "title": "운영기관 식별자 주목도",
+  "statement": "운영기관 식별자는 푸터의 정보·링크보다 시각적 주목도가 낮게 표현한다."
+ },
+ "COLOR-014": {
+  "category": "COLOR",
+  "strength": "SHOULD",
+  "title": "링크 위계(강조·기본)",
+  "statement": "링크를 강조 링크(파란색 또는 서비스 주조색)와 기본 링크 두 단계로 구분하고, 강조 링크는 화면에서 가장 중요한 과업과 연결된 링크에만 쓴다."
+ },
+ "COLOR-015": {
+  "category": "COLOR",
+  "strength": "SHOULD",
+  "title": "버튼 강조 단계(채움·윤곽선·텍스트)",
+  "statement": "버튼 강조 단계를 주조색 채움 버튼(가장 중요한 행동), 윤곽선 버튼(중간 강조), 텍스트 버튼(가장 낮은 강조) 세 가지로 쓰고, 주조색 채움 버튼은 한 화면 상태에 1개만 둔다."
+ },
+ "COLOR-016": {
+  "category": "COLOR",
+  "strength": "SHOULD",
+  "title": "버튼 그룹 아이콘 위계",
+  "statement": "버튼 그룹에서 가장 높은 강조 단계 버튼에 아이콘이 없으면 그 그룹의 다른 버튼에도 아이콘을 넣지 않는다."
+ },
+ "COLOR-017": {
+  "category": "COLOR",
+  "strength": "SHOULD",
+  "title": "배지 배경에 주조색 금지",
+  "statement": "배지 배경색으로 서비스 주조색(primary color, 채움 버튼 배경색)을 쓰지 않는다."
+ },
+ "COLOR-019": {
+  "category": "COLOR",
+  "strength": "SHOULD",
+  "title": "태그 색 수 제한",
+  "statement": "태그는 한 가지 색을 기본으로 쓰고, 색을 추가하는 경우 색 구분이 사용자에게 의미가 있을 때만 추가하며 동시에 표시되는 태그들이 같은 강조 수준으로 보이게 한다."
+ },
+ "COLOR-021": {
+  "category": "COLOR",
+  "strength": "SHOULD",
+  "title": "코치마크 버튼 강조 단계",
+  "statement": "코치마크의 '그만보기'·'이전' 버튼은 텍스트 버튼 스타일로, '다음'·'마치기' 버튼은 고스트 버튼 스타일로 표시해 본문 액션 버튼보다 강조 수준을 낮춘다."
+ },
+ "COPY-005": {
+  "category": "COPY",
+  "strength": "SHOULD",
+  "title": "오류 메시지 작성",
+  "statement": "오류 메시지는 오류가 난 항목 이름, 무엇이 잘못됐는지, 고치는 방법(또는 사용자가 할 수 있는 다음 행동)을 담아 높임 종결어미로 쓰고, 사용자를 탓하는 표현과 '오류가 발생했습니다'·'유효하지 않은 값입니다' 같은 일반 문구만으로 된 메시지를 쓰지 않는다."
+ },
+ "COPY-006": {
+  "category": "COPY",
+  "strength": "SHOULD",
+  "title": "확인 버튼에 동작명",
+  "statement": "확인 대화상자의 실행 버튼 레이블에는 '확인'·'예'·'네'·'OK' 대신 실행할 동작을 동사로 쓴다(예: '삭제', '신청 취소', '제출')."
+ },
+ "COPY-007": {
+  "category": "COPY",
+  "strength": "SHOULD",
+  "title": "첨부파일 형식·크기 표시",
+  "statement": "첨부파일 링크는 파일 이름 바로 뒤에 '[파일 형식, 파일 크기]'를 KB·MB·GB 단위로 표시하고, 링크 텍스트나 바로 옆 텍스트에 '다운로드'라는 말을 넣어 링크를 누르면 파일을 받는다는 것을 알린다."
+ },
+ "COPY-008": {
+  "category": "COPY",
+  "strength": "SHOULD",
+  "title": "작성 정보와 갱신일 표시",
+  "statement": "공공 정보 상세 콘텐츠에는 작성자·출처·저작권 정보와 최초 등록일·변경일·변경 내역을 제목 근처와 본문 끝에 표시한다."
+ },
+ "COPY-009": {
+  "category": "COPY",
+  "strength": "SHOULD",
+  "title": "필수 정보는 숨기지 않음",
+  "statement": "사용자가 작업을 마치는 데 반드시 알아야 하는 정보는 별도 조작 없이 보이는 본문(인라인 텍스트)에 두고, 툴팁·맥락적 도움말·도움 패널·접힌 디스클로저·아코디언·캐러셀 안에만 두지 않는다."
+ },
+ "COPY-010": {
+  "category": "COPY",
+  "strength": "SHOULD",
+  "title": "안내 영역·긴급 공지 하나",
+  "statement": "본문 상단의 안내 영역과 긴급 공지는 각각 한 화면에 1개 이하로 둔다."
+ },
+ "COPY-011": {
+  "category": "COPY",
+  "strength": "SHOULD",
+  "title": "툴팁 분량",
+  "statement": "툴팁에는 한 문장(공백 포함 150자) 이하의 보조 정보만 넣고, 그보다 긴 설명은 맥락적 도움말·도움 패널·별도 도움말 페이지로 제공한다."
+ },
+ "COPY-012": {
+  "category": "COPY",
+  "strength": "SHOULD",
+  "title": "공식 배너",
+  "statement": "공식 디지털 정부서비스가 아닌 사이트에서는 공식 배너('이 누리집은 대한민국 공식 전자정부 누리집입니다')를 쓰지 않는다."
+ },
+ "COPY-013": {
+  "category": "COPY",
+  "strength": "SHOULD",
+  "title": "운영기관 식별자 문구",
+  "statement": "운영기관 식별자의 안내 텍스트는 '이 누리집은 [운영기관명]에서 운영하는 누리집입니다.' 형식에서 대괄호 부분만 바꿔 쓰고, 요소 배치를 바꾸지 않는다."
+ },
+ "COPY-014": {
+  "category": "COPY",
+  "strength": "SHOULD",
+  "title": "운영기관 식별자 사용 조건",
+  "statement": "공식 디지털 정부서비스가 아닌 사이트에서는 운영기관 식별자를 쓰지 않는다."
+ },
+ "COPY-015": {
+  "category": "COPY",
+  "strength": "SHOULD",
+  "title": "언어 이름은 그 언어로, 국기 금지",
+  "statement": "언어 선택 메뉴와 언어 변경 링크에는 국기를 쓰지 않고, 각 언어의 이름을 그 언어로 쓴다(예: English, 日本語, 中文)."
+ },
+ "COPY-016": {
+  "category": "COPY",
+  "strength": "SHOULD",
+  "title": "헤더 아이콘에 텍스트 레이블",
+  "statement": "헤더의 아이콘 버튼·링크에는 눈에 보이는 텍스트 레이블을 함께 표시하고, 검색·로그인처럼 대부분의 사용자가 의미를 아는 단순한 아이콘만 텍스트 레이블을 생략한다."
+ },
+ "COPY-017": {
+  "category": "COPY",
+  "strength": "SHOULD",
+  "title": "'개인정보 처리방침' 명칭",
+  "statement": "푸터에 개인정보 처리방침 링크를 두고 링크 텍스트를 '개인정보 처리방침'이라는 명칭 그대로 쓴다."
+ },
+ "COPY-018": {
+  "category": "COPY",
+  "strength": "SHOULD",
+  "title": "전자상거래 푸터 고지",
+  "statement": "전자상거래 기능이 있는 서비스는 푸터에 이용약관 링크와 사업자 신원 정보, 거래 약관을 표시한다."
+ },
+ "COPY-019": {
+  "category": "COPY",
+  "strength": "SHOULD",
+  "title": "링크 레이블 길이",
+  "statement": "문단 밖에 독립으로 놓이는 링크의 레이블은 프로젝트가 지원하는 모든 화면 너비에서 한 줄로 표시되는 길이로 쓴다."
+ },
+ "COPY-021": {
+  "category": "COPY",
+  "strength": "SHOULD",
+  "title": "긴급 공지 문장 길이",
+  "statement": "긴급 공지 문장은 1줄로 쓰고, 화면 너비가 1줄을 담지 못하는 좁은 화면에서만 2줄까지 허용한다."
+ },
+ "COPY-022": {
+  "category": "COPY",
+  "strength": "SHOULD",
+  "title": "긴급 공지 링크 1개",
+  "statement": "긴급 공지에는 공지 내용과 직접 관련된 상세 화면으로 가는 링크를 1개 이하로 넣는다."
+ },
+ "COPY-023": {
+  "category": "COPY",
+  "strength": "SHOULD",
+  "title": "모달 본문은 현재 과업 내용만",
+  "statement": "모달 본문에는 모달을 연 현재 과업·흐름에 관한 내용만 넣고, 홍보·다른 서비스 안내 같은 무관한 내용을 넣지 않는다."
+ },
+ "COPY-026": {
+  "category": "COPY",
+  "strength": "SHOULD",
+  "title": "캐러셀 항목 텍스트 2줄 이하",
+  "statement": "캐러셀 각 항목의 텍스트 콘텐츠는 2줄 이하로 쓴다."
+ },
+ "COPY-027": {
+  "category": "COPY",
+  "strength": "SHOULD",
+  "title": "목록 항목 어투 통일",
+  "statement": "같은 수준의 목록 항목은 같은 어투로 쓴다. 첫 항목을 서술식(종결어미로 끝나는 문장)으로 썼으면 같은 수준의 모든 항목을 서술식으로, 개조식(명사·명사형으로 끝남)으로 썼으면 모두 개조식으로 쓴다."
+ },
+ "COPY-028": {
+  "category": "COPY",
+  "strength": "SHOULD",
+  "title": "목록 종결 부호",
+  "statement": "서술식 목록 항목의 마지막 문장에는 종결 부호(. ? !)를 쓰고, 개조식 목록 항목은 종결 부호를 생략할 수 있다."
+ },
+ "COPY-030": {
+  "category": "COPY",
+  "strength": "SHOULD",
+  "title": "셀렉트 옵션 텍스트 길이",
+  "statement": "셀렉트 옵션 텍스트는 컨테이너와 옵션 목록 너비 안에 다 보이는 길이로 쓰고, 넘칠 수밖에 없으면 마우스 호버와 키보드 초점 모두에서 전체 내용을 보여주는 툴팁을 제공하며 title 속성만으로 대신하지 않는다."
+ },
+ "COPY-031": {
+  "category": "COPY",
+  "strength": "SHOULD",
+  "title": "태그 레이블 2단어",
+  "statement": "태그 레이블은 2단어(띄어쓰기로 나뉜 어절 2개) 이내로 쓰고 줄바꿈이 생기지 않게 한다."
+ },
+ "COPY-032": {
+  "category": "COPY",
+  "strength": "SHOULD",
+  "title": "토글 레이블 품사",
+  "statement": "토글 스위치 레이블은 명사형으로 쓰고(예: '알림 수신'), 명사형으로는 켜고 끄는 대상이 드러나지 않으면 동사형으로 쓰거나 도움말을 붙인다."
+ },
+ "COPY-033": {
+  "category": "COPY",
+  "strength": "SHOULD",
+  "title": "토글 레이블 고정",
+  "statement": "토글 스위치의 상태가 바뀌어도 레이블 텍스트를 바꾸지 않고, 상태는 핸들 위치·상태 아이콘·별도 상태 텍스트로 전달한다."
+ },
+ "COPY-034": {
+  "category": "COPY",
+  "strength": "SHOULD",
+  "title": "토글 상태 텍스트는 별도로",
+  "statement": "토글 상태를 텍스트('켜짐'·'꺼짐')로 보여줄 때는 레이블과 분리된 별도 텍스트로 스위치 바로 옆에 둔다."
+ },
+ "COPY-035": {
+  "category": "COPY",
+  "strength": "SHOULD",
+  "title": "단계 레이블 길이",
+  "statement": "단계 표시기의 단계 레이블은 짧은 단어나 구로 써서 모든 지원 화면 너비에서 잘리거나 줄바꿈되지 않게 하고, 설명이 더 필요하면 보조 텍스트를 레이블 옆에 따로 둔다."
+ },
+ "COPY-037": {
+  "category": "COPY",
+  "strength": "SHOULD",
+  "title": "두 언어 전환 링크의 레이블",
+  "statement": "두 언어를 오가는 링크형 언어 변경은 각 화면에서 전환될 상대 언어의 이름을 표시하고, 레이블을 한 언어로 고정하거나 현재 언어 이름을 표시하지 않는다."
+ },
+ "COPY-038": {
+  "category": "COPY",
+  "strength": "SHOULD",
+  "title": "언어 코드 레이블 금지",
+  "statement": "언어 변경 레이블을 언어 코드(EN, KO, JP 등)로 줄여 쓰지 않고 언어 이름을 쓴다."
+ },
+ "COPY-039": {
+  "category": "COPY",
+  "strength": "SHOULD",
+  "title": "언어 변경에 국가명 제한",
+  "statement": "언어 변경 레이블에 국가명을 쓰지 않고, 국적·접속 국가에 따라 서비스나 정책이 달라질 때만 국가명을 보조 정보로 붙이되 언어명보다 약하게(작은 글자 크기 또는 낮은 굵기) 표시한다."
+ },
+ "COPY-041": {
+  "category": "COPY",
+  "strength": "SHOULD",
+  "title": "도움 패널 첫 화면",
+  "statement": "도움 패널을 처음 표시할 때는 패널의 용도와 활용 방법을 짧게 안내하는 기본 상태를 보여주고, 사용자가 아이콘 버튼을 누르기 전에는 상세 도움 정보를 표시하지 않는다. 도움 패널과 따라하기 패널을 함께 제공하면 도움 패널 탭을 선택한 상태로 연다."
+ },
+ "COPY-045": {
+  "category": "COPY",
+  "strength": "SHOULD",
+  "title": "맥락적 도움말 사용 조건",
+  "statement": "아이콘 단독 컨트롤의 레이블을 보여줄 때는 맥락적 도움말 대신 툴팁을 쓰고, 작업 완료에 반드시 필요한 정보는 맥락적 도움말 팝오버에 숨기지 않고 인라인 도움말이나 도움 패널로 제공한다."
+ },
+ "COPY-047": {
+  "category": "COPY",
+  "strength": "SHOULD",
+  "title": "코치마크 수",
+  "statement": "한 과업의 코치마크는 15단계 이하로 구성한다."
+ },
+ "COPY-048": {
+  "category": "COPY",
+  "strength": "SHOULD",
+  "title": "툴팁과 도움말 혼용 금지",
+  "statement": "한 화면에서 정보·물음표 아이콘 툴팁과 맥락적 도움말·도움 패널을 함께 쓰지 않고, 맥락적 도움말이나 도움 패널이 필요하면 그 화면의 정보·물음표 아이콘을 모두 맥락적 도움말로 쓴다."
+ },
+ "COPY-049": {
+  "category": "COPY",
+  "strength": "SHOULD",
+  "title": "터치 환경을 고려한 툴팁 아이콘",
+  "statement": "터치가 주 입력인 환경에서는 툴팁이 뜨지 않을 수 있으므로, 툴팁을 다는 아이콘 버튼에는 툴팁 없이도 메뉴·기능의 의미를 알 수 있는 아이콘을 고른다."
+ },
+ "COPY-050": {
+  "category": "COPY",
+  "strength": "SHOULD",
+  "title": "토스트 문구 한 줄",
+  "statement": "토스트 메시지는 사용자 행동의 결과를 한 줄로 쓰고, 두 줄 이상의 설명이나 사용자의 추가 행동이 필요하면 토스트 대신 스낵바를 쓴다."
+ },
+ "COPY-052": {
+  "category": "COPY",
+  "strength": "SHOULD",
+  "title": "탭바 레이블 길이",
+  "statement": "탭바 레이블은 1~2단어(어절)로 쓰고, 번역 레이블을 포함해 모든 지원 화면 너비에서 잘리거나 말줄임표가 생기지 않게 한다."
+ },
+ "COPY-053": {
+  "category": "COPY",
+  "strength": "SHOULD",
+  "title": "오류 요약과 인라인 오류 문구 일치",
+  "statement": "오류 요약의 각 항목 문구를 해당 필드 옆에 표시하는 오류 메시지와 같은 문장으로 쓴다."
+ },
+ "COPY-054": {
+  "category": "COPY",
+  "strength": "SHOULD",
+  "title": "만료 후 저장 여부 고지",
+  "statement": "세션이 만료돼 로그아웃된 뒤 보여주는 화면에는 로그아웃된 이유와, 진행 중이던 입력 내용이 저장됐는지 여부를 쓴다."
+ },
+ "COPY-055": {
+  "category": "COPY",
+  "strength": "SHOULD",
+  "title": "한 문장 한 내용",
+  "statement": "한 문장에는 하나의 내용만 쓰고, 조건·예외가 붙는 문장은 조건 문장과 결과 문장으로 나눈다."
+ },
+ "COPY-056": {
+  "category": "COPY",
+  "strength": "SHOULD",
+  "title": "숫자 날짜 표기(마침표)",
+  "statement": "화면에 숫자만으로 날짜를 쓸 때는 '2026. 10. 18.'처럼 연·월·일 자리에 각각 마침표를 찍고 마침표 뒤를 한 칸 띄우며 마지막 마침표를 생략하지 않고, 날짜를 time 요소로 감싸 datetime 속성에 YYYY-MM-DD 형식 값(시각까지 나타내면 YYYY-MM-DDTHH:MM 또는 YYYY-MM-DDTHH:MM:SS)을 넣는다."
+ },
+ "COPY-057": {
+  "category": "COPY",
+  "strength": "SHOULD",
+  "title": "시각 표기(쌍점·24시각제)",
+  "statement": "시각을 숫자로 쓸 때는 시와 분 사이에 쌍점을 앞뒤 붙여 쓰고('14:30', '오전 10:20'), 공공 서비스 화면에서는 24시각제로 쓴다."
+ },
+ "FORM-009": {
+  "category": "FORM",
+  "strength": "SHOULD",
+  "title": "입력 필드 구성 순서",
+  "statement": "텍스트 입력 필드의 구성 요소는 레이블, 부가 설명, 입력 박스, 시스템 메시지(도움말·오류) 순서로 위에서 아래로 배치한다."
+ },
+ "FORM-011": {
+  "category": "FORM",
+  "strength": "SHOULD",
+  "title": "모달 입력 개수 제한",
+  "statement": "모달 안에서 데이터를 입력받을 때는 입력 컴포넌트를 5개 이하로 두고, 모달 안에 탭·아코디언·다단계 절차를 넣지 않는다."
+ },
+ "FORM-012": {
+  "category": "FORM",
+  "strength": "SHOULD",
+  "title": "필수·선택 표시 통일",
+  "statement": "입력폼(form 요소와 form 밖의 독립 fieldset)의 필수 항목과 선택 항목을 레이블의 '필수'·'선택' 텍스트, 필수 항목의 별표(*), 또는 '모든 항목이 필수'라는 폼 상단 안내 중 하나로 구분하고, 같은 서비스 안에서는 한 가지 방식만 쓴다."
+ },
+ "FORM-013": {
+  "category": "FORM",
+  "strength": "SHOULD",
+  "title": "중복 제출 방지",
+  "statement": "데이터를 전송하는 버튼은 첫 번째 누름 뒤 처리가 끝날 때까지 두 번째 누름(클릭·Enter·Space)으로 다시 전송하지 않게 한다."
+ },
+ "FORM-014": {
+  "category": "FORM",
+  "strength": "SHOULD",
+  "title": "클라이언트·서버 검증 병행",
+  "statement": "입력 검증 규칙은 클라이언트에서 검사하더라도 서버에서 모두 다시 검사하고, 서버 검증에서 나온 필드 오류도 해당 입력 필드 옆에 인라인 텍스트로 표시한다."
+ },
+ "FORM-015": {
+  "category": "FORM",
+  "strength": "SHOULD",
+  "title": "제출 시 첫 오류로 초점 이동",
+  "statement": "오류 요약(FORM-077)을 두지 않는 폼(모달 안 폼, 입력 필드가 1개인 폼)이나 KRDS를 적용하는 공공 프로젝트의 폼에서 제출 결과 검증 오류가 있으면 키보드 초점을 오류가 난 첫 번째 입력 필드로 옮기고, 오류를 모달로 알렸다면 모달을 닫은 직후 그 필드로 초점을 옮긴다."
+ },
+ "FORM-016": {
+  "category": "FORM",
+  "strength": "SHOULD",
+  "title": "오류 후 입력값 유지",
+  "statement": "검증 오류를 안내한 뒤에도 사용자가 입력하거나 선택한 값을 지우거나 초기화하지 않는다."
+ },
+ "FORM-017": {
+  "category": "FORM",
+  "strength": "SHOULD",
+  "title": "플레이스홀더를 레이블로 쓰지 않음",
+  "statement": "플레이스홀더를 레이블이나 도움말 대신 쓰지 않고, 플레이스홀더에 입력 형식 힌트나 예시를 넣을 때는 같은 내용을 입력 필드 밖의 보이는 텍스트(도움말)로도 제공한다."
+ },
+ "FORM-018": {
+  "category": "FORM",
+  "strength": "SHOULD",
+  "title": "입력 필드 복사·붙여넣기 허용",
+  "statement": "개인 식별 정보 입력 필드, 텍스트 입력 필드, 텍스트 영역에서 복사와 붙여넣기를 막지 않는다."
+ },
+ "FORM-019": {
+  "category": "FORM",
+  "strength": "SHOULD",
+  "title": "개인 정보 기본값 금지",
+  "statement": "개인 식별 정보 입력 필드에 기본값을 미리 채우지 않고, 성별처럼 사용자가 정확히 답해야 하는 라디오 그룹에서는 어떤 옵션도 미리 선택해 두지 않는다."
+ },
+ "FORM-020": {
+  "category": "FORM",
+  "strength": "SHOULD",
+  "title": "이름 입력 제약 금지",
+  "statement": "이름은 텍스트 입력 필드 하나로 받고, 공백·하이픈 등 기호를 포함한 모든 문자를 허용하며, 검증에서 최소 글자 수(예: 한글 3자)를 요구하지 않고, 입력값의 공백을 자동으로 지우거나 대소문자를 바꾸지 않는다."
+ },
+ "FORM-021": {
+  "category": "FORM",
+  "strength": "SHOULD",
+  "title": "생년월일에 날짜 선택기 금지",
+  "statement": "생년월일 입력에는 날짜 선택기(달력)를 쓰지 않고, 연도와 일 입력에 셀렉트를 쓰지 않는다."
+ },
+ "FORM-022": {
+  "category": "FORM",
+  "strength": "SHOULD",
+  "title": "전화번호 형식 유연성",
+  "statement": "전화번호 입력은 숫자만, 공백, 하이픈 구분 형식을 모두 허용하고, 특정 형식만 받아야 하면 그 형식을 입력 필드에 연결된 도움말 텍스트로 안내한다."
+ },
+ "FORM-023": {
+  "category": "FORM",
+  "strength": "SHOULD",
+  "title": "입력 단위 표시",
+  "statement": "수량·금액·길이처럼 단위가 있는 값을 받는 입력 필드는 레이블과 별도로 단위(개, 부, 원, cm 등)를 입력 박스 바로 옆에 텍스트로 표시한다."
+ },
+ "FORM-024": {
+  "category": "FORM",
+  "strength": "SHOULD",
+  "title": "동의 항목 구성",
+  "statement": "약관·개인정보 동의 목록에서는 항목마다 '동의함'과 '동의하지 않음' 선택지를 함께 두고, 항목 제목에 '필수' 또는 '선택'을 텍스트로 표시하며, 필수 항목을 목록 위쪽에 모아 선택 항목보다 먼저 둔다."
+ },
+ "FORM-025": {
+  "category": "FORM",
+  "strength": "SHOULD",
+  "title": "전체 동의 체크박스 연동",
+  "statement": "일괄 동의 체크박스를 선택하면 모든 항목을 '동의함'으로, 해제하면 모든 항목을 '동의하지 않음'으로 바꾸고, 개별 항목 중 하나라도 '동의하지 않음'이면 일괄 동의 체크박스를 해제 상태로 두며, Click·Space로 조작한 뒤에도 키보드 초점을 일괄 동의 체크박스에 유지한다."
+ },
+ "FORM-026": {
+  "category": "FORM",
+  "strength": "SHOULD",
+  "title": "자동 초점 이동 시 되돌아가기",
+  "statement": "값을 다 입력하면 초점을 다음 입력 필드로 자동으로 옮기는 동작은 입력 전에 그 동작을 텍스트로 알린 경우에만 쓰고, 그때도 Shift+Tab이나 클릭으로 이전 필드로 돌아가 값을 고칠 수 있게 하며 돌아간 필드에서 초점을 다시 자동으로 옮기지 않는다."
+ },
+ "FORM-027": {
+  "category": "FORM",
+  "strength": "SHOULD",
+  "title": "라디오 그룹 단일 선택",
+  "statement": "한 라디오 그룹에서는 옵션 하나만 선택된 상태가 되게 하고, 새 옵션을 선택하면 이전에 선택한 옵션을 자동으로 해제한다."
+ },
+ "FORM-028": {
+  "category": "FORM",
+  "strength": "SHOULD",
+  "title": "체크박스와 라디오 구분",
+  "statement": "여러 옵션을 동시에 고를 수 있는 선택에는 라디오 버튼을 쓰지 않고, 한 옵션만 고를 수 있는 선택에는 체크박스를 쓰지 않는다."
+ },
+ "FORM-032": {
+  "category": "FORM",
+  "strength": "SHOULD",
+  "title": "선택 옵션 정렬",
+  "statement": "라디오 버튼·체크박스 옵션은 가나다순으로 정렬하고, 선택 빈도순 등 다른 정렬은 근거(이용 데이터 등)를 설계 문서에 기록했을 때만 쓴다."
+ },
+ "FORM-034": {
+  "category": "FORM",
+  "strength": "SHOULD",
+  "title": "레이블 클릭으로 선택",
+  "statement": "라디오 버튼·체크박스·토글 스위치는 컨트롤뿐 아니라 보이는 레이블 텍스트를 클릭·탭해도 값이 바뀌게 한다."
+ },
+ "FORM-037": {
+  "category": "FORM",
+  "strength": "SHOULD",
+  "title": "옵션 20개 초과 시 콤보 상자",
+  "statement": "단일 선택 옵션이 20개를 넘으면 셀렉트 대신 입력으로 옵션을 걸러 주는 콤보 상자를 쓰거나 셀렉트 여러 개로 단계를 나눈다."
+ },
+ "FORM-038": {
+  "category": "FORM",
+  "strength": "SHOULD",
+  "title": "다중 선택에 셀렉트 금지",
+  "statement": "여러 값을 한 번에 골라야 하는 선택에는 단일 선택 셀렉트나 select[multiple]을 쓰지 않고 체크박스 그룹이나 다중 선택 드롭다운을 쓴다."
+ },
+ "FORM-040": {
+  "category": "FORM",
+  "strength": "SHOULD",
+  "title": "대화형·비대화형 태그 혼합 금지",
+  "statement": "한 태그 그룹 안에 대화형 태그(선택 해제·삭제 등 조작 가능)와 비대화형 태그(분류 표시만)를 섞지 않는다."
+ },
+ "FORM-041": {
+  "category": "FORM",
+  "strength": "SHOULD",
+  "title": "토글 스위치 사용 조건",
+  "statement": "토글 스위치는 부울(켜짐·꺼짐) 두 상태를 전환하고 그 결과가 별도 제출 없이 즉시 반영되는 설정에만 쓰고, 상태가 부울이 아니거나 상호 배타 옵션이 3개 이상이면 라디오 버튼을, 제출·적용 동작을 거쳐야 반영되는 선택이면 체크박스나 라디오 버튼을 쓴다."
+ },
+ "FORM-042": {
+  "category": "FORM",
+  "strength": "SHOULD",
+  "title": "계층 옵션은 중간 상태 체크박스",
+  "statement": "상위 항목이 하위 항목들을 함께 켜고 끄는 계층 구조의 선택 옵션에는 토글 스위치 대신 중간 상태를 표시하는 체크박스 목록을 쓴다."
+ },
+ "FORM-044": {
+  "category": "FORM",
+  "strength": "SHOULD",
+  "title": "기본 상태가 없는 선택에 토글 금지",
+  "statement": "켜짐·꺼짐 중 어느 쪽도 아닌 '아직 선택하지 않음' 상태가 필요한 선택에는 토글 스위치를 쓰지 않는다."
+ },
+ "FORM-047": {
+  "category": "FORM",
+  "strength": "SHOULD",
+  "title": "원본 문서 날짜는 원본 형식대로",
+  "statement": "여권·신용카드처럼 원본 문서에 적힌 날짜를 받을 때는 입력 필드의 구성(구성 요소 순서·자릿수)을 원본의 날짜 형식과 같게 하고, 날짜 텍스트 붙여넣기를 막지 않는다."
+ },
+ "FORM-048": {
+  "category": "FORM",
+  "strength": "SHOULD",
+  "title": "대략적인 날짜는 월·범위로 입력",
+  "statement": "사용자가 특정일을 기억하거나 지정하기 어려운 날짜는 월 단위 입력이나 시작일·종료일 범위 입력으로 받는다."
+ },
+ "FORM-049": {
+  "category": "FORM",
+  "strength": "SHOULD",
+  "title": "기억하지 못하는 날짜에는 날짜 선택기",
+  "statement": "서비스 이용 시점에서 먼 과거·미래 날짜, 요일이 중요한 날짜, 인접 날짜와 비교해 고르는 날짜(예약일·방문일 등)를 받는 단일·범위 날짜 입력 필드에는 날짜 선택기를 함께 제공한다."
+ },
+ "FORM-050": {
+  "category": "FORM",
+  "strength": "SHOULD",
+  "title": "상대 날짜는 텍스트·셀렉트로",
+  "statement": "'5일 이내', '1일 후'처럼 기준일에서 상대적인 날짜는 날짜 입력 필드나 날짜 선택기 대신 짧은 텍스트 입력이나 날짜 옵션을 나열한 셀렉트로 받는다."
+ },
+ "FORM-051": {
+  "category": "FORM",
+  "strength": "SHOULD",
+  "title": "텍스트 영역 높이",
+  "statement": "텍스트 영역의 기본 높이(rows 또는 height)를 예상 최대 입력 길이에 비례하게 정한다."
+ },
+ "FORM-052": {
+  "category": "FORM",
+  "strength": "SHOULD",
+  "title": "글자 수 제한 표시",
+  "statement": "글자 수 제한이 있는 텍스트 영역에는 레이블 바로 다음이나 입력 영역 바로 다음에 '현재 글자 수/최대 글자 수'(예: 37/100) 형식으로 글자 수를 텍스트로 표시한다."
+ },
+ "FORM-053": {
+  "category": "FORM",
+  "strength": "SHOULD",
+  "title": "글자 수 표시 실시간 갱신",
+  "statement": "텍스트 영역의 '현재 글자 수/최대 글자 수' 표시는 사용자가 글자를 입력·삭제·붙여넣을 때마다 갱신한다."
+ },
+ "FORM-054": {
+  "category": "FORM",
+  "strength": "SHOULD",
+  "title": "여러 줄 입력은 텍스트 영역",
+  "statement": "여러 줄의 텍스트 입력이 예상되는 필드에는 텍스트 입력 필드(input) 대신 텍스트 영역(textarea)을 쓴다."
+ },
+ "FORM-055": {
+  "category": "FORM",
+  "strength": "SHOULD",
+  "title": "여러 질문을 텍스트 영역 하나로 받지 않음",
+  "statement": "여러 질문의 답을 텍스트 영역 하나로 받지 않고 질문마다 입력을 나누며, 응답이 정해진 질문은 라디오 버튼이나 체크박스로 받는다."
+ },
+ "FORM-056": {
+  "category": "FORM",
+  "strength": "SHOULD",
+  "title": "길이를 예측할 수 있는 필드는 너비 고정",
+  "statement": "이름·우편번호·전화번호처럼 입력값 최대 길이를 예측할 수 있는 텍스트 입력 필드는 너비를 최대 길이에 맞춰 고정하고 너비 320 CSS px 화면에서도 최대 길이 입력값이 잘리지 않게 하며, 그 밖의 텍스트 입력 필드는 섹션 너비를 채우게 한다."
+ },
+ "FORM-057": {
+  "category": "FORM",
+  "strength": "SHOULD",
+  "title": "정해진 응답은 선택 컴포넌트로",
+  "statement": "응답 내용이나 양식이 미리 정해진 입력에는 텍스트 입력 필드 대신 라디오 버튼·체크박스·셀렉트를 쓴다."
+ },
+ "FORM-058": {
+  "category": "FORM",
+  "strength": "SHOULD",
+  "title": "파일 업로드는 필요할 때만",
+  "statement": "파일 첨부가 없으면 업무를 처리할 수 없을 때만 파일 업로드를 요청한다."
+ },
+ "FORM-059": {
+  "category": "FORM",
+  "strength": "SHOULD",
+  "title": "파일 제한 사항 안내",
+  "statement": "업로드 파일의 형식·크기·개수에 제한이 있으면 허용 형식 목록, 최대 크기와 단위, 최대 개수를 파일 업로드 영역의 도움말 텍스트로 표시한다."
+ },
+ "FORM-060": {
+  "category": "FORM",
+  "strength": "SHOULD",
+  "title": "허용 파일 형식과 확장자 변형",
+  "statement": "업로드 허용 파일 형식은 제출 서류가 실제로 쓰이는 형식을 모두 포함하고, 허용한 형식마다 그 형식의 확장자 변형을 모두 받는다(예: JPEG는 .jpg·.jpeg·.jpe)."
+ },
+ "FORM-061": {
+  "category": "FORM",
+  "strength": "SHOULD",
+  "title": "파일 크기 제한은 실제 크기 이상",
+  "statement": "업로드 파일 크기에 제한을 둘 때는 제출 대상 파일의 일반적인 크기를 확인하고 그보다 작은 값으로 정하지 않는다."
+ },
+ "FORM-063": {
+  "category": "FORM",
+  "strength": "SHOULD",
+  "title": "업로드 후에도 파일 선택 가능",
+  "statement": "파일을 올린 뒤에도, 최대 개수에 도달한 뒤에도 파일 선택 버튼과 드롭 영역을 사용 가능한 상태로 두고, 최대 개수에 도달한 상태에서 파일을 더 선택하거나 드롭하면 추가 파일을 올리지 않고 최대 개수를 알리는 오류 문구를 표시하며, 사용자의 입력 자체를 막아야 할 때만 사용 불가 상태로 바꾼다."
+ },
+ "FORM-064": {
+  "category": "FORM",
+  "strength": "SHOULD",
+  "title": "파일 선택 버튼 강조 수준",
+  "statement": "같은 화면에 폼 제출 버튼 같은 최상위 강조 버튼이 있으면 파일 선택 버튼은 그보다 낮은 강조 수준의 버튼 스타일로 표시한다."
+ },
+ "FORM-067": {
+  "category": "FORM",
+  "strength": "SHOULD",
+  "title": "슬라이더 선택 값 위치",
+  "statement": "범위 슬라이더의 선택 값은 핸들 위나 슬라이더 끝에 표시하고 핸들 아래에는 두지 않는다."
+ },
+ "FORM-068": {
+  "category": "FORM",
+  "strength": "SHOULD",
+  "title": "슬라이더 값 상시 표시",
+  "statement": "사용자가 범위 슬라이더 값을 조절하는 동안 현재 선택 값을 텍스트로 계속 화면에 표시한다."
+ },
+ "FORM-069": {
+  "category": "FORM",
+  "strength": "SHOULD",
+  "title": "슬라이더 최솟값·최댓값 표시",
+  "statement": "범위 슬라이더의 최솟값과 최댓값을 텍스트로 화면에 표시한다."
+ },
+ "FORM-072": {
+  "category": "FORM",
+  "strength": "SHOULD",
+  "title": "최솟값·최댓값에서 증감 버튼 비활성",
+  "statement": "수량 토글의 값이 최솟값이면 감소 버튼을, 최댓값이면 증가 버튼을 aria-disabled=\"true\"로 비활성 표시하고, 누른 버튼에서 키보드 초점이 사라지지 않게 disabled 속성은 쓰지 않는다."
+ },
+ "FORM-073": {
+  "category": "FORM",
+  "strength": "SHOULD",
+  "title": "수량 토글 범위 11단계 이내",
+  "statement": "수량 토글의 선택 가능한 값은 기준 값을 포함해 11개 이내로 제한하고, 선택 가능한 값이 그보다 많으면(예: 나이) 수량 토글 대신 텍스트 입력 필드를 쓴다."
+ },
+ "FORM-074": {
+  "category": "FORM",
+  "strength": "SHOULD",
+  "title": "수량 현재 값 표시와 기본값",
+  "statement": "수량 토글의 수량 필드에 현재 값을 항상 표시하고, 기본값은 사용자가 가장 자주 고르는 값으로 둔다."
+ },
+ "FORM-077": {
+  "category": "FORM",
+  "strength": "SHOULD",
+  "title": "오류 요약 표시와 초점",
+  "statement": "폼 제출 시 검증 오류가 1개 이상이면 본문 제목(h1) 바로 아래, 본문의 첫 요소로 오류 요약을 표시하고 키보드 초점을 오류 요약으로 옮긴다."
+ },
+ "FORM-078": {
+  "category": "FORM",
+  "strength": "SHOULD",
+  "title": "오류 요약 항목은 필드 링크",
+  "statement": "오류 요약의 각 항목을 해당 입력 필드로 이동하는 링크(href=\"#필드id\")로 만들고, 여러 필드로 된 질문은 오류가 있는 첫 필드로(어느 필드인지 모르면 첫 필드로), 라디오·체크박스 그룹은 첫 번째 옵션으로 연결한다."
+ },
+ "FORM-079": {
+  "category": "FORM",
+  "strength": "SHOULD",
+  "title": "오류 상태 title 접두",
+  "statement": "제출 후 검증 오류를 표시하는 페이지는 <title> 맨 앞에 '오류: '를 붙인다."
+ },
+ "FORM-080": {
+  "category": "FORM",
+  "strength": "SHOULD",
+  "title": "제출 시점 검증",
+  "statement": "입력 필드의 오류(오류 메시지와 aria-invalid=\"true\")는 사용자가 필드를 벗어날 때(blur)나 입력하는 동안이 아니라 다음 단계·제출 버튼을 눌렀을 때 표시하고, 다음 단계·제출 버튼은 입력 상태와 관계없이 비활성화하지 않는다. 제출 전에는 aria-invalid를 설정하지 않고 aria-describedby로 연결한 role=\"status\" 영역의 텍스트만 바꾸는 조건 안내(입력 중 비밀번호 조건 충족 여부, 아이디 '중복 확인' 버튼 결과)를 허용한다."
+ },
+ "LAYOUT-004": {
+  "category": "LAYOUT",
+  "strength": "SHOULD",
+  "title": "화면 좌우 최소 여백",
+  "statement": "화면 좌우 가장자리와 콘텐츠 사이 여백(스크린 마진)을 뷰포트 너비 768 CSS px 이상에서 24px 이상, 768px 미만에서 16px 이상으로 둔다."
+ },
+ "LAYOUT-007": {
+  "category": "LAYOUT",
+  "strength": "SHOULD",
+  "title": "본문 최대 폭",
+  "statement": "본문 콘텐츠 영역에 최대 너비(max-width 또는 max-inline-size)를 지정해 뷰포트가 넓어져도 콘텐츠 영역이 그 값보다 넓어지지 않게 한다(KRDS 표준형: 사이드 메뉴 포함 1200px)."
+ },
+ "LAYOUT-009": {
+  "category": "LAYOUT",
+  "strength": "SHOULD",
+  "title": "공식 배너",
+  "statement": "공식 배너는 모든 화면의 최상단에 두고, DOM에서는 건너뛰기 링크만 공식 배너 앞에 둔다."
+ },
+ "LAYOUT-010": {
+  "category": "LAYOUT",
+  "strength": "SHOULD",
+  "title": "운영기관 식별자",
+  "statement": "운영기관 식별자의 로고 영역에는 서비스 로고가 아니라 서비스를 운영하는 기관의 로고를 넣고, 서비스 로고는 푸터에 둔다."
+ },
+ "LAYOUT-011": {
+  "category": "LAYOUT",
+  "strength": "SHOULD",
+  "title": "헤더",
+  "statement": "정부 로고(서비스 아이덴티티)를 헤더의 왼쪽 위에 둔다."
+ },
+ "LAYOUT-012": {
+  "category": "LAYOUT",
+  "strength": "SHOULD",
+  "title": "헤더",
+  "statement": "헤더에는 건너뛰기 링크·공식 배너·서비스 아이덴티티·유틸리티 링크·검색·메인 메뉴 같은 필수 항목만 두고 꾸밈 요소와 부가 정보를 넣지 않는다."
+ },
+ "LAYOUT-013": {
+  "category": "LAYOUT",
+  "strength": "SHOULD",
+  "title": "헤더",
+  "statement": "헤더를 화면 상단에 고정할 때는 공식 배너를 뺀 헤더 전체를 고정한다."
+ },
+ "LAYOUT-014": {
+  "category": "LAYOUT",
+  "strength": "SHOULD",
+  "title": "푸터",
+  "statement": "푸터를 모든 페이지의 본문 아래 마지막 요소로 두고, 본문 높이가 뷰포트보다 짧으면 푸터 아래끝을 뷰포트 아래끝에 맞춘다."
+ },
+ "LAYOUT-015": {
+  "category": "LAYOUT",
+  "strength": "SHOULD",
+  "title": "푸터",
+  "statement": "푸터 정보는 서비스 로고, 연락처, 유틸리티 링크, 정책 링크, 저작권 정보 순서로 배치하고, 사유를 기록하지 않고는 이 순서를 바꾸지 않는다."
+ },
+ "LAYOUT-016": {
+  "category": "LAYOUT",
+  "strength": "SHOULD",
+  "title": "메인 메뉴",
+  "statement": "메인 메뉴 드롭다운 영역의 하위 링크 목록은 본문 그리드의 가장 왼쪽 칼럼부터 왼쪽 정렬로 배치한다."
+ },
+ "LAYOUT-017": {
+  "category": "LAYOUT",
+  "strength": "SHOULD",
+  "title": "브레드크럼",
+  "statement": "브레드크럼은 본문 제목(h1) 위 왼쪽에 두고, 현재 화면 경로를 생략한 브레드크럼이면 브레드크럼과 본문 제목 사이에 다른 요소를 두지 않는다."
+ },
+ "LAYOUT-018": {
+  "category": "LAYOUT",
+  "strength": "SHOULD",
+  "title": "콘텐츠 내 탐색",
+  "statement": "콘텐츠 내 탐색(목차)의 너비를 페이지마다 같은 고정값으로 정하고, 기본 글자 크기에서 개요 목록 항목 텍스트가 줄바꿈되지 않는 값으로 하되, 사용자가 텍스트를 확대했을 때는 항목 텍스트가 잘리지 않고 줄바꿈되게 한다."
+ },
+ "LAYOUT-019": {
+  "category": "LAYOUT",
+  "strength": "SHOULD",
+  "title": "페이지네이션",
+  "statement": "페이지네이션은 목록 아래에 가운데 정렬로 두고, 한 화면에 하나만 쓴다."
+ },
+ "LAYOUT-020": {
+  "category": "LAYOUT",
+  "strength": "SHOULD",
+  "title": "버튼",
+  "statement": "그룹으로 묶인 버튼은 모두 같은 크기로 만들고, 특정 버튼의 강조는 크기가 아니라 스타일(채움·윤곽선·텍스트)로 구분한다."
+ },
+ "LAYOUT-021": {
+  "category": "LAYOUT",
+  "strength": "SHOULD",
+  "title": "버튼",
+  "statement": "버튼 그룹을 세로로 배열할 때는 최상위 강조 버튼을 맨 위(첫 번째)에 둔다."
+ },
+ "LAYOUT-023": {
+  "category": "LAYOUT",
+  "strength": "SHOULD",
+  "title": "플로팅 버튼",
+  "statement": "플로팅 버튼은 화면 오른쪽 아래에 두고, 하단 탭바가 있으면 탭바와 겹치지 않게 탭바 위 오른쪽 아래에 둔다."
+ },
+ "LAYOUT-024": {
+  "category": "LAYOUT",
+  "strength": "SHOULD",
+  "title": "플로팅 버튼",
+  "statement": "플로팅 동작이 2개 이상 필요하면 확장형 플로팅 버튼 하나로 묶고, 확장 항목은 3개 이하, 터치 깊이는 2수준 이하로 한다."
+ },
+ "LAYOUT-025": {
+  "category": "LAYOUT",
+  "strength": "SHOULD",
+  "title": "구조화 목록",
+  "statement": "구조화 목록 항목에는 상세 페이지 콘텐츠 중 핵심 정보만 골라 논리적 순서와 위계가 드러나게 구성한다."
+ },
+ "LAYOUT-026": {
+  "category": "LAYOUT",
+  "strength": "SHOULD",
+  "title": "구조화 목록",
+  "statement": "구조화 목록에서는 목록 정보의 성격과 사용자 방문 목적에 비춰 가장 중요한 행동 하나를 최상위 강조 버튼(CTA)으로 표현한다."
+ },
+ "LAYOUT-027": {
+  "category": "LAYOUT",
+  "strength": "SHOULD",
+  "title": "구조화 목록",
+  "statement": "사용자가 자주 쓰는 기능의 행동 버튼을 구조화 목록 항목에 두어 상세 페이지로 가거나 항목을 펼치지 않고도 목적을 달성하게 한다."
+ },
+ "LAYOUT-028": {
+  "category": "LAYOUT",
+  "strength": "SHOULD",
+  "title": "구조화 목록",
+  "statement": "구조화 목록의 모든 항목은 같은 정보 항목을 같은 순서로 보여 주고, 값이 없는 항목도 자리를 비우지 않는다."
+ },
+ "LAYOUT-029": {
+  "category": "LAYOUT",
+  "strength": "SHOULD",
+  "title": "긴급 공지",
+  "statement": "긴급 공지는 메인 메뉴 아래 본문 콘텐츠의 첫 요소로 두고, 공지 컨테이너가 화면 전체 너비를 차지하게 한다."
+ },
+ "LAYOUT-030": {
+  "category": "LAYOUT",
+  "strength": "SHOULD",
+  "title": "달력",
+  "statement": "달력 셀에서 이벤트 텍스트가 생략되면 같은 이벤트를 손실 없이 볼 수 있는 표나 목록을 따로 제공하거나, 달력 표시 단위를 주·일로 바꿔 이벤트 표시 영역을 넓힌다."
+ },
+ "LAYOUT-032": {
+  "category": "LAYOUT",
+  "strength": "SHOULD",
+  "title": "디스클로저",
+  "statement": "디스클로저는 부가 정보를 제공하려는 대상 정보·컨트롤·섹션 바로 아래에 둔다."
+ },
+ "LAYOUT-034": {
+  "category": "LAYOUT",
+  "strength": "SHOULD",
+  "title": "모달",
+  "statement": "모달의 확정·취소 액션 버튼은 항상 모달 푸터에 두고, 모달 본문에는 입력폼 관련 컨트롤만 둔다."
+ },
+ "LAYOUT-035": {
+  "category": "LAYOUT",
+  "strength": "SHOULD",
+  "title": "모달",
+  "statement": "모달 본문에 세로 스크롤이 생기면 스크롤바와 본문 하단 흐림 효과로 스크롤 단서를 주고, 액션 버튼이 있는 푸터는 스크롤 위치와 관계없이 항상 보이게 한다."
+ },
+ "LAYOUT-037": {
+  "category": "LAYOUT",
+  "strength": "SHOULD",
+  "title": "아코디언",
+  "statement": "아코디언 확장 상태 아이콘은 서비스의 모든 아코디언에서 같은 위치에 두고, 관련 섹션 목록형은 헤더 끝, 트리 구조형은 헤더 시작에 둔다."
+ },
+ "LAYOUT-038": {
+  "category": "LAYOUT",
+  "strength": "SHOULD",
+  "title": "아코디언",
+  "statement": "아코디언 패널에 자체 세로·가로 스크롤을 만들지 않고, 긴 패널 내용은 페이지 스크롤로 탐색하게 한다."
+ },
+ "LAYOUT-039": {
+  "category": "LAYOUT",
+  "strength": "SHOULD",
+  "title": "캐러셀",
+  "statement": "캐러셀 슬라이드는 5개 이하로 두고, 항목이 더 많으면 캐러셀 대신 목록을 쓴다."
+ },
+ "LAYOUT-040": {
+  "category": "LAYOUT",
+  "strength": "SHOULD",
+  "title": "캐러셀",
+  "statement": "캐러셀의 도형형 항목 식별자는 컨테이너 가운데에, 분수형 식별자는 오른쪽 아래에 두고, 탐색 버튼은 레이아웃 유형에 따라 컨테이너 가운데 좌우 또는 오른쪽 아래에 둔다."
+ },
+ "LAYOUT-041": {
+  "category": "LAYOUT",
+  "strength": "SHOULD",
+  "title": "탭",
+  "statement": "탭과 탭 패널을 인접하게 배치해 패널이 선택된 탭의 내용임을 시각적으로 드러낸다."
+ },
+ "LAYOUT-042": {
+  "category": "LAYOUT",
+  "strength": "SHOULD",
+  "title": "탭",
+  "statement": "탭을 중첩하지 않고, 중첩이 불가피하면 수준별 탭 스타일을 서로 다르게 한다."
+ },
+ "LAYOUT-043": {
+  "category": "LAYOUT",
+  "strength": "SHOULD",
+  "title": "표",
+  "statement": "아코디언·모달처럼 공간이 제한된 영역에서 표 데이터가 잘리거나 가로 스크롤이 생기면 표를 쓰지 않고 각 열을 세로로 떨어뜨려 배치한다."
+ },
+ "LAYOUT-045": {
+  "category": "LAYOUT",
+  "strength": "SHOULD",
+  "title": "표",
+  "statement": "표의 행·셀 자체를 클릭·선택하는 대화형 요소로 만들지 않고(열 헤더 정렬 컨트롤 제외), 데이터에 복잡한 상호작용이 필요하면 표 대신 구조화 목록을 쓴다."
+ },
+ "LAYOUT-046": {
+  "category": "LAYOUT",
+  "strength": "SHOULD",
+  "title": "텍스트 목록",
+  "statement": "중첩 텍스트 목록은 수준마다 들여쓰기로 계층을 구분하고 3수준 이내로 구성한다."
+ },
+ "LAYOUT-047": {
+  "category": "LAYOUT",
+  "strength": "SHOULD",
+  "title": "라디오 버튼",
+  "statement": "라디오 버튼의 레이블은 원형 양식(컨트롤)의 오른쪽에 둔다."
+ },
+ "LAYOUT-048": {
+  "category": "LAYOUT",
+  "strength": "SHOULD",
+  "title": "태그",
+  "statement": "태그는 처음에 꼭 필요한 것만 두고, 사용자 의견을 수렴해 필요가 확인된 태그만 추가한다."
+ },
+ "LAYOUT-049": {
+  "category": "LAYOUT",
+  "strength": "SHOULD",
+  "title": "태그",
+  "statement": "태그 그룹 전체에 동작하는 일괄 액션 버튼(전체 삭제 등)은 태그 그룹 바로 옆(태그 목록의 앞이나 뒤)에 두고, 태그 그룹과 버튼 사이에 다른 콘텐츠를 두지 않는다."
+ },
+ "LAYOUT-051": {
+  "category": "LAYOUT",
+  "strength": "SHOULD",
+  "title": "토글 스위치",
+  "statement": "한 화면의 토글 스위치 항목은 모두 같은 배열(레이블·스위치 위치)을 쓰고, 한 항목에 상태 레이블이나 상태 아이콘을 넣으면 모든 항목에 넣는다."
+ },
+ "LAYOUT-052": {
+  "category": "LAYOUT",
+  "strength": "SHOULD",
+  "title": "단계 표시기",
+  "statement": "단계 표시기의 단계는 왼쪽에서 오른쪽, 또는 위에서 아래로 한 방향으로 나열한다."
+ },
+ "LAYOUT-053": {
+  "category": "LAYOUT",
+  "strength": "SHOULD",
+  "title": "단계 표시기",
+  "statement": "단계 사이 흐름 표시(연결선·화살표·꺾쇠 중 하나)를 사이트 전체에서 한 방식으로 통일한다."
+ },
+ "LAYOUT-054": {
+  "category": "LAYOUT",
+  "strength": "SHOULD",
+  "title": "텍스트 입력 필드",
+  "statement": "텍스트 입력 필드의 기본 너비는 그리드·화면 크기에 따라 유동적으로 두고 입력 필드가 속한 섹션 너비 전체를 차지하게 한다."
+ },
+ "LAYOUT-055": {
+  "category": "LAYOUT",
+  "strength": "SHOULD",
+  "title": "파일 업로드",
+  "statement": "업로드한 파일 이름은 한 줄로 표시하고 파일 항목 컨테이너를 넘치면 말줄임표로 줄이되, 줄인 경우 전체 이름을 키보드 초점과 마우스 호버에서 보이는 툴팁이나 펼침으로 볼 수 있게 한다."
+ },
+ "LAYOUT-056": {
+  "category": "LAYOUT",
+  "strength": "SHOULD",
+  "title": "도움 패널",
+  "statement": "도움 패널·맥락적 도움말을 여는 아이콘 버튼은 도움 대상 컴포넌트나 레이블 바로 옆에 둔다."
+ },
+ "LAYOUT-057": {
+  "category": "LAYOUT",
+  "strength": "SHOULD",
+  "title": "팝오버 위치",
+  "statement": "툴팁·맥락적 도움말·코치마크 팝오버는 모든 화면 너비에서 뷰포트 안에 전부 보이게 하고, 활성화 버튼과 안내 대상 본문 요소를 가리지 않는 방향으로 표시한다."
+ },
+ "LAYOUT-058": {
+  "category": "LAYOUT",
+  "strength": "SHOULD",
+  "title": "코치마크",
+  "statement": "한 과업의 코치마크 팝오버 너비는 가장 긴 지시 사항 텍스트를 기준으로 정해 모든 단계에서 같게 한다."
+ },
+ "LAYOUT-059": {
+  "category": "LAYOUT",
+  "strength": "SHOULD",
+  "title": "음성지원",
+  "statement": "페이지 단위 음성지원 버튼은 페이지 상단 또는 주요 제목(h1) 옆에, 영역 단위 음성지원 버튼은 해당 카드·소제목·약관 등 정보 단위의 제목 옆에 둔다."
+ },
+ "MOTION-003": {
+  "category": "MOTION",
+  "strength": "SHOULD",
+  "title": "확정 스피너 채움 방향과 진행률",
+  "statement": "확정 스피너는 식별자를 0도(12시 방향)에서 시계 방향으로 채우되 채운 각도를 실제 진행률에 맞추고, 360도가 채워지면 스피너를 숨기고 결과 화면을 표시한다."
+ },
+ "MOTION-004": {
+  "category": "MOTION",
+  "strength": "SHOULD",
+  "title": "모션 줄이기 설정 시 상호작용 모션 제거",
+  "statement": "prefers-reduced-motion: reduce일 때 사용자 상호작용(클릭·탭·스크롤·호버·초점)으로 시작되는 모션 애니메이션 가운데 기능·정보 전달에 필수가 아닌 것은 끄거나 요소의 위치·크기·모양이 변하지 않는 효과로 바꾼다."
+ },
+ "MOTION-005": {
+  "category": "MOTION",
+  "strength": "SHOULD",
+  "title": "JS 애니메이션의 모션 줄이기 확인",
+  "statement": "JavaScript로 실행하는 모션 애니메이션은 시작 전에 window.matchMedia('(prefers-reduced-motion: no-preference)')가 일치할 때만 실행한다."
+ },
+ "MOTION-006": {
+  "category": "MOTION",
+  "strength": "SHOULD",
+  "title": "모션 대체 효과는 색·불투명도만",
+  "statement": "모션 줄이기 상태에서 모션 애니메이션을 대체 효과로 바꿀 때는 색·불투명도(opacity) 변화만 쓰고 흐림(blur)·크기·위치·모양 변화를 쓰지 않는다."
+ },
+ "MOTION-007": {
+  "category": "MOTION",
+  "strength": "SHOULD",
+  "title": "시차·스크롤 연동 효과 제거",
+  "statement": "스크롤에 연동해 요소를 움직이는 효과(시차 스크롤, 스크롤 위치에 따라 미끄러져 들어오는 요소, animation-timeline: scroll()/view())는 비필수 모션으로 분류하고, prefers-reduced-motion: reduce일 때 제거한다."
+ },
+ "MOTION-009": {
+  "category": "MOTION",
+  "strength": "SHOULD",
+  "title": "화면 전환 애니메이션의 모션 줄이기 대응",
+  "statement": "View Transitions(document.startViewTransition, @view-transition)로 만든 화면 전환은 prefers-reduced-motion: reduce일 때 ::view-transition-group(*)·::view-transition-old(*)·::view-transition-new(*)의 위치·크기 애니메이션을 끄거나 교차 페이드(opacity)로 바꾼다."
+ },
+ "MOTION-011": {
+  "category": "MOTION",
+  "strength": "SHOULD",
+  "title": "애니메이션 지속 시간 범위",
+  "statement": "UI 전환 애니메이션의 지속 시간은 100ms 이상 500ms 이하로 하고, 체크박스·토글 같은 단순 상태 피드백은 100ms, 모달·드로어처럼 화면을 크게 바꾸는 전환은 200ms 이상 300ms 이하로 한다."
+ },
+ "MOTION-012": {
+  "category": "MOTION",
+  "strength": "SHOULD",
+  "title": "레이아웃 유발 속성 애니메이션 금지",
+  "statement": "요소를 움직이거나 크기를 바꾸는 애니메이션·전환은 transform으로 만들고, top·left·box-shadow 값을 애니메이션하지 않는다."
+ },
+ "NAV-007": {
+  "category": "NAV",
+  "strength": "SHOULD",
+  "title": "긴 목록 페이지 분할",
+  "statement": "전체 항목이 20개를 넘거나 한 화면에 모두 표시했을 때 목록 높이가 뷰포트 높이의 2배를 넘는 목록은 페이지 단위로 나누고, 페이지네이션을 쓰면 한 페이지에 기본 10개 이상 항목을 표시한다."
+ },
+ "NAV-008": {
+  "category": "NAV",
+  "strength": "SHOULD",
+  "title": "필터 일괄 해제",
+  "statement": "3개 이상 속성에 대한 필터 컨트롤을 제공하면 적용한 필터 옵션을 한 번에 해제하는 컨트롤을 제공한다."
+ },
+ "NAV-009": {
+  "category": "NAV",
+  "strength": "SHOULD",
+  "title": "필터 적용 후 초점 유지",
+  "statement": "필터·정렬·조회를 실행한 뒤 키보드 초점을, 결과를 즉시 반영하는 방식이면 값을 바꾼 옵션에, 일괄 반영하는 방식이면 적용(제출) 버튼에 유지하고 문서 처음이나 다른 요소로 옮기지 않는다."
+ },
+ "NAV-010": {
+  "category": "NAV",
+  "strength": "SHOULD",
+  "title": "기간 필터는 범위로",
+  "statement": "날짜·시간을 기준으로 거르는 필터와 목록 조회 기간 입력은 시작과 끝을 각각 지정하는 범위 입력으로 제공한다."
+ },
+ "NAV-012": {
+  "category": "NAV",
+  "strength": "SHOULD",
+  "title": "외부 이동·새 창 표시",
+  "statement": "외부 서비스로 이동하거나 새 창(탭)을 여는 링크·버튼에는 그 사실을 알리는 아이콘이나 텍스트를 서비스 전체에서 같은 방식으로 표시하고, 같은 내용을 링크 안의 텍스트(시각적으로 숨긴 텍스트 포함)로 제공하며 title 속성만으로 알리지 않는다."
+ },
+ "NAV-013": {
+  "category": "NAV",
+  "strength": "SHOULD",
+  "title": "도움 링크 새 탭",
+  "statement": "도움 콘텐츠(도움 패널, 따라하기 패널, 맥락적 도움말, 코치마크) 안의 관련 화면·리소스 링크는 새 탭으로 열고, 새 탭으로 열 때는 NAV-012에 따라 새 탭이 열린다는 사실을 링크에 텍스트로 반드시 표시하며, 표시할 수 없으면 새 탭 대신 같은 탭으로 연다."
+ },
+ "NAV-015": {
+  "category": "NAV",
+  "strength": "SHOULD",
+  "title": "헤더 유틸리티 링크 배치",
+  "statement": "헤더의 유틸리티 링크 그룹은 헤더 오른쪽 위에 두고, 서로 관련 없는 링크 사이를 디바이더로 구분한다."
+ },
+ "NAV-016": {
+  "category": "NAV",
+  "strength": "SHOULD",
+  "title": "헤더 유틸리티 링크 5개 이상",
+  "statement": "헤더 유틸리티 링크가 5개 이상 필요하면 드롭다운 메뉴를 쓴다."
+ },
+ "NAV-018": {
+  "category": "NAV",
+  "strength": "SHOULD",
+  "title": "건너뛰기 링크 개수·순서",
+  "statement": "건너뛰기 링크는 3개 이하로 두고, 여러 개일 때는 화면의 핵심 영역(본문)으로 가는 링크를 첫 번째에 둔다."
+ },
+ "NAV-019": {
+  "category": "NAV",
+  "strength": "SHOULD",
+  "title": "본문 바로가기 목적지 범위",
+  "statement": "본문 바로가기 링크의 목적지 영역에 사이드 메뉴, 브레드크럼, 페이지 유틸리티 버튼·링크를 포함하지 않는다."
+ },
+ "NAV-020": {
+  "category": "NAV",
+  "strength": "SHOULD",
+  "title": "건너뛰기 링크를 두지 않는 경우",
+  "statement": "정보 구조 없이 단일 화면으로 된 사이트나, 문서 시작 부분에 메뉴 탐색용 내비게이션이 없는 페이지에는 건너뛰기 링크를 두지 않는다."
+ },
+ "NAV-021": {
+  "category": "NAV",
+  "strength": "SHOULD",
+  "title": "메인 메뉴 드롭다운 높이",
+  "statement": "메인 메뉴 드롭다운 영역의 높이는 뷰포트 높이의 70% 이하로 하고, 넘치면 브라우저 기본 스크롤이 아니라 드롭다운 영역 자체의 스크롤로 탐색하게 한다."
+ },
+ "NAV-022": {
+  "category": "NAV",
+  "strength": "SHOULD",
+  "title": "메인 메뉴 최대 3수준",
+  "statement": "메인 메뉴는 최대 3수준까지만 구성한다."
+ },
+ "NAV-023": {
+  "category": "NAV",
+  "strength": "SHOULD",
+  "title": "메인 메뉴 드롭다운 제목",
+  "statement": "메인 메뉴 드롭다운 영역에 제목을 둔다."
+ },
+ "NAV-024": {
+  "category": "NAV",
+  "strength": "SHOULD",
+  "title": "1수준 메뉴 우선순위 배치",
+  "statement": "메인 메뉴 링크는 이용 빈도가 높고 중요한 콘텐츠로 연결된 것일수록 왼쪽에 배치한다."
+ },
+ "NAV-026": {
+  "category": "NAV",
+  "strength": "SHOULD",
+  "title": "메인 메뉴 펼침·접힘 조작",
+  "statement": "1수준 메뉴는 Click 또는 Enter로 하위 메뉴를 펼치고, 다시 Click·Enter하거나 헤더 밖을 클릭하거나 Esc를 누르면 접으며, Esc로 접으면 초점을 그 1수준 메뉴로 옮긴다."
+ },
+ "NAV-028": {
+  "category": "NAV",
+  "strength": "SHOULD",
+  "title": "진행 상황에는 단계 표시기",
+  "statement": "절차의 진행 상황을 보여줄 때는 브레드크럼 대신 단계 표시기(단계 식별자·진행 상황 표시기)를 쓴다."
+ },
+ "NAV-029": {
+  "category": "NAV",
+  "strength": "SHOULD",
+  "title": "브레드크럼 첫 항목",
+  "statement": "브레드크럼의 첫 항목은 사용자가 실제로 방문 중인 웹사이트의 메인 화면으로 가는 링크로 둔다."
+ },
+ "NAV-030": {
+  "category": "NAV",
+  "strength": "SHOULD",
+  "title": "브레드크럼 한 줄",
+  "statement": "브레드크럼은 한 줄로 표시한다."
+ },
+ "NAV-031": {
+  "category": "NAV",
+  "strength": "SHOULD",
+  "title": "브레드크럼 링크 수와 축약",
+  "statement": "좁은 화면 축약(RESP-008)이 적용되지 않는 너비에서 브레드크럼은 메인 화면 링크를 포함해 링크를 최대 4개까지 표시하고, 경로가 5개 이상이면 메인 화면 링크 다음 수준부터 말줄임표로 축약한다."
+ },
+ "NAV-032": {
+  "category": "NAV",
+  "strength": "SHOULD",
+  "title": "브레드크럼은 메뉴 대체 불가",
+  "statement": "브레드크럼을 메인 메뉴나 사이드 메뉴 대신 쓰지 않는다."
+ },
+ "NAV-033": {
+  "category": "NAV",
+  "strength": "SHOULD",
+  "title": "사이드 메뉴 현재 위치 표시",
+  "statement": "사이드 메뉴에서 현재 화면에 해당하는 링크를 식별자로 강조 표시하고 그 링크에 aria-current=\"page\"를 붙인다."
+ },
+ "NAV-034": {
+  "category": "NAV",
+  "strength": "SHOULD",
+  "title": "사이드 메뉴 최대 2수준",
+  "statement": "사이드 메뉴 계층은 최대 2수준까지만 쓰고, 더 깊은 탐색은 하위 메뉴를 점진적으로 공개하는 헤더 있는 목록이나 본문의 보조 탐색 수단으로 제공한다."
+ },
+ "NAV-037": {
+  "category": "NAV",
+  "strength": "SHOULD",
+  "title": "사이드 메뉴 하위 목록 펼침·접힘",
+  "statement": "꺾쇠 아이콘이 있는 사이드 메뉴 링크는 Click·Enter로 하위 목록을 펼치거나 접고, 한 하위 목록을 펼쳐도 이미 펼쳐진 다른 하위 목록은 펼친 상태로 둔다."
+ },
+ "NAV-039": {
+  "category": "NAV",
+  "strength": "SHOULD",
+  "title": "콘텐츠 내 탐색 금지 상황",
+  "statement": "무한 스크롤 페이지, 필터 목록 표시, 서비스 정보 구조(메뉴) 탐색에는 콘텐츠 내 탐색을 쓰지 않고, 정보 구조 탐색에는 사이드 메뉴 같은 서브 메뉴를 쓴다."
+ },
+ "NAV-040": {
+  "category": "NAV",
+  "strength": "SHOULD",
+  "title": "콘텐츠 내 탐색 수준 깊이",
+  "statement": "콘텐츠 내 탐색 목록의 중첩 수준은 3단계 이하로 한다."
+ },
+ "NAV-041": {
+  "category": "NAV",
+  "strength": "SHOULD",
+  "title": "무한 스크롤 사용 조건",
+  "statement": "무한 스크롤은 항목 수 추정치가 있고 사용자가 목록 끝으로 이동할 필요가 없는 목록에만 쓰고, 무한 스크롤을 쓰는 목록에는 페이지네이션을 함께 두지 않는다."
+ },
+ "NAV-042": {
+  "category": "NAV",
+  "strength": "SHOULD",
+  "title": "페이지네이션 첫·마지막·이전·다음 이동",
+  "statement": "페이지네이션은 어느 화면에서든 첫 화면, 마지막 화면, 이전 화면, 다음 화면으로 이동하는 수단을 제공한다(목록 확장형 제외)."
+ },
+ "NAV-043": {
+  "category": "NAV",
+  "strength": "SHOULD",
+  "title": "페이지네이션 전체 화면 수 표시",
+  "statement": "페이지네이션에 전체 화면 수를 텍스트로 표시한다."
+ },
+ "NAV-044": {
+  "category": "NAV",
+  "strength": "SHOULD",
+  "title": "페이지네이션 숫자 링크 개수",
+  "statement": "페이지네이션 숫자 링크 목록은 말줄임표를 포함해 10개 이하로 표시하고, 좁은 화면 레이아웃(RESP-004의 Mobile 모드, 1024px 미만)에서는 7개 이하로 표시한다."
+ },
+ "NAV-045": {
+  "category": "NAV",
+  "strength": "SHOULD",
+  "title": "이메일·전화번호 링크",
+  "statement": "화면에 표시하는 이메일 주소와 전화번호는 각각 mailto:·tel: 링크로 마크업한다."
+ },
+ "NAV-046": {
+  "category": "NAV",
+  "strength": "SHOULD",
+  "title": "링크 목적지",
+  "statement": "링크는 레이블이 설명하는 내용과 가장 관련 있는 목적지로 바로 연결하고, 목적지 페이지의 특정 섹션이 더 관련 있으면 그 섹션(#앵커)으로 연결한다."
+ },
+ "NAV-047": {
+  "category": "NAV",
+  "strength": "SHOULD",
+  "title": "링크와 버튼 구분",
+  "statement": "다른 화면·같은 화면의 다른 섹션으로 이동하는 동작에는 a[href] 링크를, 폼 제출·대화상자 열기·기능 실행처럼 이동하지 않는 동작에는 button을 쓴다."
+ },
+ "NAV-048": {
+  "category": "NAV",
+  "strength": "SHOULD",
+  "title": "캐러셀 전체 수와 현재 위치",
+  "statement": "캐러셀에 전체 슬라이드 수와 현재 보고 있는 슬라이드의 순서를 표시한다."
+ },
+ "NAV-049": {
+  "category": "NAV",
+  "strength": "SHOULD",
+  "title": "넘치는 탭의 탐색 컨트롤",
+  "statement": "탭 목록이 컨테이너 너비 안에 다 표시되지 않으면 숨은 탭을 여는 팝업 버튼이나 탭 목록을 좌우로 이동하는 컨트롤을 제공한다."
+ },
+ "NAV-054": {
+  "category": "NAV",
+  "strength": "SHOULD",
+  "title": "현재 단계 시각 구분",
+  "statement": "단계 표시기에서 현재 단계를 다른 단계와 시각적으로 구분해 표시한다."
+ },
+ "NAV-056": {
+  "category": "NAV",
+  "strength": "SHOULD",
+  "title": "선택 단계 건너뛰기",
+  "statement": "단계 절차에 선택 단계가 있으면 그 단계를 건너뛰는 수단을 제공하고, 건너뛰면 다음 필수 단계로, 남은 필수 단계가 없으면 최종 검토·제출 단계로 이동시킨다."
+ },
+ "NAV-057": {
+  "category": "NAV",
+  "strength": "SHOULD",
+  "title": "언어 변경 지구본 아이콘",
+  "statement": "드롭다운형 언어 변경 버튼은 레이블 왼쪽에 지구본 아이콘을 표시한다."
+ },
+ "NAV-059": {
+  "category": "NAV",
+  "strength": "SHOULD",
+  "title": "도움 패널 초기 펼침",
+  "statement": "도움 패널을 제공하는 화면은 로딩이 끝났을 때 도움 패널을 펼친 상태로 표시하되, 키보드 초점을 도움 패널로 옮기지 않는다."
+ },
+ "NAV-060": {
+  "category": "NAV",
+  "strength": "SHOULD",
+  "title": "도움·따라하기 패널 기본 선택",
+  "statement": "도움 패널과 따라하기 패널을 한 패널 안에서 전환해 제공할 때는 처음에 도움 패널 탭을 선택된 상태로 둔다."
+ },
+ "NAV-062": {
+  "category": "NAV",
+  "strength": "SHOULD",
+  "title": "맥락적 도움말과 도움 패널 병용 금지",
+  "statement": "하나의 과업 흐름(같은 절차에 속한 화면들)에서 맥락적 도움말과 도움 패널을 함께 쓰지 않는다."
+ },
+ "NAV-063": {
+  "category": "NAV",
+  "strength": "SHOULD",
+  "title": "코치마크 단계 순서",
+  "statement": "코치마크 단계는 사용자가 과업을 실제로 수행하는 순서대로 배열한다."
+ },
+ "NAV-064": {
+  "category": "NAV",
+  "strength": "SHOULD",
+  "title": "뒤로가기 버튼 목적지",
+  "statement": "뒤로가기 버튼은 직전에 보던 화면으로 이동시키고, 직전 화면이 없으면(외부에서 바로 진입 등) 정보 구조상 상위 화면으로 이동시킨다."
+ },
+ "NAV-065": {
+  "category": "NAV",
+  "strength": "SHOULD",
+  "title": "뒤로가기와 닫기·취소 버튼 함께 두지 않기",
+  "statement": "뒤로가기 버튼이 있는 상단바에는 닫기(X)·취소 버튼을 함께 두지 않는다."
+ },
+ "NAV-066": {
+  "category": "NAV",
+  "strength": "SHOULD",
+  "title": "앱 내·시스템 뒤로가기 일치",
+  "statement": "같은 화면에서 앱 내 뒤로가기 버튼과 시스템 뒤로가기(브라우저 뒤로 버튼·뒤로 제스처)가 서로 다른 화면으로 이동하거나 서로 다른 동작(한쪽은 팝업 닫기, 다른 쪽은 페이지 이탈)을 하지 않게 한다."
+ },
+ "NAV-068": {
+  "category": "NAV",
+  "strength": "SHOULD",
+  "title": "탭바 메뉴 크기 동일",
+  "statement": "탭바의 모든 탭 메뉴를 같은 너비와 높이로 표시한다."
+ },
+ "NAV-069": {
+  "category": "NAV",
+  "strength": "SHOULD",
+  "title": "탭바 메뉴 수",
+  "statement": "탭바 메뉴는 5개 이하로 두고, 그보다 많은 항목은 전체 메뉴나 더 보기 같은 부가 탐색 수단으로 제공한다."
+ },
+ "NAV-070": {
+  "category": "NAV",
+  "strength": "SHOULD",
+  "title": "탭바 아이콘과 레이블",
+  "statement": "탭바의 각 탭에 아이콘과 화면에 보이는 텍스트 레이블을 함께 표시한다."
+ },
+ "NAV-071": {
+  "category": "NAV",
+  "strength": "SHOULD",
+  "title": "탭바 하단 고정",
+  "statement": "탭바는 화면 하단에 고정하고, 스크롤 등 사용자 동작에 따라 숨기거나 위치를 바꾸지 않는다."
+ },
+ "PERF-001": {
+  "category": "PERF",
+  "strength": "SHOULD",
+  "title": "웹폰트 font-display 명시",
+  "statement": "본문용 웹폰트의 @font-face에는 font-display를 swap·fallback·optional 중 하나로 명시하고, block을 쓰거나 font-display를 생략(auto)하지 않는다."
+ },
+ "PERF-002": {
+  "category": "PERF",
+  "strength": "SHOULD",
+  "title": "한글 웹폰트 서브셋·unicode-range 분할",
+  "statement": "한글 웹폰트는 unicode-range로 나눈 여러 서브셋 파일로 제공해, 페이지에 쓰인 글자가 속한 범위의 파일만 내려받게 한다."
+ },
+ "PERF-003": {
+  "category": "PERF",
+  "strength": "SHOULD",
+  "title": "웹폰트 WOFF2",
+  "statement": "웹폰트 파일은 WOFF2 형식으로 제공한다."
+ },
+ "PERF-004": {
+  "category": "PERF",
+  "strength": "SHOULD",
+  "title": "웹폰트 preload 제한",
+  "statement": "unicode-range로 나눈 웹폰트 서브셋 파일을 link rel=\"preload\"로 일괄 미리 불러오지 않고, 폰트 preload는 첫 화면 렌더링에 실제로 쓰이는 파일만 한 형식(WOFF2)으로 지정한다."
+ },
+ "PERF-006": {
+  "category": "PERF",
+  "strength": "SHOULD",
+  "title": "LCP 2.5초 이하(p75)",
+  "statement": "실사용자 측정(RUM) 기준 페이지 로드의 75번째 백분위 LCP를 모바일과 데스크톱 각각 2.5초 이하로 유지한다."
+ },
+ "PERF-007": {
+  "category": "PERF",
+  "strength": "SHOULD",
+  "title": "INP 200ms 이하(p75)",
+  "statement": "실사용자 측정(RUM) 기준 75번째 백분위 INP를 모바일과 데스크톱 각각 200ms 이하로 유지하고, 응답성 지표로 FID를 쓰지 않는다."
+ },
+ "PERF-008": {
+  "category": "PERF",
+  "strength": "SHOULD",
+  "title": "CLS 0.1 이하(p75)",
+  "statement": "실사용자 측정(RUM) 기준 75번째 백분위 CLS를 모바일과 데스크톱 각각 0.1 이하로 유지한다."
+ },
+ "PERF-009": {
+  "category": "PERF",
+  "strength": "SHOULD",
+  "title": "이미지·동영상 크기 예약",
+  "statement": "지연 로딩 여부와 관계없이 모든 <img>와 <video>에 width·height 속성을 지정하거나 CSS aspect-ratio로 공간을 예약하고, 반응형 크기 조정은 width: 100%(또는 max-width: 100%)와 height: auto로 한다."
+ },
+ "PERF-010": {
+  "category": "PERF",
+  "strength": "SHOULD",
+  "title": "늦게 로드되는 영역 공간 예약",
+  "statement": "광고·임베드(지도·동영상·SNS)·iframe처럼 늦게 로드되는 영역은 min-height 또는 aspect-ratio로 공간을 미리 예약하고, 콘텐츠가 오지 않아도 예약 공간을 접지 않고 자리표시자를 보여준다."
+ },
+ "PERF-011": {
+  "category": "PERF",
+  "strength": "SHOULD",
+  "title": "상호작용 없는 콘텐츠 삽입 금지",
+  "statement": "사용자 상호작용 없이 기존 콘텐츠 위나 사이에 배너·폼·목록 항목을 끼워 넣지 않고, 필요하면 공간을 미리 예약하거나 문서 흐름 밖 오버레이로 띄우거나 '더 보기' 같은 사용자 조작으로 불러온다."
+ },
+ "PERF-013": {
+  "category": "PERF",
+  "strength": "SHOULD",
+  "title": "첫 화면·LCP 이미지 지연 로딩 금지",
+  "statement": "loading=\"lazy\"는 첫 화면 뷰포트 밖의 이미지·iframe에만 쓰고, 페이지 로드 시 뷰포트에 보이는 이미지와 LCP 후보 이미지에는 쓰지 않는다."
+ },
+ "PERF-014": {
+  "category": "PERF",
+  "strength": "SHOULD",
+  "title": "LCP 이미지 발견 가능성·우선순위",
+  "statement": "LCP 후보 이미지는 초기 HTML의 <img src>(또는 <link rel=\"preload\" as=\"image\">)로 발견되게 하고 data-src 같은 JS 지연 로딩을 쓰지 않으며, fetchpriority=\"high\"는 한 페이지에서 최대 2개 이미지에만 준다."
+ },
+ "PERF-017": {
+  "category": "PERF",
+  "strength": "SHOULD",
+  "title": "0.1초 즉각 반응",
+  "statement": "사용자 조작에 대한 화면 반응(선택 강조·눌림 상태·입력 문자 표시)은 조작 후 100ms 이내에 보여준다."
+ },
+ "PERF-018": {
+  "category": "PERF",
+  "strength": "SHOULD",
+  "title": "스켈레톤 사용 범위",
+  "statement": "스켈레톤 화면은 전체 페이지(화면) 로드에만 쓰고 실제 콘텐츠 배치를 본뜬 자리표시자를 포함하며, 다운로드·업로드·파일 변환 같은 처리 작업에는 스켈레톤 대신 진행 막대를 쓴다."
+ },
+ "RESP-006": {
+  "category": "RESP",
+  "strength": "SHOULD",
+  "title": "좁은 화면 푸터의 정보 순서",
+  "statement": "좁은 화면에서 푸터 요소를 세로로 재배열해도 서비스 로고, 연락처, 유틸리티 링크, 정책 링크, 저작권 정보의 순서를 유지한다."
+ },
+ "RESP-007": {
+  "category": "RESP",
+  "strength": "SHOULD",
+  "title": "넓은 화면 메인 메뉴 1수준 펼침",
+  "statement": "헤더 너비가 메인 메뉴 1수준 항목 전체를 한 줄에 담을 수 있으면 1수준 항목 전체를 메뉴 막대에 펼쳐 보이게 한다."
+ },
+ "RESP-008": {
+  "category": "RESP",
+  "strength": "SHOULD",
+  "title": "좁은 화면 브레드크럼 축약",
+  "statement": "브레드크럼이 한 줄에 다 들어가지 않는 너비에서는 첫 번째 경로(메인 화면 링크)와 마지막 경로(현재 화면의 상위 화면 링크)만 표시하고 그 사이에 말줄임표를 둔다."
+ },
+ "RESP-009": {
+  "category": "RESP",
+  "strength": "SHOULD",
+  "title": "좁은 화면 사이드 메뉴 숨김",
+  "statement": "레이아웃이 사이드 메뉴와 본문을 나란히 놓을 수 없는 1단 구간이 되면 사이드 메뉴를 표시하지 않고, 그 하위 탐색은 햄버거 메뉴로 축소된 메인 메뉴에서 제공한다."
+ },
+ "RESP-010": {
+  "category": "RESP",
+  "strength": "SHOULD",
+  "title": "좁은 화면 페이지네이션 배치",
+  "statement": "모바일 레이아웃(RESP-004 기준 1024px 미만)에서는 페이지네이션을 데이터 목록 아래에 두고, 이전 버튼·숫자 링크 목록·다음 버튼을 DOM 순서와 같은 순서로 배치하며, 한 줄에 들어가지 않으면 이 순서대로 세로로 쌓는다."
+ },
+ "RESP-011": {
+  "category": "RESP",
+  "strength": "SHOULD",
+  "title": "화면 크기와 무관한 페이지 수",
+  "statement": "화면 크기가 바뀌어도 페이지네이션의 전체 화면(페이지) 수와 화면당 항목 수를 바꾸지 않는다."
+ },
+ "RESP-012": {
+  "category": "RESP",
+  "strength": "SHOULD",
+  "title": "모바일 레이아웃 이미지 정리",
+  "statement": "모바일 레이아웃(RESP-004 기준 1024px 미만)으로 전환할 때 이미지마다 사용자에게 의미가 있는지 검토해 의미 없는 이미지는 빼고, 남긴 이미지는 화면 너비에 맞게 크기를 조정하거나 잘라서 쓴다."
+ },
+ "RESP-014": {
+  "category": "RESP",
+  "strength": "SHOULD",
+  "title": "좁은 화면 언어 변경 위치",
+  "statement": "헤더가 햄버거 메뉴로 바뀌는 너비(RESP-005)에서는 언어 변경 컴포넌트를 햄버거 메뉴 레이어 안이나 푸터에 둔다."
+ },
+ "RESP-016": {
+  "category": "RESP",
+  "strength": "SHOULD",
+  "title": "좁은 화면 도움 패널 축약",
+  "statement": "레이아웃이 도움 패널과 본문을 나란히 놓을 수 없는 1단 구간이 되면 도움 패널을 패널 열기 버튼으로 축약하고, 버튼을 누르면 패널을 모달로 연다."
+ },
+ "RESP-017": {
+  "category": "RESP",
+  "strength": "SHOULD",
+  "title": "터치 환경 툴팁 토글",
+  "statement": "툴팁에 별도의 활성화 버튼이 있으면, 터치 인터페이스가 감지됐을 때 그 버튼의 click(탭) 이벤트로 툴팁 팝오버를 열고 닫는다."
+ },
+ "SHAPE-003": {
+  "category": "SHAPE",
+  "strength": "SHOULD",
+  "title": "% 반경 제한",
+  "statement": "% 단위 반경은 프로필 사진·원형 아이콘 버튼처럼 완전한 원형이 필요한 정사각형 요소에만 쓰고, 그 밖의 컴포넌트에는 px 기반 반경 토큰을 쓴다."
+ },
+ "SHAPE-005": {
+  "category": "SHAPE",
+  "strength": "SHOULD",
+  "title": "딤드는 한 겹만",
+  "statement": "배경 딤드는 모달·바텀시트·알림 팝업처럼 주의를 집중시켜야 하는 레이어에만 쓰고, 한 번에 한 겹만 표시하며, 딤드 위에서도 닫기 버튼 같은 조작 영역이 분명히 보이게 한다."
+ },
+ "SPACE-002": {
+  "category": "SPACE",
+  "strength": "SHOULD",
+  "title": "가로 나열 선택 컨트롤 간격",
+  "statement": "체크박스·라디오 버튼을 가로로 나열할 때는 한 옵션의 레이블 끝과 다음 옵션 컨트롤 사이 간격을 24px(gap-7) 이상으로 두어, 컨트롤과 자기 레이블 사이 간격보다 넓게 한다."
+ },
+ "STATE-002": {
+  "category": "STATE",
+  "strength": "SHOULD",
+  "title": "처리 중 표시",
+  "statement": "요청 후 1초 안에 끝나지 않는 처리에는 처리 중인 영역에 진행 표시(스피너 또는 진행 막대)와 처리 중임을 알리는 텍스트를 표시하고, 1초 안에 끝나는 처리에는 진행 표시를 띄우지 않는다."
+ },
+ "STATE-003": {
+  "category": "STATE",
+  "strength": "SHOULD",
+  "title": "확인 대화상자 사용 조건",
+  "statement": "확인(재확인) 대화상자는 실행 후 서비스 안에서 되돌릴 수 없거나 사용자가 결과·부작용을 알아야 하는 동작에만 쓰고, 대화상자 본문에 실행될 내용과 그 결과를 쓰며, 실행 버튼과 취소 버튼을 함께 둔다."
+ },
+ "STATE-004": {
+  "category": "STATE",
+  "strength": "SHOULD",
+  "title": "만족도 피드백 위치와 시점",
+  "statement": "만족도 평가 같은 사용자 피드백 요소는 본문 아래(화면 너비가 좁으면 반드시 본문 아래) 또는 본문 옆 사이드 영역에 두고, 버튼으로 축약해 화면에 고정(플로팅)하지 않으며, 새 기능에 대한 의견을 물을 때는 사용자가 그 기능 이용을 마친 뒤에 표시한다."
+ },
+ "STATE-005": {
+  "category": "STATE",
+  "strength": "SHOULD",
+  "title": "빈 값은 대시로 표시",
+  "statement": "구조화 목록 항목이나 표의 데이터 셀에 표시할 값이 없으면 그 자리를 비워 두지 않고 대시(-)를 표시한다."
+ },
+ "STATE-006": {
+  "category": "STATE",
+  "strength": "SHOULD",
+  "title": "긴급 공지 사용 제한",
+  "statement": "긴급 공지는 STATE-007의 긴급도 상·중·하에 해당하는 내용에만 쓰고, 홍보 콘텐츠, 일반 공지의 전달·강조, 입력 검증 결과·완료 상태 같은 피드백 메시지에는 쓰지 않는다."
+ },
+ "STATE-008": {
+  "category": "STATE",
+  "strength": "SHOULD",
+  "title": "긴급 공지 게시 기간",
+  "statement": "긴급 공지는 공지 내용과 관련된 기간에만 게시하고, 그 기간이 끝나면 내린다."
+ },
+ "STATE-009": {
+  "category": "STATE",
+  "strength": "SHOULD",
+  "title": "긴급 공지 숨기기 금지",
+  "statement": "긴급 공지에 숨기기·닫기 버튼이나 접기 기능을 두지 않는다."
+ },
+ "STATE-011": {
+  "category": "STATE",
+  "strength": "SHOULD",
+  "title": "닫기는 취소와 같게",
+  "statement": "입력을 제출하거나 행동을 확정하는 모달·바텀시트의 닫기(X) 버튼은 취소 버튼과 같이 동작해 입력·선택한 내용을 적용하지 않고 창을 닫게 한다."
+ },
+ "STATE-012": {
+  "category": "STATE",
+  "strength": "SHOULD",
+  "title": "승인 요청 모달은 X 버튼 없음",
+  "statement": "사용자가 응답해야 다음 절차로 갈 수 있는 승인 요청 모달에는 'X' 닫기 버튼을 두지 않고, 정보를 수락하거나 거절하는 액션 버튼으로만 닫히게 한다."
+ },
+ "STATE-013": {
+  "category": "STATE",
+  "strength": "SHOULD",
+  "title": "모달 안 다단계 절차 금지",
+  "statement": "다단계 절차(2단계 이상 이어지는 입력·선택)를 모달 안에서 진행하지 않고 별도 화면에서 진행한다."
+ },
+ "STATE-015": {
+  "category": "STATE",
+  "strength": "SHOULD",
+  "title": "아코디언 펼침 아이콘",
+  "statement": "아코디언 헤더의 상태 아이콘은 접힌 상태에서 아래 꺾쇠(V) 또는 '+'를, 펼친 상태에서 위 꺾쇠(^) 또는 '-'를 표시한다."
+ },
+ "STATE-016": {
+  "category": "STATE",
+  "strength": "SHOULD",
+  "title": "캐러셀 항목 1개일 때 컨트롤 숨김",
+  "statement": "캐러셀에 표시할 항목이 1개가 되면 이전·다음 탐색 버튼, 항목 탐색 식별자, 정지·재생 버튼을 숨긴다."
+ },
+ "STATE-017": {
+  "category": "STATE",
+  "strength": "SHOULD",
+  "title": "탭 비활성 금지",
+  "statement": "탭에 비활성(사용 불가) 상태를 쓰지 않고, 표시할 콘텐츠가 없는 탭은 삭제하거나 그 탭의 패널에 콘텐츠가 없는 이유를 텍스트로 표시한다."
+ },
+ "STATE-019": {
+  "category": "STATE",
+  "strength": "SHOULD",
+  "title": "스피너는 실제 대기에만",
+  "statement": "스피너는 처리 중인 작업이 있어 사용자가 기다려야 하는 동안에만 표시하고, 장식이나 화면 전환 연출로 쓰지 않는다."
+ },
+ "STATE-020": {
+  "category": "STATE",
+  "strength": "SHOULD",
+  "title": "확정·불확정 진행 표시 선택",
+  "statement": "진행률을 계산할 수 있는 처리(파일 업로드·다운로드처럼 끝 지점이 정해진 처리)에는 진행률 값을 보여주는 확정 진행 표시를 쓰고, 완료 시점을 알 수 없는 처리에는 불확정 진행 표시를 쓰며, 진행 표시 요소에 접근 가능한 이름을 준다."
+ },
+ "STATE-021": {
+  "category": "STATE",
+  "strength": "SHOULD",
+  "title": "스피너 크기 선택",
+  "statement": "스피너 크기는 배치 유형으로 정한다: 버튼·메뉴 항목·입력 필드 안과 결과 내용을 대신하지 않는 상태 행에는 작은 크기를, 결과가 들어갈 영역의 내용을 대신하는 영역 로딩과 페이지 전체 로딩에는 큰 크기를 쓴다."
+ },
+ "STATE-022": {
+  "category": "STATE",
+  "strength": "SHOULD",
+  "title": "스피너 위치",
+  "statement": "스피너는 처리가 일어나는 영역 안(제출 처리는 제출 버튼 안에 둘 수도 있다)에 두고, 페이지 전체나 맥락이 바뀌는 영역 전체를 불러올 때는 화면 또는 그 영역의 가운데에 둔다."
+ },
+ "STATE-023": {
+  "category": "STATE",
+  "strength": "SHOULD",
+  "title": "스피너 동시 1개",
+  "statement": "화면에 스피너를 동시에 2개 이상 표시하지 않는다. 버튼·입력 필드 같은 컴포넌트 안에 작게 표시하는 스피너와 파일 업로드처럼 항목마다 진행 상태를 보여야 하는 경우는 예외로 한다."
+ },
+ "STATE-024": {
+  "category": "STATE",
+  "strength": "SHOULD",
+  "title": "도움·따라하기 패널 다시 열면 마지막 콘텐츠",
+  "statement": "도움 패널이나 따라하기 패널을 닫았다가 다시 열면(다른 패널로 전환했다가 돌아온 경우 포함) 사용자가 마지막으로 본 콘텐츠를 표시한다."
+ },
+ "STATE-025": {
+  "category": "STATE",
+  "strength": "SHOULD",
+  "title": "따라하기 중단은 사용자만",
+  "statement": "사용자가 '중단하기' 버튼을 누르기 전까지 따라하기 패널의 콘텐츠를 다른 콘텐츠로 바꾸거나 따라하기 절차를 끝내지 않는다."
+ },
+ "STATE-027": {
+  "category": "STATE",
+  "strength": "SHOULD",
+  "title": "맥락적 도움말 중첩 금지",
+  "statement": "맥락적 도움말 팝오버는 한 번에 1개만 열고, 팝오버 안에서 다른 맥락적 도움말 팝오버나 모달을 열지 않는다."
+ },
+ "STATE-029": {
+  "category": "STATE",
+  "strength": "SHOULD",
+  "title": "코치마크 동시 1개",
+  "statement": "한 화면에 코치마크를 동시에 2개 이상 표시하지 않는다."
+ },
+ "STATE-030": {
+  "category": "STATE",
+  "strength": "SHOULD",
+  "title": "코치마크 중 다른 레이어 금지",
+  "statement": "코치마크가 표시되는 동안 알림·배너·토스트 같은 다른 레이어를 띄우지 않고, 그동안 생긴 알림은 버리지 않고 코치마크가 닫힌 직후 표시한다. 시간 제한 경고와 오류·긴급 알림은 예외로 즉시 띄우고 코치마크를 닫는다."
+ },
+ "STATE-031": {
+  "category": "STATE",
+  "strength": "SHOULD",
+  "title": "행동 요구 코치마크 자동 진행",
+  "statement": "사용자에게 특정 행동을 요구하는 코치마크는 지시문에 행동을 마치면 다음 단계로 넘어간다는 사실을 쓰고, 시스템이 그 행동의 완료를 확인해 다음 단계로 넘어가게 하며, 행동을 마치기 전에는 넘어가지 않고, 단계가 넘어갈 때 키보드 초점을 강제로 옮기지 않는 대신 새 단계 지시문을 보조기술에 알린다."
+ },
+ "STATE-032": {
+  "category": "STATE",
+  "strength": "SHOULD",
+  "title": "입력 유실 전 경고",
+  "statement": "작성 중인 입력 내용이 사라지는 이동(뒤로가기 버튼, 시스템 뒤로가기, 페이지 이탈) 전에는 내용이 사라진다고 경고하고, 계속 이동할지 머무를지 사용자가 고르게 한다."
+ },
+ "STATE-033": {
+  "category": "STATE",
+  "strength": "SHOULD",
+  "title": "바텀시트 닫기 버튼",
+  "statement": "바텀시트에는 스와이프와 별도로 '닫기' 버튼(텍스트 '닫기' 또는 접근 가능한 이름이 '닫기'인 X 아이콘 버튼)을 넣고, 그 버튼을 시트 상단에 둔다."
+ },
+ "STATE-034": {
+  "category": "STATE",
+  "strength": "SHOULD",
+  "title": "바텀시트 겹침",
+  "statement": "바텀시트는 한 번에 1개만 띄우고, 불가피하게 여러 개를 겹칠 때는 현재 단계를 표시하며 닫기 동작을 '현재 시트만 닫기'와 '전체 닫기'로 나눠 제공하고, 배경 딤드는 한 겹만 표시한다."
+ },
+ "STATE-038": {
+  "category": "STATE",
+  "strength": "SHOULD",
+  "title": "스낵바 1개",
+  "statement": "한 페이지에 스낵바를 1개만 표시하고, 여러 스낵바를 겹치거나 쌓지 않는다."
+ },
+ "STATE-039": {
+  "category": "STATE",
+  "strength": "SHOULD",
+  "title": "스낵바 작업 버튼",
+  "statement": "스낵바 작업 버튼은 메시지와 직접 관련된 행동(되돌리기·재시도·목록 이동 등)에만 텍스트 버튼으로 최대 1개 두고, 메시지 오른쪽에 둔다."
+ },
+ "STATE-041": {
+  "category": "STATE",
+  "strength": "SHOULD",
+  "title": "빈 상태 유형 구분",
+  "statement": "목록·표·대시보드 영역에 보여줄 데이터가 없으면 아무것도 없는 빈 영역으로 두지 않고, '데이터 없음(처음 사용)', '사용자 행동의 결과(검색·필터 결과 없음)', '데이터를 가져올 수 없음(권한·시스템 문제·설정 필요)' 중 어느 경우인지 구분해 경우마다 비어 있는 이유와 사용자가 할 수 있는 다음 행동을 텍스트로 표시한다."
+ },
+ "STATE-042": {
+  "category": "STATE",
+  "strength": "SHOULD",
+  "title": "처음 사용 빈 상태의 다음 행동",
+  "statement": "처음 사용 빈 상태에는 데이터가 생기면 이 영역에 무엇이 표시되는지 설명하는 문장을 두고, 사용자가 직접 데이터를 만들 수 있으면 그 행동으로 가는 주 버튼 또는 링크를 1개 둔다."
+ },
+ "STATE-043": {
+  "category": "STATE",
+  "strength": "SHOULD",
+  "title": "페이지 없음(404) 화면",
+  "statement": "없는 주소에 접근하면 HTTP 404 상태 코드로 응답하고, 제목 '페이지를 찾을 수 없습니다'와 주소를 직접 입력했으면 맞는지, 붙여넣었으면 전체를 복사했는지 확인하라는 안내를 보여주며, '404' 같은 기술 용어, 유머·가벼운 표현, 빨간 경고 텍스트, 브레드크럼을 쓰지 않는다."
+ },
+ "STATE-044": {
+  "category": "STATE",
+  "strength": "SHOULD",
+  "title": "서비스 문제(5xx) 화면",
+  "statement": "예상하지 못한 서버 오류가 나면 5xx 상태 코드로 응답하고, 모든 예상 못한 오류에 같은 화면으로 제목 '서비스에 문제가 있습니다', '잠시 후 다시 시도하세요' 안내, 진행 중이던 입력값의 저장 여부(저장했다면 보관 기간)를 보여주며, '500'·'Internal Server Error' 같은 기술 용어, '기술적인 문제가 발생했습니다' 같은 모호한 문구, 빨간 경고 텍스트, 브레드크럼을 쓰지 않는다."
+ },
+ "STATE-045": {
+  "category": "STATE",
+  "strength": "SHOULD",
+  "title": "오프라인 시 부분 제한",
+  "statement": "오프라인 상태가 되면 네트워크가 필요한 동작(구매·제출·동기화)만 비활성화하거나 연결 후 처리할 대기열에 넣고, 이미 불러온 콘텐츠는 계속 볼 수 있게 하며, 화면 전체를 덮는 모달로 이용을 막지 않는다."
+ },
+ "TYPO-003": {
+  "category": "TYPO",
+  "strength": "SHOULD",
+  "title": "본문 최소 글자 크기",
+  "statement": "본문 텍스트의 글자 크기를 브라우저 기본 글자 크기가 16px일 때 계산값 16px(1rem) 이상으로 한다."
+ },
+ "TYPO-004": {
+  "category": "TYPO",
+  "strength": "SHOULD",
+  "title": "본문 행간 150% 이상",
+  "statement": "본문 텍스트의 행간(line-height)을 글자 크기의 1.5배 이상으로 한다."
+ },
+ "TYPO-005": {
+  "category": "TYPO",
+  "strength": "SHOULD",
+  "title": "행간을 상대 단위로",
+  "statement": "line-height 값은 px 같은 절대 단위가 아니라 단위 없는 수, em, % 중 하나로 지정한다."
+ },
+ "TYPO-008": {
+  "category": "TYPO",
+  "strength": "SHOULD",
+  "title": "밑줄은 링크에만",
+  "statement": "텍스트 밑줄은 링크에만 쓰고, 링크가 아닌 텍스트의 강조는 색이나 굵기로 표현한다."
+ },
+ "TYPO-010": {
+  "category": "TYPO",
+  "strength": "SHOULD",
+  "title": "공공 표준형 기본 서체·크기",
+  "statement": "KRDS 표준형 스타일을 적용하는 서비스는 국문·영문 모두 Pretendard GOV를 기본 서체로, 17px(브라우저 기본 16px 기준 1.0625rem)을 본문 기본 크기로 쓴다."
+ },
+ "TYPO-012": {
+  "category": "TYPO",
+  "strength": "SHOULD",
+  "title": "푸터 개인정보 처리방침 링크 구분",
+  "statement": "푸터의 '개인정보 처리방침' 링크는 글자 크기·색·굵기 중 하나 이상을 다른 고지 링크(이용약관, 저작권 안내 등)와 다르게 표시한다."
+ },
+ "TYPO-013": {
+  "category": "TYPO",
+  "strength": "SHOULD",
+  "title": "인라인 링크 글자 크기",
+  "statement": "문장 안에 들어가는 인라인 링크 텍스트는 주변 본문과 같은 글자 크기로 쓴다."
+ },
+ "TYPO-014": {
+  "category": "TYPO",
+  "strength": "SHOULD",
+  "title": "배지 텍스트 한 줄",
+  "statement": "배지 문구는 기본 글자 크기에서 한 줄로 표시되는 길이로 쓰고, white-space: nowrap으로 줄바꿈을 막지 않아 텍스트 확대·좁은 화면에서는 줄바꿈되게 한다."
+ },
+ "TYPO-015": {
+  "category": "TYPO",
+  "strength": "SHOULD",
+  "title": "표 셀 텍스트 3줄 이하",
+  "statement": "표 데이터 셀(td)의 텍스트는 3줄 이하로 표시되게 쓴다."
+ },
+ "TYPO-016": {
+  "category": "TYPO",
+  "strength": "SHOULD",
+  "title": "표 숫자 오른쪽 정렬",
+  "statement": "표에서 양적 데이터(개수·퍼센트·용량 등) 셀은 오른쪽 정렬하고, 텍스트와 명목 데이터(날짜·우편번호·전화번호·IP 주소 등) 셀은 왼쪽 정렬한다."
+ },
+ "TYPO-018": {
+  "category": "TYPO",
+  "strength": "SHOULD",
+  "title": "min-content 계산에는 anywhere",
+  "statement": "flex·grid 항목과 표 셀처럼 min-content 너비로 크기가 정해지는 컨테이너 안 텍스트의 넘침 방지에는 overflow-wrap: break-word 대신 overflow-wrap: anywhere를 쓴다."
+ },
+ "TYPO-019": {
+  "category": "TYPO",
+  "strength": "SHOULD",
+  "title": "폐기 예정 word-break: break-word 금지",
+  "statement": "word-break: break-word 값을 쓰지 않고, 같은 효과가 필요하면 word-break: normal과 overflow-wrap: anywhere를 쓴다."
+ },
+ "TYPO-021": {
+  "category": "TYPO",
+  "strength": "SHOULD",
+  "title": "line-break: anywhere 금지",
+  "statement": "본문 텍스트에 line-break: anywhere를 쓰지 않는다."
+ },
+ "TYPO-025": {
+  "category": "TYPO",
+  "strength": "SHOULD",
+  "title": "본문 양쪽 정렬 금지",
+  "statement": "본문 텍스트 블록에 text-align: justify를 쓰지 않고 text-align: start(가로쓰기 LTR에서는 left)로 한쪽 정렬한다."
+ },
+ "TYPO-026": {
+  "category": "TYPO",
+  "strength": "SHOULD",
+  "title": "루트 글꼴 크기 px 고정 금지",
+  "statement": "html(:root) 요소의 font-size를 px로 지정하지 않고, 지정이 필요하면 %로 지정해 사용자의 브라우저 기본 글자 크기 설정을 따르게 한다."
+ },
+ "TYPO-027": {
+  "category": "TYPO",
+  "strength": "SHOULD",
+  "title": "글꼴 크기 상대 단위",
+  "statement": "font-size 값은 rem, em, % 중 하나로 지정하고 px·pt로 지정하지 않는다."
+ },
+ "TYPO-030": {
+  "category": "TYPO",
+  "strength": "SHOULD",
+  "title": "font-family generic family 폴백",
+  "statement": "font-family 목록의 마지막에 generic family(sans-serif, serif, monospace 등)를 둔다."
+ },
+ "TYPO-031": {
+  "category": "TYPO",
+  "strength": "SHOULD",
+  "title": "본문 한 줄 길이 상한",
+  "statement": "한국어 본문 텍스트 블록의 한 줄 길이를 전각 40자 이하로 제한한다(max-inline-size: 40ic 이하)."
+ },
+ "A11Y-044": {
+  "category": "A11Y",
+  "strength": "MAY",
+  "title": "자막 표시 조정 옵션",
+  "statement": "자체 플레이어를 만들 때 사용자가 자막의 크기·색·위치를 바꾸는 옵션을 제공한다."
+ },
+ "A11Y-045": {
+  "category": "A11Y",
+  "strength": "MAY",
+  "title": "숨긴 텍스트 사용 범위",
+  "statement": "스크린 리더 전용 숨긴 텍스트는 비텍스트 콘텐츠의 복잡한 설명, 조작 방법 안내, 요소·화면의 상태 변화 정보 전달에 쓰고, 간결한 이미지 설명이나 요소의 접근 가능한 이름 전달에는 alt·label·aria-label을 쓴다."
+ },
+ "AI-008": {
+  "category": "AI",
+  "strength": "MAY",
+  "title": "중단된 응답 표시",
+  "statement": "사용자가 생성을 중단한 응답에는 응답 끝에 '생성 중단됨' 텍스트를 표시해 완성된 응답과 구분한다."
+ },
+ "AI-009": {
+  "category": "AI",
+  "strength": "MAY",
+  "title": "재생성과 이전 결과 보존",
+  "statement": "AI 결과마다 같은 요청으로 다시 생성하는 버튼을 제공하고, 다시 생성한 뒤에도 이전 결과를 다시 볼 수 있게 한다."
+ },
+ "COLOR-004": {
+  "category": "COLOR",
+  "strength": "MAY",
+  "title": "명도 단계로 대비 보장",
+  "statement": "색 팔레트를 명도 단계 번호로 구성하고, 두 단계 번호 차이가 40 이상이면 3:1, 50 이상이면 4.5:1, 70 이상이면 7:1, 90 이상이면 15:1 이상 대비가 나오도록 단계 색을 맞춘다."
+ },
+ "COLOR-018": {
+  "category": "COLOR",
+  "strength": "MAY",
+  "title": "배지 색 의미 체계",
+  "statement": "배지 색은 레이블 정보와 색의 일반적 의미가 맞을 때 그 색을 쓰고(예: 중요·경고·반대는 빨강), 한 화면의 배지 색 종류를 늘려 주의를 분산시키지 않는다."
+ },
+ "COLOR-020": {
+  "category": "COLOR",
+  "strength": "MAY",
+  "title": "자막 텍스트 윤곽선·배경",
+  "statement": "영상 자막 텍스트에는 윤곽선이나 반투명 검은색 배경을 넣어 영상 화면과 대비를 확보한다."
+ },
+ "COPY-020": {
+  "category": "COPY",
+  "strength": "MAY",
+  "title": "텍스트 없는 아이콘 버튼 제한",
+  "statement": "텍스트 레이블 없는 아이콘 버튼은 설정·닫기·공감처럼 대부분의 사용자가 다른 서비스에서 익혀 의미를 아는 기능에만 쓴다."
+ },
+ "COPY-024": {
+  "category": "COPY",
+  "strength": "MAY",
+  "title": "숫자 배지 상한 표기",
+  "statement": "숫자형 배지의 값이 표시 상한을 넘으면 '상한+' 형식(예: 999+)으로 쓰고 '+999'처럼 기호를 앞에 두지 않는다."
+ },
+ "COPY-025": {
+  "category": "COPY",
+  "strength": "MAY",
+  "title": "링크·버튼 이미지는 기능과 일치",
+  "statement": "링크·버튼이거나 그 일부인 이미지에는 그 링크·버튼의 용도·목적·기능과 일치하는 이미지·상징을 쓴다."
+ },
+ "COPY-029": {
+  "category": "COPY",
+  "strength": "MAY",
+  "title": "가로 배치 레이블 길이",
+  "statement": "라디오 버튼·체크박스를 가로로 배치할 때는 각 레이블이 브레이크포인트 토큰 너비(360·768·1024·1280px, RESP-004)마다 한 줄로 표시되는 길이로 쓰고, 한 줄을 넘는 너비에서는 세로 배치로 바꾼다."
+ },
+ "COPY-040": {
+  "category": "COPY",
+  "strength": "MAY",
+  "title": "드롭다운 언어 옵션 표기",
+  "statement": "언어 변경 드롭다운의 옵션은 '원어 이름 (현재 표시 언어로 쓴 이름)' 형식으로 쓴다(예: 한국어 화면에서 'English (영어)', '日本語 (일본어)')."
+ },
+ "COPY-042": {
+  "category": "COPY",
+  "strength": "MAY",
+  "title": "패널 콘텐츠 분량",
+  "statement": "도움 패널·따라하기 패널의 각 콘텐츠는 짧은 문장으로 써서 패널 기본 크기에서 세로 스크롤 없이 한 번에 보이게 한다."
+ },
+ "COPY-043": {
+  "category": "COPY",
+  "strength": "MAY",
+  "title": "도움 패널 사용 조건",
+  "statement": "간단한 안내·도움 정보에는 도움 패널 대신 맥락적 도움말을 쓰고, 작업 방법을 단계별로 안내할 때는 도움 패널 대신 따라하기 패널과 코치마크를 쓴다."
+ },
+ "COPY-044": {
+  "category": "COPY",
+  "strength": "MAY",
+  "title": "따라하기 패널 사용 조건",
+  "statement": "따라하기 패널은 여러 세부 단계를 거치거나 복잡한 입력이 필요한 작업에만 쓰고, 간단한 안내에는 맥락적 도움말을 쓴다."
+ },
+ "COPY-046": {
+  "category": "COPY",
+  "strength": "MAY",
+  "title": "코치마크 문구 분량",
+  "statement": "코치마크 제목은 1줄로, 지시 사항은 3줄 이하로 쓴다."
+ },
+ "COPY-051": {
+  "category": "COPY",
+  "strength": "MAY",
+  "title": "스낵바 문구 한 문장",
+  "statement": "스낵바 메시지는 한 문장으로 쓰고, 두 문장 이상의 중요한 정보를 전달해야 하면 스낵바 대신 모달을 쓴다."
+ },
+ "FORM-010": {
+  "category": "FORM",
+  "strength": "MAY",
+  "title": "한 열 입력폼",
+  "statement": "입력폼의 입력 컴포넌트는 한 열로 세로 배치하고, 한 줄에 가로로 묶는 것은 하나의 정보를 이루는 필드(성·이름, 전화번호, 신용카드 번호, 우편번호·주소, 시작·종료 일자)로 한정한다. 라디오 버튼·체크박스 옵션은 세로로 나열하고, 가로로 나열할 때는 레이블 길이(COPY-029)와 옵션 간격(SPACE-002) 조건을 지킨다."
+ },
+ "FORM-029": {
+  "category": "FORM",
+  "strength": "MAY",
+  "title": "비교가 필요한 단일 선택은 라디오",
+  "statement": "사용자가 옵션을 서로 비교해야 고를 수 있거나 선택 속도가 중요한 단일 선택(설문 응답 문항 등)에는 셀렉트·콤보 상자 대신 모든 옵션이 펼쳐 보이는 라디오 버튼을 쓴다."
+ },
+ "FORM-030": {
+  "category": "FORM",
+  "strength": "MAY",
+  "title": "옵션 많은 단일 선택은 셀렉트",
+  "statement": "단일 선택 옵션이 7개 이상이고 사용자가 그 옵션 목록(예: 시·도, 연도)에 익숙하면 라디오 버튼 대신 셀렉트나 콤보 상자를 쓴다."
+ },
+ "FORM-031": {
+  "category": "FORM",
+  "strength": "MAY",
+  "title": "모바일 단일 선택은 셀렉트 우선 검토",
+  "statement": "모바일 화면의 단일 선택에서 라디오 옵션 목록 때문에 화면 전체를 스크롤해야 하면 라디오 버튼 대신 셀렉트나 콤보 상자를 먼저 검토한다."
+ },
+ "FORM-033": {
+  "category": "FORM",
+  "strength": "MAY",
+  "title": "라디오 선택 안 함 옵션",
+  "statement": "필수가 아니고 처음에 선택된 옵션이 없는 라디오 그룹에는 '해당 없음'·'잘 모름'·'선택 안 함' 같은 응답하지 않는 옵션을 하나 둔다."
+ },
+ "FORM-035": {
+  "category": "FORM",
+  "strength": "MAY",
+  "title": "즉시 적용 설정은 토글, 확정 흐름은 체크박스",
+  "statement": "선택하자마자 적용되는 켜기·끄기 설정에는 체크박스 대신 토글 스위치를 검토하고, 체크박스는 적용·제출 같은 별도 확정 동작이 있는 흐름 안의 선택에 쓴다."
+ },
+ "FORM-036": {
+  "category": "FORM",
+  "strength": "MAY",
+  "title": "셀렉트 사용 옵션 수",
+  "statement": "셀렉트는 옵션이 7개 이상 20개 이하인 단일 선택에 쓰고, 옵션이 20개를 넘으면 콤보 상자를 쓰거나 셀렉트를 여러 개로 나눈다."
+ },
+ "FORM-039": {
+  "category": "FORM",
+  "strength": "MAY",
+  "title": "공간 부족·모바일에는 기본 셀렉트",
+  "statement": "옵션 목록을 펼쳐 둘 공간이 부족하거나 모바일 웹 사용이 중요한 화면의 단일 선택에는 커스텀 드롭다운 대신 브라우저 기본 select 요소를 쓴다."
+ },
+ "FORM-043": {
+  "category": "FORM",
+  "strength": "MAY",
+  "title": "레이블로 두 상태를 설명하기 어려우면 라디오 2개",
+  "statement": "토글 레이블 하나로 켜짐·꺼짐 두 상태의 뜻을 설명할 수 없으면 토글 대신 각자 레이블을 가진 라디오 버튼 2개로 나눈다."
+ },
+ "FORM-062": {
+  "category": "FORM",
+  "strength": "MAY",
+  "title": "이미지 자동 압축",
+  "statement": "이미지 파일 제출에 크기 제한을 두면 이미지를 제한 크기 이하로 줄이는 자동 압축 기능을 제공한다."
+ },
+ "FORM-065": {
+  "category": "FORM",
+  "strength": "MAY",
+  "title": "단일·다중 파일 업로드 선택",
+  "statement": "다중 파일 업로드는 올리는 파일이 모두 서로 관련 있을 때(예: 사진 여러 장)만 쓰고, 서로 관련 없는 파일 여러 개를 받을 때는 섹션을 나누어 파일마다 단일 파일 업로드 컴포넌트를 따로 둔다."
+ },
+ "FORM-070": {
+  "category": "FORM",
+  "strength": "MAY",
+  "title": "슬라이더 단계 크기",
+  "statement": "범위 슬라이더의 단계(step)는 전체 범위(max − min)의 10% 이상 20% 이하로 설정한다."
+ },
+ "FORM-071": {
+  "category": "FORM",
+  "strength": "MAY",
+  "title": "슬라이더가 맞지 않는 경우",
+  "statement": "정확한 수치·단위를 입력해야 하는 값이나 'ON/OFF'·'낮음/보통/높음'처럼 이름 붙은 선택지 중 하나를 고르는 값은 범위 슬라이더로 받지 않는다."
+ },
+ "FORM-075": {
+  "category": "FORM",
+  "strength": "MAY",
+  "title": "증감 버튼은 필드 양쪽에",
+  "statement": "수량 토글의 감소 버튼과 증가 버튼은 수량 필드 양쪽에 하나씩 두고 한쪽에 모아 배치하지 않는다."
+ },
+ "LAYOUT-005": {
+  "category": "LAYOUT",
+  "strength": "MAY",
+  "title": "칼럼 수 혼용 금지",
+  "statement": "한 화면(같은 뷰포트 너비) 안에서는 레이아웃 그리드의 칼럼 수를 하나로 통일한다."
+ },
+ "LAYOUT-006": {
+  "category": "LAYOUT",
+  "strength": "MAY",
+  "title": "거터 상한",
+  "statement": "레이아웃 그리드의 거터(칼럼 사이 간격)를 칼럼 너비의 절반 이하로 둔다."
+ },
+ "LAYOUT-008": {
+  "category": "LAYOUT",
+  "strength": "MAY",
+  "title": "상세 정보 단일 화면",
+  "statement": "상세 정보 페이지는 본문을 탭으로 나누지 않고 한 화면에 이어서 제공하며, 주요 단락 이동은 콘텐츠 내 탐색으로 한다."
+ },
+ "LAYOUT-022": {
+  "category": "LAYOUT",
+  "strength": "MAY",
+  "title": "플로팅 버튼",
+  "statement": "플로팅 버튼은 사용자가 반복하는 주요 행동이 하나일 때만 쓰고, 주요 행동이 여럿이거나 지도·캘린더·이미지 편집처럼 제스처 조작이 많은 화면에서는 쓰지 않는다."
+ },
+ "LAYOUT-031": {
+  "category": "LAYOUT",
+  "strength": "MAY",
+  "title": "달력",
+  "statement": "정기적으로 갱신되지 않는 정보나 한 달 이벤트가 2개 이하인 정보에는 달력 컴포넌트를 쓰지 않는다."
+ },
+ "LAYOUT-033": {
+  "category": "LAYOUT",
+  "strength": "MAY",
+  "title": "디스클로저",
+  "statement": "한 섹션에는 디스클로저를 1개만 둔다."
+ },
+ "LAYOUT-036": {
+  "category": "LAYOUT",
+  "strength": "MAY",
+  "title": "아코디언",
+  "statement": "상위나 하위 요소에 이미 아코디언이나 탭이 있으면 아코디언을 쓰지 않는다."
+ },
+ "LAYOUT-044": {
+  "category": "LAYOUT",
+  "strength": "MAY",
+  "title": "표",
+  "statement": "표에 세로 열 구분선을 쓰지 않는다."
+ },
+ "LAYOUT-050": {
+  "category": "LAYOUT",
+  "strength": "MAY",
+  "title": "토글 스위치",
+  "statement": "넓은 컨테이너 안의 토글 스위치는 레이블을 스위치 바로 옆에 붙여 두고, 레이블과 스위치를 컨테이너 양 끝으로 떼어 놓지 않는다."
+ },
+ "MOTION-008": {
+  "category": "MOTION",
+  "strength": "MAY",
+  "title": "사이트 내 모션 끄기 컨트롤",
+  "statement": "운영체제의 모션 줄이기 설정과 별개로, 비필수 애니메이션(시차·장식 애니메이션)을 사이트 전체에서 끄는 설정 컨트롤을 제공하고 선택값을 페이지 이동과 새로고침 뒤에도 유지한다."
+ },
+ "NAV-011": {
+  "category": "NAV",
+  "strength": "MAY",
+  "title": "정렬 컨트롤 위치",
+  "statement": "인라인 정렬(표 열 머리글 정렬 등)을 쓰는 경우를 빼고, 정렬 컨트롤은 대상 목록의 오른쪽 위에 둔다."
+ },
+ "NAV-014": {
+  "category": "NAV",
+  "strength": "MAY",
+  "title": "상세 페이지 목차 위치",
+  "statement": "콘텐츠 내 탐색(목차)은 본문 옆에 목차 열을 둘 수 있는 다단 레이아웃 구간에서는 본문 오른쪽 같은 위치에 고정하고, 목차 열을 둘 수 없는 1단 레이아웃 구간에서는 고정하지 않고 제목과 본문 사이에 둔다."
+ },
+ "NAV-017": {
+  "category": "NAV",
+  "strength": "MAY",
+  "title": "푸터 링크 묶기",
+  "statement": "푸터 링크가 직관적으로 탐색되지 않으면 목적별·유형별 그룹으로 묶는다."
+ },
+ "NAV-025": {
+  "category": "NAV",
+  "strength": "MAY",
+  "title": "설명이 포함된 드롭다운",
+  "statement": "메뉴 레이블이 어려운 용어나 사용자에게 익숙하지 않은 단어이거나 레이블만으로 화면 내용을 파악하기 어려우면, 링크마다 설명이 붙은 드롭다운을 쓴다."
+ },
+ "NAV-027": {
+  "category": "NAV",
+  "strength": "MAY",
+  "title": "브레드크럼을 두지 않는 경우",
+  "statement": "메인 페이지·랜딩 페이지와, 탐색 계층이 1수준인 사이트에는 브레드크럼을 두지 않는다."
+ },
+ "NAV-035": {
+  "category": "NAV",
+  "strength": "MAY",
+  "title": "사이드 메뉴 현재 위치 펼침",
+  "statement": "확장형 사이드 메뉴는 페이지를 불러올 때 현재 화면이 속한 하위 목록을 펼친 상태로 보여준다."
+ },
+ "NAV-036": {
+  "category": "NAV",
+  "strength": "MAY",
+  "title": "사이드 메뉴를 두지 않는 경우",
+  "statement": "화면이 5개 미만인 서비스와, 탐색 계층이 2수준 이내이며 메인 메뉴만으로 모든 화면에 도달할 수 있는 서비스에는 사이드 메뉴를 쓰지 않는다."
+ },
+ "NAV-038": {
+  "category": "NAV",
+  "strength": "MAY",
+  "title": "콘텐츠 내 탐색 사용 조건",
+  "statement": "계층 구조가 있는 본문이 섹션 3개 이상이거나 높이가 뷰포트 높이의 3배를 넘으면 콘텐츠 내 탐색(목차)을 둔다."
+ },
+ "NAV-050": {
+  "category": "NAV",
+  "strength": "MAY",
+  "title": "정렬 가능한 표의 기본 정렬",
+  "statement": "열 헤더에 정렬 버튼이 있는 표는 처음 표시할 때 첫 번째 열 기준으로 정렬한다."
+ },
+ "NAV-052": {
+  "category": "NAV",
+  "strength": "MAY",
+  "title": "태그와 배지 구분",
+  "statement": "사용자가 설정한 필터링·정렬 옵션을 표시하고 해제하게 할 때는 태그를 쓰고, 상호작용 없이 데이터의 분류·속성만 강조할 때는 배지를 쓴다."
+ },
+ "NAV-053": {
+  "category": "NAV",
+  "strength": "MAY",
+  "title": "단계 표시기 단계 수",
+  "statement": "단계 표시기의 단계 수는 3개 이상 7개 이하로 한다."
+ },
+ "NAV-058": {
+  "category": "NAV",
+  "strength": "MAY",
+  "title": "언어 변경 유형 선택",
+  "statement": "지원 언어가 2개면 링크형 언어 변경을, 3개 이상이면 드롭다운형 언어 변경을 쓴다."
+ },
+ "NAV-067": {
+  "category": "NAV",
+  "strength": "MAY",
+  "title": "탭바 사용 화면 너비",
+  "statement": "하단 탭바는 좁은 화면(RESP-004의 모바일·태블릿 구간)에서만 쓰고, 그보다 넓은 화면에서는 메인 메뉴를 쓴다."
+ },
+ "PERF-005": {
+  "category": "PERF",
+  "strength": "MAY",
+  "title": "웹폰트 교체로 인한 레이아웃 이동 줄이기",
+  "statement": "웹폰트가 교체될 때 생기는 레이아웃 이동을 줄이려면 font-display: optional을 쓰거나, 폴백 글꼴용 @font-face에 size-adjust·ascent-override·descent-override·line-gap-override로 웹폰트와 메트릭을 맞춘다."
+ },
+ "PERF-016": {
+  "category": "PERF",
+  "strength": "MAY",
+  "title": "시각 피드백 먼저, 나머지는 양보",
+  "statement": "클릭·탭·키 입력의 이벤트 핸들러에서는 다음 프레임에 그릴 시각 피드백(눌림 상태·선택 표시·로딩 표시)만 먼저 반영하고, 저장·분석 전송 같은 나머지 작업은 이후 태스크로 미룬다."
+ },
+ "RESP-004": {
+  "category": "RESP",
+  "strength": "MAY",
+  "title": "브레이크포인트 단계",
+  "statement": "브레이크포인트를 3~6단계로 정의하고, KRDS 표준형 스타일을 쓰는 공공 서비스는 small 360px·medium 768px·large 1024px·xlarge 1280px 4단계를 쓴다."
+ },
+ "RESP-005": {
+  "category": "RESP",
+  "strength": "MAY",
+  "title": "좁은 화면 헤더의 햄버거 메뉴",
+  "statement": "헤더 너비가 메인 메뉴 1수준 항목 전체를 한 줄에 담지 못하면 메인 메뉴 막대를 숨기고 햄버거 메뉴 버튼과 메뉴 레이어로 메인 메뉴를 제공할 수 있다."
+ },
+ "RESP-013": {
+  "category": "RESP",
+  "strength": "MAY",
+  "title": "좁은 화면 단계 표시기 축약",
+  "statement": "모바일 레이아웃(RESP-004 기준 1024px 미만)에서는 단계 표시기에서 현재 단계와 전체 단계 수(예: 4단계 중 1단계)를 제외한 정보를 생략할 수 있다."
+ },
+ "RESP-015": {
+  "category": "RESP",
+  "strength": "MAY",
+  "title": "화면 크기 조정 옵션 수",
+  "statement": "화면 크기 조정 컴포넌트의 배율 옵션은 5개 이하로 둔다."
+ },
+ "SHAPE-002": {
+  "category": "SHAPE",
+  "strength": "MAY",
+  "title": "표준형 반경 공식",
+  "statement": "KRDS 표준형 반경은 컨테이너 높이 × 0.125를 반올림하고, 결과가 홀수면 바로 위 짝수로 올리며, 12px를 넘지 않게 한다."
+ },
+ "SHAPE-004": {
+  "category": "SHAPE",
+  "strength": "MAY",
+  "title": "엘리베이션 단계 고정",
+  "statement": "그림자는 정의된 단계 토큰만 쓰고 단계를 용도에 고정한다(KRDS: 셀렉트 shadow2, 툴팁 shadow3, 모달 shadow4와 딤드, 긴급 공지 shadow2와 고도 -1 표면)."
+ },
+ "SHAPE-006": {
+  "category": "SHAPE",
+  "strength": "MAY",
+  "title": "얕은 엘리베이션엔 경계선",
+  "statement": "그림자가 약한 엘리베이션 단계(그림자 1단계·고도 +1)의 표면과 선명한 화면 모드의 표면에는 경계선을 함께 써서 배경과 구분한다."
+ },
+ "SPACE-003": {
+  "category": "SPACE",
+  "strength": "MAY",
+  "title": "입력 필드 내부 간격",
+  "statement": "텍스트 입력 필드의 레이블·부가 설명·입력 박스·시스템 메시지 사이 간격을 8px(gap-3)로, 입력 박스 안쪽 좌우 여백을 16px(padding-6)로 둔다."
+ },
+ "STATE-007": {
+  "category": "STATE",
+  "strength": "MAY",
+  "title": "긴급 공지 긴급도 분류",
+  "statement": "긴급 공지에는 긴급도 레이블을 붙이고, 재난·재해 대응과 예고 없는 서비스 장애·이용 중단은 '상', 이용 중단 사전 예고는 '중', 서비스 이용에 중대한 영향은 없지만 대부분의 사용자가 알아야 하는 상황은 '하'로 분류한다."
+ },
+ "STATE-010": {
+  "category": "STATE",
+  "strength": "MAY",
+  "title": "디스클로저 초기 상태",
+  "statement": "디스클로저는 페이지가 로딩될 때 접힌 상태로 제공한다."
+ },
+ "STATE-014": {
+  "category": "STATE",
+  "strength": "MAY",
+  "title": "배지 1개",
+  "statement": "한 항목 컨테이너(목록 항목·표 행·카드·글·구역 등)에 보이는 배지를 1개만 붙인다."
+ },
+ "STATE-035": {
+  "category": "STATE",
+  "strength": "MAY",
+  "title": "바텀시트 용도",
+  "statement": "바텀시트는 현재 화면을 유지한 채 하는 일시적인 짧은 상호작용(옵션 선택·부가 정보 확인)에만 쓰고, 오래 검토해야 하는 정보, 항상 필요한 정보·도구, 서비스 절차의 한 단계에는 쓰지 않는다."
+ },
+ "STATE-036": {
+  "category": "STATE",
+  "strength": "MAY",
+  "title": "반복 인증 실패는 모달로",
+  "statement": "같은 인증 절차에서 인증이 연속 2회 이상 실패하면 실패 알림을 토스트가 아닌 모달로 표시한다."
+ },
+ "STATE-037": {
+  "category": "STATE",
+  "strength": "MAY",
+  "title": "토스트를 쓰지 않는 경우",
+  "statement": "토스트에는 사라진 뒤에도 화면의 다른 곳에서 확인할 수 있는 결과만 담고, 중요하거나 긴급한 메시지는 토스트 대신 긴급 공지나 모달로, 사용자가 반드시 읽고 확인해야 하는 설명은 모달로, 개별 입력 항목의 오류·성공·경고 메시지는 해당 입력 필드 옆 인라인 텍스트로 제공한다."
+ },
+ "STATE-040": {
+  "category": "STATE",
+  "strength": "MAY",
+  "title": "스낵바 아이콘",
+  "statement": "스낵바 아이콘은 메시지 의미 전달을 돕는 경우에만 메시지 왼쪽에 두고, 메시지 텍스트보다 눈에 띄게 표현하지 않는다."
+ },
+ "STATE-046": {
+  "category": "STATE",
+  "strength": "MAY",
+  "title": "로딩 영역 aria-busy",
+  "statement": "영역의 콘텐츠를 불러오거나 여러 번에 나눠 갱신하는 동안 그 영역에 aria-busy=\"true\"를 두고, 갱신이 끝나면 aria-busy=\"false\"로 바꾸거나 속성을 제거한다."
+ },
+ "TYPO-006": {
+  "category": "TYPO",
+  "strength": "MAY",
+  "title": "글자 두께 종류 제한",
+  "statement": "한 서비스에서 쓰는 font-weight 값을 4종 이하로 하고, 300 이하(thin·extra light·light)와 800 이상(extra bold·black) 값은 쓰지 않는다."
+ },
+ "TYPO-007": {
+  "category": "TYPO",
+  "strength": "MAY",
+  "title": "제목·본문 크기 비율",
+  "statement": "타입 스케일을 새로 정할 때 제목(heading)과 본문 글자 크기 비율을 1.25~1.5배 범위에서 정한다."
+ },
+ "TYPO-009": {
+  "category": "TYPO",
+  "strength": "MAY",
+  "title": "본문은 고딕 계열",
+  "statement": "본문과 제목에는 고딕(산세리프) 계열 서체를 쓰고, 고딕 계열이 아닌 자체 서체는 디스플레이·배너 영역에만 쓴다."
+ },
+ "TYPO-011": {
+  "category": "TYPO",
+  "strength": "MAY",
+  "title": "rem 기준값",
+  "statement": "rem 환산을 10px 기준으로 단순화하려면 html의 font-size를 62.5%로 지정하고, 10px 같은 px 값으로 지정하지 않는다."
+ },
+ "TYPO-017": {
+  "category": "TYPO",
+  "strength": "MAY",
+  "title": "한국어 어절 단위 줄바꿈(keep-all)",
+  "statement": "한국어 본문·제목 텍스트 블록에 word-break: keep-all을 지정해 한글을 어절(띄어쓰기) 단위로 줄바꿈한다."
+ },
+ "TYPO-020": {
+  "category": "TYPO",
+  "strength": "MAY",
+  "title": "한국어 본문 break-all 금지",
+  "statement": "한국어 본문 텍스트에 word-break: break-all을 쓰지 않는다."
+ },
+ "TYPO-022": {
+  "category": "TYPO",
+  "strength": "MAY",
+  "title": "balance는 제목·캡션에만",
+  "statement": "text-wrap: balance(또는 text-wrap-style: balance)는 제목(h1~h6)과 캡션(figcaption, caption)에만 쓰고 본문 문단(p)에는 쓰지 않는다."
+ },
+ "TYPO-023": {
+  "category": "TYPO",
+  "strength": "MAY",
+  "title": "text-wrap: pretty 점진적 향상",
+  "statement": "본문 문단에 text-wrap: pretty를 쓸 때는 이 선언을 지원하지 않는 브라우저에서 무시되어도 레이아웃이 깨지지 않게 하고, 대량 텍스트 화면에서는 렌더링 성능 영향을 측정한 뒤 적용한다."
+ },
+ "TYPO-024": {
+  "category": "TYPO",
+  "strength": "MAY",
+  "title": "auto-phrase는 keep-all 폴백과 함께",
+  "statement": "word-break: auto-phrase를 쓸 때는 같은 규칙 블록에서 그 앞에 word-break: keep-all을 먼저 선언하고, 해당 요소의 lang이 ko로 판별되게 한다."
+ },
+ "TYPO-028": {
+  "category": "TYPO",
+  "strength": "MAY",
+  "title": "본문 자간 0, 음수 자간 금지",
+  "statement": "본문 텍스트의 letter-spacing은 0(normal)으로 두고 음수 값을 쓰지 않는다."
+ },
+ "TYPO-029": {
+  "category": "TYPO",
+  "strength": "MAY",
+  "title": "자간 단위 em",
+  "statement": "letter-spacing을 0이 아닌 값으로 지정할 때는 em 단위로 지정한다."
+ }
+}

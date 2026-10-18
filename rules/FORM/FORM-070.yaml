@@ -1,0 +1,50 @@
+id: FORM-070
+category: FORM
+title: 슬라이더 단계 크기
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: MAY
+statement: 범위 슬라이더의 단계(step)는 전체 범위(max − min)의 10% 이상 20% 이하로 설정한다.
+measurement:
+  criteria: step ÷ (max − min) 값이 0.10 이상 0.20 이하다.
+  method: 'HTML 속성 검사: input[type=range]의 min·max·step(또는 커스텀 슬라이더 설정값)으로 계산한다.'
+automation:
+  feasibility: none
+  checks: []
+  note: 기존 검사기 규칙 없음. 4단계 커스텀 HTML lint로 전부 판정 가능(속성 계산).
+rationale: KRDS는 범위 슬라이더에서는 상대적 값이 구체적 값보다 중요하고 단계가 세밀하면 인지 부담을 주므로 단계를 전체 범위의 10%~20%로 설정하는 것이 적정하다고 한다.
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 범위 슬라이더 > 사용성 가이드라인(선택 값을 ... 세밀하게 설정하지 않는다)
+  note: 'https://www.krds.go.kr/html/site/component/component_12_01.html — 원문: ''단계는 전체 범위의 10%~20%로 설정하는 것이 적정하다'''
+scope:
+  level: component
+  targets:
+  - input[type=range]
+  - '[role="slider"]'
+exceptions: []
+relations: []
+examples:
+  good:
+  - lang: html
+    code: "<!-- step 10 ÷ 범위 100 = 0.10 -->\n<div class=\"slider\">\n  <label for=\"vol\">음량</label>\n  <output\
+      \ id=\"volOut\" for=\"vol\">40</output>\n  <span aria-hidden=\"true\">0</span>\n  <input id=\"vol\" type=\"\
+      range\" min=\"0\" max=\"100\" step=\"10\" value=\"40\" oninput=\"volOut.value = this.value\">\n  <span aria-hidden=\"\
+      true\">100</span>\n</div>\n"
+    note: 단계가 전체 범위의 10%다.
+  bad:
+  - lang: html
+    code: "<!-- step 1 ÷ 범위 100 = 0.01 -->\n<div class=\"slider\">\n  <label for=\"vol\">음량</label>\n  <output id=\"\
+      volOut\" for=\"vol\">40</output>\n  <span aria-hidden=\"true\">0</span>\n  <input id=\"vol\" type=\"range\"\
+      \ min=\"0\" max=\"100\" step=\"1\" value=\"40\" oninput=\"volOut.value = this.value\">\n  <span aria-hidden=\"\
+      true\">100</span>\n</div>\n"
+    note: 단계가 범위의 1%라 원하는 값에 맞추기 어렵다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(curl로 KRDS 페이지 HTML을 받아 본문 텍스트와 대조): 수치 10%~20% 확인. 1단계 locator ''디자인 가이드라인''은
+  실제로 ''사용성 가이드라인'' 절 — 고침. 제목은 ''설정하지 않는다''(지시문)지만 수치는 ''적정하다''(권장)라 MAY.'
+korean_specific: false
+tags:
+- krds
+- krds-component

@@ -1,0 +1,55 @@
+id: STATE-027
+category: STATE
+title: 맥락적 도움말 중첩 금지
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 맥락적 도움말 팝오버는 한 번에 1개만 열고, 팝오버 안에서 다른 맥락적 도움말 팝오버나 모달을 열지 않는다.
+measurement:
+  criteria: (1) 맥락적 도움말 팝오버가 열린 상태에서 다른 도움말을 열면 기존 팝오버가 닫혀 열린 팝오버 수가 항상 1개 이하다. (2) 팝오버 안에 다른 도움말 팝오버나 모달을 여는 컨트롤이
+    없다.
+  method: 도움말 트리거를 차례로 눌러 열린 팝오버 수를 세고, 팝오버 내부 컨트롤을 검사한다.
+automation:
+  feasibility: none
+  checks: []
+  note: 'E2E: 열린 [popover]:popover-open 또는 규격 셀렉터 수 ≤ 1, 팝오버 내부에 [aria-haspopup=dialog]·도움말 트리거 없음.'
+rationale: 팝오버가 겹치거나 팝오버에서 모달이 생기면 인터페이스 동작을 혼동한다(KRDS 맥락적 도움말).
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 맥락적 도움말 > 사용성 가이드라인 (가이드라인 PDF 2025.08 628쪽)
+  note: https://www.krds.go.kr/html/site/component/component_08_03.html
+- ref: KRDS
+  locator: 컴포넌트 > 맥락적 도움말 > 사용성 가이드라인 — '여러 개의 도움말 팝업을 동시에 활성화 하거나 하나의 팝오버를 다른 팝오버 내부에 중첩시켜서는 안 된다' (가이드라인 PDF 2025.08 628쪽)
+  note: https://www.krds.go.kr/html/site/component/component_08_03.html (STATE-028에서 병합)
+scope:
+  level: component
+  targets:
+  - '[popover]'
+  - 맥락적 도움말
+exceptions: []
+relations: []
+examples:
+  good:
+  - lang: html
+    code: '<button type="button" popovertarget="h1">소득 기준 도움말</button>
+
+      <div id="h1" popover>소득 기준은 직전 연도 소득입니다.</div>
+
+      '
+    note: 도움말 팝오버(popover=auto)는 한 번에 1개만 열린다.
+  bad:
+  - lang: html
+    code: "<div id=\"h1\" popover>소득 기준은 직전 연도 소득입니다.\n  <button type=\"button\" popovertarget=\"h2\">소득 산정 방법 도움말</button></div>\n\
+      <div id=\"h2\" popover>…</div>\n"
+    note: 팝오버 안에서 다른 도움말 팝오버를 연다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(curl로 KRDS 페이지 HTML을 받아 텍스트로 직접 읽음): 맥락적 도움말 component_08_03 ''맥락적 도움말에서 또
+  다른 맥락적 도움말을 실행하거나 모달을 실행하지 않도록 한다''와 같은 항목 본문 ''여러 개의 도움말 팝업을 동시에 활성화 하거나 … 중첩시켜서는 안 된다'' 확인. 같은 가이드라인 항목이라 STATE-028을
+  병합.'
+korean_specific: false
+tags:
+- krds
+- krds-component
+- public-sector-must

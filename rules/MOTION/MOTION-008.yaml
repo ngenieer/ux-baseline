@@ -1,0 +1,59 @@
+id: MOTION-008
+category: MOTION
+title: 사이트 내 모션 끄기 컨트롤
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: MAY
+statement: 운영체제의 모션 줄이기 설정과 별개로, 비필수 애니메이션(시차·장식 애니메이션)을 사이트 전체에서 끄는 설정 컨트롤을 제공하고 선택값을 페이지 이동과 새로고침 뒤에도 유지한다.
+measurement:
+  criteria: (1) 모든 페이지에서 접근할 수 있는 위치(헤더 유틸리티 또는 설정 화면)에 모션 끄기 컨트롤이 있다. (2) 켜면 MOTION-004의 reduce 상태와 같은 결과(비필수 모션
+    없음)가 된다. (3) 다른 페이지로 이동하거나 새로고침해도 설정이 유지된다.
+  method: 설정을 켠 뒤 3개 이상의 페이지를 이동·새로고침하며 비필수 애니메이션이 실행되지 않는지 확인한다.
+automation:
+  feasibility: none
+  checks: []
+  note: 자동 검사 불가 → 수동 점검. 구현 시 html[data-motion='reduce'] 같은 루트 속성을 prefers-reduced-motion과 같은 CSS 경로로 처리하면 MOTION-004
+    검사를 재사용할 수 있다.
+rationale: 모든 사용자가 OS 설정을 바꿀 수 있거나 그 존재를 아는 것은 아니다. Understanding 2.3.3은 사이트 전역 끄기 컨트롤을 해결책 중 하나로 든다.
+sources:
+- ref: WCAG22_UNDERSTANDING
+  locator: 'Understanding 2.3.3 — Example ''Parallax scrolling with option to turn off unnecessary motion globally'',
+    Techniques ''Gx: Allowing users to set a preference that prevents animation'''
+scope:
+  level: global
+  targets:
+  - 사이트 설정
+  - 헤더 유틸리티
+exceptions: []
+relations:
+- type: refines
+  id: MOTION-004
+  note: 2.3.3을 충족하는 추가 수단. OS 설정 존중(MOTION-004)만으로도 2.3.3은 충족된다.
+examples:
+  good:
+  - lang: html
+    code: <button type="button" aria-pressed="false" data-motion-toggle>애니메이션 끄기</button>
+    note: 모든 페이지 헤더에 두는 애니메이션 끄기 토글 버튼.
+  - lang: js
+    code: "btn.addEventListener('click', () => {\n  const off = btn.getAttribute('aria-pressed') !== 'true';\n \
+      \ btn.setAttribute('aria-pressed', String(off));\n  document.documentElement.dataset.motion = off ? 'off'\
+      \ : 'on';\n  localStorage.setItem('motion', off ? 'off' : 'on'); // 새로고침·페이지 이동 뒤 복원\n});"
+    note: 선택값을 저장해 다른 페이지와 새로고침 뒤에도 유지한다.
+  bad:
+  - lang: html
+    code: '<button type="button" aria-pressed="false" data-motion-toggle>애니메이션 끄기</button>
+
+      <!-- 상태를 저장하지 않아 다른 페이지로 가면 다시 켜짐 -->'
+    note: 끄기 설정이 페이지 이동이나 새로고침 뒤 유지되지 않는다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(Understanding 2.3.3 curl): ''Choose any one of the following solutions ...
+  Provide a control for users to turn off non-essential animations ... Take advantage of the reduce motion feature''
+  — OS 설정 존중과 택일 가능한 해결책이라 MAY. 예시 ''The ability to turn off non-essential animations is a site-wide setting''을
+  ''페이지 이동·새로고침 뒤 유지''로 읽었다(사이트 전역 설정의 해석).'
+korean_specific: false
+tags:
+- wcag22
+- level-aaa
+- research-motion_perf

@@ -1,0 +1,64 @@
+id: NAV-044
+category: NAV
+title: 페이지네이션 숫자 링크 개수
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 페이지네이션 숫자 링크 목록은 말줄임표를 포함해 10개 이하로 표시하고, 좁은 화면 레이아웃(RESP-004의 Mobile 모드, 1024px 미만)에서는 7개 이하로 표시한다.
+measurement:
+  criteria: 숫자 링크 목록의 항목 수(숫자 링크 + 말줄임표)가 모든 뷰포트에서 10 이하, 모바일 구간 뷰포트(RESP-004 기준 1024px 미만)에서 7 이하이다.
+  method: '데스크톱 너비와 모바일 너비(예: 360px) 두 가지로 렌더링해 숫자 링크 목록의 항목 수를 센다.'
+automation:
+  feasibility: none
+  checks: []
+  note: 기존 검사기 규칙 없음. 4단계 커스텀 E2E 검사(뷰포트 2종에서 항목 수 측정)로 자동화 가능.
+rationale: 숫자 링크가 많으면 인지 부담이 커진다.
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 페이지네이션 > 사용성 가이드라인 / 플랫폼에 대한 고려 사항 (10개 이내 / 최대 7개) (가이드라인 PDF 2025.08 325·328·331쪽)
+  note: https://www.krds.go.kr/html/site/component/component_03_06.html
+- ref: KRDS
+  locator: 디자인 스타일 > 레이아웃 > 브레이크포인트(PDF 153쪽)
+  note: 모드 Mobile = small 360px·medium 768px('태블릿을 포함한 소형 디바이스'), PC = large 1024px 이상
+- ref: UXB_SYSTEM_CHOICE
+  locator: CF-055
+  note: KRDS의 '좁은 화면·모바일 레이아웃·작은 디스플레이'를 Mobile 모드(1024px 미만)로 해석
+scope:
+  level: component
+  targets:
+  - 페이지네이션
+exceptions: []
+relations:
+- type: depends
+  id: RESP-004
+  note: '''좁은 화면''의 너비 경계는 RESP-004 브레이크포인트를 따른다'
+examples:
+  good:
+  - lang: html
+    code: '<!-- 모바일: 1 … 4 [5] 6 … 20 = 7개 -->
+
+      <a href="?p=1">1</a> <span>…</span> <a href="?p=4">4</a> <a aria-current="page">5</a> <a href="?p=6">6</a>
+      <span>…</span> <a href="?p=20">20</a>
+
+      '
+  bad:
+  - lang: html
+    code: '<!-- 모바일에서 1~12를 모두 표시 = 12개 -->
+
+      <a href="?p=1">1</a> <a href="?p=2">2</a> … <a href="?p=12">12</a>
+
+      '
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(KRDS 페이지 curl 수신 후 텍스트 추출): ''말줄임표를 포함하여 11개 이내'', ''화면 너비가 충분하지 않은 경우 … 최대
+  7개 링크'' 확인(수치 일치). 원문은 ''좁은 화면''의 너비 수치를 주지 않음 — 768px 경계는 RESP-004(KRDS 브레이크포인트, 아직 collected·미대조)에서 가져온 해석이라
+  확인 필요. 원문 지시형 문장을 의무로 읽어 SHOULD + public-sector-must. KRDS 가이드라인 PDF(2025.08, 1181쪽) 원문 대조 2026-10-18: 레이아웃 브레이크포인트
+  표에서 Mobile 모드가 small(360)·medium(768)이고 PC 모드가 large(1024) 이상임을 확인 — 768px 경계를 1024px로 고침(CF-055). (2026-10-18 KRDS PDF 대조) 이전: 숫자 링크 목록 11개 이하(웹 페이지 component_03_06 ''말줄임표를 포함하여 11개 이내'') → 원문 328쪽: ''숫자 링크 목록에는 말줄임표를 포함하여 10개 이내의 항목을 표시한다''(325쪽 요약 목록도 10개). 웹 페이지 변경 내역의 마지막 날짜(2025-03-05)가 PDF(2025.08)보다 앞서고 10개 이하는 웹 기준(11개)도 함께 충족하므로 10개로 고침. 좁은 화면 7개(331쪽)는 일치.'
+korean_specific: false
+tags:
+- krds
+- krds-component
+- public-sector-must
+decisions:
+- CF-055

@@ -1,0 +1,55 @@
+id: SHAPE-006
+category: SHAPE
+title: 얕은 엘리베이션엔 경계선
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: MAY
+statement: 그림자가 약한 엘리베이션 단계(그림자 1단계·고도 +1)의 표면과 선명한 화면 모드의 표면에는 경계선을 함께 써서 배경과 구분한다.
+measurement:
+  criteria: 그림자 1단계 토큰을 쓰거나 고도 +1인 표면(카드·탭·사이드 메뉴 등)과, 선명한 화면 모드의 떠 있는 표면에 border 1px 이상이 있다.
+  method: 기본 모드와 선명한 화면 모드에서 해당 표면의 border 계산값을 확인한다.
+automation:
+  feasibility: none
+  checks: []
+  note: '4단계 커스텀 검사: shadow-1 토큰을 쓰는 선택자에 border 선언이 함께 있는지 stylelint 커스텀 규칙으로 확인.'
+rationale: 그림자가 미세하거나 어두운 배경에서 잘 보이지 않으면 표면이 배경과 구분되지 않는다.
+sources:
+- ref: KRDS
+  locator: 디자인 스타일 > 엘리베이션 > 경계선 사용 (가이드라인 PDF 2025.08 190쪽)
+  note: https://www.krds.go.kr/html/site/style/style_08.html
+scope:
+  level: component
+  targets:
+  - .card
+  - 고도 +1 표면
+  - 선명한 화면 모드
+exceptions: []
+relations:
+- type: refines
+  id: LAYOUT-003
+  note: 이웃 콘텐츠 구분(KWCAG 5.4.4)의 수단 중 테두리를 엘리베이션 단계에 구체화.
+- type: depends
+  id: SHAPE-004
+examples:
+  good:
+  - lang: css
+    code: '.card { box-shadow: var(--shadow-1); border: 1px solid var(--color-border-gray-light); }
+
+      '
+    note: 그림자 1단계 표면에 경계선을 함께 쓴다.
+  bad:
+  - lang: css
+    code: '.card { box-shadow: var(--shadow-1); border: 0; } /* 미세한 그림자만 있어 밝은 배경과 구분되지 않음 */
+
+      '
+    note: 얕은 그림자만 있고 경계선이 없다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(curl로 KRDS 페이지 HTML을 받아 본문 텍스트를 직접 확인): style_08 경계선을 이용 ''선명한 화면 모드에서는 그림자가
+  잘 드러나지 않기 때문에 경계선을 사용하여 콘텐츠 간 시각적 구분을 보조한다.'', ''얕은 엘리베이션 단계에서 사용: 그림자가 미세할 때 경계선을 추가하여 요소를 배경과 구분한다.'', ''다중
+  콘텐츠의 시각적 구분: 카드나 패널이 중첩된 경우 경계선을 사용'' 확인. 1단계 statement에 빠진 선명한 화면 모드 조건 추가. 강도어 없는 사용 예 서술 → MAY. 경계선 대비 3:1(COLOR-003)은
+  카드처럼 UI 컴포넌트 식별에 필요하지 않은 경계에는 WCAG 1.4.11이 적용되지 않을 수 있음 — 3단계에서 판단.'
+korean_specific: false
+tags:
+- krds

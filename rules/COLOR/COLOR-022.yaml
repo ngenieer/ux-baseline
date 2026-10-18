@@ -1,0 +1,63 @@
+id: COLOR-022
+category: COLOR
+title: 색 값은 토큰만 사용
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: MUST
+statement: 'color·background-color·border-color·outline-color·fill·stroke·text-decoration-color 값은 색 토큰(CSS 변수 var(--color-*))에서만
+  고르고 CSS에 #hex·rgb()·hsl()·색 이름을 직접 쓰지 않는다.'
+measurement:
+  criteria: '작성한 CSS에서 나열한 색 속성의 값이 var(--color-*) 또는 키워드(inherit, initial, unset, revert, currentColor, transparent,
+    none) 중 하나다. CSS 시스템 색(Canvas, CanvasText, Highlight 등)은 @media (forced-colors: active) 블록 안의 선언에서만 쓴다(CF-064).
+    --palette-* 원시 토큰을 컴포넌트 CSS에서 직접 쓰는 경우도 0건이다. KRDS 키트 등 외부 CSS 파일은 검사 대상 파일에서 뺀다(CF-049).'
+  method: 'stylelint scale-unlimited/declaration-strict-value(lint/stylelint.config.mjs)로 직접 값을 찾고, grep ''var(--palette-''
+    로 원시 토큰 직접 사용을 찾는다. 시스템 색은 @media (forced-colors: active) 블록 밖에서 쓰였는지 수동 또는 grep으로 확인한다. 키트 CSS는 stylelint 실행
+    대상(.stylelintignore)에서 뺀다.'
+automation:
+  feasibility: partial
+  checks:
+  - tool: stylelint
+    rule: scale-unlimited/declaration-strict-value
+    method: 색 속성에 var(--…)·키워드만 허용
+  note: '인라인 style 속성, JS로 넣는 값, SVG 속성(fill="#000")은 stylelint 범위 밖 — html-validate·eslint 커스텀 규칙으로 보완(4단계). 원시
+    토큰(--palette-*) 사용 금지는 현재 grep 검사. 현재 stylelint 설정(lint/stylelint.config.mjs SYSTEM_COLORS)은 시스템 색을 선언 위치와 관계없이
+    허용한다 — @media (forced-colors: active) 블록 안인지 구분하지 않으므로 블록 밖 사용은 이 검사로 잡히지 않는다(CF-064).'
+rationale: 색을 의미 토큰(text·surface·border 등)으로만 쓰면 고대비 테마(data-theme="high-contrast")에서 대비가 검증된 값으로 한꺼번에 바뀐다. 직접 쓴
+  색은 테마 전환과 대비 검사(COLOR 대비 룰)에서 빠진다.
+sources:
+- ref: UXB_CHARTER
+  locator: 디자인 토큰
+  note: 토큰에 없는 값을 직접 쓰지 말 것을 MUST 룰로 둔다
+- ref: KRDS
+  locator: 디자인 스타일 > 색상 (가이드라인 PDF 2025.08 80·209~211쪽)
+  note: 시스템 색상(의미 토큰)과 원시 색상(팔레트) 구분
+scope:
+  level: global
+  targets:
+  - 작성한 CSS (외부 키트 CSS 제외, CF-049)
+exceptions:
+- 외부 라이브러리·KRDS 키트 원본 CSS(CF-049)
+- 이미지·동영상 안의 색
+- '@media (forced-colors: active) 안에서 쓰는 CSS 시스템 색(Canvas, CanvasText, Highlight 등) — 사용자의 고대비 설정 색이라 토큰으로 대신할 수
+  없다(CF-064).'
+relations: []
+decisions:
+- CF-024
+- CF-064
+- CF-049
+examples:
+  good:
+  - lang: css
+    code: ".notice {\n  color: var(--color-text-basic);\n  background-color: var(--color-surface-information-subtler);\n\
+      \  border-color: var(--color-border-information);\n}"
+    note: 의미 색 토큰만 써서 고대비 테마에서 함께 바뀐다
+  bad:
+  - lang: css
+    code: ".notice {\n  color: #1e2124;\n  background-color: rgb(236 242 254);\n}"
+    note: 색을 직접 써서 테마 전환·대비 검증에서 빠진다
+needs_verification: false
+korean_specific: false
+tags:
+- token

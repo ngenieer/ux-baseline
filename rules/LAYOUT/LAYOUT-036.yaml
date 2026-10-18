@@ -1,0 +1,51 @@
+id: LAYOUT-036
+category: LAYOUT
+title: 아코디언
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: MAY
+statement: 상위나 하위 요소에 이미 아코디언이나 탭이 있으면 아코디언을 쓰지 않는다.
+measurement:
+  criteria: 아코디언 패널 안에 다른 아코디언·[role=tablist]가 없고, 아코디언이 다른 아코디언 패널이나 [role=tabpanel] 안에 있지 않다.
+  method: DOM에서 아코디언 조상·자손을 확인한다.
+automation:
+  feasibility: full
+  checks:
+  - tool: custom
+    method: querySelectorAll('.accordion .accordion, [role=tabpanel] .accordion, .accordion [role=tablist]')가 0개인지
+      확인
+  note: 아코디언 컴포넌트 클래스가 규격화돼 있어야 함(4단계).
+rationale: 콘텐츠를 숨기는 컴포넌트를 겹치면 사용자가 표시 여부를 여러 번 판단해야 해 인지 부담이 커진다.
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 아코디언 > 용례 (가이드라인 PDF 2025.08 406쪽)
+  note: https://www.krds.go.kr/html/site/component/component_04_07.html
+scope:
+  level: component
+  targets:
+  - 아코디언
+  - 탭
+exceptions: []
+relations:
+- type: refines
+  id: LAYOUT-042
+  note: 탭끼리의 중첩은 LAYOUT-042.
+examples:
+  good:
+  - lang: html
+    code: "<section><h2>자주 묻는 질문</h2>\n  <div class=\"accordion\"><h3><button type=\"button\" aria-expanded=\"false\"\
+      \ aria-controls=\"q1\">신청 자격이 어떻게 되나요?</button></h3><div id=\"q1\" hidden>…</div></div>\n</section>\n"
+    note: 아코디언이 다른 아코디언·탭 안에 있지 않다.
+  bad:
+  - lang: html
+    code: "<div role=\"tabpanel\" aria-labelledby=\"tab-faq\">\n  <div class=\"accordion\">…</div>\n</div>\n"
+    note: 탭 패널 안에 아코디언을 중첩했다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(curl로 KRDS 페이지 HTML을 받아 본문 텍스트를 직접 확인): 아코디언(component_04_07) 용례 > 사용하기 적합하지
+  않은 경우 ''하위 또는 상위 요소로 이미 아코디언 컴포넌트가 사용되었거나 탭 패턴이 사용된 경우'' 확인. 적합성 표현 → MAY.'
+korean_specific: false
+tags:
+- krds
+- krds-component

@@ -1,0 +1,63 @@
+id: NAV-014
+category: NAV
+title: 상세 페이지 목차 위치
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: MAY
+statement: 콘텐츠 내 탐색(목차)은 본문 옆에 목차 열을 둘 수 있는 다단 레이아웃 구간에서는 본문 오른쪽 같은 위치에 고정하고, 목차 열을 둘 수 없는 1단 레이아웃 구간에서는 고정하지 않고
+  제목과 본문 사이에 둔다.
+measurement:
+  criteria: '다단 레이아웃 구간: 콘텐츠 내 탐색 nav의 박스 left ≥ 본문 박스 right, position이 sticky 또는 fixed. 1단 구간: nav의 position이 static
+    또는 relative이고, DOM·화면 순서가 페이지 제목(h1) 다음, 본문 첫 섹션 앞.'
+  method: 레이아웃 토큰의 다단/1단 전환 브레이크포인트 양쪽 너비에서 위치와 position 값을 확인한다.
+automation:
+  feasibility: none
+  note: 4단계에서 브레이크포인트 토큰이 정해지면 Playwright 뷰포트 2개로 박스 좌표·computed position 검사 가능.
+rationale: 넓은 화면에서는 목차가 늘 같은 자리에 있어 구조를 훑고 이동하기 쉽고, 좁은 화면에서는 고정 목차가 본문을 가리지 않아야 한다.
+sources:
+- ref: KRDS
+  locator: 기본 패턴 > 상세 정보 확인 > 사용성 가이드라인 (가이드라인 PDF 2025.08 816·822·823쪽)
+  note: https://www.krds.go.kr/html/site/global/global_06.html — '화면 너비가 충분한 경우 콘텐츠 내 탐색을 표시하고 본문 우측의 일관된 위치에 고정하여
+    제공한다.' / '화면 너비가 충분하지 않을 때, 콘텐츠 내 탐색은 특정 위치에 고정하지 않고 제목과 본문 사이에 배치한다.'
+- ref: KRDS
+  locator: 컴포넌트 > 콘텐츠 내 탐색 > 사용성 가이드라인 / 플랫폼에 대한 고려 사항 (가이드라인 PDF 2025.08 313쪽)
+  note: 같은 요구 — sources/extracts/KRDS-components.yaml (outcome merge:NAV-014). 목록이 길면 디스클로저로 접을 수 있다(MAY).
+scope:
+  level: component
+  targets:
+  - 콘텐츠 내 탐색(목차)
+exceptions:
+- 본문 구조가 복잡해 목차가 길면 디스클로저로 접어 제공할 수 있다(KRDS)
+relations: []
+examples:
+  good:
+  - lang: css
+    code: '/* 다단 레이아웃 구간 (.detail--multi는 레이아웃 브레이크포인트 토큰으로 전환) */
+
+      .detail--multi { display: grid; grid-template-columns: 1fr auto; gap: var(--space-gap-6); }
+
+      .detail--multi .toc { position: sticky; top: var(--space-gap-6); }
+
+      /* 1단 구간: 고정 없이 h1 다음, 본문 앞 */
+
+      .detail--single .toc { position: static; }
+
+      '
+    note: 다단 구간에서는 본문 오른쪽에 sticky로 고정하고, 1단 구간에서는 고정을 풀고 제목과 본문 사이에 둔다.
+  bad:
+  - lang: css
+    code: '.detail--single .toc { position: fixed; right: 0; top: 50%; }  /* 1단 구간에서도 본문 위에 고정 */
+
+      '
+    note: 1단 구간에서도 목차를 화면에 고정해 본문을 가린다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(KRDS global_06 WebFetch): 위치 문장 확인, 너비 수치 없음(''충분한''만 사용) — 조건을 레이아웃 구간으로 바꾸고
+  PREFERENCE 출처를 붙임. 태그 system-choice라 정책 2에 따라 MAY. 1단계 메모의 ''large(1024px) 추정''은 근거 없어 버림. 카테고리 재검토(배치 룰이라 LAYOUT
+  후보). 확정 시 미검증 출처 PREFERENCE 제외(2026-10-18): 원문 ''화면 너비가 충분한 경우''를 레이아웃 구간으로 바꾼 해석 메모였고 수치 선택이 아니며, 근거는 KRDS 두
+  출처로 성립.'
+korean_specific: false
+tags:
+- krds
+- system-choice

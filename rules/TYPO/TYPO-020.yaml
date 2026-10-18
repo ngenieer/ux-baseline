@@ -1,0 +1,55 @@
+id: TYPO-020
+category: TYPO
+title: 한국어 본문 break-all 금지
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: MAY
+statement: '한국어 본문 텍스트에 word-break: break-all을 쓰지 않는다.'
+measurement:
+  criteria: :lang(ko) 범위의 본문 요소(p, li, dd, td, h1~h6) 계산값 word-break가 break-all이 아니다. 코드·해시값 표시 요소(code, pre, kbd,
+    samp)는 판정에서 뺀다. KRDS 키트 CSS를 쓰는 프로젝트는 키트 CSS 파일을 불러오지 않은 상태로 렌더링한 계산값으로 판정한다 — 키트 CSS가 정한 값은 판정하지 않는다(CF-049).
+    stylelint 선언 검사도 키트 CSS 파일을 실행 대상에서 뺀다.
+  method: stylelint declaration-property-value-disallowed-list(코드 셀렉터는 예외 처리) + 계산 스타일 검사.
+automation:
+  feasibility: partial
+  checks:
+  - tool: stylelint
+    rule: declaration-property-value-disallowed-list
+    method: '{ "word-break": ["break-all"] } — code·pre 전용 셀렉터는 stylelint-disable 주석으로 예외'
+  note: stylelint는 선언만 본다. 상속으로 본문에 적용되는지는 계산 스타일 검사.
+rationale: 'break-all은 한글 문장 안의 영단어·숫자를 글자 중간에서 끊는다. 넘침 방지가 목적이면 overflow-wrap: anywhere(TYPO-018)가 대안이다.'
+sources:
+- ref: CSS_TEXT_3
+  locator: 5.1 word-break (break-all)
+  note: 영문 등 letter 단위까지 아무 데서나 끊음. CJK 위주 텍스트에서 줄 고르게 하려고 쓰는 경우가 있다고만 기술
+- ref: UXB_SYSTEM_CHOICE
+  locator: CF-052
+  note: 한글 문장 속 영단어·숫자를 중간에서 끊지 않으려는 체계 선호. 표준·연구 근거 없음.
+scope:
+  level: global
+  targets:
+  - :lang(ko) 본문 텍스트
+exceptions: []
+relations: []
+examples:
+  good:
+  - lang: css
+    code: :lang(ko) p{word-break:keep-all;overflow-wrap:anywhere}
+    note: 한국어 본문에 break-all을 쓰지 않는다
+  bad:
+  - lang: css
+    code: :lang(ko) p{word-break:break-all}
+    note: 문장 속 영단어·숫자가 중간에서 끊긴다
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(CSS Text 3 §5.1 HTML): break-all은 letter 단위 줄바꿈 허용, ''often used in a context
+  where the text consists predominantly of CJK characters with only short non-CJK excerpts'' 확인. 표준은 금지하지 않음 → 체계
+  선호, PREFERENCE 추가, MAY. 코드·해시 예외는 원문 예외가 아니라 측정 범위에서 뺀 것. KRDS 사이트 CSS도 break-all 13회 사용(참고). 2026-10-18 CF-052로
+  체계 선택을 기록하고 PREFERENCE를 UXB_SYSTEM_CHOICE로 바꿈.'
+korean_specific: true
+tags:
+- research-typo
+decisions:
+- CF-049
+- CF-052

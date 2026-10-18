@@ -1,0 +1,37 @@
+/* 각 줄이 한 룰씩 어긴다 */
+.card {
+  padding: 16px;                 /* SPACE-001 */
+  border-radius: 6px;            /* SHAPE-001 */
+  color: #333;                   /* COLOR-022 */
+  font-size: 17px;               /* TYPO-032 */
+  line-height: 24px;             /* TYPO-005 */
+  transition: opacity 0.3s ease; /* MOTION-010 */
+  word-break: break-all;         /* TYPO-020 */
+  text-align: justify;           /* TYPO-025 */
+}
+
+.button:focus { outline: none; }               /* A11Y-016 */
+.sr-only { display: none; }                    /* A11Y-046 */
+.visually-hidden { width: 0; height: 0; }      /* A11Y-047 */
+.toast { transition: top var(--motion-duration-fast); } /* MOTION-012 */
+.heading { letter-spacing: 1px; }              /* TYPO-029 */
+.title { font-weight: 300; }                   /* TYPO-006 (TYPO-032 와 함께 걸림) */
+
+@font-face {                                   /* PERF-001: font-display 없음 */
+  font-family: "Pretendard GOV";
+  src: url("pretendard-gov.woff2") format("woff2");
+}
+
+@media (min-width: 900px) {                    /* RESP-004 */
+  .card { margin: 0; }
+}
+
+.data-table td { border-right: var(--space-scale-1) solid var(--color-border-gray-light); } /* LAYOUT-044 */
+.file-item__name { overflow: hidden; }                       /* LAYOUT-055 */
+.main-menu__panel { max-height: 90vh; overflow-y: auto; }    /* NAV-021 */
+.text-field { gap: var(--space-gap-5); }                     /* SPACE-003 */
+.tag { border-radius: 50%; }                                 /* SHAPE-003 */
+.feedback__trigger { position: fixed; }                      /* STATE-004 */
+.row { display: flex; }
+.row > .cell { overflow-wrap: break-word; }                  /* TYPO-018 */
+.prose { max-inline-size: 60ic; }                            /* TYPO-031 */

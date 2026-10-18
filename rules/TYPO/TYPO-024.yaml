@@ -1,0 +1,58 @@
+id: TYPO-024
+category: TYPO
+title: auto-phrase는 keep-all 폴백과 함께
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: MAY
+statement: 'word-break: auto-phrase를 쓸 때는 같은 규칙 블록에서 그 앞에 word-break: keep-all을 먼저 선언하고, 해당 요소의 lang이 ko로 판별되게 한다.'
+measurement:
+  criteria: 'word-break: auto-phrase 선언이 있는 모든 규칙 블록에서 그 앞에 word-break: keep-all 선언이 있고, 적용 요소 또는 조상 요소의 lang 속성이
+    ko(또는 ko-로 시작)다.'
+  method: stylelint 커스텀(선언 순서) + DOM 검사(:lang(ko) 일치 여부).
+automation:
+  feasibility: none
+  note: '기존 규칙 없음. 4단계: stylelint 커스텀 + 커스텀 DOM 검사.'
+rationale: auto-phrase는 실험 기능이라 미지원 브라우저는 선언을 무시하므로 앞의 keep-all이 폴백이 된다. 지원 브라우저도 content language를 모르면 normal(음절
+  단위)로 동작해 keep-all보다 나빠지므로 lang 지정이 전제다.
+sources:
+- ref: CSS_TEXT_4
+  locator: 'word-break: auto-phrase'
+  note: 언어를 모르거나 구문 경계 감지 불가면 normal과 동일하게 동작해야 함
+- ref: MDN_BCD
+  locator: css.properties.word-break.auto-phrase
+  note: experimental. Chrome/Edge 119, Samsung 25. Firefox·Safari 미지원(Safari는 preview). Chrome은 ko에 ICU 비-ML 구문
+    분리 사용
+scope:
+  level: situation
+  targets:
+  - 'word-break: auto-phrase 를 쓰는 요소'
+exceptions: []
+relations:
+- type: depends
+  id: TYPO-017
+  note: 폴백 값 keep-all은 TYPO-017의 기본값.
+- type: depends
+  id: A11Y-022
+  note: html lang 지정이 있어야 content language가 ko로 판별된다.
+examples:
+  good:
+  - lang: html
+    code: '<html lang="ko">
+
+      <style>h1{word-break:keep-all;word-break:auto-phrase}</style>'
+    note: keep-all을 먼저 선언해 미지원 브라우저 폴백을 두고 lang=ko로 언어를 판별시킨다
+  bad:
+  - lang: html
+    code: '<html lang="ko">
+
+      <style>h1{word-break:auto-phrase}</style>'
+    note: keep-all 폴백이 없어 미지원 브라우저에서 음절 단위로 끊긴다
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(CSS Text 4 §6.1 HTML, MDN BCD): ''If the content language of the element is
+  unknown … this value must behave as normal'' 확인. BCD: experimental, Chrome/Edge 119, Samsung 25.0, Firefox 미지원,
+  Safari preview. BCD 주석 ''Korean uses ICU''s non-ML phrase-breaking path'' 확인. 한국어 품질 평가 자료는 찾지 못함 → MAY.'
+korean_specific: true
+tags:
+- research-typo

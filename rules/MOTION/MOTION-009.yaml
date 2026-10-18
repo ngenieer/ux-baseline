@@ -1,0 +1,68 @@
+id: MOTION-009
+category: MOTION
+title: 화면 전환 애니메이션의 모션 줄이기 대응
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 'View Transitions(document.startViewTransition, @view-transition)로 만든 화면 전환은 prefers-reduced-motion:
+  reduce일 때 ::view-transition-group(*)·::view-transition-old(*)·::view-transition-new(*)의 위치·크기 애니메이션을 끄거나 교차 페이드(opacity)로
+  바꾼다.'
+measurement:
+  criteria: '(1) ::view-transition-* 선택자나 @view-transition 규칙이 있는 스타일시트에 @media (prefers-reduced-motion: reduce)
+    블록이 있고 그 안에서 ::view-transition-group(*)의 animation이 none이거나, old/new 의사 요소의 키프레임이 opacity만 바꾼다. (2) emulateMedia({reducedMotion:''reduce''})
+    상태에서 전환 중 getAnimations()에 transform·width·height 키프레임이 없다.'
+  method: stylelint 커스텀으로 (1), Playwright로 화면 전환을 실행해 (2)를 검사.
+automation:
+  feasibility: none
+  checks: []
+  note: 기존 규칙 없음. 4단계 커스텀 stylelint + 런타임 검사.
+rationale: 화면 전환의 미끄러짐·확대 애니메이션도 상호작용으로 시작되는 비필수 모션이다. Understanding 2.3.3은 페이지 넘김 전환을 모션 줄이기에서 끄는 예를 든다.
+sources:
+- ref: CHROME_VT_SAME_DOC
+  locator: React to the 'reduced motion' preference
+- ref: CSS_VIEW_TRANSITIONS_1
+  locator: 1 Introduction (전환은 CSS Animations로 구동)
+- ref: WCAG22_UNDERSTANDING
+  locator: Understanding 2.3.3 — Example 'Transitions that support the reduce motion preference'(page-flipping)
+scope:
+  level: global
+  targets:
+  - ::view-transition-group(*)
+  - ::view-transition-old(*)
+  - ::view-transition-new(*)
+  - '@view-transition'
+exceptions:
+- 기능이나 전달하는 정보에 필수인 애니메이션(WCAG 2.3.3).
+relations:
+- type: refines
+  id: MOTION-004
+  note: View Transitions 구현 경로.
+- type: depends
+  id: MOTION-006
+  note: 교차 페이드는 MOTION-006이 허용한 opacity 대체 효과.
+examples:
+  good:
+  - lang: css
+    code: "@media (prefers-reduced-motion: reduce) {\n  ::view-transition-group(*),\n  ::view-transition-old(*),\n\
+      \  ::view-transition-new(*) { animation: none !important; }\n}"
+    note: 모션 줄이기 설정에서 View Transitions 의사 요소의 애니메이션을 끈다.
+  bad:
+  - lang: css
+    code: '::view-transition-old(root) { animation: slide-out var(--motion-duration-base) var(--motion-easing-standard);
+      }
+
+      ::view-transition-new(root) { animation: slide-in var(--motion-duration-base) var(--motion-easing-standard);
+      }
+
+      /* 모션 줄이기 대응 없음 */'
+    note: 밀어내기 화면 전환에 모션 줄이기 대응이 없다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(Chrome 문서 curl, Understanding 2.3.3 curl): @media (prefers-reduced-motion)에서
+  ::view-transition-group/old/new animation:none !important 예시와 ''a preference for reduced motion doesn''t mean
+  the user wants no motion'' 문장, Understanding page-flipping 예시 확인. cross-document 전환을 미디어 쿼리로 opt-in하는 방식은 공식 문서에서
+  확인하지 못함.'
+korean_specific: false
+tags:
+- research-motion_perf

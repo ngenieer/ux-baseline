@@ -1,0 +1,48 @@
+id: TYPO-019
+category: TYPO
+title: '폐기 예정 word-break: break-word 금지'
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 'word-break: break-word 값을 쓰지 않고, 같은 효과가 필요하면 word-break: normal과 overflow-wrap: anywhere를 쓴다.'
+measurement:
+  criteria: '스타일시트·인라인 style에서 word-break: break-word 선언이 0건.'
+  method: stylelint declaration-property-value-disallowed-list.
+automation:
+  feasibility: full
+  checks:
+  - tool: stylelint
+    rule: declaration-property-value-disallowed-list
+    method: '{ "word-break": ["break-word"] }'
+  note: 인라인 style은 HTML 린트(커스텀)로 보완.
+rationale: 'word-break: break-word는 레거시 호환용으로 남은 deprecated 값이며 word-break: normal + overflow-wrap: anywhere와 같은
+  효과다.'
+sources:
+- ref: CSS_TEXT_3
+  locator: 5.1 word-break (legacy break-word)
+  note: 레거시 호환용 deprecated 키워드로 명시
+scope:
+  level: global
+  targets:
+  - word-break 선언 전체
+exceptions: []
+relations: []
+examples:
+  good:
+  - lang: css
+    code: .url{word-break:normal;overflow-wrap:anywhere}
+    note: 폐기 예정 키워드 대신 같은 효과의 표준 조합을 쓴다
+  bad:
+  - lang: css
+    code: .url{word-break:break-word}
+    note: deprecated 키워드 break-word를 쓴다
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(CSS Text 3 §5.1 HTML, MDN BCD): ''For compatibility with legacy content, the
+  word-break property also supports a deprecated break-word keyword … same effect as word-break: normal and overflow-wrap:
+  anywhere'' 확인. BCD css.properties.word-break.break-word deprecated: true 확인. 1단계 메모: word-wrap은 overflow-wrap의
+  레거시 별칭(명세 ''UAs must treat word-wrap as a legacy name alias'') — 별칭 금지 룰은 별도 후보(제안 파일 notes).'
+korean_specific: false
+tags:
+- research-typo

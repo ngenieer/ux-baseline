@@ -1,0 +1,50 @@
+id: AI-018
+category: AI
+title: AI 기능 변경 고지
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: AI 기능이 새로 추가되거나 기존 AI 기능이 할 수 있는 작업이 바뀌면, 변경 후 사용자가 그 기능을 처음 쓸 때 변경 내용을 한 번 알린다.
+measurement:
+  criteria: 릴리스 노트에 'AI 능력 변경'으로 표시된 변경마다, 변경 후 첫 사용 세션에서 변경 내용 안내(배너·대화상자·인라인 텍스트)가 1회 보이고, 닫은 뒤 같은 사용자에게 다시 보이지
+    않는다.
+  method: 'E2E: 변경 플래그를 켠 사용자로 기능을 두 번 열어 안내가 첫 번째에만 보이는지 확인한다.'
+automation:
+  feasibility: none
+  checks: []
+  note: '자동 검사 어려움. 4단계: 변경 공지 컴포넌트에 버전 키를 두고 E2E.'
+rationale: 사용자는 AI가 어제와 같은 방식으로 동작한다고 가정하므로, 능력이 바뀌면 알려야 기대를 다시 맞출 수 있다.
+sources:
+- ref: HAX_GUIDELINES_POSTER
+  locator: G18 Notify users about changes
+  note: '''Inform the user when the AI system adds or updates its capabilities.'''
+- ref: HAX_GUIDELINES_POSTER
+  locator: G14 Update and adapt cautiously
+  note: '''Limit disruptive changes when updating and adapting the AI system''s behaviors.'''
+scope:
+  level: situation
+  targets:
+  - AI 기능 업데이트
+  - 새 AI 기능 출시
+exceptions:
+- 할 수 있는 작업이 바뀌지 않는 내부 변경(성능 개선·모델 버전 교체만 있는 경우)은 대상이 아니다.
+relations: []
+examples:
+  good:
+  - lang: html
+    code: "<aside role=\"status\" class=\"ai-whatsnew\">\n  AI 도우미가 이제 첨부한 PDF도 요약합니다.\n  <button type=\"button\"\
+      >알림 닫기</button>\n</aside>"
+    note: 능력이 바뀐 뒤 첫 사용 때 변경 내용을 한 번 알리고 닫을 수 있다.
+  bad:
+  - lang: text
+    code: AI 도우미에 PDF 요약 기능을 추가하면서 릴리스 노트에만 적고, 서비스 화면에서는 아무 안내도 하지 않는다.
+    note: 능력이 바뀌었는데 사용자가 쓰는 화면에서 알리지 않는다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(HAX 포스터 PDF curl): G18 ''Inform the user when the AI system adds or updates
+  its capabilities.'', G14 확인. 1단계 메모의 ''동작 방식이 바뀌면'' 범위 문제는 G18 문구대로 ''능력(할 수 있는 작업)이 추가·변경될 때''로 한정하고, 모델 교체만
+  있는 경우를 예외로 둠. 처리 데이터 범위 변경 고지는 출처에 없어 뺐다(제안 파일 notes).'
+korean_specific: false
+tags:
+- research-ai

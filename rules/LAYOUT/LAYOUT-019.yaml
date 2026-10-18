@@ -1,0 +1,51 @@
+id: LAYOUT-019
+category: LAYOUT
+title: 페이지네이션
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 페이지네이션은 목록 아래에 가운데 정렬로 두고, 한 화면에 하나만 쓴다.
+measurement:
+  criteria: (1) 페이지네이션 nav가 대상 목록 바로 아래에 있고 수평 중심이 목록 컨테이너 중심과 같다(±1px). (2) 한 페이지의 페이지네이션 컴포넌트 수 ≤ 1.
+  method: 목록 페이지마다 페이지네이션 수와 위치를 확인한다.
+automation:
+  feasibility: partial
+  checks:
+  - tool: custom
+    method: document.querySelectorAll('nav.pagination').length <= 1
+  note: 가운데 정렬은 레이아웃 계산으로 확인(4단계 커스텀).
+rationale: 페이지네이션 위치가 서비스 전체에서 같아야 찾기 쉽고, 여러 개면 어떤 목록을 조작하는지 구분하기 어렵다.
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 페이지네이션 > 사용성 가이드라인 (가이드라인 PDF 2025.08 325·328쪽)
+  note: https://www.krds.go.kr/html/site/component/component_03_06.html
+scope:
+  level: component
+  targets:
+  - nav.pagination
+  - 페이지네이션
+exceptions: []
+relations: []
+examples:
+  good:
+  - lang: css
+    code: '.pagination { display: flex; justify-content: center; margin-block-start: var(--space-gap-8); }
+
+      '
+    note: 목록 아래 가운데 정렬로 페이지네이션 하나를 둔다.
+  bad:
+  - lang: css
+    code: '.pagination { display: flex; justify-content: flex-start; margin-block-start: var(--space-gap-8); } /*
+      왼쪽 정렬 */
+
+      '
+    note: 페이지네이션이 목록 중심과 맞지 않고 왼쪽에 붙는다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(curl로 KRDS 페이지 HTML을 받아 본문 텍스트를 직접 확인): 페이지네이션(component_03_06) ''페이지네이션은 유형에
+  상관없이 목록 하단에 중앙 정렬하여…'', ''페이지네이션은 한 화면에 하나만 사용한다.'' 확인. 지시형 → SHOULD.'
+korean_specific: false
+tags:
+- krds
+- krds-component

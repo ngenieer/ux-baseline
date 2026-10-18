@@ -1,0 +1,50 @@
+id: NAV-022
+category: NAV
+title: 메인 메뉴 최대 3수준
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 메인 메뉴는 최대 3수준까지만 구성한다.
+measurement:
+  criteria: 메인 메뉴 nav 안 링크 목록(ul/ol)의 중첩 깊이 ≤ 3.
+  method: 메인 메뉴 DOM의 목록 중첩 깊이를 센다.
+automation:
+  feasibility: none
+  note: '4단계 커스텀 검사 가능: nav[aria-label=''메인 메뉴''] 안 ul의 최대 조상 ul 개수 계산.'
+rationale: 수준이 깊을수록 드롭다운 안에서 위치를 파악하고 이동하기 어렵다.
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 메인 메뉴 > 사용성 가이드라인 (가이드라인 PDF 2025.08 271·275쪽)
+  note: https://www.krds.go.kr/html/site/component/component_03_02.html — '서비스 정보 구조를 적절하게 반영하여 메인 메뉴를 구성하고 최대 3수준의
+    메뉴를 사용한다.'
+scope:
+  level: component
+  targets:
+  - 메인 메뉴
+exceptions: []
+relations:
+- type: depends
+  id: NAV-034
+  note: 사이드 메뉴는 2수준 — 메인 메뉴 3수준과 함께 정보 구조 깊이 상한을 정함(BACKLOG 출처 내부 불일치 항목)
+examples:
+  good:
+  - lang: html
+    code: '<nav aria-label="메인 메뉴"><ul><li>민원<ul><li>신청<ul><li><a>전입신고</a></li></ul></li></ul></li></ul></nav>
+
+      '
+    note: 메인 메뉴 목록 중첩이 3수준이다.
+  bad:
+  - lang: html
+    code: '<nav aria-label="메인 메뉴"><ul><li>…<ul><li>…<ul><li>…<ul><li><a>4수준</a></li></ul></li></ul></li></ul></li></ul></nav>
+
+      '
+    note: 메인 메뉴 목록 중첩이 4수준이다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(KRDS component_03_02 WebFetch): ''최대 3수준의 메뉴를 사용한다'' 확인. 단정형 서술 → SHOULD. BACKLOG
+  ''출처 내부 불일치(메뉴 깊이 상한)''와 관련 — 사이드 메뉴 페이지의 4수준 이상 유형 서술은 NAV-034에서 다룸.'
+korean_specific: false
+tags:
+- krds
+- krds-component

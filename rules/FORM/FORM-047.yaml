@@ -1,0 +1,55 @@
+id: FORM-047
+category: FORM
+title: 원본 문서 날짜는 원본 형식대로
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 여권·신용카드처럼 원본 문서에 적힌 날짜를 받을 때는 입력 필드의 구성(구성 요소 순서·자릿수)을 원본의 날짜 형식과 같게 하고, 날짜 텍스트 붙여넣기를 막지 않는다.
+measurement:
+  criteria: '(1) 원본 문서가 있는 날짜 필드의 구성 요소 순서와 자릿수가 원본 표기와 같다(예: 카드 유효기간 ''MM/YY'' → 월 2자리, 연 2자리 순). (2) 해당 필드에 paste
+    이벤트를 막는 코드(onpaste의 preventDefault·return false)가 없다.'
+  method: '수동: 원본 문서 표기와 필드 구성을 비교한다. 코드 검토 또는 E2E로 날짜 문자열을 붙여넣어 입력되는지 확인한다.'
+automation:
+  feasibility: none
+  checks: []
+  note: 기존 검사기 규칙 없음. 4단계 eslint 커스텀으로 입력 요소의 paste 차단 코드를 찾을 수 있다(구성 일치는 수동).
+rationale: KRDS는 여권·신용카드 유효 기간 등 원본이 있는 날짜는 원본 형식과 입력 필드를 일치시켜 혼동을 줄이고, 필요하면 날짜 텍스트를 복사해 붙여넣을 수 있게 하라고 한다.
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 날짜 입력 필드 > 사용성 가이드라인(문서에 표시된 날짜를 정확하게 요청할 때 입력 필드의 구성을 원본 형식과 일치시킨다) (가이드라인 PDF 2025.08 671쪽)
+  note: https://www.krds.go.kr/html/site/component/component_09_01.html
+- ref: KRDS
+  locator: 컴포넌트 > 날짜 입력 필드 > 유형(다중 입력 필드) (가이드라인 PDF 2025.08 665쪽)
+  note: https://www.krds.go.kr/html/site/component/component_09_01.html — '문서에 표시된 날짜 형식과 일치하는 형식으로 작성이 필요한 경우'
+    다중 입력 필드를 쓰는 예(카드 유효기간, 여권 발급 일자)
+scope:
+  level: situation
+  targets:
+  - 원본 문서(여권·신용카드 등)의 날짜를 받는 날짜 입력 필드
+exceptions: []
+relations:
+- type: refines
+  id: FORM-018
+  note: 붙여넣기 허용 요구가 일부 겹침(FORM-018은 개인 식별 정보 필드 전반)
+examples:
+  good:
+  - lang: html
+    code: "<fieldset>\n  <legend>카드 유효기간(MM/YY)</legend>\n  <label>월(MM) <input inputmode=\"numeric\" maxlength=\"\
+      2\" autocomplete=\"cc-exp-month\"></label>\n  <label>연(YY) <input inputmode=\"numeric\" maxlength=\"2\" autocomplete=\"\
+      cc-exp-year\"></label>\n</fieldset>\n"
+    note: 카드에 적힌 순서·자릿수(월 2자리, 연 2자리)대로 필드를 나누고 붙여넣기를 막지 않았다.
+  bad:
+  - lang: html
+    code: "<fieldset>\n  <legend>카드 유효기간(MM/YY)</legend>\n  <label>연(YYYY) <input inputmode=\"numeric\" maxlength=\"\
+      4\" autocomplete=\"cc-exp-year\"></label>\n  <label>월(MM) <input inputmode=\"numeric\" maxlength=\"2\" autocomplete=\"\
+      cc-exp-month\" onpaste=\"return false\"></label>\n</fieldset>\n"
+    note: 카드 표기와 순서·자릿수가 다르고 붙여넣기를 막았다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(curl로 KRDS 페이지 HTML을 받아 본문 텍스트와 대조): 문장 일치 확인. 원문 강도 ''일치시킨다''(지시문) → SHOULD.
+  붙여넣기는 원문에 ''필요한 경우''가 붙어 있어 ''막지 않는다''로 씀.'
+korean_specific: false
+tags:
+- krds
+- krds-component

@@ -1,0 +1,61 @@
+id: TYPO-017
+category: TYPO
+title: 한국어 어절 단위 줄바꿈(keep-all)
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: MAY
+statement: '한국어 본문·제목 텍스트 블록에 word-break: keep-all을 지정해 한글을 어절(띄어쓰기) 단위로 줄바꿈한다.'
+measurement:
+  criteria: :lang(ko) 범위의 p, li, dd, h1~h6 요소의 계산값 word-break가 keep-all. KRDS 키트 CSS를 쓰는 프로젝트는 키트 CSS 파일을 불러오지 않은
+    상태로 렌더링한 계산값으로 판정한다 — 키트 CSS가 정한 값은 판정하지 않는다(CF-049).
+  method: Playwright로 해당 요소의 getComputedStyle().wordBreak 를 수집한다.
+automation:
+  feasibility: none
+  note: '기존 규칙 없음. 4단계: 계산 스타일 검사(커스텀) 또는 stylelint 커스텀(body·본문 셀렉터에 keep-all 선언 존재).'
+rationale: 한국어는 음절 단위와 어절 단위 줄바꿈이 모두 정상 관행이며, 어절 단위는 단어가 줄 끝에서 쪼개지지 않아 읽기 흐름이 이어진다. 체계는 어절 단위를 기본으로 택한다(선택 근거는 표준이
+  아니라 체계의 선택).
+sources:
+- ref: CSS_TEXT_3
+  locator: 5.1 word-break (keep-all, Note)
+  note: 한국어는 음절 단위(normal)와 공백 단위(keep-all) 두 방식이 모두 흔하다고 기술
+- ref: KLREQ
+  locator: 7.1.1 Line Breaking Rules
+  note: 글자/어절 단위 중 작성자가 문단·문서 단위로 선택
+- ref: UXB_SYSTEM_CHOICE
+  locator: CF-052
+  note: 표준은 음절·어절 단위를 모두 정상 관행으로 제시. 어절 단위를 기본값으로 정한 것은 이 체계의 선택.
+scope:
+  level: global
+  targets:
+  - :lang(ko) p
+  - :lang(ko) li
+  - :lang(ko) dd
+  - :lang(ko) h1~h6
+exceptions: []
+relations:
+- type: depends
+  id: TYPO-018
+  note: 'keep-all은 긴 어절·URL이 좁은 칸을 넘치게 할 수 있어 overflow-wrap: anywhere 를 함께 써야 한다.'
+examples:
+  good:
+  - lang: css
+    code: :lang(ko) p{word-break:keep-all;overflow-wrap:anywhere}
+    note: 어절 단위로 줄바꿈하고 긴 어절 넘침은 anywhere로 막는다
+  bad:
+  - lang: css
+    code: :lang(ko) p{word-break:normal}
+    note: 한국어 본문이 음절 단위로 끊긴다(체계 기본값과 다름)
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(CSS Text 3 §5.1, klreq 7.1.1 HTML 확인): CSS Text 3은 ''Korean has two styles
+  of line-breaking: between any two Korean syllables (normal) or … mainly at spaces (keep-all)'', keep-all Note
+  ''This is the other common behavior for Korean'' 확인. klreq 7.1.1은 ''글자 또는 어절 단위'', 작성자가 문단·문서 단위로 선택 가능하다고 기술.
+  두 출처 모두 선택 사항으로 제시 → 체계 선택이므로 PREFERENCE 추가, MAY. keep-all은 언어 무관 속성이라 lang 미지정이어도 동작. KRDS 사이트 CSS(output.css)에는
+  keep-all 3회, break-all 13회가 쓰였다(참고). 2026-10-18 CF-052로 체계 선택을 기록하고 PREFERENCE를 UXB_SYSTEM_CHOICE로 바꿈.'
+korean_specific: true
+tags:
+- research-typo
+decisions:
+- CF-049
+- CF-052

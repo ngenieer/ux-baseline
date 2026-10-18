@@ -1,0 +1,53 @@
+id: LAYOUT-010
+category: LAYOUT
+title: 운영기관 식별자
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 운영기관 식별자의 로고 영역에는 서비스 로고가 아니라 서비스를 운영하는 기관의 로고를 넣고, 서비스 로고는 푸터에 둔다.
+measurement:
+  criteria: 운영기관 식별자 컴포넌트의 로고 이미지가 운영 기관 로고(대체 텍스트가 기관명)이고, 서비스 로고는 footer 안에 있다.
+  method: 운영기관 식별자와 푸터의 로고 이미지·대체 텍스트를 수동 확인한다.
+automation:
+  feasibility: none
+  checks: []
+  note: 로고 종류 판단이 필요해 자동 검사 불가.
+rationale: 식별자는 서비스 운영 책임 기관을 알리는 장치이므로 서비스 로고를 넣으면 운영 주체를 알 수 없다.
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 운영기관 식별자 > 사용성 가이드라인 (가이드라인 PDF 2025.08 230쪽)
+  note: https://www.krds.go.kr/html/site/component/component_02_02.html
+scope:
+  level: component
+  targets:
+  - 운영기관 식별자
+  - footer
+exceptions: []
+relations:
+- type: depends
+  id: LAYOUT-015
+  note: 푸터 정보 순서의 첫 항목이 서비스 로고.
+examples:
+  good:
+  - lang: html
+    code: "<footer>\n  <img src=\"/img/service-logo.svg\" alt=\"민원24시\">\n  …\n</footer>\n<div class=\"agency-identifier\"\
+      ><img src=\"/img/agency-logo.svg\" alt=\"행정안전부\"> 이 누리집은 행정안전부에서 운영합니다.</div>\n"
+    note: 운영기관 식별자에는 운영 기관 로고를, 서비스 로고는 푸터에 둔다.
+  bad:
+  - lang: html
+    code: '<div class="agency-identifier"><img src="/img/service-logo.svg" alt="민원24시"> 이 누리집은 행정안전부에서 운영합니다.</div>
+
+      '
+    note: 운영기관 식별자 로고 영역에 기관 로고 대신 서비스 로고를 넣었다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(curl로 KRDS 페이지 HTML을 받아 본문 텍스트를 직접 확인): 운영기관 식별자(component_02_02) ''로고 영역에는
+  서비스의 로고가 아니라 서비스 운영 주체와 관련된 기관의 로고를 제공한다.'', ''서비스를 운영하는 기관의 로고가 제공되어야 하며 서비스 로고는 푸터에 배치되어야 한다.'' 확인. ''되어야 한다''
+  → SHOULD + public-sector-must.'
+korean_specific: false
+tags:
+- krds
+- krds-component
+- public-sector
+- public-sector-must

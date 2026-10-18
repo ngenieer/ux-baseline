@@ -1,0 +1,47 @@
+id: RESP-011
+category: RESP
+title: 화면 크기와 무관한 페이지 수
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 화면 크기가 바뀌어도 페이지네이션의 전체 화면(페이지) 수와 화면당 항목 수를 바꾸지 않는다.
+measurement:
+  criteria: 같은 목록 URL을 360px와 1280px 뷰포트로 열었을 때 전체 페이지 수와 한 페이지의 항목 수가 같다.
+  method: Playwright로 두 너비에서 같은 URL을 열어 항목 수와 마지막 페이지 번호를 비교한다.
+automation:
+  feasibility: none
+  checks: []
+  note: 4단계 커스텀 Playwright 검사.
+rationale: 어떤 기기에서 이용하더라도 같은 항목을 같은 위치에서 찾을 수 있다(KRDS).
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 페이지네이션 > 플랫폼에 대한 고려 사항 (가이드라인 PDF 2025.08 332쪽)
+  note: https://www.krds.go.kr/html/site/component/component_03_06.html
+scope:
+  level: component
+  targets:
+  - 페이지네이션
+exceptions: []
+relations:
+- type: depends
+  id: NAV-043
+  note: 전체 화면 수 표시.
+examples:
+  good:
+  - lang: text
+    code: '360px·1280px 모두: 총 12페이지, 페이지당 10건'
+    note: 화면 크기와 관계없이 전체 페이지 수와 페이지당 건수가 같다.
+  bad:
+  - lang: text
+    code: '360px: 총 24페이지·페이지당 5건 / 1280px: 총 12페이지·페이지당 10건'
+    note: 화면 너비에 따라 페이지당 건수와 전체 페이지 수가 바뀐다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(curl로 KRDS 페이지 HTML을 받아 텍스트로 직접 읽음): ''화면 크기에 상관없이 전체 화면 수를 일정하게 유지한다'', ''동일한
+  항목은 동일한 위치에서 찾을 수 있도록 전체 화면 수와 각 화면에 표시되는 항목 수를 일정하게 유지해야 한다'' 확인. → SHOULD + public-sector-must.'
+korean_specific: false
+tags:
+- krds
+- krds-component
+- public-sector-must

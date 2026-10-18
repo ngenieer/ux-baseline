@@ -1,0 +1,52 @@
+id: LAYOUT-016
+category: LAYOUT
+title: 메인 메뉴
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 메인 메뉴 드롭다운 영역의 하위 링크 목록은 본문 그리드의 가장 왼쪽 칼럼부터 왼쪽 정렬로 배치한다.
+measurement:
+  criteria: '모든 1수준 메뉴의 드롭다운에서 첫 하위 링크 목록의 왼쪽 경계 x좌표가 본문 콘텐츠 그리드 첫 칼럼의 왼쪽 경계와 같고(±1px), 링크 레이블이 text-align: start다.
+    드롭다운을 연 1수준 메뉴의 위치에 따라 목록 시작 위치가 달라지지 않는다.'
+  method: 1024·1280px에서 각 1수준 메뉴를 열어 하위 목록 시작 x좌표를 비교한다.
+automation:
+  feasibility: none
+  checks: []
+  note: '4단계 커스텀 검사: 메뉴별 드롭다운 첫 목록 left와 main 컨테이너 left 비교.'
+rationale: 하위 메뉴 시작 위치가 항상 같아야 사용자가 일관된 위치에서 메뉴를 훑을 수 있다.
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 메인 메뉴 > 사용성 가이드라인 (가이드라인 PDF 2025.08 271·272쪽)
+  note: https://www.krds.go.kr/html/site/component/component_03_02.html
+scope:
+  level: component
+  targets:
+  - 메인 메뉴 드롭다운
+exceptions: []
+relations: []
+examples:
+  good:
+  - lang: css
+    code: ".main-menu-dropdown { position: absolute; inset-inline: 0; }\n.main-menu-dropdown .submenu { max-inline-size:\
+      \ var(--layout-content-max); margin-inline: auto;\n  padding-inline: var(--space-padding-8); text-align: start;\
+      \ } /* 어느 메뉴를 열어도 본문 그리드 첫 칼럼에서 시작 */\n"
+    note: 드롭다운 하위 목록이 본문 그리드 첫 칼럼 왼쪽에서 시작한다.
+  bad:
+  - lang: css
+    code: '.main-menu > li { position: relative; }
+
+      .main-menu-dropdown { position: absolute; inset-inline-start: 0; } /* 연 1수준 메뉴 아래에서 시작해 메뉴마다 목록 위치가 다름 */
+
+      '
+    note: 하위 목록 시작 위치가 연 메뉴 위치에 따라 달라진다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(curl로 KRDS 페이지 HTML을 받아 본문 텍스트를 직접 확인): 메인 메뉴(component_03_02) ''드롭다운 메뉴 영역
+  내에서 레이블은 좌측으로 정렬한다.'', ''본문 그리드를 기준으로 가장 왼쪽부터 하위 수준의 링크 목록이 배치되도록 표현하여 사용자가 항상 일관된 위치에서 정보를 스캔할 수 있도록 해야 한다.''
+  확인. ''해야 한다'' → SHOULD + public-sector-must.'
+korean_specific: false
+tags:
+- krds
+- krds-component
+- public-sector-must

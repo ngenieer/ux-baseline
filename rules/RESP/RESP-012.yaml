@@ -1,0 +1,64 @@
+id: RESP-012
+category: RESP
+title: 모바일 레이아웃 이미지 정리
+stage: platformed
+status:
+  value: confirmed
+type: guide
+strength: SHOULD
+statement: 모바일 레이아웃(RESP-004 기준 1024px 미만)으로 전환할 때 이미지마다 사용자에게 의미가 있는지 검토해 의미 없는 이미지는 빼고, 남긴 이미지는 화면 너비에 맞게 크기를
+  조정하거나 잘라서 쓴다.
+measurement:
+  criteria: '점검 질문: (1) 모바일 레이아웃의 각 이미지가 과업이나 이해에 필요한 정보를 전달하는가? (2) 장식 목적 이미지가 스크롤 길이를 늘리고 있지 않은가? (3) 남긴 이미지가
+    뷰포트 너비를 넘지 않고, 잘라 쓴 이미지에서 핵심 피사체가 잘리지 않았는가?'
+  method: 모바일 레이아웃 시안·화면의 이미지 목록을 만들어 위 질문으로 검토한다.
+automation:
+  feasibility: none
+  checks: []
+  note: 판정 불가(의미 판단). 크기 부분은 PERF-009·RESP-003 자동 검사로 일부 확인.
+rationale: 과도한 이미지는 로딩 속도를 늦추고 스크롤을 반복하게 해 뷰포트가 제한된 모바일에서 정보 탐색 효율을 떨어뜨린다(KRDS).
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 이미지 > 플랫폼에 대한 고려 사항 (가이드라인 PDF 2025.08 421쪽)
+  note: https://www.krds.go.kr/html/site/component/component_04_08.html
+- ref: KRDS
+  locator: 디자인 스타일 > 레이아웃 > 브레이크포인트(PDF 153쪽)
+  note: 모드 Mobile = small 360px·medium 768px('태블릿을 포함한 소형 디바이스'), PC = large 1024px 이상
+- ref: UXB_SYSTEM_CHOICE
+  locator: CF-055
+  note: KRDS의 '좁은 화면·모바일 레이아웃·작은 디스플레이'를 Mobile 모드(1024px 미만)로 해석
+scope:
+  level: component
+  targets:
+  - 이미지
+  - img
+  - picture
+exceptions: []
+relations:
+- type: depends
+  id: PERF-009
+  note: 남긴 이미지의 반응형 크기 조정(width:100%, height:auto).
+examples:
+  good:
+  - lang: html
+    code: "<picture>\n  <source media=\"(min-width: 1024px)\" srcset=\"hero-wide.jpg\">\n  <img src=\"hero-crop.jpg\"\
+      \ alt=\"민원 접수 창구\" width=\"360\" height=\"240\">\n</picture>"
+    note: 모바일용으로 잘라 낸 이미지를 picture로 바꿔 쓴다.
+  bad:
+  - lang: html
+    code: '<!-- 1024px 미만에서도 장식용 물결 이미지를 원본 너비로 둠 -->
+
+      <img src="deco-wave.png" alt="" width="1200" height="300" style="width: 1200px">'
+    note: 의미 없는 장식 이미지를 그대로 두고 뷰포트보다 넓게 표시한다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(curl로 KRDS 페이지 HTML을 받아 텍스트로 직접 읽음): ''화면 너비가 충분하지 않아 모바일 레이아웃으로 전환할 때에는, 이미지가
+  사용자에게 의미가 있는지를 판단하여 이미지를 제거하는 방안을 고려해야 한다. 그런 다음, 남은 이미지는 크기를 조정하거나 적절하게 크롭하여 화면에 최적화될 수 있도록 만든다.'' 확인. 의미 판단이
+  필요해 guide. ''고려해야 한다''는 검토 의무라 SHOULD로 두되 guide라서 public-sector-must 태그는 붙이지 않음. 768px 경계는 RESP-004 적용 해석(RESP-010과
+  같은 이유로 needs_verification=true). KRDS 가이드라인 PDF(2025.08, 1181쪽) 원문 대조 2026-10-18: 레이아웃 브레이크포인트 표에서 Mobile 모드가
+  small(360)·medium(768)이고 PC 모드가 large(1024) 이상임을 확인 — 768px 경계를 1024px로 고침(CF-055).'
+korean_specific: false
+tags:
+- krds
+- krds-component
+decisions:
+- CF-055

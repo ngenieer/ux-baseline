@@ -1,0 +1,79 @@
+{
+  "extends": [
+    "html-validate:recommended",
+    "html-validate:a11y"
+  ],
+  "rules": {
+    "no-dup-id": "error",
+    "no-dup-attr": "error",
+    "close-order": "error",
+    "wcag/h37": "error",
+    "wcag/h32": "error",
+    "wcag/h30": "error",
+    "wcag/h63": "error",
+    "wcag/h71": "error",
+    "empty-title": "error",
+    "empty-heading": "error",
+    "no-autoplay": [
+      "error",
+      {
+        "include": [
+          "audio",
+          "video"
+        ]
+      }
+    ],
+    "meta-refresh": "error",
+    "valid-autocomplete": "error",
+    "hidden-focusable": "error",
+    "prefer-native-element": [
+      "error",
+      {
+        "exclude": [
+          "list"
+        ]
+      }
+    ],
+    "no-redundant-role": [
+      "error",
+      {
+        "exclude": [
+          "list"
+        ]
+      }
+    ],
+    "unique-landmark": "error",
+    "no-inline-style": "off",
+    "no-trailing-whitespace": "off",
+    "form-dup-name": [
+      "error",
+      {
+        "shared": [
+          "radio",
+          "button",
+          "reset",
+          "submit",
+          "checkbox"
+        ]
+      }
+    ],
+    "doctype-style": "off",
+    "attribute-boolean-style": "off",
+    "attribute-empty-style": "off",
+    "attr-quotes": "off",
+    "void-style": "off",
+    "attr-case": "off",
+    "element-case": "off",
+    "tel-non-breaking": "off",
+    "ux-baseline/date-format": "warn",
+    "ux-baseline/required-marker-consistency": "warn",
+    "ux-baseline/error-summary-position": "warn",
+    "ux-baseline/error-title-prefix": "warn",
+    "ux-baseline/dialog-action-verb": "warn",
+    "ux-baseline/sensory-reference": "warn",
+    "no-redundant-for": "off"
+  },
+  "plugins": [
+    "./plugins/html-ux-baseline.mjs"
+  ]
+}

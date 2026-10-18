@@ -1,0 +1,66 @@
+id: NAV-004
+category: NAV
+title: 일관된 내비게이션
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: MUST
+statement: 여러 페이지에 반복되는 내비게이션은 사용자가 바꾸지 않는 한 매번 같은 상대 순서로 둔다.
+measurement:
+  criteria: 같은 화면 변형(같은 브레이크포인트·확대 배율·방향)에서, 여러 페이지에 반복되는 내비게이션(헤더 요소, 메인 메뉴 항목, 푸터 링크, 사이드 메뉴, 탭바 등)의 DOM 순서가 페이지마다
+    같다. 일부 페이지에서 항목이 추가·제거되어도 남은 항목의 상대 순서는 같다.
+  method: 대표 페이지 5개 이상에서 반복 내비게이션의 링크 텍스트·href 순서를 추출해 비교한다(수동 또는 스크립트).
+automation:
+  feasibility: none
+  note: '4단계 커스텀 검사 가능: 크롤 결과에서 nav 랜드마크별 링크 순서 배열을 뽑아 페이지 간 최장 공통 부분열과 비교.'
+rationale: 반복 메뉴 위치와 순서가 일정해야 화면 확대·스크린 리더·인지 장애 사용자가 매번 다시 찾지 않는다.
+sources:
+- ref: WCAG22
+  locator: SC 3.2.3 Consistent Navigation (Level AA)
+  note: https://www.w3.org/TR/WCAG22/#consistent-navigation
+- ref: WCAG22_UNDERSTANDING
+  locator: https://www.w3.org/WAI/WCAG22/Understanding/consistent-navigation.html
+- ref: KRDS
+  locator: 컴포넌트 > 헤더 / 푸터 / 구조화 목록 / 뒤로가기 버튼 / 탭바 > 사용성 가이드라인 (가이드라인 PDF 2025.08 236·247·248·249·348·356쪽 — 헤더·푸터·탭바·구조화 목록. 뒤로가기 버튼 컴포넌트는 PDF에 없음)
+  note: 같은 요구의 KRDS 컴포넌트 문장(헤더 요소 순서, 푸터 일관된 위치·순서, 도구 막대 같은 위치·순서, 뒤로가기 버튼 상단바 왼쪽, 탭바 탭 순서 유지) — sources/extracts/KRDS-components.yaml
+    (outcome merge:NAV-004). 구체 배치는 4단계 컴포넌트 규격 원자료.
+scope:
+  level: global
+  targets:
+  - header
+  - nav
+  - footer
+  - 사이드 메뉴
+  - 탭바
+exceptions:
+- 사용자가 직접 순서를 바꾼 경우(WCAG 3.2.3 원문)
+relations: []
+examples:
+  good:
+  - lang: html
+    code: '<!-- 모든 페이지 -->
+
+      <nav aria-label="메인 메뉴"><ul><li><a href="/apply">신청</a></li><li><a href="/check">조회</a></li><li><a href="/help">고객지원</a></li></ul></nav>
+
+      '
+    note: 모든 페이지에서 메뉴 항목이 같은 순서다.
+  bad:
+  - lang: html
+    code: '<!-- 어떤 페이지에서는 ''고객지원''이 첫 항목으로 올라감 -->
+
+      <nav aria-label="메인 메뉴"><ul><li><a href="/help">고객지원</a></li><li><a href="/apply">신청</a></li><li><a href="/check">조회</a></li></ul></nav>
+
+      '
+    note: 일부 페이지에서 항목 순서가 바뀐다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(WCAG22-A-AA.yaml 3.2.3): ''Navigational mechanisms that are repeated on multiple
+  web pages within a set of web pages occur in the same relative order each time they are repeated, unless a change
+  is initiated by the user.''와 일치. ''같은 화면 변형'' 조건은 3.2.6 note의 page variation 해석을 빌려 씀. KRDS 컴포넌트 문장은 요약 도구 추출본만
+  확인(개별 페이지 재대조 안 함) — 이 룰의 근거로는 WCAG로 충분.'
+korean_specific: false
+tags:
+- wcag22
+- level-aa
+- new-in-2.0
+- krds

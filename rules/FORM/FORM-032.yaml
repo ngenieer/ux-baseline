@@ -1,0 +1,71 @@
+id: FORM-032
+category: FORM
+title: 선택 옵션 정렬
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 라디오 버튼·체크박스 옵션은 가나다순으로 정렬하고, 선택 빈도순 등 다른 정렬은 근거(이용 데이터 등)를 설계 문서에 기록했을 때만 쓴다.
+measurement:
+  criteria: 각 라디오·체크박스 그룹의 옵션 레이블 순서가 가나다순(localeCompare 'ko' 오름차순)이다. 가나다순이 아니면 그 그룹의 정렬 기준과 근거가 설계 문서에 기록돼 있어야
+    통과. 크기·빈도·시간처럼 값 자체에 순서가 있는 척도(만족도, 연령대 등)도 기록된 정렬 기준으로 본다.
+  method: DOM에서 그룹별 레이블 순서를 추출해 가나다순과 비교하고, 다른 그룹은 설계 문서를 확인한다.
+automation:
+  feasibility: partial
+  checks:
+  - tool: custom
+    method: 그룹별 레이블 배열이 localeCompare('ko') 정렬과 같은지 DOM 검사, 다르면 경고
+  note: 정렬 근거 기록 여부는 수동.
+rationale: 근거 없는 정렬은 특정 옵션을 앞세워 편견이나 차별을 강화할 수 있다. 가나다순은 기준이 명확해 사용자가 옵션 위치를 예측할 수 있다.
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 라디오 버튼 > 사용성 가이드라인 (가이드라인 PDF 2025.08 527쪽)
+  note: https://www.krds.go.kr/html/site/component/component_06_01.html — '기본적으로 라디오 버튼의 옵션은 가나다순으로 정렬한다. ... 특정한
+    기준에 따른 옵션 정렬이 편견이나 차별을 강화할 수 있으므로 유의해서 사용해야 한다. 정렬 기준에 대한 명확한 근거나 이유가 없는 경우에는 가나다순으로 정렬하는 것이 가장 안전하다.'
+- ref: KRDS
+  locator: 컴포넌트 > 체크박스 > 사용성 가이드라인 (가이드라인 PDF 2025.08 542쪽)
+  note: https://www.krds.go.kr/html/site/component/component_06_02.html — 같은 문장(체크박스 옵션 가나다순)
+scope:
+  level: component
+  targets:
+  - input[type=radio]
+  - input[type=checkbox]
+exceptions:
+- 정렬 기준에 명확한 근거나 이유가 있는 경우 — KRDS 원문 단서. 근거를 설계 문서에 기록한다. 의미상 순서가 정해진 옵션(예·아니요, 척도·크기·기간·단계)은 이 예외에 해당하며 기록을 따로
+  요구하지 않는다(CF-066).
+relations:
+- type: conflicts
+  id: FORM-024
+  note: 동의 항목은 가나다순 그대로('동의하지 않음' → '동의함', KRDS 예시와 같음). 예·아니요·척도처럼 의미상 순서가 있는 옵션만 예외(CF-066).
+  decision: CF-066
+examples:
+  good:
+  - lang: html
+    code: |
+      <fieldset>
+        <legend>관심 분야</legend>
+        <label><input type="checkbox" name="topic" value="edu"> 교육</label>
+        <label><input type="checkbox" name="topic" value="welfare"> 복지</label>
+        <label><input type="checkbox" name="topic" value="tax"> 세금</label>
+      </fieldset>
+    note: 옵션이 가나다순이다.
+  bad:
+  - lang: html
+    code: |
+      <fieldset>
+        <legend>관심 분야</legend>
+        <label><input type="checkbox" name="topic" value="tax"> 세금</label>
+        <label><input type="checkbox" name="topic" value="edu"> 교육</label>
+        <label><input type="checkbox" name="topic" value="welfare"> 복지</label>
+      </fieldset>
+      <!-- 설계 문서에 정렬 기준 기록 없음 -->
+    note: 근거 기록 없이 가나다순이 아닌 순서로 나열했다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(KRDS component_06_01·06_02 HTML curl): ''기본적으로 ... 정렬한다''(단정형), ''유의해서 사용해야
+  한다'' 확인 → SHOULD + public-sector-must. 척도형 옵션(만족도 등)을 ''기록된 정렬 기준''으로 보는 것은 체계의 해석 — 원문은 척도를 따로 언급하지 않음.'
+korean_specific: true
+tags:
+- krds
+- krds-component
+- public-sector-must

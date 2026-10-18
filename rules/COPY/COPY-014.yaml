@@ -1,0 +1,55 @@
+id: COPY-014
+category: COPY
+title: 운영기관 식별자 사용 조건
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 공식 디지털 정부서비스가 아닌 사이트에서는 운영기관 식별자를 쓰지 않는다.
+measurement:
+  criteria: 운영 주체가 정부기관이 아닌 사이트의 모든 페이지에 운영기관 식별자 컴포넌트와 '에서 운영하는 누리집입니다' 문구가 없다.
+  method: 사이트 운영 주체를 확인하고, 비공식 사이트면 전체 템플릿에서 식별자 컴포넌트·문구를 검색한다.
+automation:
+  feasibility: none
+  checks: []
+  note: '4단계 커스텀 검사: is_official_gov=false 이면 식별자 클래스·문구 검출 시 실패(COPY-012와 같은 검사기).'
+rationale: 정부 공식 서비스가 아닌 곳에서 식별자를 쓰면 사용자가 운영 주체를 오인한다(KRDS 운영기관 식별자).
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 운영기관 식별자 > 사용성 가이드라인 (가이드라인 PDF 2025.08 231쪽)
+  note: https://www.krds.go.kr/html/site/component/component_02_02.html
+scope:
+  level: situation
+  targets:
+  - 운영기관 식별자
+  - 비공식(민간) 사이트
+exceptions: []
+relations: []
+examples:
+  good:
+  - lang: html
+    code: '<!-- 민간 서비스 푸터: 사업자 정보만 표시 -->
+
+      <footer><p>주식회사 시즐론 · 사업자등록번호 000-00-00000</p></footer>
+
+      '
+    note: 민간 서비스 푸터에 사업자 정보만 표시한다
+  bad:
+  - lang: html
+    code: '<!-- 민간 서비스인데 정부 식별자 문구 사용 -->
+
+      <div class="identifier"><p>이 누리집은 시즐론에서 운영하는 누리집입니다.</p></div>
+
+      '
+    note: 민간 서비스가 운영기관 식별자 문구를 쓴다
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(curl로 KRDS 페이지 HTML을 받아 텍스트로 직접 읽음): 운영기관 식별자(component_02_02) ''공식 디지털 정부서비스가
+  아닌 사이트에서는 식별자를 사용하지 않아야 한다'' 확인. 강도: KRDS ''해야 한다·않는다'' 표현 → SHOULD + public-sector-must(정책 2). COPY-012(공식 배너)와
+  요구 형태는 같으나 대상 컴포넌트가 달라 병합하지 않음(정책 1).'
+korean_specific: false
+tags:
+- krds
+- krds-component
+- public-sector
+- public-sector-must

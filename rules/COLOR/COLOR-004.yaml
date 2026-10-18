@@ -1,0 +1,48 @@
+id: COLOR-004
+category: COLOR
+title: 명도 단계로 대비 보장
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: MAY
+statement: 색 팔레트를 명도 단계 번호로 구성하고, 두 단계 번호 차이가 40 이상이면 3:1, 50 이상이면 4.5:1, 70 이상이면 7:1, 90 이상이면 15:1 이상 대비가 나오도록
+  단계 색을 맞춘다.
+measurement:
+  criteria: 팔레트 토큰의 모든 단계 쌍(같은 색상 계열 및 gray 0/100과의 쌍)에 대해 번호 차이 d ≥ 40 → 대비 ≥ 3:1, d ≥ 50 → ≥ 4.5:1, d ≥ 70 → ≥
+    7:1, d ≥ 90 → ≥ 15:1.
+  method: 토큰 JSON을 읽어 모든 쌍의 WCAG 대비를 계산하는 스크립트(커스텀).
+automation:
+  feasibility: none
+  note: '4단계: 토큰 빌드 시 대비 계산 테스트로 완전 자동화 가능(커스텀).'
+rationale: 단계 번호 차이만 보고 대비 충족 여부를 알 수 있으면 디자이너·개발자·AI가 색 조합마다 대비를 다시 계산하지 않아도 된다(KRDS 매직넘버).
+sources:
+- ref: KRDS
+  locator: 디자인 스타일 > 색상 > 접근성과 매직넘버 (가이드라인 PDF 2025.08 76~77쪽)
+  note: https://www.krds.go.kr/html/site/style/style_02.html
+scope:
+  level: global
+  targets:
+  - 색 팔레트 디자인 토큰
+exceptions: []
+relations: []
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(KRDS https://www.krds.go.kr/html/site/style/style_02.html HTML을 curl로 받아 본문
+  확인): ''매직넘버 40 - 명도 대비 3:1, 50 - 4.5:1, 70 - 7:1, 90 - 15:1'', 팔레트 제작 절차(HSL, L 5~95% 11단계, primary-50을 L 55%로
+  조정) 확인. 원문은 서술형 설계 방법 → 시스템 선택, MAY. 쌍의 범위(어느 단계 쌍까지 보장하는지)는 원문에 명시 없음 — criteria는 체계가 정한 해석. 4단계 토큰 설계로 넘어갈 룰.'
+korean_specific: false
+tags:
+- krds
+- system-choice
+- tokens
+examples:
+  good:
+  - lang: css
+    code: ":root{\n  --color-gray-0:#ffffff;  /* 0 */\n  --color-gray-40:#8a949e; /* 차이 40 → 3.08:1 ≥ 3:1 */\n \
+      \ --color-gray-50:#6d7882; /* 차이 50 → 4.51:1 ≥ 4.5:1 */\n  --color-gray-70:#464c53; /* 차이 70 → 8.68:1 ≥ 7:1\
+      \ */\n  --color-gray-90:#1e2124; /* 차이 90 → 16.18:1 ≥ 15:1 */\n}"
+    note: 단계 번호 차이만으로 보장 대비를 알 수 있다
+  bad:
+  - lang: css
+    code: ":root{\n  --color-gray-0:#ffffff;\n  --color-gray-50:#8a949e; /* 차이 50인데 3.08:1 — 4.5:1 미달 */\n}"
+    note: 단계 번호 50 차이가 4.5:1을 보장하지 않아 번호만 보고 쓰면 대비가 부족하다

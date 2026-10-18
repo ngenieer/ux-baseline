@@ -1,0 +1,62 @@
+id: LAYOUT-003
+category: LAYOUT
+title: 콘텐츠 간 구분
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: MUST
+statement: 이웃한 콘텐츠 블록은 테두리, 구분선, 서로 다른 무늬, 배경색 명도 차이, 줄 간격·글자 간격 조절 중 하나 이상으로 시각적으로 구분한다.
+measurement:
+  criteria: '페이지의 이웃한 콘텐츠 블록 쌍(구역 section, 카드, 목록 항목, 메뉴 그룹, 표 행 등)마다 다음 중 하나 이상이 있다: border 1px 이상, 구분선 요소(hr·border
+    의사 요소), 배경 이미지·무늬 차이, 배경색 차이, 블록 사이 margin·gap 0 초과.'
+  method: 화면을 위에서 아래로 훑으며 경계가 붙어 하나로 보이는 이웃 블록 쌍이 있는지 수동 확인한다. 의심 쌍은 개발자 도구에서 border·background·margin 계산값을 확인한다.
+automation:
+  feasibility: none
+  checks: []
+  note: '"이웃한 콘텐츠"의 범위 판단이 필요해 자동 검사 불가. 4단계에서 카드·목록 항목 컴포넌트 규격에 border 또는 gap 토큰을 필수 속성으로 넣어 컴포넌트 단위로 검사.'
+rationale: 경계가 없는 콘텐츠는 저시력·인지 장애 사용자가 어디서 끝나고 시작하는지 알기 어렵고, 터치 기기에서 이웃 항목 오조작을 부른다(KWCAG 5.4.4 기대효과).
+sources:
+- ref: KWCAG22
+  locator: 검사항목 5.4.4
+  note: 공식 원문 docx 대조 완료(2026-10-18)
+- ref: KRDS
+  locator: 컴포넌트 (여러 페이지) (가이드라인 PDF 2025.08 249·563쪽)
+  note: '같은 요구를 다루는 KRDS 컴포넌트: 태그, 푸터 — 상세는 sources/extracts/KRDS-components.yaml'
+scope:
+  level: global
+  targets:
+  - section
+  - article
+  - li
+  - .card
+  - 카드 목록
+  - 푸터 그룹
+  - 태그
+exceptions: []
+relations: []
+examples:
+  good:
+  - lang: css
+    code: '.card-list { display: grid; gap: var(--space-gap-7); }
+
+      .card { border: 1px solid var(--color-border-gray); }
+
+      '
+    note: 카드 사이 간격과 테두리로 이웃 블록이 구분된다.
+  bad:
+  - lang: css
+    code: '.card-list { display: grid; gap: 0; }
+
+      .card { border: 0; background: var(--color-surface-white); } /* 흰 페이지 위 흰 카드가 붙어 하나로 보임 */
+
+      '
+    note: 간격·테두리·배경 차이가 모두 없어 이웃 카드의 경계를 알 수 없다.
+needs_verification: false
+verification_note: '2026-10-18 공식 원문 대조(KS X OT0003:2022 docx): 5.4.4 ''이웃한 콘텐츠는 구별될 수 있어야 한다''와 구분 방법 예(테두리, 구분선,
+  서로 다른 무늬, 배경색 명도대비(채도), 줄 간격·글자 간격, 기타 방법) 확인. 기대효과 ''이웃한 콘텐츠 간에 간격을 두면'' — 측정 기준의 margin·gap 0 초과 항목의 근거.'
+korean_specific: true
+tags:
+- kwcag22
+- kwcag-only
+- krds

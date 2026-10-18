@@ -1,0 +1,14 @@
+id: CF-061
+rules:
+- LAYOUT-055
+- RESP-002
+summary: 파일 이름 말줄임(LAYOUT-055)은 텍스트 200% 확대(RESP-002)에서 더 많은 글자를 가려 정보 손실이 될 수 있다.
+principle: 1
+decision: 말줄임은 유지하되 잘린 이름은 초점·호버로 전체를 볼 수 있게 한다(LAYOUT-055 statement 수정). title 속성만으로는 대신하지 않는다(키보드·터치에서 보이지 않음).
+reason: WCAG 1.4.4는 확대 시 콘텐츠·기능 손실을 금지한다. 전체 이름을 다른 방법으로 볼 수 있으면 손실이 아니다. 목록 높이를 일정하게 하려는 KRDS의 의도(과업 완료)도 함께 지킨다.
+deviates_from_priority: false
+date: '2026-10-18'
+rule_changes:
+- 'LAYOUT-055: statement·측정 기준 수정'
+- 'LAYOUT-055: relations에 A11Y-010(depends) 추가, method에 1280px 창 200% 확대 확인 추가, 좋은 예에 펼침 버튼 방식 추가 (2026-10-18 독립
+  검토)'

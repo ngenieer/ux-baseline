@@ -1,0 +1,51 @@
+id: NAV-063
+category: NAV
+title: 코치마크 단계 순서
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 코치마크 단계는 사용자가 과업을 실제로 수행하는 순서대로 배열한다.
+measurement:
+  criteria: 코치마크 단계 n이 가리키는 요소를 과업 수행 중 단계 n+1이 가리키는 요소보다 먼저 조작한다(뒤 단계 대상을 먼저 조작해야 하는 경우가 없다).
+  method: '수동: 과업을 처음부터 끝까지 수행하며 조작하는 요소 순서를 기록하고 코치마크 단계 순서와 대조한다.'
+automation:
+  feasibility: none
+  checks: []
+  note: 과업 수행 순서 정의가 필요해 자동 검사 불가.
+rationale: 과업 흐름의 순서를 학습시키는 것이 코치마크의 목적이다.
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 코치마크 > 사용성 가이드라인 (코치마크는 전체 과업 플로를 고려하여 논리적인 순서로 제공한다) (가이드라인 PDF 2025.08 642쪽)
+  note: https://www.krds.go.kr/html/site/component/component_08_04.html
+scope:
+  level: component
+  targets:
+  - 코치마크
+exceptions: []
+relations:
+- type: depends
+  id: STATE-029
+  note: 코치마크는 한 번에 하나씩 표시(STATE-029)
+examples:
+  good:
+  - lang: text
+    code: '코치마크 순서: 1 검색어 입력 → 2 조건 선택 → 3 조회 버튼 (실제 조작 순서와 같음)
+
+      '
+    note: 코치마크 순서가 실제 조회 과업 순서와 같다.
+  bad:
+  - lang: text
+    code: '코치마크 순서: 1 조회 버튼 → 2 검색어 입력 → 3 조건 선택 (조회 버튼은 실제로 마지막에 누름)
+
+      '
+    note: 조회 버튼을 먼저 안내해 실제 조작 순서와 어긋난다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(KRDS 페이지 curl 수신 후 텍스트 추출): ''사용자의 실제 이용 플로(Flow)를 반영하여 논리적인 순서에 따라 단계가 진행될
+  수 있도록 구성해야 한다'' 확인. 원문 지시형 문장을 의무로 읽어 SHOULD + public-sector-must.'
+korean_specific: false
+tags:
+- krds
+- krds-component
+- public-sector-must

@@ -1,0 +1,58 @@
+id: A11Y-054
+category: A11Y
+title: 아이콘 전용 버튼에 툴팁
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 텍스트 레이블 없이 아이콘만 있는 메뉴·기능 버튼에는 툴팁을 제공한다.
+measurement:
+  criteria: 보이는 텍스트 없이 아이콘(img·svg·아이콘 폰트)만 있는 button·a·[role=button]마다 마우스오버와 키보드 초점에서 표시되는 툴팁(role="tooltip" 또는
+    툴팁 컴포넌트)이 연결되어 있다.
+  method: 아이콘 전용 버튼을 목록화하고 hover·focus 시 툴팁이 나타나는지 확인한다.
+automation:
+  feasibility: none
+  checks: []
+  note: '4단계 커스텀 검사: 보이는 텍스트 노드가 없는 button·a 중 aria-describedby/aria-labelledby로 role=tooltip을 참조하지 않는 요소를 표시.'
+rationale: 아이콘만으로는 기능을 오해하기 쉬워 보는 사용자에게도 텍스트 설명이 필요하다. 접근 가능한 이름(A11Y-025)은 툴팁과 별도로 필요하다.
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 툴팁 > 사용성 가이드라인 (가이드라인 PDF 2025.08 656쪽)
+  note: https://www.krds.go.kr/html/site/component/component_08_05.html
+scope:
+  level: component
+  targets:
+  - 아이콘 전용 버튼
+  - 툴팁
+exceptions: []
+relations:
+- type: depends
+  id: A11Y-025
+- type: depends
+  id: A11Y-010
+examples:
+  good:
+  - lang: html
+    code: '<button type="button" aria-labelledby="tip-print"><svg aria-hidden="true">…</svg></button>
+
+      <div role="tooltip" id="tip-print">인쇄</div>
+
+      '
+    note: 아이콘 전용 버튼에 툴팁을 연결해 보는 사용자에게도 이름 표시
+  bad:
+  - lang: html
+    code: '<button type="button" aria-label="인쇄"><svg aria-hidden="true">…</svg></button>
+
+      <!-- 보는 사용자에게 설명이 표시되지 않음 -->
+
+      '
+    note: aria-label만 있어 화면에 설명이 보이지 않음
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(WebFetch로 KRDS 페이지 재조회, 요약 모델 인용 확인): 사용성 가이드라인 ''아이콘만으로 구성된 메뉴/기능 버튼에는 툴팁을
+  반드시 제공해야 한다.'' 확인. ''반드시 해야'' → SHOULD + public-sector-must.'
+korean_specific: false
+tags:
+- krds
+- krds-component
+- public-sector-must

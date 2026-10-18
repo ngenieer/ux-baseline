@@ -1,0 +1,293 @@
+id: radio-group
+title: 라디오 버튼
+status: confirmed
+summary: 서로 배타적인 옵션 2~6개 중 하나만 고르게 할 때, 모든 옵션을 펼쳐 보여주는 단일 선택 그룹이다.
+use_instead:
+- when: 여러 옵션을 동시에 고를 수 있는 경우
+  use: checkbox
+  rule: FORM-028
+- when: 단일 선택 옵션이 7개 이상이고 사용자가 그 목록(시·도, 연도 등)에 익숙한 경우
+  use: select
+  rule: FORM-030
+- when: 결과가 즉시 반영되는 켜기·끄기 설정
+  use: toggle-switch
+  rule: FORM-041
+krds:
+  page: component_06_01.html
+  kit: html/code/radio_button.html
+  kit_classes:
+    radio-group: fieldset
+    radio-group__options: krds-check-area chk-column
+    radio-group__option: krds-form-check
+    radio-group__input: krds-form-check input[type=radio]
+    radio-group__label: krds-form-check label
+    radio-group__description: krds-form-check-cnt krds-form-check-p
+    radio-group--chip: krds-form-chip
+anatomy:
+- part: 루트(그룹)
+  class: radio-group
+  element: fieldset
+  required: true
+  note: 옵션 전체를 fieldset 으로 묶는다(A11Y-007, FORM-004).
+- part: 그룹 레이블
+  class: radio-group__legend
+  element: legend
+  required: true
+  note: 질문(무엇을 고르는지)을 쓴다(COPY-003). 필수·선택 표시는 서비스 전체에서 한 방식만 쓴다.
+- part: 옵션 목록
+  class: radio-group__options
+  element: div
+  required: true
+  note: 기본은 세로 나열(FORM-010). 가로 배치(radio-group--inline)는 각 레이블이 모든 화면 너비에서 한 줄일 때만 쓴다(COPY-029).
+- part: 옵션
+  class: radio-group__option
+  element: div
+  required: true
+  note: 원형 양식을 왼쪽, 레이블을 오른쪽에 둔다(LAYOUT-047).
+- part: 네이티브 입력
+  class: radio-group__input
+  element: input[type=radio]
+  required: true
+  note: 같은 그룹은 같은 name 을 쓴다(FORM-027). opacity 0 으로 숨기고 원형 표시와 같은 칸·같은 크기(24px)로 겹친다. display none·visibility hidden·top/left 이동으로 숨기지 않는다(CF-051, A11Y-048).
+- part: 원형 표시
+  class: radio-group__indicator
+  element: span
+  required: true
+  note: aria-hidden 장식. 선택 상태와 키보드 초점 표시를 그린다(A11Y-016, COLOR-003).
+- part: 레이블
+  class: radio-group__label
+  element: label
+  required: true
+  note: for 로 입력과 연결해 레이블을 눌러도 선택된다(FORM-034).
+- part: 부가 설명
+  class: radio-group__description
+  element: p
+  note: 옵션별 보충 설명. 입력의 aria-describedby 로 연결한다(A11Y-007).
+- part: 시스템 메시지(오류)
+  class: radio-group__message
+  element: p
+  note: 제출 시 선택하지 않은 필수 그룹에만 넣는다. fieldset 의 aria-describedby 로 연결한다(A11Y-025).
+markup: |-
+  <fieldset class="radio-group radio-group--error" aria-describedby="receive-method-error">
+    <legend class="radio-group__legend">결과 받을 방법 (필수)</legend>
+    <div class="radio-group__options">
+      <div class="radio-group__option">
+        <input class="radio-group__input" type="radio" name="receive-method" id="receive-method-visit" value="visit" required aria-describedby="receive-method-visit-desc">
+        <span class="radio-group__indicator" aria-hidden="true"></span>
+        <label class="radio-group__label" for="receive-method-visit">방문 수령</label>
+        <p class="radio-group__description" id="receive-method-visit-desc">신청한 주민센터에서 신분증을 보여 주고 받아 주세요.</p>
+      </div>
+      <div class="radio-group__option">
+        <input class="radio-group__input" type="radio" name="receive-method" id="receive-method-post" value="post" required>
+        <span class="radio-group__indicator" aria-hidden="true"></span>
+        <label class="radio-group__label" for="receive-method-post">우편</label>
+      </div>
+      <div class="radio-group__option">
+        <input class="radio-group__input" type="radio" name="receive-method" id="receive-method-online" value="online" required>
+        <span class="radio-group__indicator" aria-hidden="true"></span>
+        <label class="radio-group__label" for="receive-method-online">전자문서</label>
+      </div>
+    </div>
+    <p class="radio-group__message" id="receive-method-error">결과 받을 방법을 선택해 주세요.</p>
+  </fieldset>
+css: |-
+  .radio-group {
+    margin: 0;
+    padding: 0;
+    border-style: none;
+  }
+  .radio-group__legend {
+    margin-block-end: var(--space-gap-3);
+    padding: 0;
+    color: var(--color-text-basic);
+    font-size: var(--font-size-label-medium);
+    font-weight: var(--font-weight-bold);
+  }
+  .radio-group__options {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-gap-5);
+  }
+  .radio-group--inline .radio-group__options {
+    flex-direction: row;
+    flex-wrap: wrap;
+    column-gap: var(--space-gap-7);
+  }
+  .radio-group__option {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: center;
+    column-gap: var(--space-gap-3);
+    row-gap: var(--space-gap-1);
+  }
+  .radio-group__input,
+  .radio-group__indicator {
+    grid-area: 1 / 1;
+    inline-size: var(--size-height-4);
+    block-size: var(--size-height-4);
+    margin: 0;
+  }
+  .radio-group__input {
+    position: relative;
+    z-index: 1;
+    opacity: 0;
+    cursor: pointer;
+  }
+  .radio-group__indicator {
+    display: grid;
+    place-items: center;
+    box-sizing: border-box;
+    border: var(--border-width-variable-medium) solid var(--color-element-gray-dark);
+    border-radius: var(--radius-max);
+    background-color: var(--color-element-inverse);
+  }
+  .radio-group__indicator::after {
+    content: "";
+    inline-size: var(--space-scale-7);
+    block-size: var(--space-scale-7);
+    border-radius: var(--radius-max);
+    background-color: transparent;
+  }
+  .radio-group__input:checked + .radio-group__indicator {
+    border-color: var(--color-element-primary);
+  }
+  .radio-group__input:checked + .radio-group__indicator::after {
+    background-color: var(--color-element-primary);
+  }
+  .radio-group__input:focus-visible + .radio-group__indicator {
+    outline: var(--space-scale-2) solid var(--color-border-primary);
+    outline-offset: var(--space-scale-1);
+  }
+  .radio-group__input:disabled + .radio-group__indicator {
+    border-color: var(--color-element-disabled-dark);
+    background-color: var(--color-element-disabled-light);
+  }
+  .radio-group__input:disabled:checked + .radio-group__indicator::after {
+    background-color: var(--color-element-disabled-dark);
+  }
+  .radio-group__input:disabled ~ .radio-group__label {
+    color: var(--color-text-disabled);
+  }
+  .radio-group__label {
+    grid-area: 1 / 2;
+    color: var(--color-text-bolder);
+    font-size: var(--font-size-label-medium);
+    cursor: pointer;
+  }
+  .radio-group__description {
+    grid-area: 2 / 2;
+    margin: 0;
+    color: var(--color-text-subtle);
+    font-size: var(--font-size-label-small);
+  }
+  .radio-group__message {
+    margin-block-start: var(--space-gap-3);
+    color: var(--color-text-danger);
+    font-size: var(--font-size-body-small);
+  }
+  .radio-group--chip .radio-group__options {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: var(--space-gap-3);
+  }
+  .radio-group--chip .radio-group__input,
+  .radio-group--chip .radio-group__label {
+    grid-area: 1 / 1;
+    align-self: stretch;
+    justify-self: stretch;
+    inline-size: auto;
+    block-size: auto;
+  }
+  .radio-group--chip .radio-group__indicator {
+    display: none;
+  }
+  .radio-group--chip .radio-group__label {
+    display: inline-flex;
+    align-items: center;
+    min-block-size: var(--size-height-6);
+    padding-inline: var(--space-padding-4);
+    border: var(--border-width-variable-regular) solid var(--color-border-gray);
+    border-radius: var(--radius-medium1);
+    background-color: var(--color-action-white);
+    color: var(--color-text-basic);
+    font-size: var(--font-size-label-small);
+  }
+  .radio-group--chip .radio-group__input:checked ~ .radio-group__label {
+    border-width: var(--border-width-variable-medium);
+    border-color: var(--color-border-primary);
+    background-color: var(--color-action-primary-selected);
+    color: var(--color-text-primary);
+    font-weight: var(--font-weight-bold);
+  }
+  .radio-group--chip .radio-group__input:focus-visible ~ .radio-group__label {
+    outline: var(--space-scale-2) solid var(--color-border-primary);
+    outline-offset: var(--space-scale-1);
+  }
+states:
+- name: 선택됨
+  markup_change: 사용자가 고른 옵션의 입력이 checked 가 된다(마크업 속성은 그대로). 원형 표시가 주조색 테두리와 가운데 점으로 바뀐다 — 색만이 아니라 점 모양으로도 구분한다(COLOR-001).
+  rule: COLOR-001
+- name: 오류
+  markup_change: 루트에 radio-group--error, 시스템 메시지 p 를 넣고 그 id 를 fieldset 의 aria-describedby 에 더한다. 오류 요약의 링크는 그룹의 첫 번째 옵션 입력 id 로 연결한다(FORM-078). 메시지는 항목 이름·고치는 방법을 담는다(COPY-005).
+  rule: FORM-078
+- name: 비활성
+  markup_change: 옵션 입력에 disabled. 비활성 색은 불투명 토큰(element-disabled-*)을 쓴다(COLOR-006).
+  rule: COLOR-006
+- name: 칩형
+  markup_change: 루트에 radio-group--chip. 원형 표시를 숨기고 레이블을 칩 모양으로 그린다. 입력은 레이블과 같은 칸에 겹친다. 선택 상태는 테두리 두께·굵은 글자로도 구분한다(COLOR-001).
+keyboard:
+- key: Tab / Shift+Tab
+  action: 그룹에 들어가면 선택된 옵션(없으면 첫 옵션)으로 초점을 옮기고, 다음 Tab 은 그룹 밖으로 나간다.
+- key: ↓ / →
+  action: 다음 옵션으로 초점을 옮기고 선택한다(A11Y-034). 네이티브 라디오가 처리한다.
+- key: ↑ / ←
+  action: 이전 옵션으로 초점을 옮기고 선택한다(A11Y-034).
+- key: Space
+  action: 초점이 있는 옵션을 선택한다(A11Y-035).
+behavior:
+- 네이티브 input[type=radio] 를 쓰고 같은 그룹은 같은 name 으로 묶어, 한 번에 하나만 선택되게 한다(FORM-027). 스크립트로 키보드 동작을 다시 만들지 않는다.
+- 커스텀 원형 표시를 쓸 때 네이티브 입력은 opacity 0 으로 숨기고 표시와 같은 위치·크기에 겹치며, 표시에 초점 표시를 그린다(CF-051, A11Y-016, A11Y-048).
+- 레이블 텍스트를 눌러도 선택된다(FORM-034).
+- 선택을 바꾸는 것만으로 제출·페이지 이동·새 창 열기를 하지 않는다(FORM-002).
+- 성별처럼 사용자가 정확히 답해야 하는 그룹은 어떤 옵션도 미리 선택하지 않는다(FORM-019).
+- 옵션은 가나다순으로 정렬한다. 다른 정렬은 근거를 설계 문서에 남겼을 때만 쓴다(FORM-032).
+- 필수가 아닌 그룹에는 '해당 없음'·'선택 안 함' 같은 옵션을 하나 둔다(FORM-033).
+- 옵션은 세로로 나열한다(FORM-010). 가로로 나열할 때는 옵션 사이 간격을 24px(gap-7) 이상으로 두고(SPACE-002), 레이블이 한 줄을 넘으면 세로로 바꾼다(COPY-029).
+- 원형 표시의 테두리와 선택 점은 인접 색과 3:1 이상 대비를 가진다(COLOR-003).
+- 선명한 화면 모드에서는 테두리 두께 토큰이 굵어진다 — 테두리 두께를 border-width 토큰으로만 지정한다(COLOR-011).
+rules:
+- A11Y-007
+- A11Y-011
+- A11Y-016
+- A11Y-025
+- A11Y-034
+- A11Y-035
+- A11Y-048
+- COLOR-001
+- COLOR-003
+- COLOR-006
+- COLOR-011
+- COPY-003
+- COPY-005
+- COPY-029
+- FORM-002
+- FORM-004
+- FORM-010
+- FORM-019
+- FORM-027
+- FORM-028
+- FORM-030
+- FORM-032
+- FORM-033
+- FORM-034
+- FORM-041
+- FORM-078
+- LAYOUT-002
+- LAYOUT-047
+- SPACE-002
+kit_differences:
+- KRDS 키트 medium 크기 원형 양식은 20px 이다 — 이 규격은 입력과 표시를 24px 로 만들어 포인터 대상 크기를 직접 충족한다(LAYOUT-002).
+- KRDS 키트는 그룹 레이블(legend) 없이 옵션을 나열한다 — 이 규격은 fieldset·legend 로 그룹 레이블을 준다(A11Y-007, FORM-004).
+- KRDS 키트는 옵션 부가 설명(krds-form-check-p)을 입력과 연결하지 않는다 — 이 규격은 aria-describedby 로 연결한다(A11Y-007).
+- KRDS 키트 예시의 '선택됨' 옵션은 미리 checked 상태다 — 이 규격은 정확한 응답이 필요한 그룹에서 미리 선택하지 않는다(FORM-019).
+- KRDS 키트 칩형은 선택 상태를 색으로만 바꾼다 — 이 규격은 테두리 두께·글자 굵기도 바꾼다(COLOR-001).

@@ -1,0 +1,294 @@
+id: date-input
+title: 날짜 입력 필드
+status: confirmed
+summary: 날짜 하나(예약일·방문일 등), 년·월·일로 나눈 날짜(생년월일 등), 시작일·종료일 범위를 키보드로 직접 입력받을 때 쓴다.
+use_instead:
+- when: '''5일 이내'', ''1일 후''처럼 기준일에서 상대적인 날짜를 받는 경우'
+  use: 짧은 숫자 입력(text-field) 또는 상대 날짜 옵션을 나열한 셀렉트
+  rule: FORM-050
+- when: 사용자가 정확한 일자를 모를 수 있는 날짜를 받는 경우
+  use: 월 단위 입력 또는 시작일·종료일 범위 입력(date-input--range)
+  rule: FORM-048
+- when: 날짜 선택기 자체(달력 그리드)의 규격이 필요한 경우
+  use: calendar
+  rule: FORM-049
+krds:
+  page: component_09_01.html
+  kit: html/code/date_input.html
+  kit_classes:
+    date-input: form-group
+    date-input__label: form-tit label
+    date-input__control: calendar-input
+    date-input__input: krds-input datepicker
+    date-input__picker: krds-btn icon form-btn-datepicker
+    date-input__group: input-group range
+anatomy:
+- part: 루트
+  class: date-input
+  element: div (단일) · fieldset (년·월·일 분할, 범위)
+  required: true
+  note: 단일 입력은 text-field 와 같은 순서로 레이블 → 부가 설명 → 입력 박스 → 시스템 메시지를 쌓는다(FORM-009). 입력이 2개 이상이면 fieldset 으로 묶는다(A11Y-007).
+- part: 그룹 제목
+  class: date-input__legend
+  element: legend
+  note: 분할·범위 입력에서 요청하는 날짜를 설명한다(예 생년월일, 조회 기간). 필수·선택 표시는 서비스 전체에서 한 방식만 쓴다(FORM-012).
+- part: 레이블
+  class: date-input__label
+  element: label
+  required: true
+  note: 입력마다 for 로 연결한다. 분할 입력은 각 칸에 '년'·'월'·'일', 범위 입력은 '시작일'·'종료일'(FORM-004, A11Y-025).
+- part: 부가 설명
+  class: date-input__hint
+  element: p
+  note: 입력 형식과 예시는 플레이스홀더가 아니라 여기에 쓴다(FORM-017). 입력의 aria-describedby 로 연결한다.
+- part: 입력 묶음
+  class: date-input__group
+  element: div
+  note: 분할·범위 입력의 칸들을 한 줄에 묶는다. 한 줄에 묶는 것은 하나의 날짜(년·월·일) 또는 시작·종료 일자뿐이다(FORM-010).
+- part: 칸
+  class: date-input__field
+  element: div
+  note: 분할·범위 입력에서 레이블 하나와 입력 하나를 묶는다.
+- part: 입력 행
+  class: date-input__control
+  element: div
+  note: 입력 박스와 달력 열기 버튼을 한 줄에 둔다.
+- part: 입력 박스
+  class: date-input__input
+  element: input
+  required: true
+  note: type="text" inputmode="numeric". disabled·readonly 로 막지 않고 직접 입력할 수 있게 한다(A11Y-011). 본인 날짜(생년월일)는 autocomplete bday-year·bday-month·bday-day(FORM-001). 붙여넣기를 막지 않는다(FORM-018, FORM-047).
+- part: 달력 열기 버튼
+  class: date-input__picker
+  element: button
+  note: 먼 날짜·요일이 중요한 날짜·인접 날짜와 비교해 고르는 날짜에만 둔다(FORM-049). 생년월일에는 두지 않는다(FORM-021). aria-label 에 어느 날짜의 달력인지 쓴다(COPY-003). 크기 56px(size-height-8)로 24px 이상이다(LAYOUT-002).
+- part: 아이콘
+  class: date-input__icon
+  element: svg
+  note: 버튼 이름이 따로 있으므로 aria-hidden="true"(A11Y-001).
+- part: 시스템 메시지(오류)
+  class: date-input__message
+  element: p
+  note: 제출 시 오류가 있을 때만 넣는다(FORM-080). 입력의 aria-describedby 에 id 를 더한다(FORM-003).
+markup: |-
+  <div class="date-input date-input--error">
+    <label class="date-input__label" for="visit-date">방문 예약일 (필수)</label>
+    <p class="date-input__hint" id="visit-date-hint">연, 월, 일 순서로 숫자를 입력하거나 달력에서 골라 주세요. 예: 2026. 10. 25.</p>
+    <div class="date-input__control">
+      <input class="date-input__input" type="text" inputmode="numeric" id="visit-date" name="visit_date" required aria-invalid="true" aria-describedby="visit-date-hint visit-date-error" value="2026. 13. 25.">
+      <button class="date-input__picker" type="button" aria-haspopup="dialog" aria-label="방문 예약일 달력 열기">
+        <svg class="date-input__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 2h2v2h6V2h2v2h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2V2zM5 10v10h14V10H5z"/></svg>
+      </button>
+    </div>
+    <p class="date-input__message" id="visit-date-error">방문 예약일의 월을 1부터 12 사이 숫자로 입력해 주세요. 예: 2026. 10. 25.</p>
+  </div>
+  <fieldset class="date-input date-input--split">
+    <legend class="date-input__legend">생년월일 (필수)</legend>
+    <p class="date-input__hint" id="birth-hint">예: 1990년 3월 7일이면 1990, 3, 7을 입력해 주세요.</p>
+    <div class="date-input__group">
+      <div class="date-input__field date-input__field--year">
+        <label class="date-input__label" for="birth-year">년</label>
+        <input class="date-input__input" type="text" inputmode="numeric" id="birth-year" name="birth_year" maxlength="4" autocomplete="bday-year" required aria-describedby="birth-hint">
+      </div>
+      <div class="date-input__field">
+        <label class="date-input__label" for="birth-month">월</label>
+        <input class="date-input__input" type="text" inputmode="numeric" id="birth-month" name="birth_month" maxlength="2" autocomplete="bday-month" required aria-describedby="birth-hint">
+      </div>
+      <div class="date-input__field">
+        <label class="date-input__label" for="birth-day">일</label>
+        <input class="date-input__input" type="text" inputmode="numeric" id="birth-day" name="birth_day" maxlength="2" autocomplete="bday-day" required aria-describedby="birth-hint">
+      </div>
+    </div>
+  </fieldset>
+  <fieldset class="date-input date-input--range">
+    <legend class="date-input__legend">조회 기간 (선택)</legend>
+    <p class="date-input__hint" id="period-hint">연, 월, 일 순서로 숫자를 입력하거나 달력에서 골라 주세요. 예: 2026. 10. 1.</p>
+    <div class="date-input__group">
+      <div class="date-input__field">
+        <label class="date-input__label" for="period-start">시작일</label>
+        <div class="date-input__control">
+          <input class="date-input__input" type="text" inputmode="numeric" id="period-start" name="period_start" aria-describedby="period-hint">
+          <button class="date-input__picker" type="button" aria-haspopup="dialog" aria-label="조회 시작일 달력 열기">
+            <svg class="date-input__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 2h2v2h6V2h2v2h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2V2zM5 10v10h14V10H5z"/></svg>
+          </button>
+        </div>
+      </div>
+      <div class="date-input__field">
+        <label class="date-input__label" for="period-end">종료일</label>
+        <div class="date-input__control">
+          <input class="date-input__input" type="text" inputmode="numeric" id="period-end" name="period_end" aria-describedby="period-hint">
+          <button class="date-input__picker" type="button" aria-haspopup="dialog" aria-label="조회 종료일 달력 열기">
+            <svg class="date-input__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 2h2v2h6V2h2v2h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2V2zM5 10v10h14V10H5z"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </fieldset>
+css: |-
+  .date-input {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-gap-3);
+    min-inline-size: 0;
+    margin: 0;
+    padding: 0;
+    border: 0;
+  }
+  .date-input__legend {
+    margin-block-end: var(--space-gap-3);
+    padding: 0;
+    color: var(--color-text-basic);
+    font-size: var(--font-size-label-medium);
+    font-weight: var(--font-weight-bold);
+  }
+  .date-input__label {
+    color: var(--color-text-basic);
+    font-size: var(--font-size-label-medium);
+    font-weight: var(--font-weight-bold);
+  }
+  .date-input--split .date-input__label,
+  .date-input--range .date-input__label {
+    font-size: var(--font-size-label-small);
+    font-weight: var(--font-weight-regular);
+  }
+  .date-input__hint {
+    color: var(--color-text-subtle);
+    font-size: var(--font-size-body-small);
+  }
+  .date-input__group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-gap-4);
+  }
+  .date-input__field {
+    display: flex;
+    flex: 1 1 var(--size-height-11);
+    flex-direction: column;
+    gap: var(--space-gap-2);
+  }
+  .date-input__field--year {
+    flex-grow: 2;
+  }
+  .date-input__control {
+    display: flex;
+    gap: var(--space-gap-2);
+  }
+  .date-input__input {
+    flex: 1 1 auto;
+    inline-size: 100%;
+    min-inline-size: 0;
+    min-block-size: var(--size-height-8);
+    padding-inline: var(--space-padding-6);
+    border: var(--space-scale-1) solid var(--color-input-border);
+    border-radius: var(--radius-medium3);
+    background-color: var(--color-input-surface);
+    color: var(--color-text-basic);
+    font-size: var(--font-size-body-medium);
+  }
+  .date-input__input:focus-visible {
+    outline: var(--space-scale-2) solid var(--color-input-border-active);
+    outline-offset: var(--space-scale-1);
+  }
+  .date-input__input:disabled {
+    border-color: var(--color-input-border-disabled);
+    background-color: var(--color-input-surface-disabled);
+    color: var(--color-text-disabled);
+  }
+  .date-input--error .date-input__input,
+  .date-input__input[aria-invalid="true"] {
+    border-color: var(--color-input-border-error);
+  }
+  .date-input__picker {
+    display: inline-flex;
+    flex: none;
+    align-items: center;
+    justify-content: center;
+    inline-size: var(--size-height-8);
+    block-size: var(--size-height-8);
+    padding: 0;
+    border: var(--space-scale-1) solid var(--color-button-tertiary-border);
+    border-radius: var(--radius-medium3);
+    background-color: var(--color-button-tertiary-fill);
+    color: var(--color-icon-gray);
+    cursor: pointer;
+  }
+  .date-input__picker:hover {
+    background-color: var(--color-button-tertiary-fill-hover);
+  }
+  .date-input__picker:focus-visible {
+    outline: var(--space-scale-2) solid var(--color-input-border-active);
+    outline-offset: var(--space-scale-1);
+  }
+  .date-input__icon {
+    inline-size: var(--space-scale-10);
+    block-size: var(--space-scale-10);
+    fill: currentColor;
+  }
+  .date-input__message {
+    color: var(--color-text-danger);
+    font-size: var(--font-size-body-small);
+  }
+states:
+- name: 오류
+  markup_change: 루트에 date-input--error, 오류가 난 입력에 aria-invalid="true", 시스템 메시지 p 를 넣고 그 id 를 aria-describedby 에 더한다. 메시지는 항목 이름·문제·올바른 형식 예시를 담는다(FORM-003·005, COPY-005). 분할·범위 입력은 메시지를 묶음 아래 하나로 두고 오류가 난 칸마다 aria-invalid 와 aria-describedby 를 준다.
+  rule: FORM-003
+- name: 년·월·일 분할(date-input--split)
+  markup_change: 루트를 fieldset 으로, 요청하는 날짜를 legend 로 쓰고 칸마다 '년'·'월'·'일' label 을 연결한다(A11Y-007). 달력 열기 버튼을 두지 않는다(FORM-021). 원본 문서의 날짜를 받으면 칸 순서·자릿수를 원본 표기와 같게 한다(예 카드 유효기간 MM/YY, FORM-047).
+  rule: FORM-047
+- name: 범위(date-input--range)
+  markup_change: 루트를 fieldset 으로 하고 '시작일'·'종료일' 칸을 한 줄에 둔다(NAV-010, FORM-010). 좁은 화면에서는 줄바꿈된다(flex-wrap).
+  rule: NAV-010
+- name: 달력 열림
+  markup_change: 달력 열기 버튼을 누르면 calendar 규격의 대화상자를 연다. 날짜를 고르면 입력 박스 값을 '2026. 10. 25.' 형식으로 채우고 초점을 달력 열기 버튼으로 돌려준다.
+  rule: FORM-049
+- name: 비활성
+  markup_change: 입력과 달력 열기 버튼에 disabled. 값을 바꿀 수 없다는 이유를 부가 설명에 쓴다. 달력이 있다는 이유로 입력만 disabled·readonly 로 막지 않는다(A11Y-011).
+keyboard:
+- key: Tab / Shift+Tab
+  action: 입력 박스 → 달력 열기 버튼 → 다음 칸 순서로 초점을 옮긴다. 초점 표시가 보인다(A11Y-016).
+- key: Enter / Space (달력 열기 버튼)
+  action: 달력 대화상자를 열고 선택된 날짜(없으면 오늘)에 초점을 둔다(calendar 규격).
+behavior:
+- 입력 박스는 숫자와 구분 기호(마침표·하이픈·빗금·공백)를 모두 받아 연·월·일로 해석한다. 날짜 텍스트 붙여넣기를 막지 않는다(FORM-018, FORM-047).
+- 분할 입력에서 칸이 다 차도 초점을 다음 칸으로 자동으로 옮기지 않는다. 옮긴다면 입력 전에 그 동작을 텍스트로 알리고 FORM-026 의 되돌아가기 요건을 지킨다(FORM-002, FORM-026).
+- 오류는 칸을 벗어날 때(blur)가 아니라 다음 단계·제출 버튼을 눌렀을 때 표시하고, 표시한 뒤에도 입력값을 지우지 않는다(FORM-080, FORM-016).
+- 값을 바꾸거나 달력에서 날짜를 고르는 것만으로 제출·페이지 이동을 하지 않는다(FORM-002).
+- 화면에 날짜를 다시 보여 줄 때(확인 화면 등)는 '2026. 10. 25.' 형식과 time 요소를 쓴다(COPY-056).
+rules:
+- A11Y-001
+- A11Y-007
+- A11Y-011
+- A11Y-016
+- A11Y-025
+- A11Y-045
+- COLOR-003
+- COPY-003
+- COPY-005
+- COPY-056
+- FORM-001
+- FORM-002
+- FORM-003
+- FORM-004
+- FORM-005
+- FORM-009
+- FORM-010
+- FORM-012
+- FORM-016
+- FORM-017
+- FORM-018
+- FORM-021
+- FORM-026
+- FORM-047
+- FORM-048
+- FORM-049
+- FORM-050
+- FORM-080
+- LAYOUT-002
+- NAV-010
+kit_differences:
+- KRDS 키트는 input type="number" 를 쓴다 — 이 규격은 type="text" inputmode="numeric" 을 쓴다. number 는 마침표·공백이 든 날짜 텍스트를 붙여넣으면 값이 비고 앞자리 0 을 지운다(FORM-047, FORM-018).
+- KRDS 키트는 형식 안내를 플레이스홀더('YYYY.MM.DD', '시작날짜')로만 준다 — 이 규격은 부가 설명에 쓰고 aria-describedby 로 연결한다(FORM-017).
+- KRDS 키트 범위 입력은 label 없이 title 속성('시작날짜 입력')으로만 이름을 준다 — 이 규격은 보이는 '시작일'·'종료일' label 과 fieldset/legend 를 쓴다(FORM-004, A11Y-007).
+- KRDS 키트의 달력 열기 버튼은 이름을 sr-only 텍스트로 준다 — 이 규격은 aria-label 에 어느 날짜의 달력인지까지 쓴다(A11Y-045, COPY-003).
+notes:
+- 날짜 선택기(달력 대화상자) 자체의 구조·키보드는 components/calendar.yaml 에 있다.

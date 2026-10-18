@@ -1,0 +1,34 @@
+{
+  "$comment": "ux-baseline axe-core 실행 설정. @axe-core/playwright 등에서 options 로 넘긴다($comment 는 빼고). WCAG 2.2 A·AA 태그 전체 + 확정 룰이 참조하는 experimental·deprecated 규칙. 대응표: lint/rule-map.yaml",
+  "runOnly": {
+    "type": "tag",
+    "values": [
+      "wcag2a",
+      "wcag2aa",
+      "wcag21a",
+      "wcag21aa",
+      "wcag22aa"
+    ]
+  },
+  "rules": {
+    "aria-roledescription": {
+      "enabled": true
+    },
+    "css-orientation-lock": {
+      "enabled": true
+    },
+    "p-as-heading": {
+      "enabled": true
+    },
+    "table-fake-caption": {
+      "enabled": true
+    },
+    "td-has-header": {
+      "enabled": true
+    }
+  },
+  "resultTypes": [
+    "violations",
+    "incomplete"
+  ]
+}

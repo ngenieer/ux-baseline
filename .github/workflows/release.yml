@@ -1,0 +1,48 @@
+name: release
+
+# main 에 올라온 package.json 의 version 에 해당하는 태그(v<version>)가 없으면
+# 태그와 GitHub 릴리스를 만들고 npm pack 한 .tgz 를 붙인다.
+# 버전을 올리는 방법: package.json version + CHANGELOG.md 를 고쳐 PR 로 머지한다.
+on:
+  push:
+    branches: [main]
+    paths: [package.json, .github/workflows/release.yml]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: 버전 확인
+        id: v
+        run: |
+          V=$(node -p "require('./package.json').version")
+          echo "version=$V" >> "$GITHUB_OUTPUT"
+          if git rev-parse "v$V" >/dev/null 2>&1; then echo "exists=true" >> "$GITHUB_OUTPUT"; else echo "exists=false" >> "$GITHUB_OUTPUT"; fi
+      - name: 변경 기록에 이 버전이 있는지
+        if: steps.v.outputs.exists == 'false'
+        run: grep -q "^## ${{ steps.v.outputs.version }} " CHANGELOG.md
+      - name: 꾸러미 도입 시험
+        if: steps.v.outputs.exists == 'false'
+        run: |
+          npx --yes playwright-core@1.56.1 install --with-deps chromium
+          node kit/test/e2e.mjs
+      - name: 태그·릴리스
+        if: steps.v.outputs.exists == 'false'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          V=${{ steps.v.outputs.version }}
+          npm pack
+          awk -v v="$V" '$0 ~ "^## "v" " {f=1; next} /^## / {f=0} f' CHANGELOG.md > notes.md
+          printf '\n설치: `npm i -D github:ngenieer/ux-baseline#v%s` 또는 첨부한 .tgz (`npm i -D ./sizlon-ux-baseline-%s.tgz`). 사용법: docs/adoption.md\n' "$V" "$V" >> notes.md
+          gh release create "v$V" "sizlon-ux-baseline-$V.tgz" --target "$GITHUB_SHA" --title "v$V" --notes-file notes.md

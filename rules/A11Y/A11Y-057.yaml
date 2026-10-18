@@ -1,0 +1,51 @@
+id: A11Y-057
+category: A11Y
+title: 음성지원 요약 낭독·중복 금지
+stage: platformed
+status:
+  value: confirmed
+type: guide
+strength: SHOULD
+statement: 음성지원은 영역의 텍스트 전체를 그대로 읽지 않고 사용자에게 필요한 정보를 요약해 읽으며, 스크린 리더가 읽는 내용과 같은 내용을 중복해서 제공하지 않는다.
+measurement:
+  criteria: '점검 질문: 음성지원 낭독문이 화면 텍스트를 그대로 옮긴 것인가, 요약인가? 스크린 리더 사용 중 음성지원이 같은 내용을 겹쳐 읽게 되지 않는가?'
+  method: 낭독 스크립트와 화면 텍스트를 비교하고, 스크린 리더를 켠 상태에서 음성지원 버튼 동작을 확인한다.
+automation:
+  feasibility: none
+  checks: []
+  note: 판정 불가(guide). 원문에 길이 수치가 없다.
+rationale: 긴 낭독은 듣는 사용자의 부담을 키우고, 스크린 리더와 겹치면 두 음성이 동시에 나와 이해할 수 없다.
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 음성지원 > 사용성 가이드라인
+  note: https://www.krds.go.kr/html/site/component/component_08_06.html
+scope:
+  level: component
+  targets:
+  - 음성지원
+exceptions: []
+relations:
+- type: depends
+  id: A11Y-009
+  note: 음성지원 재생의 자동 재생 금지·제어 수단은 A11Y-009에 병합된 KRDS 항목
+examples:
+  good:
+  - lang: html
+    code: '<!-- 약관 영역 듣기: ''이 약관은 개인정보 수집 항목 3가지와 보관 기간 1년을 정합니다.'' -->
+
+      '
+    note: 낭독문을 핵심 정보로 요약
+  bad:
+  - lang: html
+    code: '<!-- 약관 영역 듣기: 약관 전문 3,000자를 처음부터 끝까지 낭독 -->
+
+      '
+    note: 약관 전문을 그대로 낭독
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(WebFetch로 KRDS 페이지 재조회, 요약 모델 인용 확인): 사용성 가이드라인 항목 ''너무 긴 내용을 읽어주지 않도록 한다.''와
+  ''음성 지원은 음성 보조기구(스크린리더 등)와 동일한 내용을 중복해서 제공하지 않도록 하고, 사용자에게 꼭 필요한 정보를 요약된 형태로 제공한다.'' 확인. 원문에 길이 수치가 없어 모호 표현(''너무
+  긴'')을 ''전체를 그대로 읽지 않고 요약''으로 바꾸고 guide로 분류.'
+korean_specific: false
+tags:
+- krds
+- krds-component

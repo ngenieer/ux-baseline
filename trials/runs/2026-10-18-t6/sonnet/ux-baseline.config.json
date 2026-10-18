@@ -1,0 +1,172 @@
+{
+  "version": "0.1.0",
+  "cssDir": "vendor/ux-baseline",
+  "html": [
+    "**/*.html"
+  ],
+  "css": [
+    "**/*.css"
+  ],
+  "ignore": [
+    "node_modules/**",
+    "vendor/ux-baseline/**",
+    ".claude/**",
+    ".git/**",
+    "dist/**",
+    "build/**",
+    "coverage/**"
+  ],
+  "urls": [],
+  "states": [
+    {
+      "page": "index.html",
+      "name": "입력 오류",
+      "steps": [
+        {
+          "click": "#submit"
+        },
+        {
+          "waitFor": ".error-summary"
+        }
+      ]
+    },
+    {
+      "page": "index.html",
+      "name": "약관 펼침",
+      "steps": [
+        {
+          "click": "#terms-service-title ~ details summary"
+        }
+      ]
+    },
+    {
+      "page": "index.html",
+      "name": "아이디 확인 중",
+      "steps": [
+        {
+          "fill": [
+            "#userid",
+            "admin"
+          ]
+        },
+        {
+          "click": "#userid-check"
+        },
+        {
+          "wait": 1200
+        }
+      ]
+    },
+    {
+      "page": "index.html",
+      "name": "아이디 이미 사용 중",
+      "steps": [
+        {
+          "fill": [
+            "#userid",
+            "admin"
+          ]
+        },
+        {
+          "click": "#userid-check"
+        },
+        {
+          "waitFor": ".status-line--bad"
+        }
+      ]
+    },
+    {
+      "page": "index.html",
+      "name": "아이디 사용 가능",
+      "steps": [
+        {
+          "fill": [
+            "#userid",
+            "moa2026"
+          ]
+        },
+        {
+          "click": "#userid-check"
+        },
+        {
+          "waitFor": ".status-line--ok"
+        }
+      ]
+    },
+    {
+      "page": "index.html",
+      "name": "가입 완료",
+      "steps": [
+        {
+          "fill": [
+            "#userid",
+            "moa2026"
+          ]
+        },
+        {
+          "click": "#userid-check"
+        },
+        {
+          "waitFor": ".status-line--ok"
+        },
+        {
+          "fill": [
+            "#password",
+            "moa12345"
+          ]
+        },
+        {
+          "fill": [
+            "#password-confirm",
+            "moa12345"
+          ]
+        },
+        {
+          "fill": [
+            "#name",
+            "홍길동"
+          ]
+        },
+        {
+          "fill": [
+            "#phone",
+            "010-1234-5678"
+          ]
+        },
+        {
+          "fill": [
+            "#email",
+            "hong@example.com"
+          ]
+        },
+        {
+          "fill": [
+            "#birth-year",
+            "1990"
+          ]
+        },
+        {
+          "fill": [
+            "#birth-month",
+            "3"
+          ]
+        },
+        {
+          "fill": [
+            "#birth-day",
+            "7"
+          ]
+        },
+        {
+          "check": "#terms-all"
+        },
+        {
+          "click": "#submit"
+        },
+        {
+          "waitFor": "#done-view:not([hidden])"
+        }
+      ]
+    }
+  ]
+}

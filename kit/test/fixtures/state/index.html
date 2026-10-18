@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>상태 검사 시험</title>
+  <link rel="stylesheet" href="../vendor/ux-baseline/tokens.css">
+  <link rel="stylesheet" href="../vendor/ux-baseline/base.css">
+</head>
+<body>
+  <main>
+    <h1>상태 검사 시험</h1>
+    <!-- 처음 상태는 위반이 없고, 버튼을 누른 뒤에만 대비가 낮은 글이 나온다 — check 의 states 가 잡아야 한다 -->
+    <button type="button" id="show">결과 보기</button>
+    <p id="result" hidden style="color: #c8c8c8">결과를 불러왔습니다.</p>
+  </main>
+  <script>
+    if (new URLSearchParams(location.search).has("show")) document.getElementById("result").hidden = false;
+    document.getElementById("show").addEventListener("click", () => { document.getElementById("result").hidden = false; });
+  </script>
+</body>
+</html>

@@ -1,0 +1,71 @@
+id: COPY-004
+category: COPY
+title: 일관된 식별
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: MUST
+statement: 여러 페이지에서 같은 기능을 하는 컴포넌트에는 같은 이름·레이블·아이콘·대체 텍스트를 쓴다.
+measurement:
+  criteria: '같은 기능(같은 동작 또는 같은 목적지)을 하는 컴포넌트를 페이지 집합에서 모두 모았을 때, 보이는 레이블·접근 가능한 이름·아이콘·아이콘 대체 텍스트가 모든 페이지에서 같다.
+    다른 문구를 쓰는 경우는 기능이 실제로 다를 때뿐이다(예: 같은 검색 버튼이 어떤 페이지는 ''검색'', 다른 페이지는 ''찾기''면 실패).'
+  method: 공통 컴포넌트(헤더·검색·로그인·이전/다음·저장·닫기·도움말 등) 목록을 만들고 대표 페이지 5개 이상에서 각 컴포넌트의 보이는 텍스트와 접근 가능한 이름을 표로 비교한다.
+automation:
+  feasibility: none
+  checks: []
+  note: '4단계 커스텀 검사 후보: 여러 페이지를 크롤링해 같은 data-component 식별자(또는 같은 href)를 가진 요소의 접근 가능한 이름이 모두 같은지 비교.'
+rationale: 같은 기능이 페이지마다 다른 이름이면 사용자는 다른 기능으로 오인하고 다시 학습해야 한다. 화면 낭독기·음성 명령 사용자는 이름으로 기능을 찾는다.
+sources:
+- ref: WCAG22
+  locator: SC 3.2.4 Consistent Identification (Level AA)
+  note: https://www.w3.org/TR/WCAG22/#consistent-identification
+- ref: WCAG22_UNDERSTANDING
+  locator: https://www.w3.org/WAI/WCAG22/Understanding/consistent-identification.html
+- ref: KRDS
+  locator: 기본 패턴 > 도움 > 공통 (가이드라인 PDF 2025.08 783쪽)
+  note: https://www.krds.go.kr/html/site/global/global_02.html — 같은 페이지 제목·버튼 이름·링크 목적지에는 서비스 전체에서 같은 텍스트
+- ref: KRDS
+  locator: 컴포넌트 (여러 페이지) (가이드라인 PDF 2025.08 222·224·372·604·621·643·312·250쪽; 플로팅 버튼 항목은 PDF에 없음)
+  note: '같은 요구를 다루는 KRDS 컴포넌트: 공식 배너, 달력, 도움 패널, 맥락적 도움말, 코치마크, 콘텐츠 내 탐색, 푸터, 플로팅 버튼 — 상세는 sources/extracts/KRDS-components.yaml'
+scope:
+  level: global
+  targets:
+  - 페이지 집합 전체의 반복 컴포넌트
+  - button
+  - a[href]
+  - 아이콘
+exceptions: []
+relations: []
+examples:
+  good:
+  - lang: html
+    code: '<!-- 모든 페이지 -->
+
+      <button type="submit"><svg aria-hidden="true">…</svg>검색</button>
+
+      '
+    note: 같은 검색 기능에 모든 페이지에서 같은 이름 '검색'을 쓴다
+  bad:
+  - lang: html
+    code: '<!-- 목록 페이지 -->
+
+      <button type="submit"><svg aria-hidden="true">…</svg>검색</button>
+
+      <!-- 상세 페이지: 같은 기능인데 다른 이름 -->
+
+      <button type="submit"><svg aria-hidden="true">…</svg>찾기</button>
+
+      '
+    note: 같은 검색 기능이 페이지마다 '검색'과 '찾기'로 이름이 다르다
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(sources/extracts/WCAG22-A-AA.yaml): SC 3.2.4 ''Components that have the same
+  functionality within a set of web pages are identified consistently.'' 확인. 2026-10-18 원문 대조(curl로 KRDS 페이지 HTML을
+  받아 텍스트로 직접 읽음): KRDS 도움 패턴(global_02) ''동일한 페이지 제목, 버튼 이름을 지칭하기 위한 텍스트는 모든 서비스에서 동일하게 사용한다'' 확인. 1단계에 병합된 KRDS
+  컴포넌트 항목(공식 배너 문구 변형 금지·푸터 내비게이션 레이블 일치 등)은 개별 페이지 일부만 다시 열었다(공식 배너·푸터 확인).'
+korean_specific: false
+tags:
+- wcag22
+- level-aa
+- new-in-2.0
+- krds

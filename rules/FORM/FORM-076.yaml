@@ -1,0 +1,23 @@
+id: FORM-076
+category: FORM
+title: 수량 토글
+stage: collected
+status:
+  value: deprecated
+  reason: FORM-073로 병합
+  superseded_by: FORM-073
+statement: 나이처럼 선택 가능한 값의 범위가 넓은 입력에는 수량 토글을 쓰지 않는다.
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 수량 토글 > 용례
+  note: https://www.krds.go.kr/html/site/component/component_12_04.html
+scope:
+  level: component
+  targets:
+  - 수량 토글
+needs_verification: true
+verification_note: '2026-10-18 2단계 정규화: FORM-073와 같은 요구라 병합. 출처는 FORM-073 sources에 옮겨 적음. statement 는
+  KRDS 컴포넌트 페이지를 요약 도구로 읽고 정리한 것 — 원문 강도 표현: "사용하기 적합하지 않다". 2단계에서 원문 대조.'
+tags:
+- krds
+- krds-component

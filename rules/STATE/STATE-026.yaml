@@ -1,0 +1,22 @@
+id: STATE-026
+category: STATE
+title: 따라하기 패널
+stage: collected
+status:
+  value: deprecated
+  reason: STATE-024로 병합
+  superseded_by: STATE-024
+statement: 따라하기 패널은 사용자가 마지막으로 확인한 따라하기 콘텐츠를 표시한다.
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 따라하기 패널 > 사용성 가이드라인
+  note: https://www.krds.go.kr/html/site/component/component_08_02.html
+scope:
+  level: component
+  targets:
+  - 따라하기 패널
+needs_verification: true
+verification_note: 'statement 는 KRDS 컴포넌트 페이지를 요약 도구로 읽고 정리한 것 — 원문 강도 표현: "표시해야 한다". 2단계에서 원문 대조.'
+tags:
+- krds
+- krds-component

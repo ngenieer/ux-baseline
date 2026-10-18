@@ -1,0 +1,48 @@
+id: TYPO-022
+category: TYPO
+title: balance는 제목·캡션에만
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: MAY
+statement: 'text-wrap: balance(또는 text-wrap-style: balance)는 제목(h1~h6)과 캡션(figcaption, caption)에만 쓰고 본문 문단(p)에는
+  쓰지 않는다.'
+measurement:
+  criteria: 'text-wrap: balance 또는 text-wrap-style: balance 선언이 있는 셀렉터의 대상이 h1~h6, [role=heading], figcaption, caption
+    중 하나다.'
+  method: 'stylelint 커스텀: 해당 선언의 셀렉터 끝 요소 검사.'
+automation:
+  feasibility: none
+  note: '기존 규칙 없음. 4단계: stylelint 커스텀 규칙.'
+rationale: 명세는 balance를 줄 길이가 고른 것이 선호되는 제목·캡션용으로 의도했고, 10줄이 넘으면 브라우저가 auto로 처리해도 되므로 긴 본문에는 효과가 보장되지 않는다.
+sources:
+- ref: CSS_TEXT_4
+  locator: 5.4 text-wrap-style (balance, Note)
+  note: balance는 제목·캡션용. 5줄 이하에선 줄 수를 바꾸면 안 되고, 10줄 넘으면 UA가 auto로 처리해도 됨
+- ref: MDN_BCD
+  locator: css.properties.text-wrap.balance
+  note: Chrome 114, Firefox 121, Safari 17.5
+scope:
+  level: global
+  targets:
+  - 'text-wrap: balance 선언'
+exceptions: []
+relations: []
+examples:
+  good:
+  - lang: css
+    code: h1,h2,figcaption{text-wrap:balance}
+    note: balance를 제목·캡션에만 쓴다
+  bad:
+  - lang: css
+    code: p{text-wrap:balance}
+    note: 본문 문단에 balance를 썼다
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(CSS Text 4 §5.4 HTML, MDN BCD): ''the balance value is intended for titles
+  and captions''(비규범 Note), ''5 or fewer lines must not change the number of line boxes'', ''UAs may treat this
+  value as auto if there are more than ten lines'' 확인 → Note 수준 의도 설명이라 MAY. 지원 Chrome/Edge 114, Firefox 121, Safari
+  17.5 확인. 미지원 브라우저는 무시하므로 점진적 향상. keep-all과 함께 쓸 때 어절 단위 안에서 균형을 잡는지는 브라우저 실측 필요(1단계 메모 유지).'
+korean_specific: false
+tags:
+- research-typo

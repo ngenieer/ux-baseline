@@ -1,0 +1,14 @@
+id: CF-044
+rules:
+- TYPO-011
+- TYPO-026
+against: KRDS 표현 단위('rem 기본값은 10px 또는 62.5%')
+summary: KRDS는 루트 글자 크기를 10px 또는 62.5%로 허용하는데, 10px은 TYPO-026(루트 px 고정 금지)을 위반한다.
+principle: 2
+decision: 루트 글자 크기는 62.5%만 허용하고 10px은 쓰지 않는다(이미 TYPO-011에 반영).
+reason: 'WCAG 요구가 아니다 — 1.4.4(텍스트 크기 조정)는 브라우저 확대로도 충족할 수 있고 px를 실패로 정하지 않는다(TYPO-026 verification_note). 루트를 px로
+  고정하면 사용자가 브라우저에서 바꾼 기본 글자 크기 설정이 rem 기반 값 전체에 반영되지 않는다(MDN font-size: ''Defining font sizes in px is not accessible,
+  because the user cannot change the font size in some browsers''). 브라우저 글자 크기 설정을 존중해 읽기 과업을 돕는 사용성 판단이다(원칙 2).
+  2026-10-18 독립 검토: 원칙 1→2 정정.'
+deviates_from_priority: false
+date: '2026-10-18'

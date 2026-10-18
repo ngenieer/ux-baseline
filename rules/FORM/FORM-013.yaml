@@ -1,0 +1,59 @@
+id: FORM-013
+category: FORM
+title: 중복 제출 방지
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 데이터를 전송하는 버튼은 첫 번째 누름 뒤 처리가 끝날 때까지 두 번째 누름(클릭·Enter·Space)으로 다시 전송하지 않게 한다.
+measurement:
+  criteria: 제출 버튼을 짧은 간격(300ms 이내)으로 2회 클릭하거나 Enter를 2회 누르면, 응답이 오기 전까지 서버로 가는 제출 요청이 1건이다. 처리 중 버튼은 disabled 또는
+    aria-disabled="true" 상태이거나 두 번째 이벤트를 무시한다.
+  method: 네트워크 응답을 지연(DevTools throttling 또는 Playwright route 지연 2초)시킨 뒤 버튼을 연속으로 눌러 요청 수를 센다.
+automation:
+  feasibility: full
+  checks:
+  - tool: custom
+    method: Playwright에서 제출 엔드포인트 응답을 지연시키고 dblclick 후 요청 수가 1인지 확인
+  note: ''
+rationale: 느린 네트워크, 늦은 반응, 손떨림 때문에 버튼을 두 번 누르면 신청·결제가 중복될 수 있다.
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 버튼 > 사용성 가이드라인 (가이드라인 PDF 2025.08 517쪽)
+  note: https://www.krds.go.kr/html/site/component/component_05_02.html — '버튼이 데이터를 전송하는 용도로 사용되는 경우에는 사용자의 두 번째
+    인터랙션이 무시되도록 구현해야 한다.' 상세는 sources/extracts/KRDS-components.yaml
+- ref: KRDS
+  locator: 기본 패턴 > 입력폼 > 사용성 가이드라인 (가이드라인 PDF 2025.08 838쪽)
+  note: https://www.krds.go.kr/html/site/global/global_08.html — '사용자가 입력폼을 제출할 때는 중복 제출을 방지하기 위해 제출 버튼을 비활성화한다.'
+scope:
+  level: component
+  targets:
+  - button[type=submit]
+  - input[type=submit]
+  - 데이터 전송 버튼
+exceptions: []
+relations: []
+examples:
+  good:
+  - lang: js
+    code: "form.addEventListener('submit', (e) => {\n  if (form.dataset.pending) { e.preventDefault(); return; }\n\
+      \  form.dataset.pending = '1';\n  submitBtn.setAttribute('aria-disabled', 'true');\n});\n"
+    note: 첫 제출 뒤 처리 중 표시를 남기고 두 번째 제출 이벤트를 막는다.
+  bad:
+  - lang: html
+    code: '<button type="button" onclick="send()">신청하기</button>
+
+      <!-- 응답 전에 다시 눌러도 send()가 또 실행된다 -->
+
+      '
+    note: 처리 중에도 누를 때마다 전송 요청이 새로 나간다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(KRDS component_05_02·global_08 HTML curl): 버튼 페이지 ''무시되도록 구현해야 한다'' → SHOULD
+  + public-sector-must. 입력폼 페이지는 ''비활성화한다''로 방법을 지정하지만 버튼 페이지는 ''무시''만 요구 — statement는 두 방법을 모두 허용. 300ms는 측정용 연속
+  입력 간격으로 체계가 정한 값(원문 수치 아님). 같은 문단의 ''처리에 시간이 걸리면 스피너로 처리 중임을 안내하는 것이 바람직''은 이 룰 범위 밖(STATE 계열).'
+korean_specific: false
+tags:
+- krds
+- krds-component
+- public-sector-must

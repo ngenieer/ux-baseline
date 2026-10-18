@@ -1,0 +1,57 @@
+id: PERF-014
+category: PERF
+title: LCP 이미지 발견 가능성·우선순위
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: LCP 후보 이미지는 초기 HTML의 <img src>(또는 <link rel="preload" as="image">)로 발견되게 하고 data-src 같은 JS 지연 로딩을 쓰지
+  않으며, fetchpriority="high"는 한 페이지에서 최대 2개 이미지에만 준다.
+measurement:
+  criteria: (1) LCP 요소가 img이면 그 src·srcset이 서버가 보낸 초기 HTML에 있다(또는 CSS 배경이면 초기 HTML에 preload 링크가 있다). (2) LCP img에
+    data-src·data-srcset만 있고 src가 비어 있는 패턴이 없다. (3) 문서 안 fetchpriority="high"인 img·link[as=image]가 2개 이하이다.
+  method: Playwright로 LCP 엔트리의 element를 얻어 초기 HTML(응답 본문)에 그 URL이 있는지 확인하고, HTML 정적 검사로 fetchpriority 개수를 센다.
+automation:
+  feasibility: partial
+  checks:
+  - tool: lighthouse
+    rule: prioritize-lcp-image
+    method: 감사 통과
+  note: Lighthouse는 LCP 이미지 preload 권고만 판정한다. fetchpriority 개수와 초기 HTML 포함 여부는 4단계 커스텀.
+rationale: LCP 이미지가 JS나 외부 CSS에서만 참조되면 브라우저 사전 스캐너가 늦게 발견해 로딩이 늦어진다. 높은 우선순위를 여러 이미지에 주면 우선순위 지정이 소용없어진다.
+sources:
+- ref: WEBDEV_OPT_LCP
+  locator: Eliminate resource load delay; fetchpriority
+  note: '''The LCP element is lazily loaded with a JavaScript library that hides its src or srcset attributes (often
+    as data-src)'', ''setting a high priority on more than one or two images makes priority setting unhelpful in
+    reducing LCP'''
+scope:
+  level: global
+  targets:
+  - LCP 이미지
+  - img[fetchpriority=high]
+exceptions: []
+relations:
+- type: refines
+  id: PERF-006
+- type: depends
+  id: PERF-013
+  note: LCP 이미지에 lazy 금지.
+examples:
+  good:
+  - lang: html
+    code: <img src="/hero.webp" alt="…" width="1200" height="675" fetchpriority="high">
+    note: LCP 이미지를 초기 HTML의 src로 두고 fetchpriority="high"를 준다.
+  bad:
+  - lang: html
+    code: <img data-src="/hero.webp" class="js-lazy" alt="…">
+    note: data-src JS 지연 로딩으로 LCP 이미지 발견이 늦어진다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(web.dev Optimize LCP curl): data-src 지연 로딩 사례, ''your LCP resource should be
+  discoverable from the HTML source'', ''setting a high priority on more than one or two images makes priority setting
+  unhelpful'' 확인. ''최대 2개''는 원문 ''one or two''를 상한으로 옮긴 해석. Lighthouse prioritize-lcp-image는 lighthouse 12.2.1로
+  확인.'
+korean_specific: false
+tags:
+- research-motion_perf

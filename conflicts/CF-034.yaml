@@ -1,0 +1,18 @@
+id: CF-034
+rules:
+- A11Y-038
+against: W3C ARIA APG Select-Only Combobox(닫힌 상태의 방향키는 값을 바꾸지 않고 목록을 연다)
+summary: KRDS 셀렉트는 닫힌 상태에서 방향키로 값을 바로 바꾸라고 하는데, APG는 목록을 열기만 하라고 한다.
+principle: 2
+decision: '커스텀 셀렉트(선택 전용 콤보박스)는 W3C APG Select-Only Combobox 예제 동작을 따른다: 닫힌 상태에서 ↓는 선택을 바꾸지 않고 목록을 열고, ↑·Home·End는
+  목록을 열며 시각 초점을 첫 옵션·첫 옵션·마지막 옵션으로 옮긴다. 네이티브 select는 이 결정의 대상이 아니다(키보드 동작을 브라우저·OS가 정함).'
+reason: 'WCAG는 닫힌 셀렉트의 방향키 동작을 정하지 않아 법규·접근성(원칙 1)으로 갈리는 문제가 아니다. 보조기술 사용자가 익힌 APG 패턴과 키 동작이 같아야 옵션을 훑어보는 동안 값이
+  모르게 바뀌는 조작 실수가 없다(과업 완료, 원칙 2). KRDS 방식은 닫힌 상태의 방향키로 값이 바로 바뀐다. KRDS 키트를 그대로 쓰는 공공 프로젝트는 예외로 기록한다. 2026-10-18
+  독립 검토: APG 원문(Select-Only Combobox Example > Keyboard Support > Closed Combobox)을 curl로 확인, 원칙 1→2 정정, decision의
+  조건 없는 권고 문장을 범위 문장으로 바꿈.'
+deviates_from_priority: false
+date: '2026-10-18'
+rule_changes:
+- 'A11Y-038: statement 수정'
+- 'A11Y-038: 예외 추가'
+- 'A11Y-038: 출처에 ARIA_APG(Select-Only Combobox 예제) 추가, rationale·verification_note를 APG 근거로 수정 (2026-10-18 독립 검토)'

@@ -1,0 +1,63 @@
+id: COPY-008
+category: COPY
+title: 작성 정보와 갱신일 표시
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 공공 정보 상세 콘텐츠에는 작성자·출처·저작권 정보와 최초 등록일·변경일·변경 내역을 제목 근처와 본문 끝에 표시한다.
+measurement:
+  criteria: 상세 콘텐츠 페이지마다 (1) 작성자(담당 부서), 출처, 저작권 정보가 텍스트로 있다. (2) 최초 등록일과 마지막 변경일이 제목(h1) 근처에 있다. (3) 변경 내역(변경일과
+    변경 내용)이 본문 끝에 있다(변경이 없으면 등록일만).
+  method: 상세 콘텐츠 템플릿과 표본 페이지 3개 이상에서 (1)~(3) 항목이 있는지 확인한다.
+automation:
+  feasibility: none
+  checks: []
+  note: '4단계 커스텀 검사 후보: 상세 템플릿에 작성자·등록일·변경일 필드(time[datetime] 포함)가 렌더링되는지 E2E로 확인.'
+rationale: 작성자·출처·날짜가 있으면 사용자가 정보를 신뢰하고 최신인지 판단할 수 있고, 서비스가 계속 관리되고 있음을 알 수 있다(KRDS 상세 정보 확인 패턴).
+sources:
+- ref: KRDS
+  locator: 기본 패턴 > 상세 정보 확인 > 사용성 가이드라인 (가이드라인 PDF 2025.08 817·818쪽)
+  note: https://www.krds.go.kr/html/site/global/global_06.html
+scope:
+  level: situation
+  targets:
+  - 공공 서비스의 상세 정보 콘텐츠 페이지
+exceptions: []
+relations:
+- type: depends
+  id: COPY-056
+  note: 날짜 표기 형식은 COPY-056
+examples:
+  good:
+  - lang: html
+    code: '<h1>장애아동수당 신청 안내</h1>
+
+      <p>담당: 복지정책과 · 등록 <time datetime="2026-03-02">2026. 3. 2.</time> · 변경 <time datetime="2026-10-01">2026. 10.
+      1.</time></p>
+
+      …
+
+      <footer><h2>변경 내역</h2><ul><li>2026. 10. 1. 지급액 갱신</li></ul><p>출처: 보건복지부 · 공공누리 제1유형</p></footer>
+
+      '
+    note: 담당 부서·등록일·변경일을 제목 근처에, 변경 내역·출처·저작권을 본문 끝에 둔다
+  bad:
+  - lang: html
+    code: '<h1>장애아동수당 신청 안내</h1>
+
+      <p>…본문만 있고 작성 정보·날짜 없음…</p>
+
+      '
+    note: 작성 정보와 날짜가 없어 내용이 최신인지 판단할 수 없다
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(curl로 KRDS 페이지 HTML을 받아 텍스트로 직접 읽음): 상세 정보 확인 패턴(global_06) ''모든 상세 콘텐츠에 작성자,
+  출처, 저작권 정보를 표시하여 ... 해야 한다'', ''최초 날짜부터 모든 변경 내역의 반영 일자와 변경 내역을 헤딩 근처와 본문 마지막에 제공해야 한다'' 확인 — 1단계 statement에 빠진
+  저작권·변경 내역·위치를 넣음. 강도: KRDS ''해야 한다·않는다'' 표현 → SHOULD + public-sector-must(정책 2). 적용 범위는 원문대로 디지털 정부서비스의 상세 콘텐츠로
+  한정(일반 서비스 적용 여부는 3단계 검토).'
+korean_specific: false
+tags:
+- krds
+- public-sector
+- public-sector-must

@@ -1,0 +1,15 @@
+id: CF-032
+rules:
+- COPY-005
+- STATE-044
+against: GOV.UK 오류 문구 지침(please·sorry 금지)
+summary: GOV.UK는 필드 오류 문구에 please·sorry를 금지하는데, 한국어 정중한 요청형('-해 주세요')에 옮길 국내 근거가 없다.
+principle: 2
+decision: 필드 오류 문구에는 높임 요청형('-을 입력해 주세요')을 쓸 수 있다. 사과 표현('죄송합니다')은 서비스 쪽 잘못인 시스템 오류 화면에만 쓴다.
+reason: 한국어에서 요청형 높임은 명령을 정중하게 만드는 기본 문체다. 사과는 사용자 잘못이 아닌 경우로 한정해 의미를 지킨다(원칙 2).
+deviates_from_priority: false
+date: '2026-10-18'
+rule_changes:
+- 'COPY-005: 예외 추가'
+- 'COPY-005: 예외를 결정에 맞춰 ''쓸 수 있다''로 고침. STATE-044: 예외 추가 — 본문 사과 문장 허용(h1·title 문구 유지), 좋은 예시 갱신 (2026-10-18 독립
+  검토)'

@@ -1,0 +1,50 @@
+id: FORM-009
+category: FORM
+title: 입력 필드 구성 순서
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 텍스트 입력 필드의 구성 요소는 레이블, 부가 설명, 입력 박스, 시스템 메시지(도움말·오류) 순서로 위에서 아래로 배치한다.
+measurement:
+  criteria: 텍스트 입력 필드 하나를 이루는 요소의 DOM 순서와 화면상 세로 순서가 모두 레이블 → 부가 설명(있을 때) → input/textarea → 시스템 메시지(도움말·오류, 있을
+    때)이다. 레이블이 입력 박스 왼쪽에 같은 줄로 놓이거나, 오류 메시지가 입력 박스 위에 오면 실패.
+  method: 입력 필드 컴포넌트의 마크업 순서를 확인하고, 화면에서 각 요소의 위치(getBoundingClientRect().top)가 같은 순서로 커지는지 확인한다.
+automation:
+  feasibility: none
+  note: 4단계 커스텀 검사 후보 — 컴포넌트 규격의 클래스(예 .field > label, .field-desc, input, .field-msg) 순서를 DOM에서 검사.
+rationale: 레이블과 설명을 먼저 읽고 입력한 뒤 결과 메시지를 확인하는 순서가 읽기 순서·초점 순서와 일치해야 화면을 보는 사용자와 스크린 리더 사용자가 같은 흐름을 따른다.
+sources:
+- ref: KRDS
+  locator: 디자인 스타일 > 레이아웃 > 컴포넌트 내 패딩 (가이드라인 PDF 2025.08 160쪽)
+  note: https://www.krds.go.kr/html/site/style/style_05.html — '텍스트 입력 필드(Text input)는 레이블, 부가 설명, 입력 박스, 시스템 메시지
+    순으로 정렬되며 ...'
+- ref: KRDS
+  locator: 컴포넌트 > 텍스트 입력 필드 > 구조 (가이드라인 PDF 2025.08 688쪽)
+  note: https://www.krds.go.kr/html/site/component/component_09_03.html — 구조 번호 1.레이블 2.입력 필드 3.도움말(도움말 또는 오류 메시지)
+scope:
+  level: component
+  targets:
+  - 텍스트 입력 필드
+  - 텍스트 영역
+exceptions: []
+relations: []
+examples:
+  good:
+  - lang: html
+    code: "<div class=\"field\">\n  <label for=\"biz\">사업자등록번호</label>\n  <p id=\"biz-desc\" class=\"field-desc\"\
+      >숫자 10자리</p>\n  <input id=\"biz\" aria-describedby=\"biz-desc biz-msg\">\n  <p id=\"biz-msg\" class=\"field-msg\"\
+      ></p>\n</div>\n"
+    note: 레이블 → 부가 설명 → 입력 박스 → 시스템 메시지 순서로 DOM과 화면 순서가 같다.
+  bad:
+  - lang: html
+    code: "<div class=\"field\">\n  <p id=\"biz-msg\" class=\"field-msg\">사업자등록번호를 숫자 10자리로 입력하세요.</p>\n  <label\
+      \ for=\"biz\">사업자등록번호</label>\n  <input id=\"biz\" aria-describedby=\"biz-msg\">\n</div>\n"
+    note: 시스템 메시지가 레이블과 입력 박스보다 위에 있다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(KRDS style_05·component_09_03 HTML curl): ''레이블, 부가 설명, 입력 박스, 시스템 메시지 순으로
+  정렬'' 문장 확인. 원문은 서술형 → SHOULD. 같은 문장의 간격 값(gap-3 8px, padding-6 16px)은 SPACE-003.'
+korean_specific: false
+tags:
+- krds

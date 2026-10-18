@@ -1,0 +1,54 @@
+id: FORM-061
+category: FORM
+title: 파일 크기 제한은 실제 크기 이상
+stage: platformed
+status:
+  value: confirmed
+type: guide
+strength: SHOULD
+statement: 업로드 파일 크기에 제한을 둘 때는 제출 대상 파일의 일반적인 크기를 확인하고 그보다 작은 값으로 정하지 않는다.
+measurement:
+  criteria: '점검 질문: 크기 제한값을 정할 때 실제 제출 파일 표본의 크기를 확인했는가? 제한값이 표본 파일의 일반적인 크기보다 큰가?'
+  method: 수동 검토(제출 파일 표본 크기 분포와 제한값 대조)
+automation:
+  feasibility: none
+  checks: []
+  note: '''일반적인 크기''의 수치 기준이 원문에 없어 자동 판정 불가.'
+rationale: KRDS는 크기를 제한해야 한다면 제출 파일의 일반적인 크기를 확인해 원활하게 올릴 수 있게 해야 하며, 파일 크기를 줄이는 방법을 모르는 사용자가 있다고 한다.
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 파일 업로드 > 사용성 가이드라인(가능한 한 파일 크기를 제한하지 않는다) (가이드라인 PDF 2025.08 704쪽)
+  note: 'https://www.krds.go.kr/html/site/component/component_09_04.html — 원문: ''제출을 요구하는 파일의 일반적인 크기를 확인하여 ...
+    원활하게 파일을 업로드할 수 있도록 해야 한다'''
+scope:
+  level: component
+  targets:
+  - input[type=file]
+  - 파일 업로드
+exceptions: []
+relations: []
+examples:
+  good:
+  - lang: text
+    code: '최근 제출된 사업계획서 PDF 표본의 크기를 확인했더니 대부분 5MB 안팎, 큰 것은 15MB였다.
+
+      크기 제한을 파일당 20MB로 정했다.
+
+      '
+    note: 실제 제출 파일 크기를 확인하고 그보다 큰 제한값을 정했다.
+  bad:
+  - lang: text
+    code: '표본을 확인하지 않고 크기 제한을 2MB로 정했다.
+
+      스캔한 사업계획서 PDF는 대부분 5MB 안팎이라 업로드가 거부된다.
+
+      '
+    note: 일반적인 제출 파일보다 작은 제한값을 정했다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(curl로 KRDS 페이지 HTML을 받아 본문 텍스트와 대조): 문장 일치 확인. 원문 강도 ''해야 한다'' → SHOULD + public-sector-must.
+  ''일반적인 크기''에 백분위 등 수치가 없어 guide.'
+korean_specific: false
+tags:
+- krds
+- krds-component
+- public-sector-must

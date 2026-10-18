@@ -1,0 +1,173 @@
+id: snackbar
+title: 스낵바
+status: confirmed
+summary: 사용자 행동의 결과를 한 문장으로 알리면서 그 결과에 대한 행동(되돌리기·재시도 등) 1개를 함께 제공할 때 쓴다.
+use_instead:
+- when: 행동 없이 한 줄 결과만 알리는 경우
+  use: 토스트
+  rule: COPY-050
+- when: 두 문장 이상의 중요한 정보, 반드시 확인해야 하는 내용
+  use: 모달
+  rule: COPY-051
+- when: 개별 입력 항목의 오류·성공·경고
+  use: 해당 필드 옆 인라인 메시지
+  rule: FORM-003
+krds:
+  page: component_12_06.html
+anatomy:
+- part: 루트
+  class: snackbar
+  element: div
+  required: true
+  note: 화면 하단 중앙에 고정한다. 한 페이지에 1개만 둔다(STATE-038). DOM 에서는 main 끝에 둬 Tab 으로 닿을 수 있게 한다.
+- part: 아이콘
+  class: snackbar__icon
+  element: svg
+  note: 메시지 의미 전달을 도울 때만 메시지 왼쪽(DOM 에서도 앞)에 둔다. 메시지와 같은 뜻이면 aria-hidden="true"(STATE-040, A11Y-001).
+- part: 메시지
+  class: snackbar__message
+  element: p
+  required: true
+  note: role="status". 빈 상태로 미리 DOM 에 두고 텍스트만 바꾼다(STATE-001). 한 문장으로 쓴다(COPY-051).
+- part: 작업 버튼
+  class: snackbar__action
+  element: button
+  note: 메시지가 알린 결과에 대한 행동 1개만, 텍스트 버튼으로 메시지 오른쪽(DOM 에서 메시지 다음)에 둔다(STATE-039). 라이브 영역(메시지) 밖에 둔다.
+- part: 닫기 버튼
+  class: snackbar__close
+  element: button
+  required: true
+  note: 스낵바는 시간 제한으로 사라지지 않으므로 닫기 버튼이 필요하다(A11Y-014). 접근 가능한 이름 '알림 닫기'.
+markup: |-
+  <div class="snackbar">
+    <svg class="snackbar__icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M5 12l5 5L19 7"/></svg>
+    <p class="snackbar__message" role="status">파일 3개를 휴지통으로 옮겼습니다.</p>
+    <button class="snackbar__action" type="button">되돌리기</button>
+    <button class="snackbar__close" type="button" aria-label="알림 닫기">
+      <svg class="snackbar__close-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+  </div>
+css: |-
+  .snackbar {
+    position: fixed;
+    inset-block-end: var(--space-gap-7);
+    inset-inline-start: 50%;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    gap: var(--space-gap-3);
+    inline-size: max-content;
+    max-inline-size: calc(100% - var(--layout-screen-margin-small) * 2);
+    padding: var(--space-padding-3) var(--space-padding-3) var(--space-padding-3) var(--space-padding-6);
+    border-radius: var(--radius-medium3);
+    background-color: var(--color-surface-inverse);
+    box-shadow: var(--shadow-3);
+    color: var(--color-text-basic-inverse);
+    transform: translateX(-50%);
+  }
+  .snackbar[hidden] {
+    display: none;
+  }
+  .snackbar__icon {
+    flex-shrink: 0;
+    inline-size: var(--size-height-3);
+    block-size: var(--size-height-3);
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+  }
+  .snackbar__message {
+    flex: 1;
+    min-inline-size: 0;
+    margin: 0;
+    font-size: var(--font-size-body-small);
+    line-height: var(--font-line-height-base);
+  }
+  .snackbar__action {
+    flex-shrink: 0;
+    min-block-size: var(--size-height-5);
+    padding-inline: var(--space-padding-3);
+    border: 0;
+    border-radius: var(--radius-small3);
+    background-color: transparent;
+    color: var(--color-text-basic-inverse);
+    font-size: var(--font-size-label-small);
+    font-weight: var(--font-weight-bold);
+    text-decoration: underline;
+  }
+  .snackbar__close {
+    display: inline-flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    min-inline-size: var(--size-height-5);
+    min-block-size: var(--size-height-5);
+    padding: 0;
+    border: 0;
+    border-radius: var(--radius-small3);
+    background-color: transparent;
+    color: var(--color-icon-inverse);
+  }
+  .snackbar__close-icon {
+    inline-size: var(--size-height-3);
+    block-size: var(--size-height-3);
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+  }
+  .snackbar__action:focus-visible,
+  .snackbar__close:focus-visible {
+    outline: var(--space-scale-2) solid var(--color-border-inverse);
+    outline-offset: var(--space-scale-1);
+  }
+states:
+- name: 숨김(기본)
+  markup_change: 루트에 hidden, 메시지 p 는 비어 있다. 루트를 숨겨도 메시지 p(role=status)는 DOM 에 남겨 둔다.
+  rule: STATE-001
+- name: 표시
+  markup_change: 루트의 hidden 을 지운 뒤 메시지 p 에 텍스트를 넣는다(순서가 바뀌면 보조기술이 읽지 않을 수 있다). 행동이 없는 메시지면 snackbar__action 을 숨긴다.
+  rule: STATE-001
+- name: 교체
+  markup_change: 새 스낵바가 필요하면 기존 스낵바의 메시지·작업 버튼을 바꾼다. 두 번째 스낵바를 만들지 않는다.
+  rule: STATE-038
+keyboard:
+- key: Tab
+  action: 작업 버튼·닫기 버튼으로 초점을 옮긴다. 스낵바가 나타나도 초점은 옮기지 않는다(STATE-001).
+- key: Enter / Space
+  action: 초점이 있는 작업 버튼·닫기 버튼을 실행한다.
+- key: Esc
+  action: 초점이 스낵바 안에 있을 때 스낵바를 닫는다.
+behavior:
+- 메시지는 role="status" 로 초점 이동 없이 보조기술에 전달한다. 작업 버튼은 라이브 영역 밖에 둬 버튼 이름이 메시지와 함께 반복해서 읽히지 않게 한다(STATE-001).
+- 스낵바는 시간이 지나도 저절로 사라지지 않는다. 사용자가 닫기·작업 버튼을 누르거나, 다음 스낵바로 교체되거나, 화면을 떠날 때 닫는다. 작업 버튼(되돌리기 등)에 시간 제한을 두지 않기 위해서다(A11Y-014, CF-022).
+- 한 번에 1개만 표시한다. 새 스낵바는 기존 스낵바를 교체한다(STATE-038).
+- 작업 버튼은 0~1개, 메시지가 알린 결과에 대한 행동만 둔다(STATE-039). 닫기 버튼은 작업 버튼 수에 넣지 않는다.
+- 스낵바에 초점이 있는 상태에서 닫히면 초점을 스낵바를 띄운 동작의 버튼(없으면 main 의 h1)으로 옮겨 초점을 잃지 않게 한다(A11Y-015).
+- 하단 탭 바·플로팅 버튼 위에 띄우고, 떠 있는 동안 문서에 scroll-padding-block-end 를 스낵바 높이 이상으로 둬 초점 받은 요소를 완전히 가리지 않게 한다(LAYOUT-001).
+- 코치마크가 표시되는 동안에는 스낵바를 띄우지 않고 보류했다가 코치마크가 끝난 뒤 표시한다(STATE-030, CF-001).
+- 메시지는 한 문장으로 쓰고, 두 문장 이상 중요한 정보는 모달로 보낸다(COPY-051). 필드 오류는 스낵바가 아닌 인라인 메시지로 보낸다(FORM-003).
+rules:
+- A11Y-001
+- A11Y-011
+- A11Y-014
+- A11Y-015
+- A11Y-016
+- A11Y-025
+- COLOR-002
+- COLOR-003
+- COPY-051
+- FORM-003
+- LAYOUT-001
+- LAYOUT-002
+- SHAPE-001
+- SHAPE-004
+- STATE-001
+- STATE-030
+- STATE-038
+- STATE-039
+- STATE-040
+kit_differences:
+- KRDS HTML 키트 v1.1.0 에는 스낵바 마크업이 없다. 이 규격은 KRDS 스낵바 페이지 규칙(STATE-038·039·040, COPY-051)과 STATE-001·A11Y-014 로 만들었다.
+notes:
+- 시간 제한 결정 — KRDS 스낵바는 토스트처럼 잠시 뒤 사라지는 알림으로 쓰이는 경우가 많지만, 스낵바에는 작업 버튼이 있어 자동으로 사라지면 그 조작에 시간 제한이 생긴다. 우선순위 1(A11Y-014, KWCAG 6.2.1 을 따른 CF-022)에 따라 저절로 사라지지 않게 했다. 토스트(CF-030)와 다른 결론인 이유는 토스트에는 조작이 없고 내용이 다른 곳에도 있기 때문이다.
+- 색은 KRDS 키트에 스낵바 값이 없어 토스트 규격과 같은 반전 표면을 썼다. 초점 표시는 반전 표면에서 보이도록 border-inverse 를 쓴다.

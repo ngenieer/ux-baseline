@@ -1,0 +1,51 @@
+id: COPY-051
+category: COPY
+title: 스낵바 문구 한 문장
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: MAY
+statement: 스낵바 메시지는 한 문장으로 쓰고, 두 문장 이상의 중요한 정보를 전달해야 하면 스낵바 대신 모달을 쓴다.
+measurement:
+  criteria: 스낵바 메시지 텍스트(작업 버튼 제외)의 문장 종결 부호(. ? !) 수 ≤ 1이다.
+  method: 스낵바 메시지 문자열 목록에서 문장 수를 센다.
+automation:
+  feasibility: none
+  checks: []
+  note: '4단계 커스텀 검사: 스낵바 메시지 문자열(i18n 리소스)의 종결 부호 수 검사.'
+rationale: 스낵바는 사용자 행동의 결과를 빠르게 알리는 짧은 피드백이다. 긴 중요 정보는 사라지지 않는 모달이 맞다(KRDS 스낵바).
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 스낵바 > 사용성 가이드라인
+  note: https://www.krds.go.kr/html/site/component/component_12_06.html
+scope:
+  level: component
+  targets:
+  - 스낵바
+exceptions: []
+relations:
+- type: depends
+  id: STATE-037
+  note: 중요·긴급 메시지와 긴 설명은 모달(STATE-037)
+examples:
+  good:
+  - lang: html
+    code: '<div class="snackbar" role="status">파일을 삭제했습니다. <button type="button">되돌리기</button></div>
+
+      '
+    note: 스낵바 메시지가 한 문장이다
+  bad:
+  - lang: html
+    code: '<div class="snackbar" role="status">파일을 삭제했습니다. 삭제한 파일은 30일간 휴지통에 보관됩니다. 그 뒤에는 복구할 수 없습니다. <button type="button">되돌리기</button></div>
+
+      '
+    note: 스낵바에 세 문장을 넣었다 — 모달 대상이다
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(curl로 KRDS 페이지 HTML을 받아 텍스트로 직접 읽음): 스낵바(component_12_06) ''메시지는 한 문장 이내로 짧게
+  제공하는 것이 적정하며, 두 문장 이상의 중요 정보를 전달해야 하는 경우는 모달을 사용하는 것이 적합하다'', 용례 ''한 문장 이내의 짧은 설명을 제공할 때 사용하기 적합 ... 더 긴 설명이 필요하다면
+  모달'' 확인. ''적정하며·적합하다'' → 강도: KRDS ''적합하다·바람직하다·이상적'' 등 권장 표현 → MAY(정책 2).'
+korean_specific: false
+tags:
+- krds
+- krds-component

@@ -1,0 +1,47 @@
+id: LAYOUT-048
+category: LAYOUT
+title: 태그
+stage: platformed
+status:
+  value: confirmed
+type: guide
+strength: SHOULD
+statement: 태그는 처음에 꼭 필요한 것만 두고, 사용자 의견을 수렴해 필요가 확인된 태그만 추가한다.
+measurement:
+  criteria: '점검 질문: 각 태그가 사용자의 분류·필터 목적에 쓰이는가? 태그를 늘린 근거(사용자 의견·이용 데이터)가 기록돼 있는가?'
+automation:
+  feasibility: none
+  checks: []
+  note: 필요성 판단이 필요한 가이드.
+rationale: 태그가 많을수록 인지 부담이 커진다.
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 태그 > 사용성 가이드라인 (가이드라인 PDF 2025.08 562·564쪽)
+  note: https://www.krds.go.kr/html/site/component/component_06_04.html
+scope:
+  level: component
+  targets:
+  - 태그
+exceptions: []
+relations: []
+examples:
+  good:
+  - lang: text
+    code: '''복지''·''세금''·''교통'' 태그 3개로 시작하고, 검색어 분석에서 반복 확인된 ''청년'' 태그를 근거와 함께 추가한다.
+
+      '
+    note: 필요가 확인된 태그만 근거를 남겨 늘린다.
+  bad:
+  - lang: text
+    code: '예상되는 분류어 30개를 처음부터 모두 태그로 노출한다.
+
+      '
+    note: 사용 근거 없이 태그를 한꺼번에 늘렸다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(curl로 KRDS 페이지 HTML을 받아 본문 텍스트를 직접 확인): 태그(component_06_04) ''지나치게 많은 태그를 사용하지
+  않는다.'', ''태그를 많이 사용할수록 인지 부담이 증가되므로 최소의 태그를 사용한다. 이후, 사용자 의견 수렴 과정을 통해 추가가 필요한 태그를 확인하여 표시 개수를 늘릴 수 있다.'' 확인.
+  수치 없음 → guide·SHOULD.'
+korean_specific: false
+tags:
+- krds
+- krds-component

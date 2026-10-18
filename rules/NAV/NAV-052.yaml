@@ -1,0 +1,54 @@
+id: NAV-052
+category: NAV
+title: 태그와 배지 구분
+stage: platformed
+status:
+  value: confirmed
+type: guide
+strength: MAY
+statement: 사용자가 설정한 필터링·정렬 옵션을 표시하고 해제하게 할 때는 태그를 쓰고, 상호작용 없이 데이터의 분류·속성만 강조할 때는 배지를 쓴다.
+measurement:
+  criteria: '점검 질문: 클릭·삭제 등 상호작용이 없는 분류 표시가 태그 컴포넌트로 구현되어 있는가? 필터 조건 표시·해제에 배지를 쓰고 있는가? 어느 쪽이든 ''예''면 위반.'
+  method: '수동: 태그·배지 컴포넌트 사용처를 모아 상호작용 여부와 대조한다.'
+automation:
+  feasibility: none
+  checks: []
+  note: 태그·배지 구분은 디자인 시스템 컴포넌트 명명에 달려 있어 범용 자동 검사 불가.
+rationale: 상호작용 여부가 다른 요소를 같은 모양으로 쓰면 사용자가 무엇을 누를 수 있는지 혼동한다.
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 태그 > 용례 (사용하기 적합한 경우 / 적합하지 않은 경우) (가이드라인 PDF 2025.08 559쪽)
+  note: https://www.krds.go.kr/html/site/component/component_06_04.html
+scope:
+  level: component
+  targets:
+  - 태그
+  - 배지
+exceptions: []
+relations:
+- type: depends
+  id: FORM-040
+  note: 대화형·비대화형 태그를 한 그룹에 섞지 않음(FORM-040)
+examples:
+  good:
+  - lang: html
+    code: '<ul aria-label="적용된 필터"><li><button aria-label="서울 필터 해제">서울 ×</button></li></ul>
+
+      <span class="badge">신규</span>
+
+      '
+    note: 해제할 수 있는 필터 조건은 태그, 상호작용 없는 속성은 배지로 표시한다.
+  bad:
+  - lang: html
+    code: '<span class="tag">신규</span>  <!-- 상호작용 없는 속성 표시에 태그 -->
+
+      '
+    note: 상호작용 없는 속성 표시에 태그 컴포넌트를 썼다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(KRDS 페이지 curl 수신 후 텍스트 추출): ''필터링·정렬 패턴에서 설정된 옵션을 표시할 때 … 태그를 이용할 수 있다'', ''상호작용
+  없이 데이터의 특성 분류, 속성을 강조하여 표현하고자 할 때 배지를 사용한다'' 확인. 원문이 용례·유형 서술(사용하기 적합/사용한다)이라 MAY. 판정이 컴포넌트 명명에 달려 guide. 카테고리
+  재검토(태그 룰은 FORM-040 등).'
+korean_specific: false
+tags:
+- krds
+- krds-component

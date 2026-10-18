@@ -1,0 +1,54 @@
+id: LAYOUT-024
+category: LAYOUT
+title: 플로팅 버튼
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 플로팅 동작이 2개 이상 필요하면 확장형 플로팅 버튼 하나로 묶고, 확장 항목은 3개 이하, 터치 깊이는 2수준 이하로 한다.
+measurement:
+  criteria: (1) 한 화면의 플로팅 버튼 수 ≤ 1(확장형 포함). (2) 확장형의 펼침 항목 수 ≤ 3. (3) 플로팅 버튼 탭부터 동작 실행까지 탭 횟수 ≤ 2.
+  method: 플로팅 버튼이 있는 화면에서 버튼 수, 펼침 항목 수, 실행까지 탭 수를 센다.
+automation:
+  feasibility: partial
+  checks:
+  - tool: custom
+    method: 화면당 .fab 요소 수와 확장 메뉴 항목 수 DOM 카운트
+  note: 터치 깊이는 수동 확인.
+rationale: 플로팅 버튼이 많거나 깊으면 시각적 혼란이 커지고 주요 동작에 빠르게 접근한다는 목적이 사라진다.
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 플로팅 버튼 > 사용성 가이드라인
+  note: https://www.krds.go.kr/html/site/component/component_05_03.html
+scope:
+  level: component
+  targets:
+  - 플로팅 버튼
+  - 확장형 플로팅 버튼
+exceptions: []
+relations: []
+examples:
+  good:
+  - lang: html
+    code: "<div class=\"fab-expand\">\n  <button type=\"button\" aria-expanded=\"false\" aria-controls=\"fab-menu\"\
+      >작성 메뉴</button>\n  <ul id=\"fab-menu\" hidden><li><button type=\"button\">민원 작성</button></li><li><button type=\"\
+      button\">사진으로 신고</button></li></ul>\n</div>\n"
+    note: 동작 2개를 확장형 플로팅 버튼 하나로 묶고 2번 탭으로 실행한다.
+  bad:
+  - lang: html
+    code: '<button type="button" class="fab">민원 작성</button>
+
+      <button type="button" class="fab fab-second">사진으로 신고</button>
+
+      '
+    note: 한 화면에 플로팅 버튼이 2개다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(curl로 KRDS 페이지 HTML을 받아 본문 텍스트를 직접 확인): 플로팅 버튼(component_05_03) ''너무 많은 플로팅
+  버튼을 구성하지 않는다.'', ''플로팅 버튼을 2개 이상 사용해야 하는 경우 확장형 플로팅 버튼을 사용하는 것이 적합하며, 확장형 플로팅 버튼의 수량은 3개 이하로 구성하는 것이 적합하다.'',
+  ''확장형 플로팅 버튼 터치의 깊이는 2수준 이하로만 사용한다.'' 확인. 항목 제목·깊이는 지시형, 확장형 묶기·3개는 ''적합하다''(권장) — 제목의 지시형을 따라 SHOULD. 3단계에서 강도
+  분리 여부 검토.'
+korean_specific: false
+tags:
+- krds
+- krds-component

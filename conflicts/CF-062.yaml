@@ -1,0 +1,25 @@
+id: CF-062
+rules:
+- A11Y-008
+- A11Y-015
+against: 'KRDS 가이드라인 모달 접근성 가이드라인 02 ''모달의 닫기 버튼은 모달의 가장 마지막 요소로 마크업한다''(PDF 397쪽, 근거로 WCAG Meaningful Sequence
+  인용) + KRDS HTML 키트 CSS(v1.1.0 component.css ''.krds-modal .modal-dialog .btn-close { position: absolute; top;
+  right }'')로 닫기 버튼을 우상단에 배치'
+summary: KRDS는 모달 닫기 버튼을 DOM 마지막에 두라고 하는데, 시각 위치(우상단, 제목 옆)와 DOM·Tab 순서가 달라져 A11Y-008·015와 어긋난다.
+principle: 1
+decision: 모달·바텀시트·맥락적 도움말의 닫기 버튼은 헤더 안 제목 바로 다음에 둔다. 열 때 초점은 첫 입력 필드나 취소 버튼으로 보낸다. 입력 필드가 없는 짧은 확인 대화상자(본문이 텍스트
+  문단뿐인 대화상자)는 본문을 aria-describedby로 대화상자에 연결하고, 입력 필드·목록·표가 있는 대화상자에는 본문 전체를 aria-describedby로 연결하지 않는다(components/modal.yaml).
+reason: 'A11Y-008·015는 MUST(WCAG 1.3.2·2.4.3)이고 KRDS 권고는 마크업 방식 권고다. A11Y-015 측정 기준 (1)(Tab 순서 = 시각적 읽기·작업 순서)은
+  WCAG 2.4.3(''focusable components receive focus in an order that preserves meaning and operability'')보다 엄격한 체계
+  기준이다 — 2.4.3은 의미·조작이 보존되면 시각 순서와 다른 초점 순서도 허용한다. Understanding 2.4.3이 ''표현 순서가 프로그램 순서와 다르면 한쪽 표현의 사용자(예: 시각 사용자인
+  키보드 사용자)가 이해·조작하기 어려울 수 있다''고 경고하는 내용을 판정 가능한 조건 하나로 고정한 것이고, 화면마다 판단이 갈리지 않게 하려는 일관성(원칙 3) 근거다. 원문보다 엄격한 체계 선택.
+  KRDS가 든 두 우려에 대한 답: (1) 닫기 버튼이 앞에 있으면 키보드 사용자가 본문을 다 본 뒤 닫으려고 역방향으로 탐색해야 한다 — X 버튼이 있는 모달은 Esc로 닫히고(CF-035, A11Y-029
+  (4)) 푸터의 취소·닫기 버튼으로도 닫을 수 있어 역방향 탐색이 필요 없다. (2) 스크린 리더 사용자가 본문을 인지하지 못한다 — 열 때 초점을 닫기 버튼이 아니라 첫 입력 필드·취소 버튼으로
+  보내고, 짧은 확인 대화상자는 본문을 aria-describedby로 연결해 대화상자 이름과 함께 읽힌다. 그래서 시각 순서와 DOM 순서를 맞추는 쪽을 택한다(2026-10-18 독립 검토).'
+deviates_from_priority: false
+date: '2026-10-18'
+rule_changes:
+- 변경 없음 — 컴포넌트 규격 modal·bottom-sheet·contextual-help에 반영
+- 'A11Y-015: verification_note에 측정 기준 (1)이 WCAG 2.4.3보다 엄격한 체계 기준임을 기록 (2026-10-18 독립 검토)'
+- 변경 없음 — against를 가이드라인 문장과 키트 CSS로 나누고 aria-describedby 범위를 짧은 확인 대화상자로 한정(컴포넌트 규격 modal 과 같음) (2026-10-18 독립
+  검토)

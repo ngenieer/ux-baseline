@@ -1,0 +1,56 @@
+id: NAV-037
+category: NAV
+title: 사이드 메뉴 하위 목록 펼침·접힘
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 꺾쇠 아이콘이 있는 사이드 메뉴 링크는 Click·Enter로 하위 목록을 펼치거나 접고, 한 하위 목록을 펼쳐도 이미 펼쳐진 다른 하위 목록은 펼친 상태로 둔다.
+measurement:
+  criteria: (1) 꺾쇠 아이콘이 있는 메뉴 링크에 초점을 두고 Click 또는 Enter를 하면 해당 하위 목록의 표시 상태가 반전된다. (2) 하위 목록 A를 펼친 뒤 하위 목록 B를 펼쳐도
+    A가 펼친 상태로 남는다.
+  method: '수동 또는 E2E 테스트: 마우스 클릭과 Enter 키 각각으로 펼침·접힘을 확인하고, 두 하위 목록을 차례로 펼쳐 앞의 목록 상태를 확인한다.'
+automation:
+  feasibility: none
+  checks: []
+  note: 기존 검사기 규칙 없음. 4단계에서 Playwright 등 E2E 커스텀 검사(키 입력 후 aria-expanded·hidden 상태 비교)로 만들 수 있다.
+rationale: 여러 하위 목록을 동시에 열어 비교·이동할 수 있어야 하고, 키보드 사용자도 마우스 사용자와 같은 방법으로 하위 메뉴에 접근해야 한다.
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 사이드 메뉴 > 상호작용 가이드라인 (Click / Enter) (가이드라인 PDF 2025.08 307쪽)
+  note: https://www.krds.go.kr/html/site/component/component_03_04.html
+scope:
+  level: component
+  targets:
+  - 사이드 메뉴
+  - 사이드 메뉴의 꺾쇠 아이콘이 있는 링크
+exceptions: []
+relations:
+- type: refines
+  id: A11Y-011
+  note: 키보드 조작 요구를 사이드 메뉴 하위 목록 토글(Enter)에 구체화
+- type: depends
+  id: A11Y-025
+  note: 펼침 상태는 aria-expanded 등으로 보조기술에 전달(KRDS 접근성 가이드라인도 aria-expanded 요구)
+examples:
+  good:
+  - lang: html
+    code: "<li>\n  <button type=\"button\" aria-expanded=\"true\" aria-controls=\"sub-1\">민원 신청</button>\n  <ul\
+      \ id=\"sub-1\">…</ul>\n</li>\n<li>\n  <button type=\"button\" aria-expanded=\"true\" aria-controls=\"sub-2\"\
+      >증명서 발급</button>\n  <ul id=\"sub-2\">…</ul>\n</li>\n<!-- 두 하위 목록이 동시에 펼쳐진 상태를 허용 -->\n"
+    note: 두 하위 목록을 동시에 펼친 상태로 둘 수 있다.
+  bad:
+  - lang: html
+    code: "<!-- 하나를 펼치면 나머지를 자동으로 접는 아코디언식 동작 -->\n<script>\nmenuButtons.forEach(b => b.addEventListener('click',\
+      \ () => {\n  menuButtons.forEach(o => o.setAttribute('aria-expanded', 'false'));\n  b.setAttribute('aria-expanded',\
+      \ 'true');\n}));\n</script>\n"
+    note: 하나를 펼치면 다른 하위 목록을 자동으로 접는다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(KRDS 페이지 curl 수신 후 텍스트 추출): ''하위 수준 메뉴가 펼쳐지거나 접혀야 한다''(Click·Enter 각각), ''기존에
+  확장된 링크 목록의 확장 상태가 유지되어야 한다'' 문장 확인. 원문 지시형 문장을 의무로 읽어 SHOULD + public-sector-must.'
+korean_specific: false
+tags:
+- krds
+- krds-component
+- public-sector-must

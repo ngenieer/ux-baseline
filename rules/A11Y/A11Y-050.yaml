@@ -1,0 +1,54 @@
+id: A11Y-050
+category: A11Y
+title: 패널 닫을 때 초점 복귀
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 도움 패널·따라하기 패널을 닫기 버튼(Click·Enter·Space)으로 닫으면 키보드 초점을 그 패널을 연 버튼으로 옮긴다.
+measurement:
+  criteria: 패널 닫기 버튼을 클릭하거나 Enter·Space로 실행한 직후 document.activeElement가 해당 패널 열기 버튼이다.
+  method: 각 패널을 열고 닫기 버튼을 마우스·Enter·Space로 실행해 초점 위치를 확인한다.
+automation:
+  feasibility: none
+  checks: []
+  note: '4단계 커스텀 검사: Playwright 시나리오.'
+rationale: 패널을 닫은 뒤 초점이 사라지면 키보드 사용자가 문서 처음부터 다시 찾아가야 한다.
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 도움 패널 > 상호작용 가이드라인 (가이드라인 PDF 2025.08 610쪽)
+  note: https://www.krds.go.kr/html/site/component/component_08_01.html
+- ref: KRDS
+  locator: 컴포넌트 > 따라하기 패널 > 상호작용 가이드라인 (가이드라인 PDF 2025.08 619쪽)
+  note: https://www.krds.go.kr/html/site/component/component_08_02.html — 같은 요구(패널 비활성화 시 초점을 패널 열기 버튼으로)
+scope:
+  level: component
+  targets:
+  - 도움 패널
+  - 따라하기 패널
+exceptions: []
+relations:
+- type: refines
+  id: A11Y-015
+examples:
+  good:
+  - lang: html
+    code: '<!-- closeBtn click: panel.hidden = true; openBtn.focus(); -->
+
+      '
+    note: 패널을 닫으면 연 버튼으로 초점 이동
+  bad:
+  - lang: html
+    code: '<!-- 패널을 닫으면 초점이 body로 떨어짐 -->
+
+      '
+    note: 패널을 닫으면 초점이 body로 떨어짐
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(WebFetch로 KRDS 페이지 재조회, 요약 모델 인용 확인): 도움 패널·따라하기 패널 상호작용 가이드라인 ''키보드 초점은 (관련된)
+  패널 열기 버튼으로 이동한다.''(Click, Enter·Space 행) 확인. 서술형 → SHOULD.'
+korean_specific: false
+tags:
+- krds
+- krds-component
+- krds-descriptive

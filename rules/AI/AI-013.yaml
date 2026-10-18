@@ -1,0 +1,51 @@
+id: AI-013
+category: AI
+title: 정책상 거절의 명시
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: AI가 정책·안전 사유로 요청을 거절하면 거절했다는 사실을 텍스트로 밝히고, 거절을 시스템 오류 문구나 재시도 버튼으로 표시하지 않는다.
+measurement:
+  criteria: refused 상태 컴포넌트에 (1) 요청을 처리하지 않는다는 사실을 밝히는 텍스트가 있고, (2) '오류'·'일시적인 문제' 같은 시스템 오류 문구와 재시도 버튼이 없다.
+  method: refused 상태 목 응답으로 렌더링해 단위 테스트한다.
+automation:
+  feasibility: none
+  checks: []
+  note: '4단계 커스텀 단위 테스트: refused 상태에서 오류 문구 컴포넌트가 아닌 거절 컴포넌트 렌더.'
+rationale: 거절을 오류로 표시하면 사용자는 같은 요청을 반복하고, 서비스가 정직하지 않다고 느낀다. 다만 거절 사유를 지나치게 자세히 설명하면 악용 단서가 될 수 있다.
+sources:
+- ref: APPLE_WWDC25_248
+  locator: guardrail error 처리, 대안 행동
+  note: '''provide appropriate UI feedback to explain that the app cannot process the request … or provide alternative
+    actions'''
+- ref: PAIR_GUIDEBOOK
+  locator: Errors + Graceful Failure — Assume subversive use
+  note: '''Avoid making dangerous failures interesting, or over-explaining system vulnerabilities'''
+scope:
+  level: component
+  targets:
+  - AI 거절 상태
+  - '[data-ai-status=refused]'
+exceptions: []
+relations:
+- type: refines
+  id: AI-011
+  note: refused 상태의 표시 방법.
+examples:
+  good:
+  - lang: html
+    code: "<div data-ai-status=\"refused\">\n  <p>이 요청은 이용 정책상 답변하지 않습니다.</p>\n  <a href=\"/policy/ai\">AI 이용 정책\
+      \ 보기</a>\n</div>"
+    note: 정책상 답하지 않는다는 사실을 밝히고 재시도 버튼을 두지 않는다.
+  bad:
+  - lang: html
+    code: "<div data-ai-status=\"refused\">\n  <p>일시적인 오류가 발생했습니다.</p><button>다시 시도</button>\n</div>"
+    note: 정책상 거절을 일시적인 시스템 오류와 재시도 버튼으로 위장한다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조: WWDC25 248 세션 페이지(curl) 가드레일 오류 처리 문장 확인 — 대안 행동 제시는 ''can … use this opportunity''(선택)라
+  statement에서 빼고 예시에만 둠. PAIR ''Assume subversive use'' 절 확인. ''오류로 위장 금지''는 두 출처를 합친 이 체계의 해석(참고 사례 근거 SHOULD).'
+korean_specific: false
+tags:
+- research-ai

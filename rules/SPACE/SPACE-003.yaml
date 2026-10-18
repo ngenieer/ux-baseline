@@ -1,0 +1,62 @@
+id: SPACE-003
+category: SPACE
+title: 입력 필드 내부 간격
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: MAY
+statement: 텍스트 입력 필드의 레이블·부가 설명·입력 박스·시스템 메시지 사이 간격을 8px(gap-3)로, 입력 박스 안쪽 좌우 여백을 16px(padding-6)로 둔다.
+measurement:
+  criteria: 텍스트 입력 필드 컴포넌트에서 레이블→부가 설명→입력 박스→시스템 메시지 각 요소 사이 세로 간격이 8px이고, input의 padding-inline이 16px이다(KRDS 토큰
+    gap-3, padding-6).
+  method: 입력 필드 컴포넌트의 계산 스타일을 확인한다.
+automation:
+  feasibility: partial
+  checks:
+  - tool: stylelint
+    method: 입력 필드(기본 .text-field) gap = var(--space-gap-3), 입력 박스(기본 .text-field__input) padding-inline = var(--space-padding-6)
+      (lint/plugins/ux-baseline.mjs)
+    rule: ux-baseline/text-field-spacing
+  note: 렌더링 간격은 커스텀 검사로 보완. 선택자 범위 규칙은 체계 기본 클래스 이름을 기준으로 하며, 프로젝트 클래스 이름이 다르면 classNames 옵션으로 바꾼다.
+rationale: 입력 필드 내부 간격을 고정하면 폼 전체의 리듬이 일정해진다.
+sources:
+- ref: KRDS
+  locator: 디자인 스타일 > 레이아웃 > 컴포넌트 내 패딩 (가이드라인 PDF 2025.08 160쪽)
+  note: https://www.krds.go.kr/html/site/style/style_05.html
+scope:
+  level: component
+  targets:
+  - 텍스트 입력 필드
+  - .form-group
+exceptions: []
+relations:
+- type: depends
+  id: SPACE-001
+examples:
+  good:
+  - lang: css
+    code: '.form-group { display: grid; gap: var(--space-gap-3); } /* 8px */
+
+      .form-group input { padding-inline: var(--space-padding-6); } /* 16px */
+
+      '
+    note: 입력 필드 요소 간격 8px, 입력 박스 좌우 여백 16px다.
+  bad:
+  - lang: css
+    code: '.form-group { display: grid; gap: var(--space-gap-1); } /* 2px */
+
+      .form-group input { padding-inline: var(--space-padding-3); } /* 8px */
+
+      '
+    note: 토큰은 썼지만 지정 토큰(gap-3·padding-6)이 아니다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(curl로 KRDS 페이지 HTML을 받아 본문 텍스트를 직접 확인): style_05 컴포넌트 내 패딩 ''텍스트 입력 필드(Text
+  input)는 레이블, 부가 설명, 입력 박스, 시스템 메시지 순으로 정렬되며, 각 요소 간의 간격인 gap-3(8px)과 입력 박스의 패딩값인 padding-6(16px)를 유지하여 사용한다.''
+  확인. 토큰 대조: gap-3 = number-5 = 0.8rem = 8px, padding-6 = number-8 = 1.6rem = 16px(krds_tokens.css). KRDS 키트 CSS의
+  .form-group gap도 gap-3. 원문의 ''패딩값''은 방향이 명시되지 않음 — 키트 CSS는 padding: 0 var(--krds-input--padding-x)(좌우)라 좌우로 판정.
+  system-choice → MAY.'
+korean_specific: false
+tags:
+- krds
+- system-choice

@@ -1,0 +1,59 @@
+/* ux-baseline 기본 스타일 — tokens.css 다음, 프로젝트 CSS 앞에 불러온다.
+   컴포넌트 규격(components/)의 CSS 는 이 파일이 있다고 가정한다. */
+
+/* 너비 100% 요소가 안쪽 여백·테두리 때문에 넘치지 않게 한다 (RESP-003 리플로) */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  /* 루트 글자 크기를 px 로 고정하지 않는다 — 브라우저 설정을 따른다 (TYPO-026) */
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  color: var(--color-text-basic);
+  background-color: var(--color-surface-white);
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-body-medium);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--font-line-height-base); /* TYPO-004 본문 행간 1.5 이상 */
+}
+
+/* 한국어는 어절 단위로 줄바꿈하고, 긴 URL·영문은 칸을 넘지 않게 끊는다 (TYPO-017, TYPO-019, CF-052) */
+:lang(ko) {
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+}
+
+img,
+svg,
+video {
+  max-inline-size: 100%;
+  block-size: auto;
+}
+
+/* 폼 요소가 본문 글꼴을 물려받게 한다 */
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+
+/* 움직임 줄이기 설정을 따른다 (MOTION-004) */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: var(--motion-duration-instant);
+    animation-iteration-count: 1;
+    transition-duration: var(--motion-duration-instant);
+    scroll-behavior: auto;
+  }
+}

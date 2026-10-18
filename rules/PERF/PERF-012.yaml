@@ -1,0 +1,20 @@
+id: PERF-012
+category: PERF
+title: 웹폰트 교체로 인한 레이아웃 이동 줄이기
+stage: collected
+status:
+  value: deprecated
+  reason: 'PERF-005로 병합 — 폴백 글꼴 메트릭 조정(size-adjust 등) 또는 font-display: optional로 웹폰트 교체 이동을 줄이는 같은 요구. 앞부분(font-family 끝 generic family)은 TYPO-030과 같은 요구.'
+  superseded_by: PERF-005
+statement: '웹폰트를 쓰는 font-family 선언 끝에 sans-serif 같은 일반 글꼴 계열을 지정하고, 대체 글꼴과 웹폰트의 크기 차이를 size-adjust·ascent-override·descent-override로 줄이거나 font-display: optional을 쓴다.'
+automation:
+  feasibility: undecided
+  note: stylelint 기본 규칙 font-family-no-missing-generic-family-keyword로 일반 계열 누락 검사. size-adjust 등은 수동.
+sources:
+- ref: WEBDEV_OPT_CLS
+  locator: Web fonts
+needs_verification: true
+verification_note: '원문 강도: 가이드. 한글 웹폰트는 용량이 커서 교체 지연이 길어 영향이 큼(경험적 판단, 출처 없음). font-display: optional은 첫 방문에서 웹폰트가 안 보일 수 있어 TYPO-010(Pretendard GOV 기본 서체) 같은 브랜드 서체 요구와 충돌 가능 → 3단계 검토. statement 는 조사 에이전트가 원문을 읽고 정리한 것 — 2단계에서 원문 대조. 2026-10-18 2단계: PERF-005로 병합(정책 1, 같은 guide 강도 → 번호 작은 룰이 정본). WEBDEV_OPT_CLS 출처는 PERF-005에 옮겨 적음. generic family 부분의 출처 이동(TYPO-030)은 제안 파일 cross_merges. TYPO-010의 conflicts 관계 대상도 PERF-005로 바꿔야 함(제안 파일 notes).'
+korean_specific: true
+tags:
+- research-motion_perf

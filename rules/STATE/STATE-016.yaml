@@ -1,0 +1,47 @@
+id: STATE-016
+category: STATE
+title: 캐러셀 항목 1개일 때 컨트롤 숨김
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 캐러셀에 표시할 항목이 1개가 되면 이전·다음 탐색 버튼, 항목 탐색 식별자, 정지·재생 버튼을 숨긴다.
+measurement:
+  criteria: 항목이 1개인 캐러셀에서 탐색 버튼·항목 식별자(인디케이터)·정지/재생 버튼이 렌더링되지 않거나 hidden(display:none)이다.
+  method: 항목 1개 데이터로 캐러셀을 렌더링해 확인한다(콘텐츠 변경으로 1개가 되는 경우 포함).
+automation:
+  feasibility: none
+  checks: []
+  note: 컴포넌트 단위 테스트로 items.length===1일 때 컨트롤 미렌더링을 검사.
+rationale: 항목이 1개인데 탐색 단서가 남아 있으면 사용자가 불필요한 탐색을 시도한다(KRDS 캐러셀).
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 캐러셀 > 사용성 가이드라인 (가이드라인 PDF 2025.08 438쪽)
+  note: https://www.krds.go.kr/html/site/component/component_04_09.html
+scope:
+  level: component
+  targets:
+  - 캐러셀
+exceptions: []
+relations: []
+examples:
+  good:
+  - lang: html
+    code: "<section aria-roledescription=\"carousel\" aria-label=\"공지\">\n  <div class=\"slide\">10월 민원 접수 일정 안내</div>\n\
+      \  <!-- 항목 1개: 탐색·식별자·정지 버튼을 렌더링하지 않는다 -->\n</section>\n"
+    note: 항목이 1개면 탐색 컨트롤을 숨긴다.
+  bad:
+  - lang: html
+    code: "<section aria-roledescription=\"carousel\" aria-label=\"공지\">\n  <button type=\"button\">이전 공지</button>\n\
+      \  <div class=\"slide\">10월 민원 접수 일정 안내</div>\n  <button type=\"button\">다음 공지</button> <span>1 / 1</span>\n\
+      </section>\n"
+    note: 항목이 1개인데 이전·다음 버튼과 1/1 식별자를 표시한다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(curl로 KRDS 페이지 HTML을 받아 텍스트로 직접 읽음): 캐러셀 component_04_09 ''표시할 캐러셀 항목 수가 1개인
+  경우 … 탐색 버튼, 항목 탐색 식별자, 정지/재생 버튼을 숨겨'' 확인. ''~하도록 한다'' 지시형이라 SHOULD+public-sector-must. 카테고리 재검토(NAV 후보) — 제안 파일.'
+korean_specific: false
+tags:
+- krds
+- krds-component
+- public-sector-must

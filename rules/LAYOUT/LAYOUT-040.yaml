@@ -1,0 +1,54 @@
+id: LAYOUT-040
+category: LAYOUT
+title: 캐러셀
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 캐러셀의 도형형 항목 식별자는 컨테이너 가운데에, 분수형 식별자는 오른쪽 아래에 두고, 탐색 버튼은 레이아웃 유형에 따라 컨테이너 가운데 좌우 또는 오른쪽 아래에 둔다.
+measurement:
+  criteria: (1) 도형형(점) 식별자 그룹의 수평 중심 = 캐러셀 컨테이너 수평 중심(±1px). (2) 분수형 식별자는 컨테이너 오른쪽 아래 사분면에 있다. (3) 탐색 버튼은 이전·다음이
+    컨테이너 세로 중앙 좌우에 있거나 오른쪽 아래에 함께 있다. 서비스 안 같은 레이아웃 유형의 캐러셀은 같은 배치를 쓴다.
+  method: 캐러셀 인스턴스별 식별자·버튼 위치를 확인한다.
+automation:
+  feasibility: none
+  checks: []
+  note: 4단계 컴포넌트 규격으로 고정.
+rationale: 컨트롤 위치가 일정해야 사용자가 캐러셀임을 알아보고 바로 조작한다.
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 캐러셀 > 사용성 가이드라인 (가이드라인 PDF 2025.08 430·435쪽)
+  note: https://www.krds.go.kr/html/site/component/component_04_09.html
+scope:
+  level: component
+  targets:
+  - 캐러셀
+exceptions: []
+relations:
+- type: depends
+  id: NAV-048
+  note: 전체 슬라이드 수·현재 위치 표시는 NAV-048.
+examples:
+  good:
+  - lang: css
+    code: ".carousel { position: relative; }\n.carousel .dots { position: absolute; inset-inline: 0; inset-block-end:\
+      \ var(--space-gap-5);\n  display: flex; justify-content: center; } /* 도형형 식별자: 컨테이너 가운데 */\n"
+    note: 점 식별자 그룹이 캐러셀 가운데에 있다.
+  bad:
+  - lang: css
+    code: '.carousel { position: relative; }
+
+      .carousel .dots { position: absolute; inset-inline-start: var(--space-gap-5); inset-block-end: var(--space-gap-5);
+      } /* 왼쪽 아래 */
+
+      '
+    note: 점 식별자를 컨테이너 왼쪽 아래에 두었다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(curl로 KRDS 페이지 HTML을 받아 본문 텍스트를 직접 확인): 캐러셀(component_04_09) ''캐러셀 관련 컨트롤과
+  항목 탐색 식별자를 일관된 위치에 표시한다.'', ''도형형 항목 탐색 식별자는 컨테이너 중앙, 분수형 항목 탐색 식별자는 컨테이터 우측 하단에 배치한다. 탐색 버튼은 레이아웃 유형에 따라 컨테이너
+  중앙의 좌/우 또는 우측 하단에 배치한다.'' 확인. 지시형 → SHOULD.'
+korean_specific: false
+tags:
+- krds
+- krds-component

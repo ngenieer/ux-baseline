@@ -1,0 +1,60 @@
+id: LAYOUT-056
+category: LAYOUT
+title: 도움 패널
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 도움 패널·맥락적 도움말을 여는 아이콘 버튼은 도움 대상 컴포넌트나 레이블 바로 옆에 둔다.
+measurement:
+  criteria: 도움 아이콘 버튼이 대상 레이블·헤딩과 같은 줄에 있고, DOM에서 대상 레이블(또는 헤딩) 요소 바로 다음 형제이거나 그 안에 있다(사이에 다른 요소 없음).
+  method: 도움 아이콘이 있는 폼·섹션에서 DOM과 화면 위치를 확인한다.
+automation:
+  feasibility: none
+  checks: []
+  note: '4단계 커스텀 검사: 도움 버튼의 previousElementSibling이 label·헤딩인지 확인.'
+rationale: 아이콘이 대상 옆에 있어야 어떤 요소에 대한 도움말인지 바로 안다.
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 도움 패널 > 사용성 가이드라인 (가이드라인 PDF 2025.08 601·604쪽)
+  note: https://www.krds.go.kr/html/site/component/component_08_01.html
+- ref: KRDS
+  locator: 컴포넌트 > 맥락적 도움말 > 사용성 가이드라인 (가이드라인 PDF 2025.08 623·624쪽)
+  note: https://www.krds.go.kr/html/site/component/component_08_03.html — 같은 문장
+scope:
+  level: component
+  targets:
+  - 도움 패널 아이콘 버튼
+  - 맥락적 도움말 아이콘 버튼
+exceptions: []
+relations: []
+examples:
+  good:
+  - lang: html
+    code: '<label for="biz">사업자등록번호</label><button type="button" aria-label="사업자등록번호 도움말">?</button>
+
+      <input id="biz" inputmode="numeric">
+
+      '
+    note: 도움 버튼이 대상 레이블 바로 다음에 같은 줄로 있다.
+  bad:
+  - lang: html
+    code: '<label for="biz">사업자등록번호</label>
+
+      <input id="biz" inputmode="numeric">
+
+      <p class="hint">숫자 10자리를 입력해 주세요.</p>
+
+      <button type="button" aria-label="사업자등록번호 도움말">?</button>
+
+      '
+    note: 도움 버튼이 레이블에서 떨어져 필드 아래 끝에 있다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(curl로 KRDS 페이지 HTML을 받아 본문 텍스트를 직접 확인): 도움 패널(component_08_01)과 맥락적 도움말(component_08_03)
+  모두 ''아이콘 버튼은 도움 정보를 제공하고자 하는 요소 주변에 배치한다.'', ''정보를 제공하고자 하는 컴포넌트나 레이블 옆에 배치하여 관련 요소와의 연관성이 명확하게 인지될 수 있도록 한다.''
+  확인 — 맥락적 도움말 출처를 추가하고 statement 대상을 넓힘. 지시형 → SHOULD.'
+korean_specific: false
+tags:
+- krds
+- krds-component

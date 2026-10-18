@@ -1,0 +1,61 @@
+id: STATE-003
+category: STATE
+title: 확인 대화상자 사용 조건
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 확인(재확인) 대화상자는 실행 후 서비스 안에서 되돌릴 수 없거나 사용자가 결과·부작용을 알아야 하는 동작에만 쓰고, 대화상자 본문에 실행될 내용과 그 결과를 쓰며, 실행 버튼과 취소
+  버튼을 함께 둔다.
+measurement:
+  criteria: '(1) 확인 대화상자가 뜨는 동작마다: 실행 뒤 같은 서비스에서 되돌리기(복원·취소) 수단이 없거나, 결과·부작용(데이터 삭제, 제출 확정, 비용 발생, 다른 사용자에게 공개 등)이
+    대화상자 본문에 적혀 있다. 되돌리기 수단이 있고 부작용이 없는 동작(예: 휴지통 이동 후 복원 가능)에는 확인 대화상자가 없다. (2) 본문 텍스트에 실행될 동작과 그 결과가 있다. (3) 실행
+    버튼 1개와 취소(이전 상태로 돌아가기) 버튼 1개가 모두 있다.'
+  method: 확인 대화상자를 띄우는 동작 목록을 만들어 각 동작의 되돌리기 수단 유무와 대화상자 본문·버튼을 점검표로 확인한다.
+automation:
+  feasibility: none
+  checks: []
+  note: '(3)은 커스텀 검사 가능: [role=alertdialog] 또는 확인 대화상자 규격 안에 button 2개 이상. (1)(2)는 수동.'
+rationale: 중요도가 낮은 동작마다 확인을 요구하면 사용자가 확인 메시지를 읽지 않게 되어 정말 중요한 확인도 무시한다(KRDS 확인 패턴). 실행·취소 버튼을 함께 두어 오류를 막는다.
+sources:
+- ref: KRDS
+  locator: 기본 패턴 > 확인 > 사용성 가이드라인 — '결과가 매우 중요한 경우에 확인을 사용해야 한다', '설명을 제공한다', '확정, 취소할 수 있는 버튼을 모두 제공한다' (가이드라인 PDF 2025.08 880·881쪽)
+  note: https://www.krds.go.kr/html/site/global/global_11.html
+- ref: KRDS
+  locator: 컴포넌트 > 모달 > 유형 '사용자의 행동을 확인 또는 확정하고자 할 때' — '실행되는 기능, 결과, 위험성에 대한 설명이 반드시 포함되어야 한다' (가이드라인 PDF 2025.08 388쪽)
+  note: https://www.krds.go.kr/html/site/component/component_04_05.html
+scope:
+  level: component
+  targets:
+  - '[role=alertdialog]'
+  - dialog
+  - 확인 대화상자
+exceptions: []
+relations:
+- type: depends
+  id: COPY-006
+  note: 실행 버튼 레이블은 '확인' 대신 동작명
+- type: depends
+  id: FORM-006
+  note: FORM-006의 법적 약정·금융·데이터 변경·시험 제출은 이 룰의 '결과를 알아야 하는 동작'에 포함
+examples:
+  good:
+  - lang: html
+    code: "<dialog role=\"alertdialog\" aria-labelledby=\"d-t\" aria-describedby=\"d-d\">\n  <h2 id=\"d-t\">신청을\
+      \ 취소할까요?</h2>\n  <p id=\"d-d\">취소하면 제출한 서류가 삭제되고 다시 신청해야 합니다.</p>\n  <button type=\"button\">신청 취소</button>\n\
+      \  <button type=\"button\">돌아가기</button>\n</dialog>\n"
+    note: 되돌릴 수 없는 동작에만 묻고, 본문에 결과를 쓰며 실행·취소 버튼을 함께 둔다.
+  bad:
+  - lang: html
+    code: "<!-- 즐겨찾기 해제는 다시 추가하면 되돌릴 수 있는데 확인을 묻는다 -->\n<dialog open aria-labelledby=\"f-t\">\n  <h2 id=\"f-t\"\
+      >즐겨찾기를 해제할까요?</h2>\n  <button type=\"button\">해제</button><button type=\"button\">취소</button>\n</dialog>\n"
+    note: 되돌릴 수 있고 부작용 없는 동작에 확인 대화상자를 띄워 과업을 끊는다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(curl로 KRDS 페이지 HTML을 받아 텍스트로 직접 읽음): 확인 패턴 global_11 ''결과가 매우 중요한 경우에 확인을 사용해야
+  한다'' 및 버튼 2종 제공, 모달 유형 ''설명이 반드시 포함되어야 한다'' 확인. ''중대한''은 원문에서 ''쉽게 취소할 수 없는 결과'' 또는 ''행동의 효과·부작용을 인지해야 하는 경우''로
+  정의 — 측정 기준을 이 두 조건으로 바꿈. BACKLOG의 ''AI 대행 동작 전 확인 vs STATE-003''은 상대 룰 ID가 없어 relations에 넣지 않음(3단계).'
+korean_specific: false
+tags:
+- krds
+- public-sector-must

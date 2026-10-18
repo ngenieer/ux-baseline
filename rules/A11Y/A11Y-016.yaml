@@ -1,0 +1,73 @@
+id: A11Y-016
+category: A11Y
+title: 초점 표시
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: MUST
+statement: 키보드로 조작할 수 있는 모든 UI에서 키보드 초점 표시가 보이게 한다.
+measurement:
+  criteria: '(1) 초점 가능한 모든 요소가 :focus-visible(또는 :focus) 상태에서 시각적 표시(outline·테두리·배경 변화 등)를 가진다. (2) outline: none
+    / outline: 0을 쓰면 같은 선택자 상태에 대체 표시가 있다. (3) 시각적으로 숨긴 input을 쓰는 커스텀 라디오·체크박스·토글은 보이는 양식 위에 초점 표시가 나타난다. (4) 숨김형
+    건너뛰기 링크는 초점을 받으면 화면에 나타난다.'
+  method: Tab으로 모든 요소를 이동하며 초점 위치가 항상 보이는지 확인하고, stylelint로 대체 없는 outline 제거를 검사한다.
+automation:
+  feasibility: partial
+  checks:
+  - tool: stylelint
+    rule: ux-baseline/no-outline-none-without-replacement
+    method: :focus·:focus-visible 규칙에서 outline:none|0 이면서 box-shadow·border·outline 대체가 없으면 오류 (lint/plugins/ux-baseline.mjs)
+  - tool: ux-baseline-check
+    rule: focus-visible
+    method: 'ux-baseline check: 초점 가능한 요소마다 키보드 초점을 줬을 때 outline·box-shadow·테두리·배경 중 하나가 바뀐다'
+  note: CSS 정적 검사는 명백한 제거만 잡는다. 실제로 보이는지(배경과 겹침·가려짐)는 수동. 초점 표시의 대비는 COLOR-003, 가려짐은 LAYOUT-001.
+rationale: 키보드 사용자는 초점 표시가 없으면 현재 위치를 알 수 없다.
+sources:
+- ref: WCAG22
+  locator: SC 2.4.7 Focus Visible (Level AA)
+  note: https://www.w3.org/TR/WCAG22/#focus-visible
+- ref: WCAG22_UNDERSTANDING
+  locator: https://www.w3.org/WAI/WCAG22/Understanding/focus-visible.html
+- ref: KWCAG22
+  locator: 검사항목 6.1.2
+- ref: KRDS
+  locator: 컴포넌트 (여러 페이지) (가이드라인 PDF 2025.08 261·358·456·519·535·548·566·578·695·710·750쪽)
+  note: '같은 요구를 다루는 KRDS 컴포넌트: 건너뛰기 링크, 구조화 목록, 라디오 버튼, 버튼, 숨긴 콘텐츠, 체크박스, 태그, 탭, 텍스트 입력 필드, 토글 스위치, 파일 업로드 — 상세는
+    sources/extracts/KRDS-components.yaml'
+scope:
+  level: global
+  targets:
+  - a[href]
+  - button
+  - input
+  - select
+  - textarea
+  - '[tabindex]'
+exceptions: []
+relations: []
+examples:
+  good:
+  - lang: css
+    code: ":focus-visible {\n  outline: 2px solid var(--color-border-primary);\n  outline-offset: 2px;\n}\n"
+    note: :focus-visible에 토큰 색 outline으로 초점 표시
+  bad:
+  - lang: css
+    code: 'button:focus { outline: none; }
+
+      '
+    note: 대체 표시 없이 outline 제거
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(sources/extracts/WCAG22-A-AA.yaml): statement·수치가 SC 원문과 일치함을 확인. KWCAG 2.2
+  대응 항목 번호는 비공식 HTML 판 기준 매핑 — 공식 원문 대조 전(registry KWCAG22 verified=false). 룰의 요구·수치는 WCAG 원문만으로 성립. 1단계에 이 룰로 병합된
+  KRDS 컴포넌트 항목(sources/extracts/KRDS-components.yaml)은 개별 페이지를 다시 열지 않았다 — 룰의 요구는 WCAG 원문 기준. BACKLOG ''opacity
+  숨김'' 상충은 A11Y-011 메모 참조.'
+korean_specific: false
+tags:
+- wcag22
+- level-aa
+- new-in-2.0
+- kwcag22
+- krds
+decisions:
+- CF-051

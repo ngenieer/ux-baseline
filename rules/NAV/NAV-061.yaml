@@ -1,0 +1,24 @@
+id: NAV-061
+category: NAV
+title: 따라하기 패널
+stage: collected
+status:
+  value: deprecated
+  reason: STATE-025로 병합 — 같은 KRDS 문단('패널 닫기 동작으로 따라하기 절차가 중단되면 안 된다')의 근거 서술이며, '중단하기 전까지 절차를 중단하지 않는다'(STATE-025)에 포함됨
+  superseded_by: STATE-025
+statement: 따라하기 진행 중에도 패널을 접은 상태로 서비스를 이용할 수 있게 한다.
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 따라하기 패널 > 사용성 가이드라인
+  note: https://www.krds.go.kr/html/site/component/component_08_02.html
+scope:
+  level: component
+  targets:
+  - 따라하기 패널
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(KRDS 페이지 curl 수신 후 텍스트 추출): ''사용자가 중단하기 버튼을 누르기 전까지 따라하기 프로세스가 중단되지 않아야 한다''(헤딩) 아래 근거 문단 ''사용자는 … 패널을 일시적으로 접은 상태에서
+  서비스를 이용할 수 있다. 패널 닫기 동작을 수행하였다고 하여 사용자의 의도와 상관없이 따라하기 절차가 중단되면 사용자는 이용 맥락을 잃어버리게 된다'' 확인. 이 룰은 그 근거 문단을 옮긴 것이라 STATE-025와 같은 요구 — 정본 STATE-025(KRDS 동급,
+  번호가 작음). 출처 이동은 제안 파일 cross_merges.'
+tags:
+- krds
+- krds-component

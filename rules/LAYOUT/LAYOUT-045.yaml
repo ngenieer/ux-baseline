@@ -1,0 +1,59 @@
+id: LAYOUT-045
+category: LAYOUT
+title: 표
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 표의 행·셀 자체를 클릭·선택하는 대화형 요소로 만들지 않고(열 헤더 정렬 컨트롤 제외), 데이터에 복잡한 상호작용이 필요하면 표 대신 구조화 목록을 쓴다.
+measurement:
+  criteria: table 안 tr·td·th 요소에 click 핸들러, role(button·link·row 선택), tabindex가 없다. 열 헤더(thead th) 안의 정렬 버튼만 예외.
+  method: 개발자 도구의 이벤트 리스너 패널과 DOM 속성으로 행·셀의 대화형 여부를 확인한다.
+automation:
+  feasibility: partial
+  checks:
+  - tool: custom
+    method: querySelectorAll('tr[tabindex], td[tabindex], tr[role], td[role=button], tr[onclick], td[onclick]')가
+      0개
+  note: addEventListener로 붙인 핸들러는 정적 검사로 찾기 어려움 — 수동 보완.
+rationale: 표는 기본적으로 대화형 요소가 아니므로 행 클릭 같은 숨은 상호작용은 발견·키보드 조작이 어렵다.
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 표 > 개요 / 용례 (가이드라인 PDF 2025.08 459·460쪽)
+  note: https://www.krds.go.kr/html/site/component/component_04_11.html
+scope:
+  level: component
+  targets:
+  - table
+  - tr
+  - td
+exceptions: []
+relations:
+- type: depends
+  id: NAV-050
+  note: 열 헤더 정렬 컨트롤의 기본 정렬 기준은 NAV-050.
+examples:
+  good:
+  - lang: html
+    code: '<tr><td><a href="/notice/1">10월 민원 처리 안내</a></td><td><time datetime="2026-10-18">2026. 10. 18.</time></td></tr>
+
+      '
+    note: 행 자체가 아니라 셀 안 링크로 이동한다.
+  bad:
+  - lang: html
+    code: '<tr onclick="location.href=''/notice/1''"><td>10월 민원 처리 안내</td><td><time datetime="2026-10-18">2026.
+      10. 18.</time></td></tr>
+
+      '
+    note: 표 행 전체를 클릭 대상으로 만들었다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(curl로 KRDS 페이지 HTML을 받아 본문 텍스트를 직접 확인): 표(component_04_11) 개요 ''기본적으로 대화형 요소가
+  아니기 때문에 열 제목에 데이터를 정렬하기 위한 컨트롤 요소가 포함된 상황 외에 행 전체나 데이터 셀이 대화형으로 작동하지 않는다.'', 용례 ''데이터와 관련하여 복잡한 상호작용이 필요한 경우 표
+  컴포넌트 대신 구조화 목록 컴포넌트를 사용해야 한다.'' 확인. ''사용해야 한다'' → SHOULD + public-sector-must. 셀 안 링크(게시물 제목 링크)는 원문이 금지하지 않음
+  — 좋은 예로 둠.'
+korean_specific: false
+tags:
+- krds
+- krds-component
+- public-sector-must

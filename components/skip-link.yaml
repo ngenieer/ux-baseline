@@ -1,0 +1,102 @@
+id: skip-link
+title: 건너뛰기 링크
+status: confirmed
+summary: 여러 페이지에 반복되는 헤더·메인 메뉴를 건너뛰어 본문으로 바로 가는 링크를 문서의 첫 초점 요소로 둘 때 쓴다.
+use_instead:
+- when: 정보 구조 없이 단일 화면으로 된 사이트, main 앞에 메뉴 탐색용 nav 나 반복 블록이 없는 페이지
+  use: 건너뛰기 링크를 두지 않는다
+  rule: NAV-020
+krds:
+  page: component_03_01.html
+  kit: html/code/skip_link.html
+  kit_classes:
+    skip-link: '#krds-skip-link'
+    skip-link__link: '#krds-skip-link a'
+anatomy:
+- part: 루트
+  class: skip-link
+  element: div
+  required: true
+  note: body 의 첫 요소로 둔다. 앞에 올 수 있는 것은 쿠키 배너·화면 맥락을 가리는 모달뿐이다(NAV-001 예외). 공식 배너(masthead)보다 앞에 둔다(LAYOUT-009).
+- part: 링크
+  class: skip-link__link
+  element: a
+  required: true
+  note: href 는 같은 페이지 안 목적지 id 다. 3개 이하로 두고, 여러 개면 본문으로 가는 링크를 첫 번째에 둔다(NAV-018). 초점을 받기 전에는 시각적으로만 숨기고, 초점을 받으면
+    화면 맨 위에 나타난다(A11Y-016). KWCAG 를 적용하는 공공 프로젝트는 skip-link__link--visible 을 붙여 초점과 관계없이 항상 보이게 한다(NAV-001 측정 기준
+    (3), CF-042).
+markup: |-
+  <div class="skip-link">
+    <a class="skip-link__link" href="#skip-link-target">본문 바로가기</a>
+  </div>
+  <div id="skip-link-target" tabindex="-1">
+    <p>본문 영역입니다. 실제 페이지에서는 브레드크럼·사이드 메뉴 뒤, 본문 제목(h1)을 감싼 영역에 이 id 를 둡니다.</p>
+  </div>
+css: |-
+  .skip-link__link {
+    position: absolute;
+    inline-size: 1px;
+    block-size: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+  .skip-link__link:focus,
+  .skip-link__link--visible {
+    position: static;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    inline-size: 100%;
+    min-block-size: var(--size-height-5);
+    overflow: visible;
+    clip-path: none;
+    background-color: var(--color-background-inverse);
+    color: var(--color-text-basic-inverse);
+    font-size: var(--font-size-body-small);
+    outline: var(--space-scale-2) solid var(--color-border-inverse);
+    outline-offset: calc(var(--space-scale-3) * -1);
+  }
+states:
+- name: 초점
+  markup_change: 마크업 변화 없음. :focus 에서 시각적 숨김(clip-path·1px)을 풀어 화면 맨 위에 전체 너비로 표시한다(A11Y-016).
+  rule: A11Y-016
+- name: 공공 프로젝트(KWCAG 적용) — 항상 보임
+  markup_change: 링크에 skip-link__link--visible 을 붙인다. 시각적 숨김 없이 초점과 관계없이 화면 맨 위에 전체 너비로 보인다 — KWCAG 6.4.1 해설 '메뉴
+    건너뛰기 링크는 화면에 보이도록 구현'에 초점 시 한정이 없기 때문이다. 그 밖의 프로젝트는 기본(초점을 받으면 보임)을 쓴다(NAV-001, CF-042).
+  rule: NAV-001
+keyboard:
+- key: Tab
+  action: 페이지를 연 뒤 첫 Tab 에서 건너뛰기 링크로 초점이 가고 링크가 화면에 나타난다(NAV-001, A11Y-016).
+- key: Enter
+  action: 목적지로 스크롤하고 초점을 목적지 요소로 옮긴다. 다음 Tab 은 목적지 안의 첫 초점 요소로 간다(A11Y-015).
+behavior:
+- 건너뛰기 링크는 문서의 첫 초점 요소다. 공식 배너·헤더보다 DOM 앞에 둔다(NAV-001, LAYOUT-009).
+- 링크 수는 3개 이하로 두고, 여러 개면 첫 링크의 목적지가 main 이거나 main 안 요소여야 한다(NAV-018).
+- 본문 바로가기 목적지에는 사이드 메뉴·브레드크럼·페이지 유틸리티(공유·인쇄)가 포함되지 않게, 그 영역들 뒤의 본문 제목 영역을 목적지로 잡는다(NAV-019).
+- 목적지가 기본적으로 초점을 받을 수 없는 요소이면 tabindex="-1" 을 주어 실행 시 초점이 목적지로 옮겨지게 한다. tabindex 에 1 이상 값은 쓰지 않는다(A11Y-015).
+- 숨김은 display none·visibility hidden·0 크기가 아니라 1px·clip-path 로 하고, top·left 로 화면 밖으로 옮기지 않는다(A11Y-046, A11Y-047,
+  A11Y-048).
+- 링크 문구 '본문 바로가기'는 서비스의 모든 페이지에서 같게 쓴다(COPY-004).
+- 메뉴 탐색용 nav 나 반복 블록이 main 앞에 없는 페이지에는 두지 않는다(NAV-020).
+- KWCAG 를 적용하는 공공 프로젝트는 건너뛰기 링크를 항상 보이는 변형(skip-link__link--visible)으로, 그 밖의 프로젝트는 초점을 받으면 보이는 기본형으로 둔다(NAV-001,
+  CF-042).
+rules:
+- A11Y-011
+- A11Y-015
+- A11Y-016
+- A11Y-046
+- A11Y-047
+- A11Y-048
+- COLOR-002
+- COPY-004
+- LAYOUT-009
+- NAV-001
+- NAV-018
+- NAV-019
+- NAV-020
+kit_differences:
+- KRDS 키트 예시는 목적지를 브레드크럼(href="#breadcrumb")으로 잡는다 — 이 규격은 브레드크럼·사이드 메뉴 뒤의 본문 제목 영역을 목적지로 잡는다(NAV-019).
+- KRDS 키트는 건너뛰기 링크 감싸개를 position fixed 로 화면 위에 겹쳐 띄운다 — 이 규격은 초점을 받으면 문서 흐름(static)으로 나타나 다른 콘텐츠를 가리지 않게 한다(A11Y-016).
+notes:
+- 마크업의 skip-link-target 영역은 검사용 목적지 예시다. 실제 페이지에서는 본문 제목 영역(main 안)에 id 를 둔다.

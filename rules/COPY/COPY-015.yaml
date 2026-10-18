@@ -1,0 +1,59 @@
+id: COPY-015
+category: COPY
+title: 언어 이름은 그 언어로, 국기 금지
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: '언어 선택 메뉴와 언어 변경 링크에는 국기를 쓰지 않고, 각 언어의 이름을 그 언어로 쓴다(예: English, 日本語, 中文).'
+measurement:
+  criteria: '(1) 언어 선택 드롭다운·언어 변경 링크 안에 국기 이미지·국기 이모지(U+1F1E6~U+1F1FF 지역 표시 문자 쌍)가 없다. (2) 각 언어 옵션·링크의 주 레이블이 그
+    언어의 자기 이름(endonym)이다: 한국어, English, 日本語, 中文, Français, Español, Tiếng Việt 등.'
+  method: 언어 선택 UI의 옵션·링크 텍스트를 언어별 자기 이름 표(CLDR 언어 이름)와 대조하고, 이미지·이모지 사용을 확인한다.
+automation:
+  feasibility: none
+  checks: []
+  note: '4단계 커스텀 검사: 언어 선택 컴포넌트 안 img·이모지 검출, 옵션 텍스트를 hreflang/lang 값에 해당하는 CLDR 자기 이름과 비교.'
+rationale: '한 국가 안에서도 여러 언어를 쓰므로 국기는 언어를 나타내지 못한다. 모든 언어 이름이 한 언어(예: 영어·한국어)로만 쓰여 있으면 그 언어를 읽지 못하는 사용자는 자기 언어를 찾을
+  수 없다(KRDS 헤더·언어 변경).'
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 헤더 > 사용성 가이드라인 (가이드라인 PDF 2025.08 239쪽)
+  note: https://www.krds.go.kr/html/site/component/component_02_03.html
+- ref: KRDS
+  locator: 컴포넌트 > 언어 변경 > 사용성 가이드라인 — '링크 레이블은 전환되는 언어의 이름을 해당 언어로 작성한다' (가이드라인 PDF 2025.08 720쪽)
+  note: https://www.krds.go.kr/html/site/component/component_10_01.html — COPY-036에서 옮김
+scope:
+  level: component
+  targets:
+  - 언어 변경
+  - 헤더 언어 선택 드롭다운
+exceptions: []
+relations:
+- type: depends
+  id: A11Y-023
+  note: 언어 이름 링크에는 lang 속성(A11Y-023, WCAG 3.1.2)
+examples:
+  good:
+  - lang: html
+    code: '<ul class="lang"><li><a href="/en/" lang="en" hreflang="en">English</a></li><li><a href="/ja/" lang="ja"
+      hreflang="ja">日本語</a></li></ul>
+
+      '
+    note: 국기 없이 각 언어 이름을 그 언어(English, 日本語)로 쓴다
+  bad:
+  - lang: html
+    code: '<ul class="lang"><li><a href="/en/"><img src="us.svg" alt="">영어</a></li><li><a href="/ja/">🇯🇵 일본어</a></li></ul>
+
+      '
+    note: 국기 이미지·이모지를 쓰고 언어 이름을 한국어로 썼다
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(curl로 KRDS 페이지 HTML을 받아 텍스트로 직접 읽음): 헤더(component_02_03) ''언어 설정을 위한 드롭다운 메뉴에
+  국기를 사용하지 않는다 ... 국기 대신 언어의 이름을 해당 언어로 제공해야 한다'', 언어 변경(component_10_01) ''링크 레이블은 전환되는 언어의 이름을 해당 언어로 작성한다'' 확인.
+  COPY-036(언어 변경 페이지의 같은 요구)을 이 룰로 병합 — 출처 옮김. 강도: KRDS ''해야 한다·않는다'' 표현 → SHOULD + public-sector-must(정책 2).'
+korean_specific: false
+tags:
+- krds
+- krds-component
+- public-sector-must

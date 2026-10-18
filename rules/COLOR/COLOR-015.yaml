@@ -1,0 +1,73 @@
+id: COLOR-015
+category: COLOR
+title: 버튼 강조 단계(채움·윤곽선·텍스트)
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 버튼 강조 단계를 주조색 채움 버튼(가장 중요한 행동), 윤곽선 버튼(중간 강조), 텍스트 버튼(가장 낮은 강조) 세 가지로 쓰고, 주조색 채움 버튼은 한 화면 상태에 1개만 둔다.
+measurement:
+  criteria: '(1) 버튼(button, 버튼 모양 a)의 강조 스타일이 주조색 채움(button--primary)·윤곽선(button--secondary·button--tertiary)·텍스트(button--text)
+    세 단계 중 하나다. (2) 한 화면 상태 — 같은 시점에 보이는 화면. hidden·display:none·visibility:hidden·inert 영역은 빼고, 모달 대화상자가 열려 있으면
+    모달 안만 센다 — 에서 주조색 채움 버튼이 1개 이하다. 세지 않는 것: (가) aria-pressed="true" 토글 버튼, aria-current 가 있는 페이지네이션·탭 항목처럼 선택
+    상태를 나타내는 채움(행동 강조가 아니라 상태 표시 — COLOR-001 로 판정), (나) 구조화 목록 항목마다 1개인 CTA(LAYOUT-026, CF-070). 오류·빈 상태처럼 화면 상태가
+    바뀌어 ''다시 시도'' 같은 채움 버튼이 나타나면 그 상태에서 다시 센다.'
+  method: 화면 상태(첫 화면, 오류 상태, 빈 상태, 처리 중, 모달 열림)마다 보이는 .button--primary(또는 계산 배경색이 주조색 채움 토큰인 버튼) 개수를 센다. 어느 행동이
+    가장 중요한지는 과업 분석으로 정한다(수동).
+automation:
+  feasibility: none
+  note: '4단계 커스텀 DOM 검사 가능: 화면 상태별로 보이는 .button--primary 중 [aria-pressed=true]·structured-list__cta 를 뺀 개수 ≤ 1.
+    상태 재현은 E2E.'
+rationale: 같은 크기의 버튼 사이에서 위계를 스타일로 구분해야 사용자가 주요 행동을 바로 찾는다(KRDS 버튼).
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 버튼 > 사용성 가이드라인 (가이드라인 PDF 2025.08 512·514쪽)
+  note: https://www.krds.go.kr/html/site/component/component_05_02.html — '주조색(Main color)을 배경색으로 채운 버튼은 강조 버튼으로
+    … 중요한 행동을 유도하고자 할 때', '윤곽선 버튼은 … 중간 수준의 강조', '텍스트 버튼이 가장 낮은 수준의 강조', '한 페이지에 최상위 수준의 강조 버튼은 한 번만 사용한다.'
+scope:
+  level: component
+  targets:
+  - button
+  - a.btn
+exceptions: []
+relations:
+- type: refines
+  id: LAYOUT-020
+  note: LAYOUT-020은 '강조는 크기가 아닌 스타일로', 이 룰은 스타일별 강조 단계를 정한다.
+- type: conflicts
+  id: LAYOUT-026
+  note: 주조색 채움 버튼은 한 화면 상태에 1개지만, 구조화 목록 항목마다 1개인 CTA 는 세지 않는다.
+  decision: CF-070
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(KRDS https://www.krds.go.kr/html/site/component/component_05_02.html HTML을
+  curl로 받아 본문 확인): ''일반적으로 서비스의 주조색을 배경색으로 채운 버튼은 강조 버튼으로 … 중요한 행동을 유도하고자 할 때 사용한다'', ''윤곽선 버튼은 기본 버튼으로 중간 수준의 강조'',
+  ''텍스트 버튼이 가장 낮은 수준의 강조'' 확인 → SHOULD + public-sector-must, guide. 같은 페이지 ''한 페이지에 최상위 수준의 강조 버튼은 한 번만 사용한다''는
+  별도 후보(제안 파일 notes). 카테고리 재검토: 버튼 위계는 LAYOUT에 가까움. (2026-10-18 시험 4 검토 반영) 측정 기준이 점검 질문뿐이라 T7 에서 판정이 갈렸다(새로 고침·다시
+  시도가 함께 채움 버튼) → 같은 KRDS 페이지의 ''한 페이지에 최상위 수준의 강조 버튼은 한 번만 사용한다''(2026-10-18 curl 재확인, 1단계에서 별도 후보로 남겼던 문장)를 측정
+  기준 (2)로 넣고 type 을 rule 로 바꿨다. ''한 페이지''는 한 문서 안에서 상태에 따라 보이는 버튼이 바뀌는 화면을 판정하려고 ''한 화면 상태''로 읽었고, 모달이 열리면 배경이 inert
+  라 모달 안만 센다. 선택 상태 토글(aria-pressed)·현재 위치 항목은 행동 강조가 아니라 상태 표시라 세지 않는다. 구조화 목록 항목별 CTA 는 CF-070. 강도 SHOULD(public-sector-must)
+  유지. 예시를 HTML 로 바꿨다.'
+korean_specific: false
+tags:
+- krds
+- krds-component
+- public-sector-must
+examples:
+  good:
+  - lang: html
+    code: |
+      <div class="button-group">
+        <button type="submit" class="button button--primary">제출</button>
+        <button type="button" class="button button--secondary">임시 저장</button>
+        <button type="button" class="button button--text">작성 안내 보기</button>
+      </div>
+    note: 가장 중요한 행동 하나만 주조색 채움이고 나머지는 윤곽선·텍스트다.
+  bad:
+  - lang: html
+    code: |
+      <button type="button" class="button button--primary">새로 고침</button>
+      <!-- 불러오기 실패 상태에서 같은 화면에 나타남 -->
+      <div class="notice"><p>데이터를 불러오지 못했습니다.</p>
+        <button type="button" class="button button--primary">다시 시도</button></div>
+    note: 오류 상태에서 주조색 채움 버튼이 2개 보인다 — 하나를 윤곽선으로 낮춘다.

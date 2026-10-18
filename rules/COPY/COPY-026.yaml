@@ -1,0 +1,52 @@
+id: COPY-026
+category: COPY
+title: 캐러셀 항목 텍스트 2줄 이하
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 캐러셀 각 항목의 텍스트 콘텐츠는 2줄 이하로 쓴다.
+measurement:
+  criteria: 캐러셀 항목마다 텍스트(제목 제외 본문, 제목만 있으면 제목)의 줄 수가 모든 지원 화면 너비에서 2 이하다.
+  method: 지원 중단점마다 캐러셀 항목 텍스트 요소의 줄 수를 측정한다.
+automation:
+  feasibility: none
+  checks: []
+  note: '4단계 커스텀 검사(Playwright): 중단점별 캐러셀 항목 텍스트 줄 수 측정.'
+rationale: 캐러셀 항목에 정보가 많으면 인지 부담이 커진다. 캐러셀은 짧게 보고 넘기는 컴포넌트다(KRDS 캐러셀).
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 캐러셀 > 사용성 가이드라인 (가이드라인 PDF 2025.08 432쪽)
+  note: https://www.krds.go.kr/html/site/component/component_04_09.html
+scope:
+  level: component
+  targets:
+  - 캐러셀 항목
+exceptions: []
+relations:
+- type: depends
+  id: COPY-009
+  note: 필수 정보는 캐러셀에만 두지 않는다(COPY-009)
+examples:
+  good:
+  - lang: html
+    code: '<li class="slide"><h3>청년 월세 지원 신청</h3><p>10월 31일까지 신청하세요.</p></li>
+
+      '
+    note: 캐러셀 본문이 한 줄이다
+  bad:
+  - lang: html
+    code: '<li class="slide"><h3>청년 월세 지원</h3><p>만 19~34세 무주택 청년 중 소득 기준을 충족하는 사람은 최대 12개월간 월 20만 원을 지원받을 수 있으며
+      신청은 10월 31일까지 복지로 또는 주민센터에서 할 수 있고 자세한 자격은 공고문을 확인하세요.</p></li>
+
+      '
+    note: 캐러셀 본문이 길어 여러 줄로 감긴다
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(curl로 KRDS 페이지 HTML을 받아 텍스트로 직접 읽음): 캐러셀(component_04_09) ''캐러셀 항목에 포함된 텍스트는
+  가독성 있는 간단한 문구로 1~2줄 이하로 작성한다'' 확인. 강도: KRDS 단정형 서술(''~한다'') → SHOULD. ''해야 한다'' 표현이 아니므로 public-sector-must 태그는
+  붙이지 않음.'
+korean_specific: false
+tags:
+- krds
+- krds-component

@@ -1,0 +1,12 @@
+id: CF-003
+rules:
+- A11Y-024
+- NAV-059
+summary: 도움 패널을 로딩 시 펼친 상태로 두는 것(NAV-059)이 의도하지 않은 맥락 변화(A11Y-024, KWCAG 7.2.1)인지.
+principle: 1
+decision: 양립. 로딩 시 펼친 상태는 초기 화면 상태일 뿐 맥락 변화가 아니다. 단, 펼친 패널로 키보드 초점을 옮기지 않는다.
+reason: 맥락 변화는 사용자의 초점 이동·입력에 반응해 일어나는 변화다. 초점을 빼앗지 않으면 접근성 요구와 부딪히지 않는다.
+deviates_from_priority: false
+date: '2026-10-18'
+rule_changes:
+- 'NAV-059: statement 수정'

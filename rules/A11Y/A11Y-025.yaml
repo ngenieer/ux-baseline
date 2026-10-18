@@ -1,0 +1,170 @@
+id: A11Y-025
+category: A11Y
+title: 이름·역할·값
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: MUST
+statement: 모든 UI 컴포넌트(폼 요소·링크·스크립트로 만든 위젯)의 이름과 역할을 프로그램으로 판별할 수 있게 하고, 사용자가 설정하는 상태·속성·값과 그 변경을 보조기술에 전달한다.
+measurement:
+  criteria: (1) 모든 링크·버튼·입력·셀렉트·커스텀 위젯이 비어 있지 않은 접근 가능한 이름을 가진다. (2) 커스텀 위젯은 맞는 role을 가진다(div 버튼에 role="button"
+    등). (3) 펼침·선택·체크·현재 위치·눌림 상태를 aria-expanded·aria-selected·aria-checked·aria-current·aria-pressed 또는 네이티브 상태로
+    노출하고, 상태가 바뀌면 값도 바뀐다. (4) ARIA 속성·역할이 유효하고 허용된 조합이다. (5) 대화형 요소를 중첩하지 않는다. (6) iframe에 title이 있다.
+  method: axe-core 실행 후, 커스텀 위젯을 스크린 리더로 조작하며 이름·역할·상태 변경이 읽히는지 수동 확인한다.
+automation:
+  feasibility: partial
+  checks:
+  - tool: axe-core
+    rule: button-name
+    method: axe-core 실행 결과 위반 0건
+  - tool: axe-core
+    rule: link-name
+    method: axe-core 실행 결과 위반 0건
+  - tool: axe-core
+    rule: input-button-name
+    method: axe-core 실행 결과 위반 0건
+  - tool: axe-core
+    rule: label
+    method: axe-core 실행 결과 위반 0건
+  - tool: axe-core
+    rule: select-name
+    method: axe-core 실행 결과 위반 0건
+  - tool: axe-core
+    rule: aria-input-field-name
+    method: axe-core 실행 결과 위반 0건
+  - tool: axe-core
+    rule: aria-toggle-field-name
+    method: axe-core 실행 결과 위반 0건
+  - tool: axe-core
+    rule: aria-command-name
+    method: axe-core 실행 결과 위반 0건
+  - tool: axe-core
+    rule: aria-tooltip-name
+    method: axe-core 실행 결과 위반 0건
+  - tool: axe-core
+    rule: aria-tab-name
+    method: axe-core 실행 결과 위반 0건
+  - tool: axe-core
+    rule: summary-name
+    method: axe-core 실행 결과 위반 0건
+  - tool: axe-core
+    rule: frame-title
+    method: axe-core 실행 결과 위반 0건
+  - tool: axe-core
+    rule: frame-title-unique
+    method: axe-core 실행 결과 위반 0건
+  - tool: axe-core
+    rule: area-alt
+    method: axe-core 실행 결과 위반 0건
+  - tool: axe-core
+    rule: aria-allowed-attr
+    method: axe-core 실행 결과 위반 0건
+  - tool: axe-core
+    rule: aria-conditional-attr
+    method: axe-core 실행 결과 위반 0건
+  - tool: axe-core
+    rule: aria-prohibited-attr
+    method: axe-core 실행 결과 위반 0건
+  - tool: axe-core
+    rule: aria-required-attr
+    method: axe-core 실행 결과 위반 0건
+  - tool: axe-core
+    rule: aria-roles
+    method: axe-core 실행 결과 위반 0건
+  - tool: axe-core
+    rule: aria-deprecated-role
+    method: axe-core 실행 결과 위반 0건
+  - tool: axe-core
+    rule: aria-valid-attr
+    method: axe-core 실행 결과 위반 0건
+  - tool: axe-core
+    rule: aria-valid-attr-value
+    method: axe-core 실행 결과 위반 0건
+  - tool: axe-core
+    rule: aria-hidden-focus
+    method: axe-core 실행 결과 위반 0건
+  - tool: axe-core
+    rule: aria-hidden-body
+    method: axe-core 실행 결과 위반 0건
+  - tool: axe-core
+    rule: aria-roledescription
+    method: axe-core 실행 결과 위반 0건
+  - tool: axe-core
+    rule: aria-braille-equivalent
+    method: axe-core 실행 결과 위반 0건
+  - tool: axe-core
+    rule: nested-interactive
+    method: axe-core 실행 결과 위반 0건
+  - tool: axe-core
+    rule: duplicate-id-aria
+    method: axe-core 실행 결과 위반 0건
+  - tool: axe-core
+    rule: input-image-alt
+    method: axe-core 실행 결과 위반 0건
+  - tool: html-validate
+    rule: wcag/h30
+    method: 링크에 텍스트 이름 (정적 HTML 검사, lint/.htmlvalidate.json)
+  - tool: html-validate
+    rule: hidden-focusable
+    method: aria-hidden 안의 초점 가능 요소 (정적 HTML 검사, lint/.htmlvalidate.json)
+  - tool: html-validate
+    rule: no-dup-id
+    method: 중복 id (정적 HTML 검사, lint/.htmlvalidate.json)
+  note: axe-core는 이름·역할·ARIA 문법을 판정한다. 상태가 실제 동작에 맞춰 바뀌는지(aria-expanded 갱신 등)와 이름의 의미는 수동.
+rationale: 보조기술은 접근성 트리의 이름·역할·상태로 컨트롤을 알려 주고 조작한다. 표준 HTML 컨트롤은 명세대로 쓰면 이미 충족한다.
+sources:
+- ref: WCAG22
+  locator: SC 4.1.2 Name, Role, Value (Level A)
+  note: https://www.w3.org/TR/WCAG22/#name-role-value
+- ref: WCAG22_UNDERSTANDING
+  locator: https://www.w3.org/WAI/WCAG22/Understanding/name-role-value.html
+- ref: KWCAG22
+  locator: 검사항목 8.2.1
+- ref: KRDS
+  locator: 컴포넌트 (여러 페이지) (가이드라인 PDF 2025.08 277·304·305·333·351·385·414·457·508·518·519·536·549·556·566·579·588·631·660·675·684·695·712쪽)
+  note: '같은 요구를 다루는 KRDS 컴포넌트: 날짜 입력 필드, 단계 표시기, 디스클로저, 라디오 버튼, 링크, 맥락적 도움말, 메인 메뉴, 버튼, 사이드 메뉴, 셀렉트, 아코디언, 체크박스,
+    태그, 탭, 탭바, 텍스트 영역, 텍스트 입력 필드, 토글 스위치, 툴팁, 파일 업로드, 페이지네이션 — 상세는 sources/extracts/KRDS-components.yaml'
+scope:
+  level: global
+  targets:
+  - a[href]
+  - button
+  - input
+  - select
+  - textarea
+  - '[role]'
+  - iframe
+exceptions: []
+relations: []
+examples:
+  good:
+  - lang: html
+    code: '<button type="button" aria-expanded="false" aria-controls="sec1">신청 자격</button>
+
+      <div id="sec1" hidden>…</div>
+
+      '
+    note: 네이티브 button에 aria-expanded로 펼침 상태를 노출
+  bad:
+  - lang: html
+    code: '<button type="button" aria-controls="sec1">신청 자격</button>
+
+      <div id="sec1" hidden>…</div>
+
+      <!-- 펼쳐도 aria-expanded가 없어 상태가 전달되지 않음 -->
+
+      '
+    note: 펼침 상태가 보조기술에 전달되지 않음
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(sources/extracts/WCAG22-A-AA.yaml): statement·수치가 SC 원문과 일치함을 확인. KWCAG 2.2
+  대응 항목 번호는 비공식 HTML 판 기준 매핑 — 공식 원문 대조 전(registry KWCAG22 verified=false). 룰의 요구·수치는 WCAG 원문만으로 성립. 1단계에 이 룰로 병합된
+  KRDS 컴포넌트 항목(sources/extracts/KRDS-components.yaml)은 개별 페이지를 다시 열지 않았다 — 룰의 요구는 WCAG 원문 기준. BACKLOG 출처 내부 불일치(KRDS
+  aria-current 값 ''page''/''true'', 열린 드롭다운에 aria-current 사용)는 4단계 컴포넌트 규격에서 처리 — 이 룰은 ARIA 용법(aria-expanded)을 따른다.'
+korean_specific: false
+tags:
+- wcag22
+- level-a
+- new-in-2.0
+- kwcag22
+- krds

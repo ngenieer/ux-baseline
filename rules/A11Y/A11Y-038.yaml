@@ -1,0 +1,69 @@
+id: A11Y-038
+category: A11Y
+title: 닫힌 커스텀 셀렉트 방향키 동작
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 목록이 닫힌 커스텀 셀렉트(선택 전용 콤보박스)에 초점이 있을 때 ↓ 키는 선택값을 바꾸지 않고 목록을 열고, ↑·Home·End 키는 목록을 열며 시각 초점을 첫 옵션·첫 옵션·마지막
+  옵션으로 옮긴다.
+measurement:
+  criteria: aria-expanded="false"인 커스텀 셀렉트(role=combobox, 선택 전용)에 초점을 두고 (1) ↓를 누르면 목록이 열리고(aria-expanded="true")
+    표시값은 바뀌지 않는다. (2) ↑를 누르면 목록이 열리고 aria-activedescendant가 첫 옵션을 가리킨다. (3) Home·End를 누르면 목록이 열리고 aria-activedescendant가
+    각각 첫 옵션·마지막 옵션을 가리킨다. DOM 초점은 콤보박스에 남는다.
+  method: 커스텀 셀렉트마다 목록을 닫은 채 ↓·↑·Home·End를 눌러 aria-expanded, aria-activedescendant, 표시값을 확인한다(Playwright 가능).
+automation:
+  feasibility: none
+  checks: []
+  note: '4단계 커스텀 검사: Playwright 키보드 시나리오.'
+rationale: W3C APG 선택 전용 콤보박스 예제는 닫힌 상태의 ↓가 선택을 바꾸지 않고 목록을 열게 한다. 보조기술 사용자가 익힌 패턴과 같게 해 옵션을 훑어보는 동안 값이 의도와 다르게 바뀌지
+  않게 한다(CF-034). KRDS 셀렉트 상호작용 가이드라인은 닫힌 상태의 방향키로 값을 바꾸게 해 KRDS 키트 사용 프로젝트만 예외로 둔다.
+sources:
+- ref: ARIA_APG
+  locator: Combobox Pattern > Select-Only Combobox Example > Keyboard Support > Closed Combobox
+  note: https://www.w3.org/WAI/ARIA/apg/patterns/combobox/examples/combobox-select-only/ — Down Arrow 'Opens the
+    listbox if it is not already displayed without moving focus or changing selection', Up Arrow 'First opens the
+    listbox if it is not already displayed and then moves visual focus to the first option', Home·End 'Opens the
+    listbox and moves visual focus to the first/last option'. 예제는 'not intended for production'이라고 밝힌 예시 구현
+- ref: KRDS
+  locator: 컴포넌트 > 셀렉트 > 상호작용 가이드라인 (가이드라인 PDF 2025.08 558쪽)
+  note: https://www.krds.go.kr/html/site/component/component_06_03.html
+scope:
+  level: component
+  targets:
+  - '[role=combobox]'
+  - 커스텀 셀렉트
+exceptions:
+- KRDS HTML 키트의 셀렉트를 그대로 쓰는 공공 프로젝트는 키트 동작(닫힌 상태 방향키로 값 변경)을 따를 수 있다(CF-034).
+relations:
+- type: refines
+  id: A11Y-011
+examples:
+  good:
+  - lang: html
+    code: '<!-- 닫힌 콤보박스(표시값 ''서울'')에서 ↓: 목록이 열리고 aria-expanded="true", 표시값은 ''서울'' 그대로 -->
+
+      <!-- End: 목록이 열리고 시각 초점(aria-activedescendant)이 마지막 옵션 -->
+
+      '
+    note: 'APG 동작(CF-034): 닫힌 상태의 ↓는 값을 바꾸지 않고 목록을 엶'
+  bad:
+  - lang: html
+    code: '<!-- 닫힌 콤보박스에서 ↓: 목록은 닫힌 채 표시값이 ''서울''→''부산''으로 바뀌고 변경 이벤트 발생 -->
+
+      '
+    note: 닫힌 상태의 방향키가 목록을 열지 않고 값을 바로 바꿈(KRDS 키트 동작, 예외 대상만 허용)
+needs_verification: false
+verification_note: '2026-10-18 원문 대조: KRDS 셀렉트 상호작용 가이드라인 방향키 행 ''컨테이너에 초점이 있고 옵션 목록이 축소된 경우, 이전/다음 옵션으로 선택값이 변경된다.''(WebFetch
+  재조회) 확인. ARIA APG Select-Only Combobox Example의 Keyboard Support > Closed Combobox 표(curl, 2026-10-18)에서 Down
+  Arrow·Up Arrow·Home·End 동작이 statement와 일치함을 확인 — CF-034로 APG 동작을 채택하고 KRDS 키트 사용 공공 프로젝트를 예외로 둠. APG는 규범 표준이 아닌
+  가이드(예시 구현)라 SHOULD. 네이티브 <select>의 키보드 동작은 브라우저·OS가 정하므로 이 룰의 측정은 커스텀 구현(role=combobox/listbox)에 적용한다 — 정책 5(예외는
+  출처 명시만)와 달리 범위로 처리한 이유.'
+korean_specific: false
+tags:
+- krds
+- krds-component
+- krds-descriptive
+decisions:
+- CF-034

@@ -1,0 +1,53 @@
+id: MOTION-003
+category: MOTION
+title: 확정 스피너 채움 방향과 진행률
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 확정 스피너는 식별자를 0도(12시 방향)에서 시계 방향으로 채우되 채운 각도를 실제 진행률에 맞추고, 360도가 채워지면 스피너를 숨기고 결과 화면을 표시한다.
+measurement:
+  criteria: 확정 스피너 컴포넌트에서 (1) 진행률 p(0~100%)일 때 채움 각도가 p×3.6도이고, (2) 채움 시작점이 0도(12시)이며 시계 방향으로 늘어나고, (3) p=100%가
+    되면 스피너 요소가 화면과 접근성 트리에서 사라지고 결과 콘텐츠가 표시된다.
+  method: 컴포넌트 테스트에서 진행률 0·50·100%를 주입해 채움 각도·방향과 완료 후 숨김을 확인한다.
+automation:
+  feasibility: none
+  checks: []
+  note: 4단계 컴포넌트 규격 테스트(진행률 주입 → SVG stroke-dashoffset 또는 conic-gradient 각도 검사).
+rationale: 채움 정도가 실제 진행과 다르면 사용자가 남은 대기 시간을 잘못 판단한다.
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 스피너 > 상호작용 가이드라인 > 확정 스피너 (가이드라인 PDF 2025.08 596쪽)
+  note: https://www.krds.go.kr/html/site/component/component_07_02.html
+scope:
+  level: component
+  targets:
+  - 스피너
+  - '[role=progressbar]'
+exceptions: []
+relations:
+- type: refines
+  id: STATE-020
+  note: STATE-020이 확정 스피너를 고르는 조건, 이 룰은 그 동작.
+examples:
+  good:
+  - lang: html
+    code: <div role="progressbar" aria-label="파일 업로드" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" class="spinner"
+      style="--p:50"></div>
+    note: 진행률을 aria-valuenow와 --p로 받아 채움 각도를 실제 진행률(p×3.6도)에 맞춘다.
+  bad:
+  - lang: html
+    code: '<!-- 진행률과 무관하게 일정 속도로 채우는 확정 스피너 -->
+
+      <div class="spinner spinner--determinate fake-progress"></div>'
+    note: 진행률과 무관하게 일정 속도로 채우는 가짜 진행 표시다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(curl로 KRDS 페이지 HTML을 받아 텍스트로 직접 읽음): 상호작용 가이드라인 ''식별자가 채워진 정도는 실제 진행률을 반영해야
+  하며, 360도 전체가 채워지면 스피너를 숨기고 페이지를 표시한다. 식별자는 0도에서 운동을 시작하여 시계 방향으로 경로를 채운다.'' 확인. ''해야 하며'' → SHOULD + public-sector-must.
+  ''0도=12시''는 일반적인 원형 진행 표시 기준으로 읽은 것(원문에 시계 위치 표기 없음). 카테고리 재검토: 스피너 룰(STATE-019~023)과 같은 STATE가 맞아 보임.'
+korean_specific: false
+tags:
+- krds
+- krds-component
+- public-sector-must

@@ -1,0 +1,59 @@
+id: TYPO-032
+category: TYPO
+title: 글자 크기·서체·두께·행간은 토큰만 사용
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: MUST
+statement: font-size·font-family·font-weight·line-height 값은 타이포그래피 토큰(var(--font-size-*), var(--font-family-*),
+  var(--font-weight-*), var(--font-line-height-*))에서만 고르고 CSS에 수치나 서체 이름을 직접 쓰지 않는다.
+measurement:
+  criteria: 작성한 CSS에서 font-size·font-family·font-weight·line-height(및 font 단축 속성을 펼친 값)가 var(--font-*) 또는 키워드(inherit,
+    initial, unset, revert)다. line-height에 px 단위가 0건이다. KRDS 키트 등 외부 CSS 파일은 검사 대상 파일에서 뺀다(stylelint 실행 대상·.stylelintignore,
+    CF-049).
+  method: stylelint scale-unlimited/declaration-strict-value(expandShorthand)와 unit-disallowed-list(line-height
+    px)로 검사한다.
+automation:
+  feasibility: partial
+  checks:
+  - tool: stylelint
+    rule: scale-unlimited/declaration-strict-value
+    method: 타이포 속성에 var(--…)·키워드만 허용
+  - tool: stylelint
+    rule: declaration-property-unit-disallowed-list
+    method: line-height px 금지
+  note: 인라인 style과 JS로 넣는 값은 stylelint 범위 밖(4단계 보완).
+rationale: 글자 크기 토큰은 rem 기반이고 PC(1024px 이상)에서 반응형 값으로 바뀐다. 직접 쓴 px 값은 브라우저 글자 크기 설정과 반응형 단계를 따르지 않는다.
+sources:
+- ref: UXB_CHARTER
+  locator: 디자인 토큰
+  note: 토큰에 없는 값을 직접 쓰지 말 것을 MUST 룰로 둔다
+- ref: KRDS
+  locator: 디자인 스타일 > 타이포그래피 (가이드라인 PDF 2025.08 104·107·110~117쪽)
+  note: 표준형 글자 크기·두께·행간 단계
+scope:
+  level: global
+  targets:
+  - 작성한 CSS (외부 키트 CSS 제외, CF-049)
+exceptions:
+- 외부 라이브러리·KRDS 키트 원본 CSS(CF-049)
+- 아이콘 글꼴처럼 서체 자체가 콘텐츠인 경우의 font-family
+relations: []
+decisions:
+- CF-024
+- CF-049
+examples:
+  good:
+  - lang: css
+    code: "body {\n  font-family: var(--font-family-base);\n  font-size: var(--font-size-body-medium);\n  font-weight:\
+      \ var(--font-weight-regular);\n  line-height: var(--font-line-height-base);\n}"
+    note: 타이포 토큰만 쓴다
+  bad:
+  - lang: css
+    code: "body {\n  font-family: \"Malgun Gothic\";\n  font-size: 15px;\n  line-height: 22px;\n}"
+    note: 서체·크기·행간을 직접 써서 반응형 단계와 사용자 글자 크기 설정을 따르지 않는다
+needs_verification: false
+korean_specific: false
+tags:
+- token

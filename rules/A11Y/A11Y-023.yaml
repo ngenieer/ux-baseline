@@ -1,0 +1,61 @@
+id: A11Y-023
+category: A11Y
+title: 부분 언어
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: MUST
+statement: 페이지 기본 언어와 다른 언어로 된 구절·문장에는 그 요소에 lang 속성으로 언어를 지정한다.
+measurement:
+  criteria: 기본 언어와 다른 언어의 구절(외국어 인용, 언어 변경 링크의 언어명 등)을 감싼 요소에 유효한 lang 속성이 있다. 고유명사·기술 용어·언어를 정할 수 없는 단어·주변 문장에
+    흡수된 외래어는 대상이 아니다.
+  method: axe-core valid-lang 실행 후, 본문의 외국어 구절을 찾아 lang 지정 여부를 수동 확인한다.
+automation:
+  feasibility: partial
+  checks:
+  - tool: axe-core
+    rule: valid-lang
+    method: axe-core 실행 결과 위반 0건
+  note: valid-lang은 lang 값의 유효성만 본다. 외국어 구절에 lang이 빠졌는지는 수동.
+rationale: 스크린 리더가 외국어 구절을 그 언어 발음 규칙으로 읽게 한다.
+sources:
+- ref: WCAG22
+  locator: SC 3.1.2 Language of Parts (Level AA)
+  note: https://www.w3.org/TR/WCAG22/#language-of-parts
+- ref: WCAG22_UNDERSTANDING
+  locator: https://www.w3.org/WAI/WCAG22/Understanding/language-of-parts.html
+- ref: KRDS
+  locator: 컴포넌트 (여러 페이지) (가이드라인 PDF 2025.08 725쪽)
+  note: '같은 요구를 다루는 KRDS 컴포넌트: 언어 변경 — 상세는 sources/extracts/KRDS-components.yaml'
+scope:
+  level: global
+  targets:
+  - '[lang]'
+exceptions:
+- 고유명사, 기술 용어, 언어를 정할 수 없는 단어, 주변 텍스트에 흡수되어 쓰이는 단어·구절.
+relations: []
+examples:
+  good:
+  - lang: html
+    code: '<a href="/en/" lang="en">English</a>
+
+      <a href="/ja/" lang="ja">日本語</a>
+
+      '
+    note: 외국어 언어명 링크에 해당 lang 지정
+  bad:
+  - lang: html
+    code: '<a href="/en/">English</a>
+
+      '
+    note: 영어 링크 텍스트에 lang="en"이 없음
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(sources/extracts/WCAG22-A-AA.yaml): statement·수치가 SC 원문과 일치함을 확인. 1단계에 이 룰로
+  병합된 KRDS 컴포넌트 항목(sources/extracts/KRDS-components.yaml)은 개별 페이지를 다시 열지 않았다 — 룰의 요구는 WCAG 원문 기준.'
+korean_specific: false
+tags:
+- wcag22
+- level-aa
+- new-in-2.0
+- krds

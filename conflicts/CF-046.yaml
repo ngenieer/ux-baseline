@@ -1,0 +1,10 @@
+id: CF-046
+rules:
+- COLOR-009
+against: 'KRDS 내부 불일치(고대비 모드 아이콘 대비: style_09 표 4.5:1, style_03 7:1)'
+summary: 고대비 모드 아이콘 대비 기준이 KRDS 페이지마다 다르다.
+principle: 1
+decision: 더 엄격한 7:1을 쓴다(COLOR-009 현행 유지).
+reason: 고대비 모드의 목적상 높은 쪽을 택한다(원칙 1).
+deviates_from_priority: false
+date: '2026-10-18'

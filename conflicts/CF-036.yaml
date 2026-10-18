@@ -1,0 +1,15 @@
+id: CF-036
+rules:
+- MOTION-001
+against: KRDS 스피너(불확정 스피너 루프를 중지하지 않는다)
+summary: KRDS는 불확정 스피너를 멈추지 말라고 하고 WCAG 2.2.2는 5초 넘게 움직이는 콘텐츠에 정지 수단을 요구한다.
+principle: 1
+decision: 로딩 애니메이션이 화면의 유일한 콘텐츠이고 다른 콘텐츠가 함께 보이지 않는 경우만 MOTION-001의 예외로 둔다. 다른 콘텐츠와 함께 5초 넘게 도는 스피너(뒤 콘텐츠가 보이는 반투명
+  오버레이 위 스피너 포함)에는 MOTION-001을 적용한다.
+reason: Understanding 2.2.2 예시 'A "loading" animation'은 애니메이션이 페이지의 유일한 콘텐츠이고 'not presented in parallel with other
+  content'라서 정지 수단이 필요 없다고 쓴다. 예외를 이 조건으로만 좁힌다(2026-10-18 독립 검토).
+deviates_from_priority: false
+date: '2026-10-18'
+rule_changes:
+- 'MOTION-001: 예외 추가'
+- 'MOTION-001: 로딩 애니메이션 예외를 ''화면의 유일한 콘텐츠이고 다른 콘텐츠가 함께 보이지 않는 경우''로 좁힘 (2026-10-18 독립 검토)'

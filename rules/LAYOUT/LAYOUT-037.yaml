@@ -1,0 +1,55 @@
+id: LAYOUT-037
+category: LAYOUT
+title: 아코디언
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 아코디언 확장 상태 아이콘은 서비스의 모든 아코디언에서 같은 위치에 두고, 관련 섹션 목록형은 헤더 끝, 트리 구조형은 헤더 시작에 둔다.
+measurement:
+  criteria: '같은 유형의 모든 아코디언에서 아이콘이 헤더 안 같은 쪽(끝: 텍스트 뒤 inline-end, 시작: 텍스트 앞)에 있다. 관련 섹션 목록형은 끝, 트리 구조형은 시작.'
+  method: 서비스 안 아코디언 인스턴스를 모아 아이콘 위치를 비교한다.
+automation:
+  feasibility: none
+  checks: []
+  note: '4단계: 아코디언 컴포넌트 변형(variant)을 두 가지로 고정해 템플릿 검사.'
+rationale: 아이콘 위치가 같으면 헤더 텍스트가 같은 위치에서 시작해 눈의 피로가 줄고, 트리형은 시작 위치 아이콘이 계층을 드러낸다.
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 아코디언 > 사용성 가이드라인 (가이드라인 PDF 2025.08 408·409쪽)
+  note: https://www.krds.go.kr/html/site/component/component_04_07.html
+scope:
+  level: component
+  targets:
+  - 아코디언 헤더
+exceptions: []
+relations:
+- type: depends
+  id: STATE-015
+  note: 아이콘 모양(V/+, ^/-)은 STATE-015.
+examples:
+  good:
+  - lang: css
+    code: '.accordion-header { display: flex; align-items: center; }
+
+      .accordion-header .icon { margin-inline-start: auto; } /* 관련 섹션 목록형: 모든 아코디언에서 아이콘을 헤더 끝에 */
+
+      '
+    note: 같은 유형의 아코디언 아이콘이 모두 헤더 끝에 있다.
+  bad:
+  - lang: css
+    code: '.accordion-header { display: flex; align-items: center; }
+
+      .faq .accordion-header .icon { order: -1; } /* 같은 목록형인데 이 페이지만 아이콘이 헤더 시작에 */
+
+      '
+    note: 같은 유형인데 페이지마다 아이콘 위치가 다르다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(curl로 KRDS 페이지 HTML을 받아 본문 텍스트를 직접 확인): 아코디언(component_04_07) ''아코디언의 확장 상태를
+  나타내는 아이콘은 항상 일관된 위치에 제공한다.'', ''… 헤더의 끝에 배치하는 것이 바람직하다'', ''트리 구조로 구성되어 있다면 … 헤더의 시작 부분에 배치할 수 있다'' 확인. 일관된 위치는
+  지시형 → SHOULD. 끝·시작 배치 자체는 ''바람직하다/할 수 있다''(MAY 수준) — 같은 룰에 묶었으므로 3단계에서 강도 분리 검토.'
+korean_specific: false
+tags:
+- krds
+- krds-component

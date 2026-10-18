@@ -1,0 +1,88 @@
+id: COPY-005
+category: COPY
+title: 오류 메시지 작성
+stage: platformed
+status:
+  value: confirmed
+type: guide
+strength: SHOULD
+statement: 오류 메시지는 오류가 난 항목 이름, 무엇이 잘못됐는지, 고치는 방법(또는 사용자가 할 수 있는 다음 행동)을 담아 높임 종결어미로 쓰고, 사용자를 탓하는 표현과 '오류가 발생했습니다'·'유효하지
+  않은 값입니다' 같은 일반 문구만으로 된 메시지를 쓰지 않는다.
+measurement:
+  criteria: '점검 질문: (1) 메시지에 항목 이름(레이블과 같은 말)이 있는가? (2) 무엇이 잘못됐는지(빈 값·형식·범위·중복 등)가 있는가? (3) 고치는 방법 또는 다음 행동(다시 시도·다른
+    값 입력 등)이 있는가? (4) ''잘못 입력하셨습니다''처럼 사용자를 주어로 탓하는 표현이 없는가? (5) 메시지 전체가 ''오류가 발생했습니다'', ''유효하지 않은 값입니다'', ''필수
+    항목입니다'' 같은 일반 문구뿐이지 않은가?'
+  method: 서비스의 오류 메시지 문자열 목록을 뽑아 메시지마다 점검 질문 (1)~(5)에 답한다. (1)(2)(5)는 문자열 검색으로 보조할 수 있으나 최종 판정은 사람이 한다.
+automation:
+  feasibility: none
+  checks: []
+  note: '4단계 커스텀 검사 후보: 메시지 문자열이 일반 문구 사전(''오류가 발생했습니다'',''유효하지 않은'',''필수 항목입니다'')과 완전히 일치하면 경고, ''잘못 입력하셨'' 같은
+    탓하는 표현 검출. 문체 판정은 수동.'
+rationale: 어떤 종류의 오류가 어느 지점에서 났는지 알아야 고칠 수 있고, 수정 방법이 있으면 더 빨리 고친다. 부정적인 상황을 알리는 메시지이므로 정중한 문체로 사용자를 안심시킨다(KRDS
+  오류 패턴).
+sources:
+- ref: KRDS
+  locator: 기본 패턴 > 오류 > 사용성 가이드라인 (가이드라인 PDF 2025.08 830쪽)
+  note: https://www.krds.go.kr/html/site/global/global_07.html
+- ref: KRDS
+  locator: 컴포넌트 (여러 페이지) (가이드라인 PDF 2025.08 708쪽)
+  note: '같은 요구를 다루는 KRDS 컴포넌트: 파일 업로드 — 상세는 sources/extracts/KRDS-components.yaml'
+- ref: PAIR_GUIDEBOOK
+  locator: Errors + Graceful Failure — offer a path forward
+  note: '같은 요구: 시스템 오류로 AI 응답이 실패하면 실패했다는 사실, 사용자가 할 수 있는 다음 행동(다시 시도 버튼 등)을 함께 표시하고, 사용자가 입력한 요청 내용은 지우지 않는다.'
+- ref: APPLE_WWDC25_248
+  locator: 사용자가 기다리는 기능은 알림 또는 대안 행동 제시
+  note: '같은 요구: 시스템 오류로 AI 응답이 실패하면 실패했다는 사실, 사용자가 할 수 있는 다음 행동(다시 시도 버튼 등)을 함께 표시하고, 사용자가 입력한 요청 내용은 지우지 않는다.'
+- ref: GOVUK_ERROR_MESSAGE
+  locator: Be clear and concise / Use instructions for empty fields
+  note: '같은 요구: 빈 필수 필드의 오류 문구는 레이블 말을 그대로 써서 ''○○을(를) 입력하세요''처럼 해야 할 행동으로 쓰고, 규칙 위반은 ''○○은(는) 35자 이하여야 합니다''처럼
+    규칙을 쓰며, ''유효하지 않은 값'', ''필수 항목입니다'', ''오류가 발생했습니다'' 같은 일반 문구만 쓰지 않는다.'
+- ref: GOVUK_ERROR_MESSAGE
+  locator: Avoid please, sorry, oops
+  note: '같은 요구: 필드 오류 메시지에 ''죄송합니다'', ''앗'', ''이런'' 같은 사과·감탄 표현과 ''부탁드립니다/해 주세요'' 같은 요청형 공손 표현을 넣지 않는다.'
+scope:
+  level: situation
+  targets:
+  - 입력 검증 오류 메시지
+  - 파일 업로드 오류
+  - 시스템·AI 응답 실패 메시지
+exceptions:
+- 필드 오류 문구에는 높임 요청형('-을 입력해 주세요')을 쓸 수 있다. 사과 표현('죄송합니다')은 서비스 쪽 잘못인 시스템 오류 화면(STATE-044)에만 쓸 수 있고 필드 오류 문구에는 쓰지
+  않는다(CF-032).
+relations:
+- type: depends
+  id: FORM-003
+  note: 오류 항목 식별과 텍스트 설명 의무는 FORM-003(WCAG 3.3.1). 이 룰은 그 문구의 구성과 문체.
+- type: depends
+  id: FORM-005
+  note: 수정 제안 의무는 FORM-005(WCAG 3.3.3).
+- type: depends
+  id: AI-011
+  note: AI 응답 실패 유형 구분은 AI-011. 실패 메시지 문구에는 이 룰을 적용.
+examples:
+  good:
+  - lang: html
+    code: '<p class="error" id="email-err"><span class="sr-only">오류:</span> 이메일 주소에 @가 없습니다. name@example.com 형식으로
+      입력하세요.</p>
+
+      '
+    note: 항목 이름·잘못된 점·고치는 방법을 높임 종결어미로 담았다
+  bad:
+  - lang: html
+    code: '<p class="error">잘못 입력하셨습니다. 유효하지 않은 값입니다.</p>
+
+      '
+    note: 사용자를 탓하고 일반 문구뿐이라 무엇을 고칠지 알 수 없다
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(curl로 KRDS 페이지 HTML을 받아 텍스트로 직접 읽음): KRDS 오류 패턴(global_07) ''발생한 오류 및 문제를 분명하게
+  설명한다'', ''오류를 수정할 수 있는 방법을 제공한다''(원문: 오류 내용이 복잡한 경우), ''정중한 문체를 사용한다'' 확인. GOV.UK Error message 원문(curl) ''Describe
+  what has happened and tell them how to fix it'', please·sorry·valid/invalid·oops 회피 확인. PAIR errors-failing 장
+  ''Return control to the user — path forward'' 확인. 판정에 사람의 문체 판단이 필요해 type: guide, 강도는 KRDS 단정형 서술 기준 SHOULD. ''정중한
+  문체''를 ''높임 종결어미''로 구체화. GOV.UK의 please·sorry 금지를 ''-해 주세요''·''죄송합니다'' 금지로 옮길지는 BACKLOG ''COPY-005 vs GOV.UK 오류
+  문구'' 항목(3단계) — 이 룰에는 넣지 않음. PAIR·APPLE 출처는 AI 실패 시 다음 행동 제시 근거로 유지(AI-011과 함께 검토). 2026-10-18 독립 검토: BACKLOG ''COPY-005
+  vs GOV.UK 오류 문구''는 CF-032로 해소 — 예외를 결정 문장(''쓸 수 있다'')과 맞춤.'
+korean_specific: false
+tags:
+- krds
+decisions:
+- CF-032

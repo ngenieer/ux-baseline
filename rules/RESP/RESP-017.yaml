@@ -1,0 +1,53 @@
+id: RESP-017
+category: RESP
+title: 터치 환경 툴팁 토글
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 툴팁에 별도의 활성화 버튼이 있으면, 터치 인터페이스가 감지됐을 때 그 버튼의 click(탭) 이벤트로 툴팁 팝오버를 열고 닫는다.
+measurement:
+  criteria: '터치 에뮬레이션(hasTouch: true, @media (hover: none) 일치) 상태에서 툴팁 활성화 버튼을 한 번 탭하면 팝오버가 열리고, 다시 탭하면 닫힌다. 버튼에는
+    접근 가능한 이름이 있고 팝오버 열림 상태가 aria-expanded 또는 툴팁 표시로 노출된다.'
+  method: 'Playwright(hasTouch: true)로 탭 동작을 실행해 팝오버 표시 상태를 확인한다.'
+automation:
+  feasibility: none
+  checks: []
+  note: 4단계 커스텀 Playwright 검사.
+rationale: 툴팁은 마우스·키보드·펜으로만 실행돼 터치가 주 입력인 환경에서는 부가 정보를 볼 수 없다(KRDS).
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 툴팁 > 플랫폼 고려 사항 (가이드라인 PDF 2025.08 659쪽)
+  note: https://www.krds.go.kr/html/site/component/component_08_05.html
+scope:
+  level: component
+  targets:
+  - 툴팁
+  - '[role=tooltip]'
+exceptions: []
+relations:
+- type: depends
+  id: A11Y-010
+  note: 호버·초점으로 나타나는 툴팁 동작은 A11Y-010을 따른다.
+examples:
+  good:
+  - lang: html
+    code: '<button type="button" aria-expanded="false" aria-describedby="tip1">도움말</button>
+
+      <div id="tip1" role="tooltip" hidden>주민등록번호 앞 6자리</div>'
+    note: 툴팁 활성화 버튼을 탭으로 열고 닫으며 aria-expanded로 상태를 알린다.
+  bad:
+  - lang: html
+    code: <span class="tip" onmouseover="show()">?</span> <!-- 터치에서 열 수 없음 -->
+    note: 마우스 오버로만 열려 터치에서 열 수 없다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(curl로 KRDS 페이지 HTML을 받아 텍스트로 직접 읽음): ''툴팁은 마우스, 키보드, 펜 인터페이스로만 실행할 수 있기 때문에
+  터치가 1차적인 입력 방식인 경우에는 … 별도의 활성화 버튼이 존재한다면 터치 인터페이스가 탐지되었을 때, 활성화 버튼의 Click 이벤트에 팝오버의 출현이 토글 될 수 있도록 한다'' 확인 → SHOULD
+  + public-sector-must. 1단계에 붙은 WCAG22_UNDERSTANDING 2.5.6·CSS_MQ4(''터치가 감지돼도 다른 입력을 막지 않는다'')는 다른 요구(동시 입력 메커니즘,
+  AAA)라 떼어 내고 제안 파일에 새 룰 후보로 적음. 같은 문단의 아이콘 선택 요구는 COPY-049.'
+korean_specific: false
+tags:
+- krds
+- krds-component
+- public-sector-must

@@ -1,0 +1,76 @@
+id: SHAPE-004
+category: SHAPE
+title: 엘리베이션 단계 고정
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: MAY
+statement: '그림자는 정의된 단계 토큰만 쓰고 단계를 용도에 고정한다(KRDS: 셀렉트 shadow2, 툴팁 shadow3, 모달 shadow4와 딤드, 긴급 공지 shadow2와 고도 -1
+  표면).'
+measurement:
+  criteria: '(1) box-shadow 값이 그림자 단계 토큰(var(--shadow-1~4)) 또는 none이다. (2) 컴포넌트별 단계가 매핑표와 같다: 기본 버튼·카드 1, 드롭다운·셀렉트·메인
+    메뉴 2, 툴팁·패널 3, 플로팅 버튼 2(체계 선택, CF-060), 긴급 공지 2(KRDS 엘리베이션 적용 절 — 단계 설명의 ''긴급 알림 4단계''는 같은 컴포넌트로 보고 적용 절을 따름,
+    CF-060), 모달 4.'
+  method: stylelint로 값 형식을 검사하고 컴포넌트별 토큰을 매핑표와 대조한다.
+automation:
+  feasibility: partial
+  checks:
+  - tool: stylelint
+    rule: scale-unlimited/declaration-strict-value
+    method: box-shadow에 var(--shadow-*)·none만 허용
+  note: 매핑 준수는 컴포넌트 규격 대조.
+rationale: 용도별 그림자 단계를 고정하면 요소의 중요도와 상호작용 우선순위가 화면 전체에서 같은 깊이로 읽힌다.
+sources:
+- ref: KRDS
+  locator: 디자인 스타일 > 엘리베이션 > 단계 구성 / 컴포넌트별 적용 (가이드라인 PDF 2025.08 183·191쪽)
+  note: https://www.krds.go.kr/html/site/style/style_08.html
+- ref: UXB_SYSTEM_CHOICE
+  locator: CF-060
+  note: '플로팅 버튼 2단계는 KRDS에 지정이 없는 이 체계의 선택. 긴급 공지는 KRDS 단계 설명(PDF 183쪽 ''4단계: 모달, 긴급 알림'')과 적용 절(PDF 191쪽 ''긴급 공지
+    shadow2'')이 달라 적용 절을 따르기로 한 선택'
+scope:
+  level: global
+  targets:
+  - box-shadow
+  - select
+  - '[role=tooltip]'
+  - dialog
+  - 긴급 공지
+exceptions: []
+relations:
+- type: depends
+  id: SHAPE-005
+  note: 모달의 딤드 사용 조건은 SHAPE-005.
+examples:
+  good:
+  - lang: css
+    code: '.select-list { box-shadow: var(--shadow-2); }
+
+      [role=tooltip] { box-shadow: var(--shadow-3); }
+
+      dialog { box-shadow: var(--shadow-4); }
+
+      '
+    note: 용도별 그림자 단계 토큰을 매핑표대로 쓴다.
+  bad:
+  - lang: css
+    code: '[role=tooltip] { box-shadow: var(--shadow-1); } /* 툴팁은 3단계인데 1단계 사용 */
+
+      '
+    note: 툴팁에 매핑표와 다른 그림자 단계를 썼다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(curl로 KRDS 페이지 HTML을 받아 본문 텍스트를 직접 확인): 디자인 스타일 > 엘리베이션(style_08) 그림자 표현 단계(1단계
+  기본 버튼·카드, 2단계 드롭다운·메인 메뉴, 3단계 툴팁·패널, 4단계 모달·긴급 알림)와 엘리베이션 적용 ''셀렉트 shadow2'', ''툴팁 shadow3'', ''모달 shadow4 스타일과
+  딤드 토큰을 함께 사용'', ''긴급 공지 shadow2 스타일과 고도 단계 -1의 surface를 함께 사용'' 확인 — 1단계에 빠진 긴급 공지 매핑 추가. KRDS 내부 차이: 단계 설명은 긴급
+  알림 4단계, 적용 절은 긴급 공지 shadow2(긴급 알림과 긴급 공지가 다른 컴포넌트인지 불명 → 2026-10-18 독립 검토: KRDS PDF에서 ''긴급 알림''은 그림자 단계 설명 1곳에만
+  나오고 컴포넌트는 ''긴급 공지(Critical alerts)''뿐이라 같은 대상으로 보고 적용 절 shadow2를 따름, CF-060). krds-uiux v1.1.0 토큰 파일에는 shadow1~4
+  이름의 그림자 토큰이 없고 알파 색(alpha-shadow1~3)과 컴포넌트별 그림자 값만 있음 — 4단계에서 그림자 토큰을 새로 정의해야 함. system-choice → MAY. (2026-10-18 KRDS PDF 대조) 원문 191쪽 엘리베이션 적용의 모달은 ''shadow4 스타일을 사용한다''뿐이고
+  ''딤드 토큰을 함께 사용''은 PDF에 없다(웹 페이지 기준). 모달 딤드 자체는 189쪽 딤드 효과 절(SHAPE-005)이 근거.'
+korean_specific: false
+tags:
+- krds
+- system-choice
+- design-token
+decisions:
+- CF-060

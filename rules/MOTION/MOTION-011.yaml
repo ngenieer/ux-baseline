@@ -1,0 +1,59 @@
+id: MOTION-011
+category: MOTION
+title: 애니메이션 지속 시간 범위
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: UI 전환 애니메이션의 지속 시간은 100ms 이상 500ms 이하로 하고, 체크박스·토글 같은 단순 상태 피드백은 100ms, 모달·드로어처럼 화면을 크게 바꾸는 전환은 200ms
+  이상 300ms 이하로 한다.
+measurement:
+  criteria: 모션 duration 토큰 값과 실제 transition/animation duration이 (1) 모두 100~500ms 범위에 있고, (2) 체크박스·라디오·토글 상태 전환은
+    100ms, (3) 모달·드로어·바텀시트 열림·닫힘은 200~300ms이다.
+  method: 토큰 JSON의 duration 값을 범위 검사하고, 컴포넌트별 사용 토큰을 규격 표와 대조한다.
+automation:
+  feasibility: none
+  checks: []
+  note: '4단계 커스텀: 토큰 빌드 단계에서 motion.duration.* 값이 100~500ms인지 검사(MOTION-010과 결합하면 실제 사용 값도 토큰으로 제한됨).'
+rationale: 너무 빠른 애니메이션은 알아보기 어렵고 어지러우며, 500ms쯤 되면 사용자는 지연으로 느낀다(NN/g). 단순 피드백 100ms는 직접 조작하는 느낌을 준다.
+sources:
+- ref: NNG_ANIM_DURATION
+  locator: Duration 절
+  note: '''most animations ... 100–500 ms'', ''Simple feedback ... roughly 100 ms'', ''modal ... 200–300 ms'', ''At
+    500ms ... a real drag'', ''In most cases, a range of 100–400 ms'''
+- ref: MATERIAL3_MOTION_TOKENS
+  locator: duration short/medium/long/extra-long
+  note: 50~1000ms 16단계 — 참고 사례
+scope:
+  level: global
+  targets:
+  - transition
+  - animation
+  - 모션 duration 토큰
+exceptions:
+- 불확정 스피너처럼 대기 상태 동안 반복되는 로딩 애니메이션(전환이 아님).
+relations:
+- type: depends
+  id: MOTION-010
+examples:
+  good:
+  - lang: css
+    code: ':root { --motion-duration-feedback: 100ms; --motion-duration-modal: 250ms; }'
+    note: 단순 피드백 100ms, 모달 250ms로 범위 안의 토큰 값을 정의했다.
+  bad:
+  - lang: css
+    code: ':root { --motion-duration-modal: 800ms; } /* 모달 전환 800ms: 500ms 상한 초과 */
+
+      .modal { transition: transform var(--motion-duration-base) var(--motion-easing-standard); }'
+    note: 모달 전환 토큰 값이 800ms로 100~500ms 범위와 모달 200~300ms를 벗어난다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(NN/g 기사 curl): 100–500ms, 단순 피드백 ''roughly 100 ms'', 모달 ''200–300 ms can be
+  appropriate'', 500ms ''real drag'' 확인. ''roughly 100 ms''를 판정용 토큰 값 100ms로 고정한 것은 체계 선택. 연구 근거 없음(NN/g 기사는 실험
+  인용 없음) — 전문가 가이드 SHOULD. Material은 50ms·600ms 이상 값도 토큰으로 둬 범위가 넓음(참고 사례 차이). 같은 기사가 ''대부분 100–400ms, 400ms는 큰
+  이동용''이라고도 해 상한 400/500ms 선택은 CF-050에서 정함 — 판정 상한 500ms(기사의 일반 범위·지연 경계), 400–500ms는 큰 이동 전환에서만 쓰는 값.'
+korean_specific: false
+tags:
+- research-motion_perf
+decisions:
+- CF-050

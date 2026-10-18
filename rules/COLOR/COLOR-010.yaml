@@ -1,0 +1,48 @@
+id: COLOR-010
+category: COLOR
+title: 고대비 모드 전환 무손실
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 선명한 화면 모드로 전환해도 일반 모드와 같은 정보와 기능을 제공하고, 선명한 화면 모드에서 식별되지 않는 래스터 이미지(JPEG·PNG·GIF)는 모드별 버전을 따로 제공한다.
+measurement:
+  criteria: (1) 두 모드에서 보이는 텍스트·컨트롤·이미지 목록이 같다. (2) 정보를 담은 래스터 이미지의 의미 있는 부분이 선명한 화면 모드 배경과 3:1 이상 대비를 갖거나, 모드별 이미지(picture/source
+    또는 테마별 src)가 있다. (3) SVG는 색을 디자인 토큰(currentColor 또는 CSS 변수)으로 지정한다.
+  method: '수동: 주요 화면을 두 모드로 캡처해 요소 목록과 이미지를 비교. (3)은 SVG 소스에서 하드코딩된 fill·stroke 색을 찾는 스크립트.'
+automation:
+  feasibility: none
+  note: '4단계: 두 모드 DOM 비교 스크립트와 SVG 하드코딩 색 검사(커스텀).'
+rationale: 선명한 화면 모드는 같은 서비스의 다른 테마일 뿐이므로 모드 전환으로 정보나 기능을 잃으면 그 모드가 필요한 사용자가 배제된다(KRDS).
+sources:
+- ref: KRDS
+  locator: 디자인 스타일 > 선명한 화면 모드 > 사용성 / 접근성 (가이드라인 PDF 2025.08 198·204쪽)
+  note: https://www.krds.go.kr/html/site/style/style_09.html
+scope:
+  level: situation
+  targets:
+  - 선명한 화면 모드(고대비 테마) 제공 서비스
+exceptions: []
+relations: []
+examples:
+  good:
+  - lang: html
+    code: "<picture>\n  <source srcset=\"chart-hc.png\" media=\"(prefers-contrast: more)\">\n  <img src=\"chart.png\"\
+      \ alt=\"2026년 분기별 신청 건수\">\n</picture>"
+    note: 선명한 화면 모드용 래스터 이미지를 따로 제공한다(서비스 자체 모드 전환이면 테마 클래스로 src를 바꾼다)
+  bad:
+  - lang: html
+    code: <img src="chart.png" alt="2026년 분기별 신청 건수">
+    note: 한 가지 이미지만 있어 선명한 화면 모드의 어두운 배경에서 그래프 선이 보이지 않는다
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(KRDS https://www.krds.go.kr/html/site/style/style_09.html HTML을 curl로 받아 본문
+  확인): ''선명한 화면 모드는 일반 모드 화면과 동일한 정보와 기능을 제공해야 한다'', ''래스터(Raster) 이미지(JPEG, PNG, GIF 등)는 두 가지 모드에 대응 가능하도록 별도 버전을
+  준비한다. 벡터(Vector) 이미지(SVG 등)는 디자인 토큰의 색상 규칙에 따라'' 확인 → SHOULD + public-sector-must. 원문 문단은 ''특정한 이미지를 선명한 화면 모드에서
+  알아보기 어렵다면 각 모드별로 제공될 이미지를 준비해야 한다''로 시작하므로 래스터 별도 버전은 ''식별되지 않는 이미지''에 한정해 해석. 식별 기준 3:1은 WCAG 1.4.11 그래픽 객체 기준을
+  빌린 체계 해석. 예시의 prefers-contrast는 OS 설정 연동 방식 예시일 뿐 KRDS 요구 아님.'
+korean_specific: false
+tags:
+- krds
+- high-contrast
+- public-sector-must

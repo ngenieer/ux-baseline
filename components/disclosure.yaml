@@ -1,0 +1,129 @@
+id: disclosure
+title: 디스클로저
+status: confirmed
+summary: 특정 정보·컨트롤·섹션에 대한 부가 설명을 기본으로 접어 두고, 필요한 사용자만 펼쳐 보게 할 때 쓴다.
+use_instead:
+- when: 작업을 마치는 데 반드시 알아야 하는 정보(자격 조건·제출 서류·마감일·수수료·오류 내용 등)
+  use: 본문 인라인 텍스트
+  rule: COPY-009
+- when: 같은 섹션에서 여러 묶음을 접고 펼쳐야 하는 경우
+  use: accordion
+  rule: LAYOUT-033
+krds:
+  page: component_04_04.html
+  kit: html/code/disclosure.html
+  kit_classes:
+    disclosure: krds-disclosure conts-expand-area
+    disclosure__summary: btn-conts-expand
+    disclosure__content: expand-wrap expand-in
+anatomy:
+- part: 루트
+  class: disclosure
+  element: details
+  required: true
+  note: 부가 정보를 제공하려는 대상 요소의 다음 형제로 둔다(LAYOUT-032). 페이지 로드 시 open 속성 없이 접힌 상태다(STATE-010).
+- part: 펼침 컨트롤
+  class: disclosure__summary
+  element: summary
+  required: true
+  note: 브라우저가 버튼 역할과 펼침 상태를 보조기술에 전달하고 Enter·Space 로 토글한다(A11Y-025, A11Y-011). 문구는 펼쳐질 내용의 주제를 쓴다.
+- part: 내용
+  class: disclosure__content
+  element: div
+  required: true
+markup: |-
+  <section class="disclosure-demo" aria-labelledby="identity-title">
+    <h2 id="identity-title">본인 확인</h2>
+    <p>공동인증서 또는 간편인증으로 본인 확인을 할 수 있습니다.</p>
+    <details class="disclosure">
+      <summary class="disclosure__summary">간편인증 이용 방법</summary>
+      <div class="disclosure__content">
+        <ul>
+          <li>휴대전화에 인증 앱을 설치합니다.</li>
+          <li>인증 요청을 받으면 앱에서 승인합니다.</li>
+        </ul>
+      </div>
+    </details>
+  </section>
+  <section class="disclosure-demo" aria-labelledby="fee-title">
+    <h2 id="fee-title">수수료 납부</h2>
+    <p>수수료는 신청 단계에서 카드 또는 계좌이체로 냅니다.</p>
+    <details class="disclosure" open>
+      <summary class="disclosure__summary">수수료 감면 대상 확인 방법</summary>
+      <div class="disclosure__content">
+        <p>국민기초생활보장 수급자는 신청서의 감면 항목을 선택하면 수수료가 자동으로 감면됩니다.</p>
+      </div>
+    </details>
+  </section>
+css: |-
+  .disclosure {
+    margin-block-start: var(--space-gap-3);
+  }
+  .disclosure__summary {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-gap-2);
+    min-block-size: var(--layout-target-min);
+    color: var(--color-text-bolder);
+    font-size: var(--font-size-body-medium);
+    font-weight: var(--font-weight-bold);
+    cursor: pointer;
+  }
+  .disclosure__summary::before {
+    content: "";
+    inline-size: var(--space-scale-4);
+    block-size: var(--space-scale-4);
+    border-block-end: var(--border-width-static-medium) solid currentColor;
+    border-inline-end: var(--border-width-static-medium) solid currentColor;
+    transform: rotate(-45deg);
+  }
+  .disclosure[open] > .disclosure__summary::before {
+    transform: rotate(45deg);
+  }
+  .disclosure__summary::-webkit-details-marker {
+    display: none;
+  }
+  .disclosure__summary:focus-visible {
+    outline: var(--space-scale-2) solid var(--color-border-primary);
+    outline-offset: var(--space-scale-1);
+  }
+  .disclosure__content {
+    margin-block-start: var(--space-gap-2);
+    padding: var(--padding-card-small);
+    border-radius: var(--radius-xlarge2);
+    background-color: var(--color-surface-gray-subtle);
+    color: var(--color-text-basic);
+    font-size: var(--font-size-body-medium);
+  }
+states:
+- name: 접힘(기본)
+  markup_change: details 에 open 속성이 없다. 페이지 로드 시 이 상태다(STATE-010).
+  rule: STATE-010
+- name: 펼침
+  markup_change: 사용자가 펼치면 브라우저가 details 에 open 속성을 붙인다. 꺾쇠 아이콘이 아래를 향한다.
+  rule: A11Y-025
+keyboard:
+- key: Tab
+  action: 펼침 컨트롤(summary)로 초점을 옮긴다. 초점 표시가 보인다(A11Y-016).
+- key: Enter / Space
+  action: 내용을 펼치거나 접는다. 초점은 펼침 컨트롤에 남는다(A11Y-011).
+behavior:
+- 기본 구현은 네이티브 details·summary 다. 스크립트로 button + 영역 패턴을 쓰면 button 에 aria-expanded·aria-controls 를 주고 상태가 바뀔 때 값을 바꾼다(A11Y-025).
+- 디스클로저는 부가 설명을 제공할 대상 정보·컨트롤·섹션의 바로 아래(DOM 다음 형제)에 둔다(LAYOUT-032).
+- 한 섹션(같은 h2·h3 아래)에 디스클로저를 1개만 두고, 디스클로저를 연달아 배치하지 않는다(LAYOUT-033).
+- 페이지 로드 시 접힌 상태로 둔다(STATE-010). 작업에 반드시 필요한 정보는 디스클로저 안에만 두지 않는다(COPY-009).
+- 펼침 컨트롤의 포인터 대상 높이를 24px 이상으로 둔다(LAYOUT-002).
+rules:
+- A11Y-011
+- A11Y-016
+- A11Y-025
+- COPY-009
+- LAYOUT-002
+- LAYOUT-032
+- LAYOUT-033
+- STATE-010
+kit_differences:
+- KRDS 키트의 펼침 버튼(btn-conts-expand)은 aria-expanded·aria-controls 없이 클래스(active)로만 상태를 바꾼다 — 이 규격은 details·summary 로 상태를 보조기술에 전달한다(A11Y-025).
+notes:
+- markup 의 disclosure-demo 섹션은 '한 섹션에 1개' 와 '대상 바로 아래' 배치를 보이기 위한 예시 틀이며 규격의 일부가 아니다.
+- 꺾쇠 아이콘은 CSS 장식이며 상태는 summary 의 네이티브 펼침 상태로 전달된다. 회전 전환 애니메이션을 넣으면 MOTION 룰(토큰·감소 모션)을 따른다.

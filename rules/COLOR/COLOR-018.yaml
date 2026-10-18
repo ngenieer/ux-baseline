@@ -1,0 +1,48 @@
+id: COLOR-018
+category: COLOR
+title: 배지 색 의미 체계
+stage: platformed
+status:
+  value: confirmed
+type: guide
+strength: MAY
+statement: '배지 색은 레이블 정보와 색의 일반적 의미가 맞을 때 그 색을 쓰고(예: 중요·경고·반대는 빨강), 한 화면의 배지 색 종류를 늘려 주의를 분산시키지 않는다.'
+measurement:
+  criteria: '점검 질문: 빨강·노랑·초록·파랑 계열 배지가 각각 위험·주의·성공·안내 의미의 레이블에만 쓰였는가? 의미와 무관한 색 배지가 있는가?'
+  method: 수동 검토.
+automation:
+  feasibility: none
+  note: 의미 일치 판단이 필요 → guide.
+rationale: 레이블 정보와 색의 일반적 의미가 일치하면 사용자가 정보를 더 빨리 처리하지만, 색을 과하게 쓰면 주의가 분산된다(KRDS 배지).
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 배지 > 사용성 가이드라인 (가이드라인 PDF 2025.08 401~402쪽)
+  note: https://www.krds.go.kr/html/site/component/component_04_06.html
+scope:
+  level: component
+  targets:
+  - 배지
+exceptions: []
+relations:
+- type: depends
+  id: COLOR-001
+  note: 색은 보조 단서이며 의미는 배지 레이블 텍스트로 전달해야 한다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(KRDS https://www.krds.go.kr/html/site/component/component_04_06.html HTML을
+  curl로 받아 본문 확인): ''레이블과 컨테이너의 색상은 일반적인 의미 체계, 일관성을 고려하여 선택한다'', ''(예 - 중요, 경고, 반대와 같은 정보에 빨간색 사용). 그러나 과도한 색상
+  사용은 오히려 사용자의 주의를 분산'' 확인. ''고려하여 선택한다''는 지시보다 약한 권고로 보고 MAY. 색 계열과 의미 대응(빨강=위험 등)은 KRDS 시스템 색상(danger·warning·success·information)
+  정의에서 가져옴.'
+korean_specific: false
+tags:
+- krds
+- krds-component
+- system-choice
+examples:
+  good:
+  - lang: text
+    code: '''마감 임박'' 배지는 빨강(danger), ''접수 중'' 배지는 초록(success)으로 표시하고 레이블 텍스트로 의미를 함께 전달한다.'
+    note: 색의 일반 의미와 레이블이 맞는다
+  bad:
+  - lang: text
+    code: '''접수 완료'' 배지를 빨강, ''반려'' 배지를 초록으로 표시하고, 한 목록에 배지 색을 6종 쓴다.'
+    note: 색 의미가 레이블과 반대이고 색 종류가 많아 주의가 분산된다

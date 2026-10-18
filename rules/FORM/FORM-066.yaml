@@ -1,0 +1,23 @@
+id: FORM-066
+category: FORM
+title: 파일 업로드
+stage: collected
+status:
+  value: deprecated
+  reason: FORM-065로 병합
+  superseded_by: FORM-065
+statement: 다중 파일 업로드는 올리는 파일이 모두 서로 관련 있을 때만 쓴다.
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 파일 업로드 > 사용성 가이드라인(용례)
+  note: https://www.krds.go.kr/html/site/component/component_09_04.html
+scope:
+  level: component
+  targets:
+  - 파일 업로드
+needs_verification: true
+verification_note: '2026-10-18 2단계 정규화: FORM-065와 같은 요구라 병합. 출처는 FORM-065 sources에 옮겨 적음. statement 는
+  KRDS 컴포넌트 페이지를 요약 도구로 읽고 정리한 것 — 원문 강도 표현: "적합하다". 2단계에서 원문 대조.'
+tags:
+- krds
+- krds-component

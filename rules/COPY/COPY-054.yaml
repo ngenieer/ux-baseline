@@ -1,0 +1,65 @@
+id: COPY-054
+category: COPY
+title: 만료 후 저장 여부 고지
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 세션이 만료돼 로그아웃된 뒤 보여주는 화면에는 로그아웃된 이유와, 진행 중이던 입력 내용이 저장됐는지 여부를 쓴다.
+measurement:
+  criteria: '세션 만료 후 화면에 (1) 로그아웃 이유 문장(예: ''보안을 위해 로그아웃했습니다'') (2) 입력 중인 과업이 있었으면 저장 여부 문장(''입력한 내용을 저장했습니다'' 또는
+    ''입력한 내용은 저장되지 않았습니다'')이 있다.'
+  method: 입력 중인 과업이 있는 상태와 없는 상태 각각에서 세션을 만료시켜 만료 후 화면 문구를 확인한다.
+automation:
+  feasibility: none
+  checks: []
+  note: '4단계 E2E 검사: 세션 만료를 강제한 뒤 만료 화면에 이유 문구와 저장 여부 문구 요소(data-copy=timeout-reason, timeout-saved)가 있는지 확인. 문구
+    의미는 수동.'
+rationale: 이유를 모르면 사용자는 오류로 오해하고, 저장 여부를 모르면 처음부터 다시 입력해야 하는지 판단할 수 없다(HMRC 서비스 타임아웃, GOV.UK 서비스 문제 페이지).
+sources:
+- ref: HMRC_TIMEOUT
+  locator: 'After timeout: ''We saved your answers.'' / ''We did not save your answers.'''
+- ref: GOVUK_500
+  locator: tell them what happened to their answers
+scope:
+  level: situation
+  targets:
+  - 세션 만료 후 화면
+exceptions:
+- 진행 중인 입력·과업이 없었으면 저장 여부 문장은 생략할 수 있다(HMRC 'say what will happen to their answers, if needed').
+relations:
+- type: depends
+  id: A11Y-014
+  note: 만료 전 경고·연장은 A11Y-014(WCAG 2.2.1)
+- type: depends
+  id: STATE-044
+  note: 서버 오류 화면의 저장 여부 고지는 STATE-044 — 같은 문구 패턴을 쓴다
+examples:
+  good:
+  - lang: html
+    code: '<h1>보안을 위해 로그아웃했습니다</h1>
+
+      <p>20분 동안 사용하지 않아 로그아웃했습니다. 입력한 내용은 저장했습니다.</p>
+
+      <a href="/login">다시 로그인</a>
+
+      '
+    note: 로그아웃 이유와 입력 내용 저장 여부를 함께 알린다
+  bad:
+  - lang: html
+    code: '<h1>세션이 만료되었습니다</h1>
+
+      <a href="/login">로그인</a>
+
+      '
+    note: 만료 사실만 알리고 이유와 입력 내용 저장 여부가 없다
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(curl로 HMRC·GOV.UK 페이지를 받아 텍스트로 읽음): HMRC Service timeout ''For your security,
+  we signed you out'', ''We saved your answers.'' / ''We did not save your answers.'', 경고 단계 ''say what will happen
+  to their answers, if needed'' 확인. GOV.UK There is a problem with the service pages ''information about what has
+  happened to their answers if they are in the middle of a transaction'' 확인. reference_system 권장이라 SHOULD. 예시의 20분은
+  예시값.'
+korean_specific: false
+tags:
+- research-state_copy_resp

@@ -1,0 +1,46 @@
+id: NAV-023
+category: NAV
+title: 메인 메뉴 드롭다운 제목
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 메인 메뉴 드롭다운 영역에 제목을 둔다.
+measurement:
+  criteria: 펼친 드롭다운 패널마다 링크 목록 앞에 보이는 제목 텍스트 요소(제목 요소 또는 제목 스타일 텍스트)가 1개 있다.
+  method: 각 1수준 메뉴를 펼쳐 패널 첫 부분에 제목이 있는지 확인한다.
+automation:
+  feasibility: none
+  note: 4단계 메인 메뉴 컴포넌트 규격 마크업에 제목 슬롯을 필수로 두면 검사 불필요.
+rationale: 드롭다운이 넓게 펼쳐질 때 지금 어느 1수준 메뉴의 하위 목록인지 알게 한다.
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 메인 메뉴 > 사용성 가이드라인 (가이드라인 PDF 2025.08 271·274쪽)
+  note: https://www.krds.go.kr/html/site/component/component_03_02.html — '드롭다운 영역에 제목을 제공한다.'
+scope:
+  level: component
+  targets:
+  - 메인 메뉴 드롭다운
+exceptions: []
+relations: []
+examples:
+  good:
+  - lang: html
+    code: '<div class="gnb-dropdown" id="menu-civil"><h2 class="gnb-title">민원</h2><ul>…</ul></div>
+
+      '
+    note: 드롭다운 패널 링크 목록 앞에 제목 '민원'이 있다.
+  bad:
+  - lang: html
+    code: '<div class="gnb-dropdown" id="menu-civil"><ul>…</ul></div>
+
+      '
+    note: 드롭다운 패널에 제목 없이 링크 목록만 있다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(KRDS component_03_02 WebFetch): ''드롭다운 영역에 제목을 제공한다'' 확인. 단정형 → SHOULD. 사이드
+  메뉴 메인 화면이 있으면 제목을 링크로 쓸 수 있다는 부가 문장은 1단계 추출 기록(이번에 재확인하지 않음).'
+korean_specific: false
+tags:
+- krds
+- krds-component

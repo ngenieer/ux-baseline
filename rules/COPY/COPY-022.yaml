@@ -1,0 +1,49 @@
+id: COPY-022
+category: COPY
+title: 긴급 공지 링크 1개
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 긴급 공지에는 공지 내용과 직접 관련된 상세 화면으로 가는 링크를 1개 이하로 넣는다.
+measurement:
+  criteria: 긴급 공지 컴포넌트 안의 a[href] 수 ≤ 1이고, 링크가 있으면 목적지가 공지 내용의 상세 화면이다.
+  method: 긴급 공지 안 링크 수를 세고 목적지를 확인한다.
+automation:
+  feasibility: none
+  checks: []
+  note: '4단계 커스텀 검사: 긴급 공지 컴포넌트 querySelectorAll(''a[href]'').length > 1 이면 실패. 목적지 관련성은 수동.'
+rationale: 링크가 여럿이면 긴급 공지의 복잡도가 높아져 내용에 집중하기 어렵다(KRDS 긴급 공지).
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 긴급 공지 > 사용성 가이드라인 (가이드라인 PDF 2025.08 365쪽)
+  note: https://www.krds.go.kr/html/site/component/component_04_02.html
+scope:
+  level: component
+  targets:
+  - 긴급 공지
+exceptions: []
+relations: []
+examples:
+  good:
+  - lang: html
+    code: '<div class="emergency"><p>태풍으로 10월 21일 현장 접수를 중단합니다. <a href="/notice/32">현장 접수 중단 안내</a></p></div>
+
+      '
+    note: 공지 상세로 가는 링크 1개만 둔다
+  bad:
+  - lang: html
+    code: '<div class="emergency"><p>태풍으로 10월 21일 현장 접수를 중단합니다. <a href="/notice/32">현장 접수 중단 안내</a> <a href="/faq">자주
+      묻는 질문</a> <a href="/contact">문의하기</a></p></div>
+
+      '
+    note: 긴급 공지에 링크 3개를 넣었다
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(curl로 KRDS 페이지 HTML을 받아 텍스트로 직접 읽음): 긴급 공지(component_04_02) ''공지 내용과 직접적으로
+  관련된 화면으로 이동하는 1개의 링크만 사용해야 한다'' 확인. 강도: KRDS ''해야 한다·않는다'' 표현 → SHOULD + public-sector-must(정책 2).'
+korean_specific: false
+tags:
+- krds
+- krds-component
+- public-sector-must

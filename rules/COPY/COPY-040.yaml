@@ -1,0 +1,55 @@
+id: COPY-040
+category: COPY
+title: 드롭다운 언어 옵션 표기
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: MAY
+statement: '언어 변경 드롭다운의 옵션은 ''원어 이름 (현재 표시 언어로 쓴 이름)'' 형식으로 쓴다(예: 한국어 화면에서 ''English (영어)'', ''日本語 (일본어)'').'
+measurement:
+  criteria: '현재 표시 언어가 아닌 언어 옵션의 텍스트가 정규식 ^.+ \(.+\)$ 형식이고, 괄호 앞은 그 언어의 자기 이름, 괄호 안은 현재 표시 언어로 쓴 그 언어 이름이다. 현재 표시
+    언어 옵션은 자기 이름만 쓴다(예: ''한국어'').'
+  method: 각 언어 화면에서 드롭다운 옵션 텍스트를 언어 이름 표(CLDR)와 대조한다.
+automation:
+  feasibility: none
+  checks: []
+  note: '4단계 커스텀 검사: 옵션 텍스트를 CLDR displayNames(Intl.DisplayNames)로 만든 기대값과 비교.'
+rationale: 원어 이름은 그 언어 사용자가, 괄호 안 이름은 현재 화면 언어 사용자가 각각 알아볼 수 있다(KRDS 언어 변경 디자인 가이드라인).
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 언어 변경 > 디자인 가이드라인 (가이드라인 PDF 2025.08 717쪽)
+  note: https://www.krds.go.kr/html/site/component/component_10_01.html
+scope:
+  level: component
+  targets:
+  - 언어 변경(드롭다운 유형)
+exceptions: []
+relations:
+- type: refines
+  id: COPY-015
+  note: COPY-015의 '언어 이름은 그 언어로'에 현재 표시 언어 병기를 더한 드롭다운 표기 규격
+examples:
+  good:
+  - lang: html
+    code: '<ul role="listbox" aria-label="언어 변경"><li role="option" aria-selected="true">한국어</li><li role="option"
+      lang="en">English (영어)</li><li role="option" lang="ja">日本語 (일본어)</li></ul>
+
+      '
+    note: 현재 언어가 아닌 옵션을 '원어 이름 (현재 언어로 쓴 이름)'으로 쓴다
+  bad:
+  - lang: html
+    code: '<ul role="listbox" aria-label="언어 변경"><li role="option" aria-selected="true">한국어</li><li role="option"
+      lang="en">English</li><li role="option" lang="ja">日本語</li></ul>
+
+      '
+    note: 괄호 속 한국어 이름이 없어 원어를 모르는 사용자가 고르기 어렵다
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(curl로 KRDS 페이지 HTML을 받아 텍스트로 직접 읽음): 언어 변경(component_10_01) 디자인 가이드라인 구성 요소
+  설명 ''언어 이름을 원어-현재 서비스를 표시하는 데 사용된 언어로 작성함'', 예시 ''English (영어)'', ''中文 (중국어)'', ''日本語 (일본어)'', 현재 언어 ''한국어'' 확인.
+  1단계 statement의 ''English-영어''는 설명문의 하이픈을 형식으로 옮긴 것으로, 원문 예시는 괄호 형식이라 괄호로 고침. 구성 요소 설명(서술형)이라 MAY + system-choice.'
+korean_specific: false
+tags:
+- krds
+- krds-component
+- system-choice

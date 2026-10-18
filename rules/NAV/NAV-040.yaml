@@ -1,0 +1,47 @@
+id: NAV-040
+category: NAV
+title: 콘텐츠 내 탐색 수준 깊이
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 콘텐츠 내 탐색 목록의 중첩 수준은 3단계 이하로 한다.
+measurement:
+  criteria: 콘텐츠 내 탐색 컴포넌트 안에서 목록(ol/ul)의 최대 중첩 깊이가 3 이하이다.
+  method: DOM 스크립트로 목차 컨테이너 안 ol/ul의 최대 중첩 깊이를 센다.
+automation:
+  feasibility: none
+  checks: []
+  note: 기존 검사기 규칙 없음. 4단계 커스텀 DOM 검사로 완전 자동화 가능(목차 컴포넌트 셀렉터를 정하면 됨).
+rationale: 수준을 세분할수록 목차로 본문 구조를 빠르게 파악하기 어렵다. 원문은 1단계 구성을 기본으로 하고, 수준 표현이 필요할 때만 최대 3단계까지 허용한다.
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 콘텐츠 내 탐색 > 사용성 가이드라인 (목록 수준은 최대 3단계까지 사용한다) (가이드라인 PDF 2025.08 312쪽)
+  note: https://www.krds.go.kr/html/site/component/component_03_05.html
+scope:
+  level: component
+  targets:
+  - 콘텐츠 내 탐색
+exceptions: []
+relations: []
+examples:
+  good:
+  - lang: html
+    code: "<nav aria-label=\"이 페이지의 구성\">\n  <ol><li><a href=\"#a\">개요</a>\n    <ol><li><a href=\"#a1\">대상</a></li></ol></li></ol>\n\
+      </nav>\n"
+    note: 목차 목록 중첩이 2단계로 3단계 이하다.
+  bad:
+  - lang: html
+    code: "<nav aria-label=\"이 페이지의 구성\">\n  <ol><li><a href=\"#a\">1</a><ol><li><a href=\"#b\">1.1</a><ol><li><a\
+      \ href=\"#c\">1.1.1</a>\n    <ol><li><a href=\"#d\">1.1.1.1</a></li></ol></li></ol></li></ol></li></ol>\n\
+      </nav>\n"
+    note: 목차 목록이 4단계로 중첩된다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(KRDS 페이지 curl 수신 후 텍스트 추출): ''가능한 한 1단계 수준으로 구성하되 수준 표현이 필요한 경우 최대 3단계까지만 사용해야
+  한다'' 확인. ''가능한 한 1단계''는 모호어라 statement에서 빼고 근거에만 남김(판정 불가). 원문 지시형 문장을 의무로 읽어 SHOULD + public-sector-must.'
+korean_specific: false
+tags:
+- krds
+- krds-component
+- public-sector-must

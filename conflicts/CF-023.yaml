@@ -1,0 +1,10 @@
+id: CF-023
+rules:
+- TYPO-025
+against: W3C klreq(한글 조판의 기본은 양끝 맞춤)
+summary: 한글 조판 관행은 양끝 맞춤인데 WCAG 1.4.8(AAA)·F88은 웹 본문 양쪽 정렬을 피하라고 한다.
+principle: 1
+decision: 웹 본문에는 양쪽 정렬을 쓰지 않는다(TYPO-025, SHOULD 유지).
+reason: 웹에서는 글자 크기·폭이 사용자 환경에 따라 바뀌어 낱말 사이 간격이 불규칙해진다. 접근성 근거(원칙 1)가 조판 관행보다 우선한다.
+deviates_from_priority: false
+date: '2026-10-18'

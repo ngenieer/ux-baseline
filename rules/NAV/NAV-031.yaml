@@ -1,0 +1,57 @@
+id: NAV-031
+category: NAV
+title: 브레드크럼 링크 수와 축약
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 좁은 화면 축약(RESP-008)이 적용되지 않는 너비에서 브레드크럼은 메인 화면 링크를 포함해 링크를 최대 4개까지 표시하고, 경로가 5개 이상이면 메인 화면 링크 다음 수준부터
+  말줄임표로 축약한다.
+measurement:
+  criteria: 'RESP-008이 적용되지 않는 너비에서: 화면에 보이는 브레드크럼 링크 수 ≤ 4. 경로 항목 수 ≥ 5이면 두 번째 표시 항목이 말줄임표(…)이고 그 뒤에 마지막 수준들이 이어진다.
+    링크가 4개 이하인데도 줄바꿈되면 마지막 링크 텍스트를 말줄임할 수 있다.'
+  method: 깊이 5 이상인 페이지에서 브레드크럼에 보이는 항목을 센다.
+automation:
+  feasibility: none
+  note: 4단계 브레드크럼 컴포넌트 규격(축약 로직)으로 구현하고 단위 테스트로 확인.
+rationale: 경로가 길어도 한 줄을 유지하면서 시작점(메인)과 현재 위치에 가까운 수준을 보여준다.
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 브레드크럼 > 사용성 가이드라인 (가이드라인 PDF 2025.08 286쪽)
+  note: https://www.krds.go.kr/html/site/component/component_03_03.html — '화면 너비가 충분한 경우 브레드크럼은 메인 화면 링크를 포함하여 최대
+    4개의 링크를 표시한다.' / '경로가 5개 이상인 경우, 메인 화면 링크 다음 수준의 계층 구조를 말줄임표로 축약함으로써…' / '4개 이내의 경로만 표시하고 있음에도 줄바꿈이 발생하는 경우
+    가장 마지막 링크를 축약할 수 있다.'
+scope:
+  level: component
+  targets:
+  - 브레드크럼
+exceptions:
+- 4개 이하인데 줄바꿈되면 마지막 링크를 축약할 수 있다(KRDS)
+relations:
+- type: refines
+  id: NAV-030
+  note: 한 줄 유지(NAV-030)를 넓은 화면에서 구체화
+- type: depends
+  id: RESP-008
+  note: 좁은 화면에서는 RESP-008(첫·마지막 경로만) 적용
+examples:
+  good:
+  - lang: html
+    code: "<nav aria-label=\"브레드크럼\"><ol>\n  <li><a href=\"/\">홈</a></li>\n  <li><button aria-label=\"숨긴 경로 3개 보기\"\
+      >…</button></li>\n  <li><a href=\"/civil/move\">전입</a></li>\n  <li aria-current=\"page\">전입신고</li>\n</ol></nav>\n"
+    note: 경로 6단계를 홈·말줄임·마지막 두 수준으로 줄여 링크 4개 이하로 보여준다.
+  bad:
+  - lang: html
+    code: "<nav aria-label=\"브레드크럼\"><ol>\n  <li><a href=\"/\">홈</a></li><li><a href=\"/civil\">민원</a></li><li><a\
+      \ href=\"/civil/report\">신고</a></li>\n  <li><a href=\"/civil/resident\">주민등록</a></li><li><a href=\"/civil/move\"\
+      >전입</a></li><li aria-current=\"page\">전입신고</li>\n</ol></nav>\n"
+    note: 경로 6단계를 축약 없이 모두 보여준다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(KRDS component_03_03 WebFetch): 4개·5개 이상·말줄임 위치·마지막 링크 축약(MAY) 확인. 원문 ''화면
+  너비가 충분한 경우''는 RESP-008이 적용되지 않는 너비로 바꿈. 원문이 ''4개의 링크''에 링크가 아닌 현재 페이지 항목을 포함하는지 밝히지 않음 — 3단계·4단계 규격에서 확인. 단정형
+  → SHOULD. 예시의 말줄임 버튼 펼치기는 원문에 없는 구현 예.'
+korean_specific: false
+tags:
+- krds
+- krds-component

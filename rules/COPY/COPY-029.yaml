@@ -1,0 +1,68 @@
+id: COPY-029
+category: COPY
+title: 가로 배치 레이블 길이
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: MAY
+statement: 라디오 버튼·체크박스를 가로로 배치할 때는 각 레이블이 브레이크포인트 토큰 너비(360·768·1024·1280px, RESP-004)마다 한 줄로 표시되는 길이로 쓰고, 한 줄을
+  넘는 너비에서는 세로 배치로 바꾼다.
+measurement:
+  criteria: 뷰포트 너비 360·768·1024·1280px(브레이크포인트 토큰 값, RESP-004)마다 가로 배치 상태인 라디오·체크박스 그룹의 각 label 줄 수가 1이다.
+  method: 뷰포트를 360·768·1024·1280px로 바꿔 가며 가로 배치 그룹의 label 줄 수(getClientRects().length)를 측정한다.
+automation:
+  feasibility: none
+  checks: []
+  note: '4단계 커스텀 검사(Playwright): 가로 배치 클래스가 있는 그룹의 label getClientRects().length > 1 이면 실패.'
+rationale: 가로 배치에서 레이블이 길면 옵션 간 경계가 흐려져 어느 레이블이 어느 컨트롤 것인지 헷갈린다. KRDS는 세로 배치를 기본으로 권장한다.
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 라디오 버튼 > 사용성 가이드라인 (가이드라인 PDF 2025.08 528쪽)
+  note: https://www.krds.go.kr/html/site/component/component_06_01.html
+- ref: KRDS
+  locator: 컴포넌트 > 체크박스 > 사용성 가이드라인 — 수평 배치 시 레이블 길이 (가이드라인 PDF 2025.08 543쪽)
+  note: https://www.krds.go.kr/html/site/component/component_06_02.html
+- ref: UXB_SYSTEM_CHOICE
+  locator: CF-052
+  note: KRDS 원문 '지나치게 길지 않아야 한다'를 판정 가능하게 바꾼 이 체계의 선택
+scope:
+  level: component
+  targets:
+  - input[type=radio]
+  - input[type=checkbox]
+  - 가로 배치 선택 그룹
+exceptions: []
+relations: []
+examples:
+  good:
+  - lang: html
+    code: '<fieldset class="inline"><legend>수신 방법</legend>
+
+      <label><input type="radio" name="r" value="sms">문자</label>
+
+      <label><input type="radio" name="r" value="mail">이메일</label></fieldset>
+
+      '
+    note: 가로 배치 레이블이 짧아 한 줄로 표시된다
+  bad:
+  - lang: html
+    code: '<fieldset class="inline"><legend>수신 방법</legend>
+
+      <label><input type="radio" name="r" value="sms">휴대전화 문자 메시지(SMS)로 결과 통지 받기</label>
+
+      <label><input type="radio" name="r" value="mail">등록된 전자우편 주소로 결과 통지 받기</label></fieldset>
+
+      '
+    note: 가로 배치인데 레이블이 길어 좁은 화면에서 줄이 바뀐다
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(curl로 KRDS 페이지 HTML을 받아 텍스트로 직접 읽음): 라디오 버튼(component_06_01)·체크박스(component_06_02)
+  ''수평으로 배치해야 한다면 레이블의 텍스트 길이가 지나치게 길지 않아야 한다'' 확인 — 원문에 수치가 없다. ''한 줄''은 이 체계가 정한 판정 기준이라 PREFERENCE 출처를 더하고 MAY로
+  둠(정책 3). 체크박스 페이지의 같은 문장을 출처에 추가. 2026-10-18 CF-052로 체계 선택을 기록하고 PREFERENCE를 UXB_SYSTEM_CHOICE로 바꿈. 2026-10-18
+  독립 검토: ''모든 지원 화면 너비''를 RESP-004 브레이크포인트 4개 너비로 고정(CF-052).'
+korean_specific: false
+tags:
+- krds
+- krds-component
+decisions:
+- CF-052

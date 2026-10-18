@@ -1,0 +1,58 @@
+id: TYPO-025
+category: TYPO
+title: 본문 양쪽 정렬 금지
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: '본문 텍스트 블록에 text-align: justify를 쓰지 않고 text-align: start(가로쓰기 LTR에서는 left)로 한쪽 정렬한다.'
+measurement:
+  criteria: 본문 텍스트 요소(p, li, dd)의 계산값 text-align이 justify가 아니다.
+  method: 'stylelint로 선언 검사 + 계산 스타일 검사(WCAG F88 절차: 본문이 양쪽 정렬되지 않았는지 확인).'
+automation:
+  feasibility: partial
+  checks:
+  - tool: stylelint
+    rule: declaration-property-value-disallowed-list
+    method: '{ "text-align": ["justify"] }'
+  note: 인라인 style·JS로 넣은 justify는 계산 스타일 검사로 보완.
+rationale: 양쪽 정렬은 단어 간격을 고르지 않게 벌려 난독증 등 일부 사용자의 읽기를 어렵게 한다(WCAG 1.4.8 F88). 한국어 어절 단위 줄바꿈과 함께 쓰면 벌어짐이 더 커질 수 있다(실측
+  필요).
+sources:
+- ref: WCAG22_UNDERSTANDING
+  locator: SC 1.4.8 Visual Presentation; C19, G169, F88
+  note: '양쪽 정렬의 고르지 않은 단어 간격이 읽기를 어렵게 함. F88: 양쪽 정렬 사용은 1.4.8 실패'
+- ref: KLREQ
+  locator: 7.2.1 Line Adjustment Process
+  note: 한글 인쇄 조판의 기본값은 양끝 맞춤(even space alignment)
+- ref: MDN_BCD
+  locator: css.properties.text-justify
+  note: Chrome 145, Firefox 55, Safari 미지원 — 한국어 양끝 맞춤 방식을 브라우저 간 통일할 수 없음
+scope:
+  level: global
+  targets:
+  - p
+  - li
+  - dd
+exceptions:
+- 사용자가 양쪽 정렬을 해제하는 수단을 페이지에서 제공하는 경우 (WCAG 1.4.8 G172)
+relations: []
+examples:
+  good:
+  - lang: css
+    code: p{text-align:start}
+    note: 한쪽 정렬로 단어 간격이 고르다
+  bad:
+  - lang: css
+    code: p{text-align:justify}
+    note: 양쪽 정렬로 단어 간격이 불규칙해진다
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(WCAG Understanding 1.4.8·F88, klreq 7.2.1 HTML, MDN BCD): 1.4.8 ''Text is not
+  justified'', C19·G169·G172 기법, F88 절차 확인. AAA → SHOULD. klreq 7.2.1 ''한글 조판에서는 양끝 정렬을 기본으로 한다'' 확인 — BACKLOG ''텍스트
+  양쪽 정렬'' 충돌 후보(klreq 쪽 룰 ID 없음, relation 미기재). text-justify 지원 Chrome/Edge 145, Firefox 55, Safari 미지원 확인.'
+korean_specific: true
+tags:
+- research-typo
+decisions:
+- CF-023

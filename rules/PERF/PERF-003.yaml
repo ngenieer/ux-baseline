@@ -1,0 +1,44 @@
+id: PERF-003
+category: PERF
+title: 웹폰트 WOFF2
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 웹폰트 파일은 WOFF2 형식으로 제공한다.
+measurement:
+  criteria: 모든 @font-face src의 url()이 format("woff2") 또는 .woff2 파일을 가리키고, 같은 src 목록에 woff·ttf·otf·eot 파일이 없다.
+  method: stylelint 커스텀 또는 빌드 산출물 확장자 검사.
+automation:
+  feasibility: none
+  checks: []
+  note: '기존 stylelint 규칙 없음. 4단계 커스텀: @font-face src에 format("woff2") 외 형식이 있으면 경고.'
+rationale: WOFF2는 Brotli 압축으로 WOFF보다 30% 더 작고 최신 브라우저가 모두 지원한다(web.dev). 다른 형식을 함께 두면 실수로 두 번 내려받을 수 있다.
+sources:
+- ref: WEBDEV_FONT_BP
+  locator: Font delivery — Use WOFF2
+  note: '''WOFF2 compresses 30% better than WOFF'', Web Almanac 인용 ''Use only WOFF2 and forget about everything
+    else'''
+scope:
+  level: global
+  targets:
+  - '@font-face src'
+exceptions: []
+relations: []
+examples:
+  good:
+  - lang: css
+    code: '@font-face { font-family: "Pretendard GOV"; src: url(/f/pg.woff2) format("woff2"); }'
+    note: WOFF2 파일 하나만 제공한다.
+  bad:
+  - lang: css
+    code: '@font-face { font-family: "Pretendard GOV"; src: url(/f/pg.woff2) format("woff2"), url(/f/pg.woff) format("woff"),
+      url(/f/pg.ttf) format("truetype"); }'
+    note: WOFF·TTF를 함께 나열했다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(web.dev Best practices for fonts curl): ''Use WOFF2'', ''WOFF2 compresses 30%
+  better than WOFF'', Web Almanac 인용 ''Use only WOFF2'' 확인. 30% 수치의 원 측정 자료는 열지 않음(근거 문장 안의 수치일 뿐 룰 판정 수치 아님).'
+korean_specific: false
+tags:
+- research-typo

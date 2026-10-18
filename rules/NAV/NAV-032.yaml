@@ -1,0 +1,50 @@
+id: NAV-032
+category: NAV
+title: 브레드크럼은 메뉴 대체 불가
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 브레드크럼을 메인 메뉴나 사이드 메뉴 대신 쓰지 않는다.
+measurement:
+  criteria: 브레드크럼이 있는 모든 페이지에 메인 메뉴(또는 좁은 화면의 메뉴 버튼)가 있고, 같은 정보 구조 수준의 다른 페이지들에 사이드 메뉴가 있다면 이 페이지에도 사이드 메뉴가 있다.
+  method: 브레드크럼이 있는 페이지 표본에서 메인 메뉴·사이드 메뉴 존재를 확인한다.
+automation:
+  feasibility: none
+  note: '4단계 커스텀 검사 가능: 브레드크럼 nav가 있는데 메인 메뉴 nav가 없으면 오류.'
+rationale: 브레드크럼은 위치 표시 보조 수단이라 형제·하위 페이지로 이동하는 탐색을 대신하지 못한다.
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 브레드크럼 > 사용성 가이드라인 (가이드라인 PDF 2025.08 282·288쪽)
+  note: https://www.krds.go.kr/html/site/component/component_03_03.html — '브레드크럼이 메인 메뉴나 사이드 메뉴를 대체해서는 안 된다.'
+scope:
+  level: component
+  targets:
+  - 브레드크럼
+exceptions: []
+relations: []
+examples:
+  good:
+  - lang: html
+    code: '<header><nav aria-label="메인 메뉴">…</nav></header>
+
+      <main><nav aria-label="브레드크럼">…</nav><h1>…</h1></main>
+
+      '
+    note: 브레드크럼과 별도로 메인 메뉴가 있다.
+  bad:
+  - lang: html
+    code: '<!-- 메인 메뉴를 없애고 브레드크럼만으로 이동 -->
+
+      <main><nav aria-label="브레드크럼">…</nav><h1>…</h1></main>
+
+      '
+    note: 메인 메뉴를 없애고 브레드크럼만으로 이동하게 한다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(KRDS component_03_03 WebFetch): ''대체해서는 안 된다'' 확인 → SHOULD + public-sector-must.'
+korean_specific: false
+tags:
+- krds
+- krds-component
+- public-sector-must

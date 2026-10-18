@@ -1,0 +1,48 @@
+id: COLOR-005
+category: COLOR
+title: 강조 색 면적 제한
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 강조(accent) 색은 한 화면 면적의 5% 이하로 쓴다.
+measurement:
+  criteria: 서비스가 지원하는 각 레이아웃 기준 너비의 전체 페이지 스크린숏에서 accent 토큰 색(모든 단계) 픽셀 수 ÷ 전체 픽셀 수 ≤ 0.05.
+  method: 스크린숏 픽셀 집계 스크립트(커스텀). 안티앨리어싱 픽셀은 accent 토큰과 색 차이 ΔE ≤ 2 인 것만 센다.
+automation:
+  feasibility: none
+  note: '4단계: 시각 회귀 도구의 스크린숏으로 커스텀 집계 가능.'
+rationale: 강조 색을 넓게 쓰면 주목 효과가 사라지고 색맹 사용자가 정보를 인식하기 어렵다(KRDS).
+sources:
+- ref: KRDS
+  locator: 디자인 스타일 > 색상 > 색상 비율 / 강조 색상 (가이드라인 PDF 2025.08 83·85쪽)
+  note: https://www.krds.go.kr/html/site/style/style_02.html
+- ref: KRDS
+  locator: 컴포넌트 (여러 페이지) (가이드라인 PDF 2025.08 515쪽)
+  note: '같은 요구를 다루는 KRDS 컴포넌트: 버튼 — 상세는 sources/extracts/KRDS-components.yaml'
+scope:
+  level: global
+  targets:
+  - accent 색 토큰을 쓰는 요소
+exceptions: []
+relations: []
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(KRDS https://www.krds.go.kr/html/site/style/style_02.html HTML을 curl로 받아 본문
+  확인): ''강조 색상(accent color)은 중요한 강조 요소에만 제한적으로 사용하며 최대 5%를 넘기지 않도록 한다'', ''5% 이하 비율로 사용한다'' 확인 → SHOULD + public-sector-must.
+  60-30-10 색상 비율 원칙은 별도 후보로 다루지 않음. 측정 방법(스크린숏 픽셀 비율, ΔE ≤ 2)은 원문에 없는 체계 해석 — 3단계에서 기준 확정.'
+korean_specific: false
+tags:
+- krds
+- system-choice
+- public-sector-must
+examples:
+  good:
+  - lang: html
+    code: "<main>\n  <h1>민원 신청</h1>\n  <p>신청서를 작성해 주세요. <span class=\"badge badge--accent\">신규</span></p>\n</main>\n\
+      <style>.badge--accent{background:var(--palette-point-50)}</style>"
+    note: 강조 색을 작은 배지 하나에만 써서 화면 면적의 5% 이하다
+  bad:
+  - lang: html
+    code: "<main class=\"page\">\n  <h1>민원 신청</h1>\n</main>\n<style>.page{background:var(--palette-point-50)}</style>"
+    note: 강조 색을 페이지 배경 전체에 써서 5%를 넘는다

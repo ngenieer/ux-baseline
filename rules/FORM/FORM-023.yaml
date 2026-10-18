@@ -1,0 +1,51 @@
+id: FORM-023
+category: FORM
+title: 입력 단위 표시
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 수량·금액·길이처럼 단위가 있는 값을 받는 입력 필드는 레이블과 별도로 단위(개, 부, 원, cm 등)를 입력 박스 바로 옆에 텍스트로 표시한다.
+measurement:
+  criteria: 단위가 있는 값을 받는 input마다 입력 박스의 앞 또는 뒤에 단위 텍스트 요소가 붙어 있고, 그 텍스트가 레이블 연결 또는 aria-describedby로 필드의 이름·설명에
+    포함된다. 단위가 레이블 문장 안('수량(개)')에만 있으면 이 룰 기준으로는 실패.
+  method: 단위가 있는 필드를 찾아 단위 텍스트 위치와 접근 가능한 이름·설명을 확인한다(수동, 접근성 트리 확인).
+automation:
+  feasibility: none
+  note: 단위가 있는 필드인지 판별이 사람 판단. 4단계에서 입력 필드 컴포넌트에 unit 슬롯을 규격화하면 type=number 필드의 unit 슬롯 누락 검사 가능.
+rationale: 입력 박스 옆에 단위를 보이면 사용자가 어떤 단위로 넣는지 헷갈려 생기는 입력 오류가 줄어든다.
+sources:
+- ref: KRDS
+  locator: 기본 패턴 > 입력폼 > 사용성 가이드라인 (가이드라인 PDF 2025.08 839쪽)
+  note: https://www.krds.go.kr/html/site/global/global_08.html — '입력값의 단위를 표시한다. 레이블과 별개로 '개', '부수' 등의 데이터 입력 단위를
+    표시하여 사용자의 입력 오류를 줄인다.'
+scope:
+  level: component
+  targets:
+  - input[type=number]
+  - 단위가 있는 입력 필드
+exceptions: []
+relations: []
+examples:
+  good:
+  - lang: html
+    code: "<label for=\"qty\">발급 부수</label>\n<span class=\"input-unit\">\n  <input id=\"qty\" type=\"number\" min=\"\
+      1\" aria-describedby=\"qty-unit\">\n  <span id=\"qty-unit\">부</span>\n</span>\n"
+    note: 단위 텍스트를 입력 박스 바로 옆에 두고 aria-describedby로 연결했다.
+  bad:
+  - lang: html
+    code: '<label for="qty">발급 부수</label>
+
+      <input id="qty" type="number" min="1">
+
+      '
+    note: 단위(부)가 화면 어디에도 없어 무엇을 세는 값인지 알 수 없다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(KRDS global_08 HTML curl): ''입력값의 단위를 표시한다.'' 확인 — 단정형 → SHOULD + public-sector-must.
+  ''입력 박스 바로 옆''은 원문 ''입력 필드 주변에 ... 근접한 위치''(같은 절)와 KRDS 예시를 근거로 한 해석. 1단계에 붙어 있던 KR_HANGUL_ORTHO(제43·44항, 숫자와
+  단위 띄어쓰기)는 표기법(COPY) 요구라 떼어 제안 파일 notes로 옮김.'
+korean_specific: false
+tags:
+- krds
+- public-sector-must

@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>내 알림 설정 | ○○구청 누리집</title>
+  <link rel="stylesheet" href="../vendor/ux-baseline/tokens.css">
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">본문 바로가기</a>
+
+  <header class="site-header">
+    <div class="container">
+      <p class="site-name"><a href="#">○○구청</a></p>
+    </div>
+  </header>
+
+  <main id="main" class="container" tabindex="-1">
+    <h1>내 알림 설정</h1>
+    <p class="lead">구청에서 보내는 알림의 분야와 받는 방법을 정합니다. 바꾼 내용은 각 화면의 <strong>저장</strong> 버튼을 눌러야 반영됩니다.</p>
+
+    <div class="tabs">
+      <div role="tablist" aria-label="알림 설정 메뉴" class="tablist">
+        <button type="button" role="tab" id="tab-topics" aria-controls="panel-topics" aria-selected="true">알림 수신</button>
+        <button type="button" role="tab" id="tab-methods" aria-controls="panel-methods" aria-selected="false" tabindex="-1">수신 방법</button>
+        <button type="button" role="tab" id="tab-faq" aria-controls="panel-faq" aria-selected="false" tabindex="-1">자주 묻는 질문</button>
+      </div>
+
+      <!-- 알림 수신 -->
+      <section role="tabpanel" id="panel-topics" aria-labelledby="tab-topics" tabindex="0" class="panel">
+        <h2>분야별 알림 수신</h2>
+        <form id="form-topics" class="settings-form" novalidate>
+          <ul class="switch-list">
+            <li class="switch-item">
+              <div class="switch-text">
+                <label class="switch-title" for="sw-welfare">복지</label>
+                <p class="switch-desc" id="sw-welfare-desc">복지 급여·지원 사업 신청 안내</p>
+              </div>
+              <div class="switch-control">
+                <input type="checkbox" role="switch" id="sw-welfare" name="welfare" aria-describedby="sw-welfare-desc" checked>
+                <span class="switch-state" aria-hidden="true"></span>
+              </div>
+            </li>
+            <li class="switch-item">
+              <div class="switch-text">
+                <label class="switch-title" for="sw-traffic">교통</label>
+                <p class="switch-desc" id="sw-traffic-desc">도로 통제·대중교통 변경 안내</p>
+              </div>
+              <div class="switch-control">
+                <input type="checkbox" role="switch" id="sw-traffic" name="traffic" aria-describedby="sw-traffic-desc">
+                <span class="switch-state" aria-hidden="true"></span>
+              </div>
+            </li>
+            <li class="switch-item">
+              <div class="switch-text">
+                <label class="switch-title" for="sw-culture">문화</label>
+                <p class="switch-desc" id="sw-culture-desc">공연·전시·강좌 일정 안내</p>
+              </div>
+              <div class="switch-control">
+                <input type="checkbox" role="switch" id="sw-culture" name="culture" aria-describedby="sw-culture-desc" checked>
+                <span class="switch-state" aria-hidden="true"></span>
+              </div>
+            </li>
+            <li class="switch-item switch-item--locked">
+              <div class="switch-text">
+                <label class="switch-title" for="sw-disaster">재난 문자</label>
+                <p class="switch-desc" id="sw-disaster-desc">재난 문자는 주민의 생명과 안전에 관한 정보라서 끌 수 없습니다.</p>
+              </div>
+              <div class="switch-control">
+                <input type="checkbox" role="switch" id="sw-disaster" name="disaster" aria-describedby="sw-disaster-desc" aria-disabled="true" checked>
+                <span class="switch-state" aria-hidden="true"></span>
+              </div>
+            </li>
+          </ul>
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary">저장</button>
+            <p class="status" role="status" id="status-topics"></p>
+          </div>
+        </form>
+      </section>
+
+      <!-- 수신 방법 -->
+      <section role="tabpanel" id="panel-methods" aria-labelledby="tab-methods" tabindex="0" class="panel">
+        <h2>알림 수신 방법</h2>
+        <form id="form-methods" class="settings-form" novalidate>
+          <fieldset class="fieldset" id="methods-fieldset" aria-describedby="methods-hint">
+            <legend>받을 방법 <span class="hint-inline">(여러 개 선택할 수 있습니다)</span></legend>
+            <p class="hint" id="methods-hint">하나 이상 선택해야 합니다.</p>
+            <p class="error-text" id="methods-error" hidden></p>
+            <div class="check-group">
+              <label class="check" for="m-sms">
+                <input type="checkbox" id="m-sms" name="method" value="sms" checked>
+                <span>문자</span>
+              </label>
+              <label class="check" for="m-email">
+                <input type="checkbox" id="m-email" name="method" value="email">
+                <span>이메일</span>
+              </label>
+              <label class="check" for="m-push">
+                <input type="checkbox" id="m-push" name="method" value="push">
+                <span>앱 푸시</span>
+              </label>
+            </div>
+          </fieldset>
+
+          <div class="field" id="email-field">
+            <label for="email" class="field-label">이메일 주소 <span class="hint-inline" id="email-required-mark">(이메일을 선택하면 필수)</span></label>
+            <p class="hint" id="email-hint">예: hong@example.com</p>
+            <input type="email" id="email" name="email" class="input" autocomplete="email" inputmode="email" spellcheck="false" aria-describedby="email-hint email-error">
+            <p class="error-text" id="email-error" hidden></p>
+          </div>
+
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary">저장</button>
+            <p class="status" role="status" id="status-methods"></p>
+          </div>
+        </form>
+      </section>
+
+      <!-- 자주 묻는 질문 -->
+      <section role="tabpanel" id="panel-faq" aria-labelledby="tab-faq" tabindex="0" class="panel">
+        <h2>자주 묻는 질문</h2>
+        <div class="faq">
+          <details class="faq-item">
+            <summary>알림을 끄면 언제부터 반영되나요?</summary>
+            <div class="faq-body"><p>저장 버튼을 누른 뒤부터 보내는 알림에 반영됩니다. 이미 보낸 알림은 취소되지 않습니다.</p></div>
+          </details>
+          <details class="faq-item">
+            <summary>재난 문자는 왜 끌 수 없나요?</summary>
+            <div class="faq-body"><p>재난 문자는 주민의 생명과 안전에 관한 정보라서 이 화면에서 끌 수 없습니다. 휴대전화의 긴급 재난 문자 수신 설정은 기기 설정에서 확인하세요.</p></div>
+          </details>
+          <details class="faq-item">
+            <summary>이메일 주소를 바꾸려면 어떻게 하나요?</summary>
+            <div class="faq-body"><p>[수신 방법] 탭에서 이메일 주소를 새로 입력하고 저장 버튼을 누르세요.</p></div>
+          </details>
+          <details class="faq-item">
+            <summary>모든 알림을 해지한 뒤 다시 받을 수 있나요?</summary>
+            <div class="faq-body"><p>네. [알림 수신] 탭에서 받을 분야를 다시 켜고 저장 버튼을 누르면 됩니다.</p></div>
+          </details>
+        </div>
+      </section>
+    </div>
+
+    <section class="danger-zone" aria-labelledby="danger-title">
+      <h2 id="danger-title">알림 해지</h2>
+      <p>복지·교통·문화 알림을 한 번에 모두 끕니다.</p>
+      <button type="button" class="btn btn-danger" id="open-unsubscribe" aria-haspopup="dialog">모든 알림 해지</button>
+      <p class="status" role="status" id="status-unsubscribe"></p>
+    </section>
+  </main>
+
+  <dialog id="unsubscribe-dialog" class="dialog" aria-labelledby="dialog-title" aria-describedby="dialog-desc">
+    <h2 id="dialog-title">모든 알림을 해지할까요?</h2>
+    <div id="dialog-desc">
+      <p>해지하면 다음 알림을 더 이상 받지 않습니다.</p>
+      <ul class="dialog-list">
+        <li>복지 알림</li>
+        <li>교통 알림</li>
+        <li>문화 알림</li>
+      </ul>
+      <p>재난 문자는 해지되지 않습니다. 수신 방법(문자·이메일·앱 푸시)과 이메일 주소는 그대로 남습니다.</p>
+    </div>
+    <div class="dialog-actions">
+      <button type="button" class="btn btn-tertiary" id="dialog-cancel" autofocus>취소</button>
+      <button type="button" class="btn btn-danger" id="dialog-confirm">해지</button>
+    </div>
+  </dialog>
+</body>
+</html>

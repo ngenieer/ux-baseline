@@ -1,0 +1,55 @@
+id: A11Y-037
+category: A11Y
+title: 셀렉트 옵션 Enter 선택
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 커스텀 셀렉트의 옵션에 초점이 있을 때 Enter를 누르면 그 옵션 값을 선택하고 목록을 접는다.
+measurement:
+  criteria: 펼친 목록의 옵션에 초점(또는 aria-activedescendant)을 두고 Enter를 누르면 컨테이너 값이 그 옵션으로 바뀌고(aria-selected="true"), 목록이
+    닫히며 aria-expanded="false"가 된다.
+  method: 커스텀 셀렉트마다 목록을 열고 옵션에서 Enter를 눌러 값·목록 상태를 확인한다.
+automation:
+  feasibility: none
+  checks: []
+  note: '4단계 커스텀 검사: Playwright 키보드 시나리오.'
+rationale: 옵션 선택과 목록 닫기를 한 번의 키로 끝내 선택 작업을 마칠 수 있게 한다.
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 셀렉트 > 상호작용 가이드라인 (가이드라인 PDF 2025.08 558쪽)
+  note: https://www.krds.go.kr/html/site/component/component_06_03.html
+scope:
+  level: component
+  targets:
+  - '[role=listbox] [role=option]'
+  - 커스텀 셀렉트
+exceptions: []
+relations:
+- type: refines
+  id: A11Y-011
+examples:
+  good:
+  - lang: html
+    code: '<ul role="listbox"><li role="option" aria-selected="true" id="o1">서울</li></ul>
+
+      <!-- 옵션에서 Enter: 값 반영 + 목록 hidden + aria-expanded="false" -->
+
+      '
+    note: 옵션에서 Enter로 값 반영 후 목록을 접음
+  bad:
+  - lang: html
+    code: '<!-- 옵션에서 Enter를 눌러도 값이 바뀌지 않고 마우스 클릭으로만 선택됨 -->
+
+      '
+    note: Enter로 옵션을 선택할 수 없음
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(WebFetch로 KRDS 페이지 재조회, 요약 모델 인용 확인): 상호작용 가이드라인 Enter 행 ''옵션에 초점이 있는 경우, 해당
+  옵션 값이 선택된 후 목록이 축소된다.'' 확인. 서술형 → SHOULD. 원문은 커스텀/기본 셀렉트를 구분하지 않는다. 네이티브 <select>의 키보드 동작은 브라우저·OS가 정하므로 이 룰의
+  측정은 커스텀 구현(role=combobox/listbox)에 적용한다 — 정책 5(예외는 출처 명시만)와 달리 범위로 처리한 이유.'
+korean_specific: false
+tags:
+- krds
+- krds-component
+- krds-descriptive

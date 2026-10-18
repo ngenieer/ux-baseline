@@ -1,0 +1,51 @@
+id: LAYOUT-006
+category: LAYOUT
+title: 거터 상한
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: MAY
+statement: 레이아웃 그리드의 거터(칼럼 사이 간격)를 칼럼 너비의 절반 이하로 둔다.
+measurement:
+  criteria: 각 브레이크포인트에서 레이아웃 그리드의 column-gap 계산값 ≤ 칼럼 트랙 너비 × 0.5.
+  method: 360·768·1024·1280px에서 개발자 도구 그리드 오버레이로 칼럼 트랙 너비와 column-gap을 읽어 비교한다.
+automation:
+  feasibility: none
+  checks: []
+  note: '4단계 커스텀 검사: getComputedStyle(gridContainer).gridTemplateColumns의 트랙 너비와 columnGap을 비교.'
+rationale: 거터가 칼럼보다 지나치게 넓거나 좁으면 요소 사이 관계가 흐려진다(KRDS 가터).
+sources:
+- ref: KRDS
+  locator: 디자인 스타일 > 레이아웃 > 가터 (가이드라인 PDF 2025.08 143쪽)
+  note: https://www.krds.go.kr/html/site/style/style_05.html
+scope:
+  level: global
+  targets:
+  - 레이아웃 그리드
+exceptions: []
+relations: []
+examples:
+  good:
+  - lang: css
+    code: '.grid { display: grid; grid-template-columns: repeat(12, 1fr); column-gap: var(--space-gap-7); }
+
+      /* 1200px 컨테이너: 칼럼 약 78px, 거터 24px ≤ 39px */
+
+      '
+    note: 거터가 칼럼 너비의 절반 이하다.
+  bad:
+  - lang: css
+    code: '.grid { display: grid; grid-template-columns: repeat(4, 40px); column-gap: var(--space-gap-8); }
+
+      /* 거터 32px > 칼럼 40px × 0.5 = 20px */
+
+      '
+    note: 거터가 칼럼 너비의 절반을 넘는다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(curl로 KRDS 페이지 HTML을 받아 본문 텍스트를 직접 확인): style_05 가터 ''가터 크기는 칼럼 너비의 절반 이하로
+  설정해 과도하게 넓거나 좁아지지 않도록 한다.'' 확인. 거터 최소값(16px)·적정값(16~24px) 표도 있으나 이 룰은 비율만 다룸. system-choice → MAY.'
+korean_specific: false
+tags:
+- krds
+- system-choice

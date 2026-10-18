@@ -1,0 +1,357 @@
+id: feedback
+title: 사용자 피드백(만족도 평가)
+status: confirmed
+summary: 화면·기능 이용을 마친 사용자에게 만족 여부(폐쇄형 질문)를 묻고, 원하면 추가 의견 1~3개를 받는 본문 아래(또는 사이드) 영역이다.
+use_instead:
+- when: 서비스 전체에 대한 종합 의견을 여러 질문·여러 단계로 받는 경우
+  use: 별도 설문 화면(입력폼)
+- when: 추가 질문이 4개 이상 필요한 경우
+  use: 별도 화면이나 채널
+krds:
+  page: global_05.html (기본 패턴 — 사용자 피드백)
+  kit_classes:
+    feedback: txt-box bg-gray
+    feedback__title: assess-qu
+    feedback__ratings: assess-an
+    feedback__rating: krds-form-chip-outline
+    feedback__more: assess-opinion-wrap
+    feedback__more-title: assess-opinion-tit
+    feedback__count: textarea-count
+    feedback__actions: btm-btn-wrap
+    feedback__result: assess-end-message
+anatomy:
+- part: 루트
+  class: feedback
+  element: section
+  required: true
+  note: 'main 의 본문 콘텐츠 뒤 또는 aside 안에 둔다. position: fixed·sticky 로 고정하지 않는다(STATE-004, 린트 ux-baseline/feedback-not-fixed 기본 대상 .feedback·.feedback__trigger).'
+- part: 제목(평가 질문)
+  class: feedback__title
+  element: h2~h3
+  required: true
+  note: 의견을 구하는 대상을 밝히는 질문형 한 문장(COPY-003). 루트의 aria-labelledby 로 연결한다.
+- part: 설명
+  class: feedback__desc
+  element: p
+  note: 선택. 제목에 부가 설명이 필요할 때만.
+- part: 평가 버튼 묶음
+  class: feedback__ratings
+  element: div[role=group]
+  required: true
+  note: aria-labelledby 로 제목을 그룹 이름으로 준다(A11Y-007). 감정 평가 2개(네·아니요) 또는 별점 5개 이하.
+- part: 평가 버튼
+  class: feedback__rating
+  element: button
+  required: true
+  note: 누르면 평가를 기록하는 명시적 동작이므로 라디오가 아니라 button 을 쓴다(FORM-002). 선택한 버튼은 aria-pressed="true".
+- part: 맞춤 영역
+  class: feedback__more
+  element: form
+  note: 평가 뒤에 나타나는 추가 질문 1~3개와 액션 버튼. 선택 사항.
+- part: 맞춤 영역 제목
+  class: feedback__more-title
+  element: p
+- part: 추가 질문(선택형)
+  class: feedback__group
+  element: fieldset
+  note: legend 를 그룹 레이블로 쓴다(FORM-004). 옵션은 가나다순(FORM-032).
+- part: 선택 옵션
+  class: feedback__option
+  element: div
+  note: 체크박스와 label[for] 를 묶는다(FORM-034).
+- part: 체크박스
+  class: feedback__check
+  element: input[type=checkbox]
+- part: 추가 질문 레이블
+  class: feedback__label
+  element: label
+- part: 부가 설명
+  class: feedback__hint
+  element: p
+  note: 형식 안내는 플레이스홀더가 아니라 여기에(FORM-017). textarea 의 aria-describedby 로 연결한다.
+- part: 의견 입력
+  class: feedback__textarea
+  element: textarea
+  note: 개방형 질문은 마지막에 둔다(KRDS).
+- part: 글자 수
+  class: feedback__count
+  element: p
+  note: textarea 바로 다음에 '현재/최대'(FORM-052). 입력마다 갱신(FORM-053).
+- part: 액션 버튼 묶음
+  class: feedback__actions
+  element: div
+- part: 버튼
+  class: feedback__button
+  element: button
+  note: 추가 의견 없이 마치기(건너뛰기)와 제출(의견 보내기). 주 버튼은 feedback__button--primary.
+- part: 완료 메시지
+  class: feedback__result
+  element: div[role=status]
+  required: true
+  note: 처음부터 빈 상태로 DOM 에 두고, 제출 뒤 텍스트를 넣어 보조기술에 전달한다(STATE-001).
+markup: |-
+  <section class="feedback" aria-labelledby="feedback-page-title">
+    <h2 class="feedback__title" id="feedback-page-title">이 페이지에 만족하시나요?</h2>
+    <div class="feedback__ratings" role="group" aria-labelledby="feedback-page-title">
+      <button class="feedback__rating" type="button" aria-pressed="false">네</button>
+      <button class="feedback__rating" type="button" aria-pressed="false">아니요</button>
+    </div>
+    <div class="feedback__result" role="status"></div>
+  </section>
+  <section class="feedback" aria-labelledby="feedback-guide-title">
+    <h2 class="feedback__title" id="feedback-guide-title">이 안내가 도움이 되었나요?</h2>
+    <div class="feedback__ratings" role="group" aria-labelledby="feedback-guide-title">
+      <button class="feedback__rating" type="button" aria-pressed="true">네</button>
+      <button class="feedback__rating" type="button" aria-pressed="false">아니요</button>
+    </div>
+    <form class="feedback__more" action="/feedback" method="post">
+      <p class="feedback__more-title">감사합니다. 개선에 참고할 의견을 더 남겨 주세요. (선택)</p>
+      <fieldset class="feedback__group">
+        <legend class="feedback__label">어떤 점이 좋았나요? (선택)</legend>
+        <div class="feedback__option">
+          <input class="feedback__check" type="checkbox" id="feedback-good-1" name="good-easy" value="yes">
+          <label for="feedback-good-1">내용을 이해하기 쉬움</label>
+        </div>
+        <div class="feedback__option">
+          <input class="feedback__check" type="checkbox" id="feedback-good-2" name="good-liked" value="yes">
+          <label for="feedback-good-2">내용이 마음에 듦</label>
+        </div>
+        <div class="feedback__option">
+          <input class="feedback__check" type="checkbox" id="feedback-good-3" name="good-found" value="yes">
+          <label for="feedback-good-3">필요한 정보를 찾음</label>
+        </div>
+      </fieldset>
+      <div class="feedback__field">
+        <label class="feedback__label" for="feedback-comment">기타 의견 (선택)</label>
+        <p class="feedback__hint" id="feedback-comment-hint">이름·연락처 같은 개인정보는 쓰지 말아 주세요.</p>
+        <textarea class="feedback__textarea" id="feedback-comment" name="comment" rows="4" maxlength="100" aria-describedby="feedback-comment-hint feedback-comment-count"></textarea>
+        <p class="feedback__count" id="feedback-comment-count">0/100</p>
+      </div>
+      <div class="feedback__actions">
+        <button class="feedback__button" type="button">건너뛰기</button>
+        <button class="feedback__button feedback__button--primary" type="submit">의견 보내기</button>
+      </div>
+    </form>
+    <div class="feedback__result" role="status"></div>
+  </section>
+css: |-
+  .feedback {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-gap-5);
+    padding: var(--space-padding-8);
+    border-radius: var(--radius-large1);
+    background-color: var(--color-surface-gray-subtler);
+  }
+  .feedback__title {
+    margin: 0;
+    color: var(--color-text-bolder);
+    font-size: var(--font-size-heading-xsmall);
+    font-weight: var(--font-weight-bold);
+    line-height: var(--font-line-height-base);
+    word-break: keep-all;
+    overflow-wrap: anywhere;
+  }
+  .feedback__desc,
+  .feedback__more-title,
+  .feedback__hint {
+    margin: 0;
+    color: var(--color-text-subtle);
+    font-size: var(--font-size-body-small);
+    line-height: var(--font-line-height-base);
+    word-break: keep-all;
+  }
+  .feedback__more-title {
+    color: var(--color-text-basic);
+    font-size: var(--font-size-body-medium);
+  }
+  .feedback__ratings,
+  .feedback__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-gap-3);
+  }
+  .feedback__rating,
+  .feedback__button {
+    min-block-size: var(--size-height-6);
+    padding-inline: var(--space-padding-6);
+    border: var(--border-width-static-regular) solid var(--color-button-tertiary-border);
+    border-radius: var(--radius-medium3);
+    background-color: var(--color-button-tertiary-fill);
+    color: var(--color-text-basic);
+    font-family: inherit;
+    font-size: var(--font-size-label-medium);
+    font-weight: var(--font-weight-regular);
+    line-height: var(--font-line-height-base);
+    cursor: pointer;
+  }
+  .feedback__rating:hover,
+  .feedback__button:hover {
+    background-color: var(--color-button-tertiary-fill-hover);
+  }
+  .feedback__rating:active,
+  .feedback__button:active {
+    background-color: var(--color-button-tertiary-fill-pressed);
+  }
+  .feedback__rating[aria-pressed="true"] {
+    border-width: var(--border-width-static-medium);
+    border-color: var(--color-border-primary);
+    background-color: var(--color-surface-primary-subtler);
+    color: var(--color-text-primary);
+    font-weight: var(--font-weight-bold);
+  }
+  .feedback__button--primary {
+    border-color: var(--color-button-primary-fill);
+    background-color: var(--color-button-primary-fill);
+    color: var(--color-text-inverse-static);
+    font-weight: var(--font-weight-bold);
+  }
+  .feedback__button--primary:hover {
+    border-color: var(--color-button-primary-fill-hover);
+    background-color: var(--color-button-primary-fill-hover);
+  }
+  .feedback__button--primary:active {
+    border-color: var(--color-button-primary-fill-pressed);
+    background-color: var(--color-button-primary-fill-pressed);
+  }
+  .feedback__rating:focus-visible,
+  .feedback__button:focus-visible,
+  .feedback__check:focus-visible,
+  .feedback__textarea:focus-visible {
+    outline: var(--space-scale-2) solid var(--color-border-primary);
+    outline-offset: var(--space-scale-1);
+  }
+  .feedback__more {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-gap-6);
+  }
+  .feedback__group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-gap-3);
+    min-inline-size: 0;
+    margin: 0;
+    padding: 0;
+    border: 0;
+  }
+  .feedback__label {
+    padding: 0;
+    color: var(--color-text-basic);
+    font-size: var(--font-size-label-medium);
+    font-weight: var(--font-weight-bold);
+  }
+  .feedback__option {
+    display: flex;
+    align-items: center;
+    gap: var(--space-gap-3);
+    color: var(--color-text-basic);
+    font-size: var(--font-size-body-medium);
+  }
+  .feedback__check {
+    flex-shrink: 0;
+    inline-size: var(--space-scale-10);
+    block-size: var(--space-scale-10);
+    margin: 0;
+    accent-color: var(--color-element-primary);
+  }
+  .feedback__field {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-gap-3);
+  }
+  .feedback__textarea {
+    inline-size: 100%;
+    padding-block: var(--space-padding-4);
+    padding-inline: var(--space-padding-6);
+    border: var(--space-scale-1) solid var(--color-input-border);
+    border-radius: var(--radius-medium3);
+    background-color: var(--color-input-surface);
+    color: var(--color-text-basic);
+    font-family: inherit;
+    font-size: var(--font-size-body-medium);
+    line-height: var(--font-line-height-base);
+    resize: vertical;
+  }
+  .feedback__count {
+    margin: 0;
+    color: var(--color-text-subtle);
+    font-size: var(--font-size-body-small);
+    text-align: end;
+  }
+  .feedback__result:empty {
+    display: none;
+  }
+  .feedback__result {
+    color: var(--color-text-basic);
+    font-size: var(--font-size-body-medium);
+    line-height: var(--font-line-height-base);
+  }
+states:
+- name: 기본(평가 전)
+  markup_change: 평가 버튼 모두 aria-pressed="false", 맞춤 영역 없음, 완료 메시지 영역은 비어 있다.
+  rule: STATE-004
+- name: 평가 선택(맞춤 영역 열림)
+  markup_change: 누른 평가 버튼에 aria-pressed="true". 평가 버튼 묶음 바로 다음에 맞춤 영역(form)을 넣는다. 초점은 누른 평가 버튼에 그대로 둔다(KRDS 상호작용 가이드라인, A11Y-015).
+  rule: A11Y-025
+- name: 완료
+  markup_change: 맞춤 영역을 지우고 완료 메시지 영역에 '의견을 보내 주셔서 감사합니다.'를 넣는다(STATE-001). 평가 버튼은 aria-disabled="true" 로 바꿔 다시 보내지 않게 하고(FORM-013), 초점은 선택한 평가 버튼으로 옮긴다(A11Y-015).
+  rule: STATE-001
+- name: 시점형(새 기능 의견)
+  markup_change: 페이지 로드 때는 렌더링하지 않고, 대상 기능의 완료 이벤트(제출 완료 등) 뒤에 본문 아래에 넣는다(STATE-004).
+  rule: STATE-004
+keyboard:
+- key: Tab / Shift+Tab
+  action: 평가 버튼 → 맞춤 영역의 체크박스·의견 입력·액션 버튼 순서로 초점을 옮긴다(A11Y-011, A11Y-015). 초점 표시가 보인다(A11Y-016).
+- key: Enter / Space
+  action: 평가 버튼에서 평가를 기록하고 맞춤 영역을 연다(맞춤 영역이 없으면 바로 완료). 액션 버튼에서 제출 또는 건너뛰기.
+- key: Space
+  action: 체크박스를 선택·해제한다(A11Y-035).
+behavior:
+- 피드백 요소는 main 의 본문 콘텐츠 뒤나 aside 안에 두고, 버튼으로 축약해 화면에 고정(플로팅)하지 않는다. 사이드에 둔 경우 본문과 나란히 둘 수 없는 너비에서는 본문 아래로 옮긴다(STATE-004).
+- 새 기능에 대한 의견을 물을 때는 그 기능의 완료 이벤트 뒤에만 표시한다(STATE-004).
+- 평가는 사용자가 평가 버튼을 누를 때만 기록한다. 라디오처럼 값을 고르는 것만으로 제출·맥락 변화를 일으키지 않는다(FORM-002).
+- 추가 질문은 3개 이하로 두고, 개방형(의견 입력)은 마지막에 둔다(KRDS). 옵션은 가나다순으로 정렬한다(FORM-032).
+- 글자 수 표시는 입력·삭제·붙여넣기마다 갱신한다(FORM-053). 한도는 maxlength 와 서버 검증에서 같은 값으로 둔다(FORM-052).
+- 제출·건너뛰기 버튼은 첫 누름 뒤 처리가 끝날 때까지 다시 보내지 않는다(FORM-013).
+- 완료 메시지는 처음부터 DOM 에 있는 role=status 영역에 텍스트를 넣어 전달한다(STATE-001).
+- AI 결과에 대한 피드백에 이 컴포넌트를 쓰면 함께 전송되는 데이터와 사용 목적을 제출 버튼 앞에 텍스트로 알린다(AI-016).
+rules:
+- A11Y-007
+- A11Y-011
+- A11Y-015
+- A11Y-016
+- A11Y-019
+- A11Y-025
+- A11Y-035
+- AI-016
+- COLOR-001
+- COLOR-002
+- COLOR-003
+- COLOR-007
+- COPY-003
+- FORM-002
+- FORM-004
+- FORM-012
+- FORM-013
+- FORM-017
+- FORM-018
+- FORM-032
+- FORM-034
+- FORM-052
+- FORM-053
+- LAYOUT-002
+- STATE-001
+- STATE-004
+kit_differences:
+- KRDS 예시는 평가(네·아니오)를 라디오 칩으로 만들고 선택 즉시 맞춤 영역을 열거나 평가를 제출한다 — 이 규격은 button(aria-pressed)으로 만들어, 값 선택만으로 제출하지 않는다(FORM-002).
+- KRDS 예시는 평가 질문을 div, 추가 질문 제목을 p 로 써서 그룹 이름이 없다 — 이 규격은 role=group+aria-labelledby, fieldset+legend 로 연결한다(A11Y-007, FORM-004).
+- KRDS 예시의 textarea 는 레이블 대신 title 속성과 '내용을 입력해주세요.' 플레이스홀더를 쓴다 — 이 규격은 보이는 label 과 부가 설명을 쓰고 플레이스홀더를 쓰지 않는다(FORM-004, FORM-017).
+- KRDS 예시의 글자 수(22/100)는 두 span 으로 나뉘고 textarea 와 연결되지 않는다 — 이 규격은 한 요소에 '현재/최대'로 쓰고 aria-describedby 로 연결한다(FORM-052, A11Y-025).
+- KRDS 예시의 체크박스 옵션 순서는 가나다순이 아니다 — 이 규격은 가나다순으로 정렬한다(FORM-032).
+- KRDS 예시는 완료 메시지를 별도 블록(aria-live=polite)으로 둔다 — 이 규격은 같은 루트 안의 role=status 영역에 넣는다(STATE-001).
+notes:
+- KRDS 에서 사용자 피드백은 컴포넌트가 아니라 기본 패턴(global_05)이다. 예시 마크업은 사이트 예시 코드(global/code/global_05_01_01.html)이며 HTML 키트 v1.1.0 에는 없다.
+- KRDS 예시의 '취소' 버튼은 추가 질문 응답을 거절하는 동작(평가는 이미 기록됨)이라 '건너뛰기'로 바꿨다. '평가완료'는 '의견 보내기'로 동작을 밝혔다.
+- KRDS 예시의 '아니오'는 표준어 '아니요'로 고쳤다.
+- KRDS 가이드라인의 '평가 선택지 최소화(감정 2개, 별점 5개 이하)'·'추가 질문 3개 이하'·'폐쇄형 질문으로 시작'은 이 체계에 확정 룰이 없다 — 규격 문구로만 반영했다.

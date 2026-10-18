@@ -1,0 +1,62 @@
+id: A11Y-019
+category: A11Y
+title: 레이블을 이름에 포함
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: MUST
+statement: 텍스트나 텍스트 이미지로 된 레이블이 보이는 UI 컴포넌트는 접근 가능한 이름에 보이는 텍스트를 그대로 포함한다.
+measurement:
+  criteria: '보이는 레이블이 있는 버튼·링크·입력에서 aria-label·aria-labelledby로 계산한 접근 가능한 이름이 보이는 레이블 문자열을 포함한다(권장: 이름의 시작 부분).'
+  method: axe-core label-content-name-mismatch 실행 후, aria-label을 쓴 컴포넌트를 목록화해 보이는 텍스트와 비교한다.
+automation:
+  feasibility: partial
+  checks:
+  - tool: axe-core
+    rule: label-content-name-mismatch
+    method: axe-core 실행 결과 위반 0건
+  note: axe 규칙은 실험(experimental) 태그이고 텍스트 콘텐츠로 이름이 정해지는 위젯만 본다. 텍스트 이미지 레이블과 label 요소 연결은 수동.
+rationale: 음성 입력 사용자는 보이는 레이블을 말해 컨트롤을 실행한다. 이름이 다르면 동작하지 않는다.
+sources:
+- ref: WCAG22
+  locator: SC 2.5.3 Label in Name (Level A)
+  note: https://www.w3.org/TR/WCAG22/#label-in-name
+- ref: WCAG22_UNDERSTANDING
+  locator: https://www.w3.org/WAI/WCAG22/Understanding/label-in-name.html
+- ref: KWCAG22
+  locator: 검사항목 6.5.3
+scope:
+  level: global
+  targets:
+  - button
+  - a[href]
+  - input
+  - '[role=button]'
+exceptions: []
+relations:
+- type: depends
+  id: A11Y-025
+  note: 접근 가능한 이름이 있어야 이 룰을 판정할 수 있다
+examples:
+  good:
+  - lang: html
+    code: '<button type="button" aria-label="검색 결과 내려받기">내려받기</button>
+
+      '
+    note: 접근 가능한 이름이 보이는 레이블 "내려받기"를 포함
+  bad:
+  - lang: html
+    code: '<button type="button" aria-label="파일 저장">내려받기</button>
+
+      '
+    note: 이름 "파일 저장"에 보이는 레이블 "내려받기"가 없음
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(sources/extracts/WCAG22-A-AA.yaml): statement·수치가 SC 원문과 일치함을 확인. KWCAG 2.2
+  대응 항목 번호는 비공식 HTML 판 기준 매핑 — 공식 원문 대조 전(registry KWCAG22 verified=false). 룰의 요구·수치는 WCAG 원문만으로 성립.'
+korean_specific: false
+tags:
+- wcag22
+- level-a
+- new-in-2.1
+- kwcag22

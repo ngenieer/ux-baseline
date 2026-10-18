@@ -1,0 +1,12 @@
+id: CF-005
+rules:
+- FORM-002
+- FORM-026
+summary: 값을 다 입력하면 다음 필드로 초점을 자동으로 옮기는 동작(FORM-026)은 입력에 따른 맥락 변화(FORM-002, WCAG 3.2.2)에 해당할 수 있다.
+principle: 1
+decision: 자동 초점 이동은 입력 전에 그 동작을 텍스트로 알린 경우에만 쓴다(FORM-002 예외 조건). 쓸 때는 FORM-026의 되돌아가기 요건을 지킨다.
+reason: WCAG 3.2.2는 사전 고지를 예외로 둔다. 고지 없는 자동 이동은 상위 원칙(1) 위반이다.
+deviates_from_priority: false
+date: '2026-10-18'
+rule_changes:
+- 'FORM-026: statement 수정'

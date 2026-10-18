@@ -1,0 +1,57 @@
+id: COPY-039
+category: COPY
+title: 언어 변경에 국가명 제한
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 언어 변경 레이블에 국가명을 쓰지 않고, 국적·접속 국가에 따라 서비스나 정책이 달라질 때만 국가명을 보조 정보로 붙이되 언어명보다 약하게(작은 글자 크기 또는 낮은 굵기) 표시한다.
+measurement:
+  criteria: (1) 국가별 서비스 차이가 없는 사이트의 언어 변경 레이블에 국가명이 없다. (2) 국가명을 붙인 경우 국가명 요소의 font-size ≤ 언어명 font-size, font-weight
+    ≤ 언어명 font-weight이고 둘 중 하나는 더 작다.
+  method: 서비스에 국가별 차이가 있는지 확인하고, 레이블 텍스트와 국가명 요소의 계산된 스타일을 비교한다.
+automation:
+  feasibility: none
+  checks: []
+  note: '4단계 커스텀 검사: 국가명 사전 매칭 + 계산된 스타일 비교. (1)의 국가별 차이 여부는 프로젝트 설정값.'
+rationale: 한 국가 안에서도 여러 언어를 쓰므로 국가명은 언어를 나타내지 못한다. 국가에 따라 서비스가 달라질 때도 사용자가 고르는 것은 언어이므로 언어명이 가장 강조돼야 한다(KRDS 언어
+  변경).
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 언어 변경 > 사용성 가이드라인 (가이드라인 PDF 2025.08 722쪽)
+  note: https://www.krds.go.kr/html/site/component/component_10_01.html
+scope:
+  level: component
+  targets:
+  - 언어 변경
+exceptions:
+- 사용자의 국적이나 접속 국가에 따라 서비스·정책이 달라지면 국가명을 보조 정보로 제공할 수 있다(KRDS 원문).
+relations:
+- type: depends
+  id: COPY-015
+  note: 언어 이름은 그 언어로(COPY-015)
+examples:
+  good:
+  - lang: html
+    code: '<a href="/en-us/" lang="en">English <small>(United States)</small></a>
+
+      '
+    note: 국가명을 언어명보다 작은 글자(small)로 보조 표시한다
+  bad:
+  - lang: html
+    code: '<!-- 국가명이 언어명보다 크다 -->
+
+      <a href="/en-us/" lang="en"><small>English</small> United States</a>
+
+      '
+    note: 국가명을 언어명보다 크게 표시해 주 레이블처럼 보인다
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(curl로 KRDS 페이지 HTML을 받아 텍스트로 직접 읽음): 언어 변경(component_10_01) ''국가와 관련된 정보로 표현하는
+  것은 적절하지 않다. 만약 사용자의 국적이나 접속 국가에 따라 제공되는 서비스가 달라지거나 ... 국가명을 보조적인 정보로 제공할 수 있다. 그러나 ... 언어명이 가장 강조된 정보여야 한다'' 확인.
+  강도: ''적절하지 않다''·''~여야 한다'' → SHOULD + public-sector-must. ''약하게''를 글자 크기·굵기 비교로 바꾼 것은 이 체계의 판정 조건.'
+korean_specific: false
+tags:
+- krds
+- krds-component
+- public-sector-must

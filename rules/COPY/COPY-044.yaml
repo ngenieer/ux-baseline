@@ -1,0 +1,55 @@
+id: COPY-044
+category: COPY
+title: 따라하기 패널 사용 조건
+stage: platformed
+status:
+  value: confirmed
+type: guide
+strength: MAY
+statement: 따라하기 패널은 여러 세부 단계를 거치거나 복잡한 입력이 필요한 작업에만 쓰고, 간단한 안내에는 맥락적 도움말을 쓴다.
+measurement:
+  criteria: '점검 질문: 따라하기 패널로 안내하는 작업이 2단계 이상의 순서 있는 절차이거나 여러 입력 항목을 채워야 하는 작업인가? 한두 문장 안내로 끝나는 작업에 따라하기 패널을 쓰지 않았는가?'
+  method: 따라하기 패널이 붙은 작업 목록을 놓고 점검 질문으로 확인한다.
+automation:
+  feasibility: none
+  checks: []
+  note: 작업 복잡도 판단은 사람이 한다.
+rationale: 따라하기 패널은 단계별 안내를 위한 무거운 수단이라 간단한 안내에 쓰면 오히려 작업을 방해한다(KRDS 따라하기 패널).
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 따라하기 패널 > 용례 (가이드라인 PDF 2025.08 611쪽)
+  note: https://www.krds.go.kr/html/site/component/component_08_02.html
+scope:
+  level: component
+  targets:
+  - 따라하기 패널
+exceptions: []
+relations:
+- type: depends
+  id: COPY-043
+  note: 도움 패널과 따라하기 패널의 역할 구분(COPY-043)
+examples:
+  good:
+  - lang: html
+    code: '<!-- 5단계 신청 절차를 따라하기 패널로 안내 -->
+
+      <aside class="tutorial-panel" aria-labelledby="tp"><h2 id="tp">따라하기: 전입신고</h2><ol><li>주소 입력</li><li>세대원 선택</li>…</ol></aside>
+
+      '
+    note: 여러 단계 절차를 따라하기 패널로 안내한다
+  bad:
+  - lang: html
+    code: '<!-- 한 줄 안내에 따라하기 패널 -->
+
+      <aside class="tutorial-panel"><h2>따라하기</h2><ol><li>저장 버튼을 누르세요.</li></ol></aside>
+
+      '
+    note: 한 줄로 끝나는 안내에 따라하기 패널을 쓴다
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(curl로 KRDS 페이지 HTML을 받아 텍스트로 직접 읽음): 따라하기 패널(component_08_02) 용례 ''사용하기 적합한
+  경우: 여러 세부 단계를 거쳐야 하거나 복잡한 입력이 필요한 경우; 적합하지 않은 경우: 안내/도움 정보가 간단한 경우 — 맥락적 도움말 컴포넌트를 사용하는 것이 적합하다'' 확인. 강도: KRDS
+  ''적합하다·바람직하다·이상적'' 등 권장 표현 → MAY(정책 2). 점검 질문의 ''2단계 이상''은 ''여러 세부 단계''를 읽기 위한 이 체계의 기준.'
+korean_specific: false
+tags:
+- krds
+- krds-component

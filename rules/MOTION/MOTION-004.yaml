@@ -1,0 +1,68 @@
+id: MOTION-004
+category: MOTION
+title: 모션 줄이기 설정 시 상호작용 모션 제거
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 'prefers-reduced-motion: reduce일 때 사용자 상호작용(클릭·탭·스크롤·호버·초점)으로 시작되는 모션 애니메이션 가운데 기능·정보 전달에 필수가 아닌 것은 끄거나
+  요소의 위치·크기·모양이 변하지 않는 효과로 바꾼다.'
+measurement:
+  criteria: OS(또는 브라우저 에뮬레이션)에서 모션 줄이기를 켠 상태에서 상호작용으로 시작되는 각 모션 애니메이션이 (a) 필수(예외 목록에 등록된 것)이거나 (b) 실행되지 않거나 위치·크기·모양을
+    바꾸지 않는 효과(색·불투명도)로 바뀐다. (a)·(b) 중 하나를 만족해야 통과.
+  method: 'WCAG Technique C39 절차: 모션 줄이기 설정 켬 → 모션을 유발하는 상호작용 요소마다 실행 → 필수인지 또는 억제되는지 확인. Playwright emulateMedia({reducedMotion:"reduce"})
+    후 상호작용하고 document.getAnimations()의 키프레임에 transform·translate·scale·rotate·top·left·width·height·filter:blur가
+    남는지 검사.'
+automation:
+  feasibility: none
+  checks: []
+  note: '기존 린트·axe 규칙 없음. 4단계 커스텀 런타임 검사(위 method). 정적 보조 검사: transition/animation이 transform 계열을 바꾸는 선언이 있는 스타일시트에
+    @media (prefers-reduced-motion) 블록이 있는지(stylelint 커스텀).'
+rationale: 시차·확대·회전 같은 비필수 모션은 전정기관 장애가 있는 사용자에게 어지럼·메스꺼움·두통, 심하면 편두통과 침상 안정이 필요한 반응을 일으킨다.
+sources:
+- ref: WCAG22
+  locator: SC 2.3.3 Animation from Interactions (Level AAA)
+  note: https://www.w3.org/TR/WCAG22/#animation-from-interactions
+- ref: WCAG22_UNDERSTANDING
+  locator: Understanding 2.3.3 — Intent, Benefits, Examples
+- ref: MQ5
+  locator: 12.1 prefers-reduced-motion — reduce
+- ref: WCAG22_TECH_C39
+  locator: Description, Example 1, Tests
+scope:
+  level: global
+  targets:
+  - '@media (prefers-reduced-motion: reduce)'
+  - 상호작용으로 시작되는 transition·animation
+exceptions:
+- '기능이나 전달하는 정보에 필수인 애니메이션(WCAG 2.3.3, 예: 애니메이션 저작 도구의 미리보기).'
+- 사용자가 스크롤해 새 콘텐츠가 뷰포트로 들어오는 움직임 자체(Understanding 2.3.3).
+relations:
+- type: refines
+  id: MOTION-001
+  note: MOTION-001(2.2.2)은 자동 시작 모션, 이 룰은 상호작용 유발 모션. Understanding 2.3.3은 두 SC를 함께 위반하는 경우도 있다고 함.
+examples:
+  good:
+  - lang: css
+    code: ".card { transition: transform var(--motion-duration-fast) var(--motion-easing-standard); }\n.card:hover\
+      \ { transform: translateY(-4px); }\n@media (prefers-reduced-motion: reduce) {\n  .card { transition: none;\
+      \ }\n  .card:hover { transform: none; }\n}"
+    note: 모션 줄이기 설정에서 호버 이동 애니메이션을 끈다.
+  bad:
+  - lang: css
+    code: '.card { transition: transform var(--motion-duration-base) var(--motion-easing-standard); }
+
+      .card:hover { transform: scale(1.1) rotate(3deg); }
+
+      /* 모션 줄이기 대응 없음 */'
+    note: 호버 확대·회전 애니메이션에 모션 줄이기 대응이 없다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(Understanding 2.3.3·C39 curl, MQ5 registry 확인 내용): SC 문장(''can be disabled,
+  unless ... essential''), C39 절차(''Check that the motion animation is essential; ... suppressed''), 전정기관 반응 서술
+  확인. WCAG AAA → SHOULD(정책 2). KWCAG 2.2에 대응 검사항목이 있는지는 확인하지 못함(룰은 WCAG만으로 성립). AAA를 MUST로 올릴지는 3단계 판단.'
+korean_specific: false
+tags:
+- wcag22
+- level-aaa
+- research-motion_perf

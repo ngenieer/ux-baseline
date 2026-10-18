@@ -1,0 +1,89 @@
+id: FORM-019
+category: FORM
+title: 개인 정보 기본값 금지
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 개인 식별 정보 입력 필드에 기본값을 미리 채우지 않고, 성별처럼 사용자가 정확히 답해야 하는 라디오 그룹에서는 어떤 옵션도 미리 선택해 두지 않는다.
+measurement:
+  criteria: '폼을 처음 불러온 상태에서 (1) 개인 식별 정보(이름·생년월일·성별·전화번호·주소 등) 입력 필드의 value가 비어 있다(로그인 회원 정보 자동 불러오기 제외), (2) 성별
+    라디오 그룹과 정확한 응답이 필요한 라디오 그룹에 checked 속성을 가진 옵션이 없다. (3) 제출할 때 응답하지 않은 라디오 그룹·선택 필드의 값을 다른 응답 옵션의 값(예: 성별 미응답을
+    ''남성'', 결혼 여부 미응답을 ''미혼'')으로 바꿔 저장·표시하지 않는다 — 미응답은 빈 값 또는 ''선택 안 함''과 같은 값으로 둔다(CF-067). 동의 항목의 미응답은 FORM-024
+    측정 기준 (4)를 따른다.'
+  method: 폼을 새로 열어 각 필드 값과 라디오 checked 상태를 확인하고(DOM 검사 가능), 필수가 아닌 그룹에 응답하지 않고 제출해 저장·결과 화면 값을 확인한다.
+automation:
+  feasibility: partial
+  checks:
+  - tool: custom
+    method: 개인 식별 정보로 표시한 필드(autocomplete 토큰 name·bday*·sex·tel·street-address 등)의 초기 value와 라디오 그룹 checked를 DOM
+      검사
+  note: '''정확한 응답이 필요한'' 라디오 그룹 판별은 수동.'
+rationale: 미리 채운 값이나 선택은 사용자가 놓친 채 잘못 제출하기 쉽고, 성별 기본값은 특정 응답을 유도한다.
+sources:
+- ref: KRDS
+  locator: 기본 패턴 > 개인 식별 정보 입력 > 사용성 가이드라인(공통·성별) (가이드라인 PDF 2025.08 759, 767쪽)
+  note: https://www.krds.go.kr/html/site/global/global_01.html — '기본값을 설정하지 않는다.' / '특정 성별을 기본값으로 지정하지 않는다. 입력폼이
+    로딩되었을 때 특정 성별 옵션이 기본으로 선택되어 있지 않도록 유의한다.'
+- ref: KRDS
+  locator: 컴포넌트 > 라디오 버튼 > 사용성 가이드라인 (가이드라인 PDF 2025.08 531쪽)
+  note: https://www.krds.go.kr/html/site/component/component_06_01.html — '사용자가 정확한 값을 입력하는 것이 중요한 경우 라디오 버튼의 특정
+    옵션을 기본 선택값으로 제공하지 않아야 한다.' 상세는 sources/extracts/KRDS-components.yaml
+- ref: UXB_SYSTEM_CHOICE
+  locator: CF-067
+  note: 측정 기준 (3) — KRDS '기본값을 설정하지 않는다'를 제출 시점에 미응답을 특정 응답으로 바꾸는 처리(제출 시점 기본값)까지 넓힌 체계 해석.
+scope:
+  level: component
+  targets:
+  - 개인 식별 정보 입력 필드
+  - input[type=radio]
+exceptions:
+- 로그인한 사용자의 회원 정보에서 값을 불러오는 경우 — KRDS 입력폼 패턴이 '회원 정보에 저장된 데이터를 자동으로 호출하는 방안'을 권장(FORM-007과 같은 방향)
+- '동의 목록의 동의 항목: 응답하지 않은 선택 동의 항목은 ''동의하지 않음''과 같게 처리·표시할 수 있다(FORM-024, CF-067).'
+relations:
+- type: depends
+  id: FORM-033
+  note: 기본 선택이 없으면 '선택 안 함' 옵션이 있어야 선택을 되돌릴 수 있다(라디오는 선택 해제 불가).
+examples:
+  good:
+  - lang: html
+    code: |
+      <fieldset>
+        <legend>성별</legend>
+        <label><input type="radio" name="sex" value="M" required> 남성</label>
+        <label><input type="radio" name="sex" value="F"> 여성</label>
+      </fieldset>
+    note: 어떤 옵션도 미리 선택하지 않았다.
+  - lang: js
+    code: |
+      // 필수가 아닌 결혼 여부에 응답하지 않았으면 빈 값으로 둔다
+      const married = form.elements.married.value || null;
+    note: 미응답을 미응답(null)으로 저장한다.
+  bad:
+  - lang: html
+    code: |
+      <fieldset>
+        <legend>성별</legend>
+        <label><input type="radio" name="sex" value="M" required checked> 남성</label>
+        <label><input type="radio" name="sex" value="F"> 여성</label>
+      </fieldset>
+    note: '''남성''을 미리 선택해 두어 확인 없이 그대로 제출될 수 있다.'
+  - lang: js
+    code: |
+      // 응답하지 않으면 '미혼'으로 저장한다
+      const married = form.elements.married.value || 'n';
+    note: 미응답을 특정 응답('미혼')으로 바꿔 저장해 사용자가 고르지 않은 값이 기록된다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(KRDS global_01·component_06_01·global_08 HTML curl): ''설정하지 않는다'', ''지정하지 않는다'',
+  ''제공하지 않아야 한다'' 확인 → SHOULD + public-sector-must. 회원 정보 자동 호출 예외는 global_08 ''사용자가 서비스에 로그인한 상태라면 회원 정보에 저장된 데이터를
+  자동으로 호출하는 방안을 활용할 수 있다''에서 가져옴. (2026-10-18 시험 4 검토 반영) T6 에서 응답하지 않은 선택 항목을 결과 화면에 응답 값으로 표시한 사례 → 미응답을 다른 응답
+  값으로 저장·표시하지 않는다를 측정 기준 (3)에 넣었다. KRDS 원문은 화면을 불러올 때의 기본값만 말하므로 제출 시점까지 넓힌 것은 체계 해석(UXB_SYSTEM_CHOICE, CF-067).
+  동의 항목은 법적 효과가 같아 예외.'
+korean_specific: false
+tags:
+- krds
+- krds-component
+- public-sector-must
+decisions:
+- CF-067

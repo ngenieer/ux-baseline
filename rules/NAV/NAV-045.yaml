@@ -1,0 +1,47 @@
+id: NAV-045
+category: NAV
+title: 이메일·전화번호 링크
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: '화면에 표시하는 이메일 주소와 전화번호는 각각 mailto:·tel: 링크로 마크업한다.'
+measurement:
+  criteria: 본문 텍스트에 나타나는 이메일 주소는 a[href^="mailto:"] 안에, 전화번호는 a[href^="tel:"] 안에 있다.
+  method: 텍스트 노드에서 이메일·전화번호 패턴을 찾아 조상에 해당 스킴의 a 요소가 있는지 확인한다.
+automation:
+  feasibility: none
+  checks: []
+  note: 기존 검사기 규칙 없음. 4단계 커스텀 검사(정규식으로 이메일·국내 전화번호 패턴 탐지 → 링크 여부 확인) 가능. 전화번호 패턴 오탐(사업자번호 등)은 수동 확인.
+rationale: 텍스트를 복사하지 않고 링크를 실행하는 것만으로 메일·전화 앱으로 연결된다.
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 링크 > 사용성 가이드라인 (이메일 주소, 전화번호 정보를 링크로 제공한다) (가이드라인 PDF 2025.08 504쪽)
+  note: https://www.krds.go.kr/html/site/component/component_05_01.html
+scope:
+  level: global
+  targets:
+  - 이메일 주소 텍스트
+  - 전화번호 텍스트
+exceptions: []
+relations: []
+examples:
+  good:
+  - lang: html
+    code: "<p>문의: <a href=\"tel:+82-2-1234-5678\">02-1234-5678</a>,\n  <a href=\"mailto:help@example.go.kr\">help@example.go.kr</a></p>\n"
+    note: '전화번호와 이메일 주소를 각각 tel:·mailto: 링크로 마크업했다.'
+  bad:
+  - lang: html
+    code: '<p>문의: 02-1234-5678, help@example.go.kr</p>
+
+      '
+    note: 전화번호와 이메일 주소가 일반 텍스트다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(KRDS 페이지 curl 수신 후 텍스트 추출): ''이메일 주소, 전화번호를 링크로 마크업하고 각각에 mailto:, tel: URI
+  스킴을 적용'' 확인. 원문 지시형 문장을 의무로 읽어 SHOULD + public-sector-must.'
+korean_specific: false
+tags:
+- krds
+- krds-component
+- public-sector-must

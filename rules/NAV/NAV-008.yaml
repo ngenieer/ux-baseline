@@ -1,0 +1,47 @@
+id: NAV-008
+category: NAV
+title: 필터 일괄 해제
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 3개 이상 속성에 대한 필터 컨트롤을 제공하면 적용한 필터 옵션을 한 번에 해제하는 컨트롤을 제공한다.
+measurement:
+  criteria: 필터 속성 그룹(fieldset·그룹 헤딩 단위)이 3개 이상인 필터 영역에 '전체 해제'(또는 '초기화') 버튼이 1개 있고, 그 버튼을 한 번 누르면 모든 필터 옵션이 기본값으로
+    돌아가며 결과 목록이 필터 없는 상태로 갱신된다.
+  method: 필터 3개 이상을 적용한 뒤 해제 버튼을 한 번 눌러 모든 옵션과 결과 수가 초기 상태로 돌아오는지 확인한다(수동·E2E).
+automation:
+  feasibility: none
+  note: '4단계 커스텀 E2E 검사 가능: 필터 그룹 수 ≥3 이면 [data-filter-reset] 존재, 클릭 후 모든 input이 defaultValue/defaultChecked와 같은지
+    확인.'
+rationale: 여러 조건을 하나씩 눌러 해제하는 반복 동작을 없앤다.
+sources:
+- ref: KRDS
+  locator: 기본 패턴 > 필터링·정렬 > 사용성 가이드라인 (가이드라인 PDF 2025.08 874쪽)
+  note: https://www.krds.go.kr/html/site/global/global_10.html — '3개 이상의 속성에 대해 필터링 컨트롤이 제공되는 경우 옵션 선택을 한 번에 해제할
+    수 있는 기능을 제공해야 한다.'
+scope:
+  level: component
+  targets:
+  - 필터 영역(필터 속성 그룹 3개 이상)
+exceptions: []
+relations: []
+examples:
+  good:
+  - lang: html
+    code: "<form aria-label=\"검색 필터\">\n  <fieldset><legend>지역</legend>…</fieldset>\n  <fieldset><legend>기간</legend>…</fieldset>\n\
+      \  <fieldset><legend>유형</legend>…</fieldset>\n  <button type=\"reset\">필터 전체 해제</button>\n</form>\n"
+    note: 3개 속성 그룹 필터에 한 번에 모두 해제하는 버튼이 있다.
+  bad:
+  - lang: html
+    code: "<form aria-label=\"검색 필터\">\n  <fieldset><legend>지역</legend>…</fieldset>\n  <fieldset><legend>기간</legend>…</fieldset>\n\
+      \  <fieldset><legend>유형</legend>…</fieldset>\n  <!-- 옵션을 하나씩 눌러야만 해제됨 -->\n</form>\n"
+    note: 필터 옵션을 하나씩 눌러야만 해제할 수 있다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(KRDS global_10 WebFetch): 원문 문장과 수치(3개 이상 속성)·강도(''제공해야 한다'') 일치. 1단계에서 붙어
+  있던 NNG_NO_RESULTS·CARBON_EMPTY 출처는 ''검색·필터 결과 없음 화면'' 요구로 이 룰과 다른 요구라 제거하고 제안 파일(new rule 후보)로 넘김.'
+korean_specific: false
+tags:
+- krds
+- public-sector-must

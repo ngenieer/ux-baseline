@@ -1,0 +1,78 @@
+id: COLOR-002
+category: COLOR
+title: 텍스트 명도 대비
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: MUST
+statement: 텍스트와 텍스트 이미지는 배경과의 명도 대비를 4.5:1 이상으로 하고, 큰 텍스트(18pt=24px 이상, 또는 굵게 14pt≈18.66px 이상)는 3:1 이상으로 한다.
+measurement:
+  criteria: WCAG 상대 휘도 공식으로 계산한 글자색:배경색 대비 ≥ 4.5:1. 계산값 font-size ≥ 24px 이거나 font-size ≥ 18.66px 이면서 굵게(font-weight
+    700 이상) 표시되는 텍스트는 ≥ 3:1.
+  method: axe-core color-contrast 자동 검사 + 배경 이미지·그라디언트·겹친 요소 위 텍스트는 수동(색 추출 도구로 측정).
+automation:
+  feasibility: partial
+  checks:
+  - tool: axe-core
+    rule: color-contrast
+    method: 단색 배경 위 텍스트 대비 계산
+  note: axe는 배경 이미지·그라디언트·의사 요소 배경에서 '검토 필요(incomplete)'로 넘긴다 — 수동 확인. 텍스트 이미지도 수동. 굵게 판정 기준(700)은 4단계에서 axe 판정식과
+    맞춘다.
+rationale: 명도 대비가 낮으면 저시력·노안·색각 이상 사용자와 밝은 야외 환경 사용자가 글자를 읽지 못한다. 4.5:1은 시력 20/40 상당 사용자의 대비 감도 손실을 보상하는 값이다(Understanding
+  1.4.3).
+sources:
+- ref: WCAG22
+  locator: SC 1.4.3 Contrast (Minimum) (Level AA)
+  note: https://www.w3.org/TR/WCAG22/#contrast-minimum
+- ref: WCAG22_UNDERSTANDING
+  locator: https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html
+- ref: KWCAG22
+  locator: 검사항목 5.4.3
+- ref: KRDS
+  locator: 디자인 스타일 > 타이포그래피 > 글자 색상과 명도 대비 (가이드라인 PDF 2025.08 122~123쪽)
+  note: 'https://www.krds.go.kr/html/site/style/style_03.html — 큰 텍스트 기준을 px로 환산: 24px 이상 또는 굵게 18.66px 이상'
+- ref: KRDS
+  locator: 컴포넌트 (여러 페이지) (가이드라인 PDF 2025.08 404·419·567·744쪽)
+  note: '같은 요구를 다루는 KRDS 컴포넌트: 배지, 이미지, 접근 가능한 미디어, 태그 — 상세는 sources/extracts/KRDS-components.yaml'
+scope:
+  level: global
+  targets:
+  - 모든 텍스트
+  - 텍스트 이미지
+exceptions:
+- 비활성 UI 컴포넌트의 텍스트 (WCAG 1.4.3)
+- 순수 장식이거나 아무에게도 보이지 않는 텍스트 (WCAG 1.4.3)
+- 다른 중요한 시각 콘텐츠가 들어 있는 사진·그림의 일부인 텍스트 (WCAG 1.4.3)
+- 로고·브랜드명의 일부인 텍스트 (WCAG 1.4.3)
+relations: []
+examples:
+  good:
+  - lang: css
+    code: '/* --color-gray-70 = #464c53, 흰 배경 대비 8.68:1 (≥ 4.5:1) */
+
+      p{color:var(--palette-gray-70);background:var(--palette-gray-0)}'
+    note: 일반 크기 본문이 4.5:1 이상이다
+  bad:
+  - lang: css
+    code: '/* --color-gray-40 = #8a949e, 흰 배경 대비 3.08:1 (< 4.5:1) */
+
+      p{color:var(--palette-gray-40);background:var(--palette-gray-0)}'
+    note: 일반 크기 본문 대비가 3.08:1로 4.5:1에 못 미친다
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(sources/extracts/WCAG22-A-AA.yaml SC 1.4.3): 4.5:1, 큰 텍스트 3:1, 예외 3종(비활성·장식·비가시·사진
+  일부, 로고) 원문 일치. Understanding 1.4.3 ''18 point text or 14 point bold text'' 확인. px 환산(24px, 18.66px)은 KRDS 표와 1pt=1.333px로
+  확인. 2026-10-18 원문 대조(KRDS https://www.krds.go.kr/html/site/style/style_03.html HTML을 curl로 받아 본문 확인): 글자 색상 표(AA
+  큰 텍스트 3:1·일반 4.5:1, 24px/18.66px) 확인. KRDS 표는 큰 텍스트 ''24px 이상'', 일반 텍스트 ''24px 이하''로 경계가 겹침(표기 오류로 판단). 색상 페이지(style_02)는
+  글자 색상 기본 모드 ''최소 매직넘버 40(3:1), 본문 50(4.5:1)''로, 큰 텍스트가 아닌 비본문 텍스트에 3:1을 허용하는 것으로 읽힐 수 있음 — WCAG가 우선. 선명한 화면 모드
+  표(style_09)의 ''기본 모드 본문 7:1''과 불일치는 BACKLOG. KWCAG 5.4.3 대응은 비공식 판 기준 — 공식 원문 미대조. 수치 근거는 WCAG 원문으로 확인했으므로 false.'
+korean_specific: false
+tags:
+- wcag22
+- level-aa
+- new-in-2.0
+- kwcag22
+- krds
+decisions:
+- CF-048
+- CF-065

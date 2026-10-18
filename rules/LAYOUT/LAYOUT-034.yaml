@@ -1,0 +1,55 @@
+id: LAYOUT-034
+category: LAYOUT
+title: 모달
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 모달의 확정·취소 액션 버튼은 항상 모달 푸터에 두고, 모달 본문에는 입력폼 관련 컨트롤만 둔다.
+measurement:
+  criteria: 모달(dialog, [role=dialog])에서 확인·취소·저장·삭제 등 과업 완료·중단 버튼이 푸터 영역(본문 스크롤 컨테이너 밖, 모달 맨 아래)에 있다. 본문 안 버튼은 입력폼
+    조작용(파일 선택·항목 추가 등)뿐이다.
+  method: 모달 유형별로 버튼 위치를 확인한다.
+automation:
+  feasibility: none
+  checks: []
+  note: 버튼 역할 판단이 필요해 수동. 4단계 모달 규격에 footer 슬롯을 두면 템플릿 검사 가능.
+rationale: 액션 버튼 위치가 일정해야 사용자가 모달을 끝내는 방법을 바로 찾는다.
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 모달 > 구조 (가이드라인 PDF 2025.08 390쪽)
+  note: https://www.krds.go.kr/html/site/component/component_04_05.html
+scope:
+  level: component
+  targets:
+  - dialog
+  - '[role=dialog]'
+  - 모달
+exceptions: []
+relations:
+- type: depends
+  id: LAYOUT-035
+examples:
+  good:
+  - lang: html
+    code: "<dialog aria-labelledby=\"dlg-title\">\n  <header><h2 id=\"dlg-title\">주소 변경</h2></header>\n  <div class=\"\
+      modal-body\"><label for=\"new-addr\">새 주소</label><input id=\"new-addr\" autocomplete=\"street-address\"></div>\n\
+      \  <footer><button type=\"button\">취소</button><button type=\"submit\" class=\"btn-primary\">저장</button></footer>\n\
+      </dialog>\n"
+    note: 확정·취소 버튼이 모달 푸터에 있다.
+  bad:
+  - lang: html
+    code: "<dialog aria-labelledby=\"dlg-title\">\n  <header><h2 id=\"dlg-title\">주소 변경</h2></header>\n  <div class=\"\
+      modal-body\"><label for=\"new-addr\">새 주소</label><input id=\"new-addr\" autocomplete=\"street-address\">\n\
+      \    <button type=\"submit\" class=\"btn-primary\">저장</button></div>\n  <footer><button type=\"button\">취소</button></footer>\n\
+      </dialog>\n"
+    note: 확정 버튼이 모달 본문 안에 있다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(curl로 KRDS 페이지 HTML을 받아 본문 텍스트를 직접 확인): 모달(component_04_05) 구조 > 푸터 ''본문에 입력폼을
+  제공하는 경우, 입력폼과 관련된 컨트롤은 본문 영역에 배치할 수 있으나 행동을 확정하거나 취소하는 액션은 항상 푸터에 제공해야 함'' 확인. ''해야 함'' → SHOULD + public-sector-must.'
+korean_specific: false
+tags:
+- krds
+- krds-component
+- public-sector-must

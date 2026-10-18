@@ -1,0 +1,53 @@
+id: COPY-033
+category: COPY
+title: 토글 레이블 고정
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 토글 스위치의 상태가 바뀌어도 레이블 텍스트를 바꾸지 않고, 상태는 핸들 위치·상태 아이콘·별도 상태 텍스트로 전달한다.
+measurement:
+  criteria: 토글을 켜짐↔꺼짐으로 바꾸기 전후에 레이블 텍스트와 접근 가능한 이름이 같다. 상태 변화는 aria-checked(또는 checked) 값과 시각 표시로만 바뀐다.
+  method: 토글마다 상태를 바꾸기 전후의 label 텍스트·접근 가능한 이름을 비교한다.
+automation:
+  feasibility: none
+  checks: []
+  note: '4단계 E2E 검사: 각 [role=switch]를 클릭하기 전후 accessible name 문자열이 같은지 비교.'
+rationale: 상태마다 레이블이 바뀌면 레이블이 현재 상태인지 바꿀 동작인지 헷갈린다. 레이블은 스위치의 목적만 보여준다(KRDS 토글 스위치).
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 토글 스위치 > 사용성 가이드라인 (가이드라인 PDF 2025.08 575쪽)
+  note: https://www.krds.go.kr/html/site/component/component_06_07.html
+scope:
+  level: component
+  targets:
+  - '[role=switch]'
+  - 토글 스위치
+exceptions: []
+relations: []
+examples:
+  good:
+  - lang: html
+    code: '<label for="s1">위치 정보 사용</label>
+
+      <button id="s1" role="switch" aria-checked="true"></button>
+
+      '
+    note: 상태와 무관하게 레이블이 '위치 정보 사용'으로 고정된다
+  bad:
+  - lang: html
+    code: '<!-- 상태에 따라 레이블이 바뀜 -->
+
+      <button role="switch" aria-checked="true">위치 정보 끄기</button>
+
+      '
+    note: 상태에 따라 레이블이 '위치 정보 끄기'로 바뀐다
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(curl로 KRDS 페이지 HTML을 받아 텍스트로 직접 읽음): 토글 스위치(component_06_07) ''스위치 상태가 변경될
+  때마다 레이블의 내용이 변경되어서는 안 된다. 스위치 상태 정보는 핸들의 위치, 상태 아이콘을 통해 전달'' 확인. 강도: ''변경되어서는 안 된다'' → SHOULD + public-sector-must.'
+korean_specific: false
+tags:
+- krds
+- krds-component
+- public-sector-must

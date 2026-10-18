@@ -1,0 +1,56 @@
+id: PERF-006
+category: PERF
+title: LCP 2.5초 이하(p75)
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 실사용자 측정(RUM) 기준 페이지 로드의 75번째 백분위 LCP를 모바일과 데스크톱 각각 2.5초 이하로 유지한다.
+measurement:
+  criteria: 최근 28일 RUM 데이터(web-vitals onLCP)를 모바일·데스크톱으로 나눠 집계한 p75 LCP가 각각 2500ms 이하이다. RUM이 없는 단계에서는 Lighthouse
+    CI의 largest-contentful-paint ≤ 2500ms를 대리 지표로 쓰되 통과로 간주하지 않는다.
+  method: web-vitals 라이브러리로 수집한 값을 기기군별 p75로 집계한다. 실험실 값은 회귀 감지용.
+automation:
+  feasibility: partial
+  checks:
+  - tool: lighthouse
+    rule: largest-contentful-paint
+    method: Lighthouse CI assert ≤ 2500ms(실험실 대리 지표)
+  note: 실험실 측정은 p75 실사용 판정이 아니다 — 판정은 RUM 집계(4단계 대시보드).
+rationale: 주요 콘텐츠가 늦게 보이면 사용자는 페이지가 느리다고 느끼고 떠난다. 2.5초는 좋은 사용자 경험의 기준으로 제시된 값이다.
+sources:
+- ref: WEBDEV_VITALS
+  locator: Core Web Vitals 목록, 75th percentile
+  note: '''LCP should occur within 2.5 seconds'', ''75th percentile of page loads, segmented across mobile and desktop
+    devices'''
+- ref: WEBDEV_LCP
+  locator: What is a good LCP score?
+- ref: WEBDEV_CWV_THRESHOLDS
+  locator: 임계값 표
+  note: poor > 4000ms
+scope:
+  level: global
+  targets:
+  - 모든 페이지
+exceptions: []
+relations: []
+examples:
+  good:
+  - lang: js
+    code: 'import { onLCP } from ''web-vitals'';
+
+      onLCP(m => navigator.sendBeacon(''/rum'', JSON.stringify({ name: m.name, value: m.value })));'
+    note: web-vitals onLCP로 실사용자 LCP를 수집해 p75를 집계한다.
+  bad:
+  - lang: text
+    code: '판정: Lighthouse 데스크톱 실험실 측정 1회 LCP 1.8초 → 통과 처리. 모바일 실사용자 p75(3.4초)는 수집하지 않음.'
+    note: 실험실 측정 1회를 통과 근거로 쓰고 모바일·데스크톱 실사용자 p75를 보지 않는다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(web.dev Web Vitals·LCP curl): ''LCP should occur within 2.5 seconds'', ''75th
+  percentile of page loads, segmented across mobile and desktop devices'', ''A good LCP value is 2.5 seconds or
+  less'' 확인. ''sites should strive'' → SHOULD. 28일 집계 창은 이 체계의 판정 선택(CrUX 관행) — 출처 수치 아님. Lighthouse 감사 ID는 lighthouse
+  12.2.1 default-config로 확인.'
+korean_specific: false
+tags:
+- research-motion_perf

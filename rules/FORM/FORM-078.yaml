@@ -1,0 +1,58 @@
+id: FORM-078
+category: FORM
+title: 오류 요약 항목은 필드 링크
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 오류 요약의 각 항목을 해당 입력 필드로 이동하는 링크(href="#필드id")로 만들고, 여러 필드로 된 질문은 오류가 있는 첫 필드로(어느 필드인지 모르면 첫 필드로), 라디오·체크박스
+  그룹은 첫 번째 옵션으로 연결한다.
+measurement:
+  criteria: 오류 요약 안의 각 항목이 a[href^="#"]이고 대상 id 요소가 존재하며 그 요소가 input·select·textarea다. 날짜 등 여러 필드 질문은 오류가 있는 첫 필드,
+    라디오·체크박스 그룹은 첫 번째 옵션 input을 가리킨다.
+  method: 'DOM 검사 + E2E: 링크를 눌러 초점이 대상 필드로 가는지 확인한다.'
+automation:
+  feasibility: none
+  checks: []
+  note: 기존 검사기 규칙 없음. 4단계 커스텀 DOM 검사로 링크 대상 존재·요소 종류를 판정 가능(여러 필드 질문의 대상 선택은 수동).
+rationale: GOV.UK는 오류 요약의 오류를 해당 답 필드로 반드시 링크하라고 하고 단일 필드·여러 필드·라디오·체크박스별 링크 대상을 정한다. WCAG 기법 G139는 오류로 바로 가는 링크를
+  3.3.1 충족 방법으로 든다.
+sources:
+- ref: GOVUK_ERROR_SUMMARY
+  locator: Linking from the error summary to each answer
+  note: '''You must link the errors in the error summary to the answer they relate to.'' 여러 필드는 첫 오류 필드(모르면 첫 필드),
+    라디오·체크박스는 첫 옵션'
+- ref: WCAG22_TECHNIQUES
+  locator: G139 Creating a mechanism that allows users to jump to errors
+  note: '비규범 기법. 검사 절차: 누락 데이터 메시지에서 해당 필드로 가는 링크 확인'
+scope:
+  level: situation
+  targets:
+  - 오류 요약
+exceptions: []
+relations:
+- type: depends
+  id: FORM-077
+  note: 오류 요약이 있어야 성립
+- type: depends
+  id: COPY-053
+  note: 요약 항목 문구는 필드 옆 오류 메시지와 같은 문장(COPY-053)
+examples:
+  good:
+  - lang: html
+    code: "<ul>\n  <li><a href=\"#birth-year\">생년월일의 연도를 입력해 주세요</a></li>\n  <li><a href=\"#contact-sms\">연락 방법을\
+      \ 선택해 주세요</a></li>\n</ul>\n"
+    note: 각 항목이 해당 필드(여러 필드 질문은 오류 난 첫 필드, 라디오는 첫 옵션)로 가는 링크다.
+  bad:
+  - lang: html
+    code: "<ul>\n  <li>생년월일의 연도를 입력해 주세요</li>\n  <li><a href=\"#contact\">연락 방법을 선택해 주세요</a></li><!-- #contact는\
+      \ fieldset -->\n</ul>\n"
+    note: 링크가 없는 항목이 있고, 라디오 그룹을 첫 옵션이 아닌 fieldset으로 연결했다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(curl로 GOV.UK·W3C 페이지 HTML을 받아 본문 텍스트와 대조): GOV.UK 링크 대상 규칙 3가지와 G139 설명·검사
+  절차 확인. 원문 강도 ''You must''지만 reference_system·비규범 기법이라 SHOULD.'
+korean_specific: false
+tags:
+- research-state_copy_resp
+- reference-system

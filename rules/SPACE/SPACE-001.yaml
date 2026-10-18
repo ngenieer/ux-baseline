@@ -1,0 +1,68 @@
+id: SPACE-001
+category: SPACE
+title: 간격은 정의된 스케일에서만
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: MUST
+statement: 'margin·padding·gap 등 모든 간격 값은 디자인 토큰의 간격 스케일(KRDS: number 원시 토큰과 gap·padding 토큰)에서만 고르고 CSS에 px 값을 직접
+  쓰지 않는다.'
+measurement:
+  criteria: CSS의 margin*, padding*, gap, row-gap, column-gap, inset* 선언 값이 var(--space-*)·레이아웃 여백 토큰 var(--layout-screen-margin-*)(또는
+    KRDS var(--krds-gap-*), var(--krds-padding-*), var(--krds-number-*)), 0, auto 중 하나다.
+  method: stylelint로 소스 CSS 전체를 검사한다.
+automation:
+  feasibility: partial
+  checks:
+  - tool: stylelint
+    rule: scale-unlimited/declaration-strict-value
+    method: 간격 속성에 var(--space-*)·0·auto만 허용
+  note: 인라인 style 속성과 JS로 넣는 값은 stylelint 범위 밖 — eslint 커스텀 규칙 또는 런타임 검사로 보완(4단계).
+rationale: 간격 값을 스케일 밖에서 고르면 화면마다 간격이 달라져 일관성이 깨진다.
+sources:
+- ref: KRDS
+  locator: 디자인 스타일 > 레이아웃 > 간격 (가이드라인 PDF 2025.08 152쪽)
+  note: https://www.krds.go.kr/html/site/style/style_05.html
+scope:
+  level: global
+  targets:
+  - margin
+  - padding
+  - gap
+  - inset
+exceptions:
+- 외부 라이브러리·KRDS 키트 원본 CSS(CF-049)
+relations:
+- type: refines
+  id: SPACE-003
+  note: SPACE-003은 입력 필드에 쓸 간격 토큰을 지정.
+- type: refines
+  id: SPACE-002
+examples:
+  good:
+  - lang: css
+    code: '.card { padding: var(--space-padding-8); gap: var(--space-gap-5); }
+
+      '
+    note: 간격 값을 간격 토큰에서만 고른다.
+  bad:
+  - lang: css
+    code: '.card { padding: 23px; gap: 13px; } /* 스케일에 없는 값 직접 입력 */
+
+      '
+    note: 토큰 없이 px 값을 직접 썼다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(curl로 KRDS 페이지 HTML을 받아 본문 텍스트를 직접 확인): 디자인 스타일 > 레이아웃(style_05) 간격 ''모든 간격은
+  8-point grid system을 기준으로 설정하여 일관성을 유지'', ''간격의 요소는 primitive token인 number에서 사용된다.'' 확인. 토큰 값은 krds-uiux v1.1.0
+  resources/css/token/krds_tokens.css로 대조(html font-size 62.5% 기준 number-1~21 = 1·2·4·6·8·10·12·16·20·24·28·32·36·40·44·48·56·64·72·80·96px)
+  — 1·2·4·6·10·12·20·28·36·44px처럼 8의 배수가 아닌 값이 있어 ''8-point''는 엄밀한 8 배수가 아님. 지시형 ''설정하여'' → SHOULD. 프로젝트 지침은 ''토큰에
+  없는 값 금지''를 MUST로 두라고 하나 출처 강도는 SHOULD — 3단계에서 체계 내부 결정(CF)으로 MUST 상향 검토(MOTION-010·SHAPE-001과 같은 구조). 2026-10-18
+  독립 검토: COLOR-022·TYPO-032와 같은 적용 범위 예외(외부 라이브러리·KRDS 키트 원본 CSS, CF-049) 추가(CF-024).'
+korean_specific: false
+tags:
+- krds
+- design-token
+decisions:
+- CF-024
+- CF-060

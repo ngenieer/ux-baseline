@@ -1,0 +1,75 @@
+id: A11Y-010
+category: A11Y
+title: 호버·포커스 추가 콘텐츠
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: MUST
+statement: 호버나 키보드 초점으로 나타나는 추가 콘텐츠는 초점·포인터를 옮기지 않고 닫을 수 있고(Esc 등), 그 위로 포인터를 옮겨도 사라지지 않으며, 호버·초점이 없어지거나 사용자가 닫거나
+  정보가 무효가 될 때까지 유지한다.
+measurement:
+  criteria: '툴팁·하위 메뉴·비모달 팝업 등 호버/초점으로 표시되는 콘텐츠마다: (1) 닫기(Dismissible): 포인터·초점을 옮기지 않고 Esc로 닫힌다. (2) 머무르기(Hoverable):
+    포인터를 트리거에서 추가 콘텐츠 위로 옮겨도 사라지지 않는다. (3) 유지(Persistent): 시간 제한으로 사라지지 않는다.'
+  method: 각 트리거에 마우스를 올리고 추가 콘텐츠로 이동, Esc 입력, 10초 대기를 수행하고, 키보드 Tab 초점에서도 Esc와 대기를 반복한다.
+automation:
+  feasibility: none
+  checks: []
+  note: '검사기 규칙 없음. 4단계 커스텀 검사: Playwright로 hover→Esc→표시 여부, hover→추가 콘텐츠 이동→표시 여부를 자동화.'
+rationale: 저시력 확대 사용자는 추가 콘텐츠가 다른 콘텐츠를 가리거나 포인터 이동 중에 사라지면 읽을 수도 닫을 수도 없다.
+sources:
+- ref: WCAG22
+  locator: SC 1.4.13 Content on Hover or Focus (Level AA)
+  note: https://www.w3.org/TR/WCAG22/#content-on-hover-or-focus
+- ref: WCAG22_UNDERSTANDING
+  locator: https://www.w3.org/WAI/WCAG22/Understanding/content-on-hover-or-focus.html
+- ref: KRDS
+  locator: 컴포넌트 (여러 페이지) (가이드라인 PDF 2025.08 275·279·635·662쪽)
+  note: '같은 요구를 다루는 KRDS 컴포넌트: 맥락적 도움말, 메인 메뉴, 툴팁 — 상세는 sources/extracts/KRDS-components.yaml'
+- ref: CSS_MQ4
+  locator: 4.4 hover — 'design layouts that do not depend on hovering to be fully usable'
+  note: '같은 요구: 정보나 기능을 호버로만 드러내지 않고, 호버 효과는 @media (hover: hover)로 감싸며, 호버가 없는 기기에서도 같은 정보와 기능을 클릭·탭·키보드 초점으로 쓸
+    수 있게 한다.'
+- ref: WCAG22_UNDERSTANDING
+  locator: Understanding 1.4.13 — hover로 뜨는 콘텐츠는 키보드 초점으로도(2.1.1)
+  note: '같은 요구: 정보나 기능을 호버로만 드러내지 않고, 호버 효과는 @media (hover: hover)로 감싸며, 호버가 없는 기기에서도 같은 정보와 기능을 클릭·탭·키보드 초점으로 쓸
+    수 있게 한다.'
+scope:
+  level: component
+  targets:
+  - '[role=tooltip]'
+  - 툴팁
+  - 하위 메뉴
+  - 비모달 팝오버
+exceptions:
+- 닫기 요건은 추가 콘텐츠가 입력 오류를 알리거나 다른 콘텐츠를 가리거나 대체하지 않으면 적용하지 않는다.
+- '추가 콘텐츠의 표시를 사용자 에이전트가 제어하고 작성자가 바꾸지 않은 경우(예: HTML title 속성 툴팁).'
+- 초점을 받으면 나타나는 건너뛰기 링크처럼 트리거 자체가 보이는 경우는 추가 콘텐츠가 아니다.
+relations: []
+examples:
+  good:
+  - lang: html
+    code: '<button aria-describedby="tip1">도움말</button>
+
+      <div role="tooltip" id="tip1">입력 형식: YYYY-MM-DD</div>
+
+      <script>/* Esc keydown 시 툴팁 숨김, 툴팁 위 hover 중에는 유지 */</script>
+
+      '
+    note: Esc로 닫히고 툴팁 위로 포인터를 옮겨도 유지됨
+  bad:
+  - lang: html
+    code: '<!-- 툴팁이 트리거 mouseleave 즉시 사라져 툴팁 위로 이동할 수 없고, Esc로 닫히지 않음 -->
+
+      '
+    note: 툴팁이 mouseleave 즉시 사라지고 Esc로 닫히지 않음
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(sources/extracts/WCAG22-A-AA.yaml): statement·수치가 SC 원문과 일치함을 확인. 1단계에 이 룰로
+  병합된 KRDS 컴포넌트 항목(sources/extracts/KRDS-components.yaml)은 개별 페이지를 다시 열지 않았다 — 룰의 요구는 WCAG 원문 기준. 1단계에 병합된 CSS_MQ4·Understanding
+  1.4.13 출처의 ''정보·기능을 호버로만 드러내지 않기''는 이 SC와 일부만 겹치고 2.1.1(A11Y-011) 쪽 요구에 가깝다 — 분리 여부는 notes에 제안.'
+korean_specific: false
+tags:
+- wcag22
+- level-aa
+- new-in-2.1
+- krds

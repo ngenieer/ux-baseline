@@ -1,0 +1,62 @@
+id: STATE-044
+category: STATE
+title: 서비스 문제(5xx) 화면
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 예상하지 못한 서버 오류가 나면 5xx 상태 코드로 응답하고, 모든 예상 못한 오류에 같은 화면으로 제목 '서비스에 문제가 있습니다', '잠시 후 다시 시도하세요' 안내, 진행 중이던
+  입력값의 저장 여부(저장했다면 보관 기간)를 보여주며, '500'·'Internal Server Error' 같은 기술 용어, '기술적인 문제가 발생했습니다' 같은 모호한 문구, 빨간 경고 텍스트,
+  브레드크럼을 쓰지 않는다.
+measurement:
+  criteria: (1) 오류 주입 시 응답 상태가 500~599다. (2) h1·document.title이 '서비스에 문제가 있습니다'로 시작한다. (3) '잠시 후 다시 시도하세요' 문장이 있다.
+    (4) 입력 절차 중에 난 오류면 입력값 저장 여부 문장이 있다. (5) 보이는 텍스트에 '500'·'Internal Server Error'·스택트레이스가 없다. (6) 브레드크럼 nav와 오류(빨강)
+    색 본문 텍스트가 없다.
+  method: 서버 오류를 주입(테스트 엔드포인트·목 서버)해 상태 코드와 화면을 확인한다.
+automation:
+  feasibility: partial
+  checks:
+  - tool: custom
+    method: '통합 테스트: 오류 주입 → status>=500, h1 텍스트, ''500''·스택트레이스 문자열 부재 검사'
+  note: (4) 저장 여부 문구의 정확성은 수동.
+rationale: 사용자는 무엇이 일어났는지, 입력이 남았는지, 언제 다시 시도할지 알아야 한다. 기술 용어는 도움이 되지 않는다(GOV.UK).
+sources:
+- ref: GOVUK_500
+  locator: When to use / How it works — same page for all unexpected problems; H1, 'Try again later.', information
+    about what has happened to their answers; do not use breadcrumbs, jargon like 500, 'We are experiencing technical
+    difficulties', red text
+- ref: NA_ERROR_PAGES
+  locator: Service issue — 'The server should also return a response code in the 5xx range.'
+scope:
+  level: situation
+  targets:
+  - 5xx 응답 페이지
+exceptions:
+- 계획된 서비스 중단(점검)은 이 화면이 아닌 서비스 이용 불가(503) 화면을 쓴다. 문제가 빨리 해결되지 않으면 서비스를 닫고 503 화면으로 바꾼다(GOV.UK).
+- 본문에는 사과 문장('이용에 불편을 드려 죄송합니다' 등)을 쓸 수 있다. 이때도 h1·document.title은 '서비스에 문제가 있습니다'로 시작한다(CF-032).
+relations: []
+examples:
+  good:
+  - lang: html
+    code: "<!-- HTTP 500 응답 -->\n<title>서비스에 문제가 있습니다 - 서비스명</title>\n<main><h1>서비스에 문제가 있습니다</h1>\n  <p>이용에 불편을\
+      \ 드려 죄송합니다. 잠시 후 다시 시도하세요.</p>\n  <p>입력한 내용은 저장했습니다. 30일 동안 보관됩니다.</p>\n</main>\n"
+    note: 5xx로 응답하고 정해진 제목·재시도 안내·입력값 저장 여부를 쓴다. 본문의 사과 문장은 CF-032로 허용.
+  bad:
+  - lang: html
+    code: '<h1>500 Internal Server Error</h1>
+
+      <pre>NullPointerException at …</pre>
+
+      '
+    note: 상태 코드 번호·기술 용어·스택트레이스를 사용자에게 보인다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(GOV.UK There is a problem with the service pages·National Archives Error pages
+  curl 확인): 같은 화면 사용, H1·''Try again later.''·답변 처리 정보·금지 항목·5xx 응답 코드 확인. ''30일''은 GOV.UK 예시 값이라 statement에 넣지
+  않음. GOV.UK H1은 ''Sorry, …''로 시작 — 한국어 문구에 사과 표현을 넣을지는 BACKLOG의 COPY-005 vs GOV.UK 문체 충돌과 함께 3단계에서. 한국어 문구는 번역
+  선택. 2026-10-18 독립 검토: GOV.UK H1 ''Sorry, …''의 사과 표현은 CF-032에 따라 본문 사과 문장 허용(예외)으로 반영, h1 문구는 유지.'
+korean_specific: false
+tags:
+- research-state_copy_resp
+decisions:
+- CF-032

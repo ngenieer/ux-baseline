@@ -1,0 +1,52 @@
+id: COPY-035
+category: COPY
+title: 단계 레이블 길이
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 단계 표시기의 단계 레이블은 짧은 단어나 구로 써서 모든 지원 화면 너비에서 잘리거나 줄바꿈되지 않게 하고, 설명이 더 필요하면 보조 텍스트를 레이블 옆에 따로 둔다.
+measurement:
+  criteria: 단계 레이블 요소마다 지원 화면 너비 각각에서 줄 수가 1이고 scrollWidth ≤ clientWidth(말줄임 없음)다.
+  method: 지원 중단점마다 단계 표시기 레이블의 줄 수와 넘침을 측정한다.
+automation:
+  feasibility: none
+  checks: []
+  note: '4단계 커스텀 검사(Playwright): 중단점별 단계 레이블 getClientRects().length == 1 && scrollWidth <= clientWidth.'
+rationale: 단계 레이블이 잘리거나 줄바꿈되면 현재 단계의 작업을 파악하기 어렵다(KRDS 단계 표시기).
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 단계 표시기 > 사용성 가이드라인 (가이드라인 PDF 2025.08 584쪽)
+  note: https://www.krds.go.kr/html/site/component/component_07_01.html
+scope:
+  level: component
+  targets:
+  - 단계 표시기 레이블
+exceptions: []
+relations:
+- type: depends
+  id: COPY-003
+  note: 단계 레이블도 그 단계의 작업을 설명해야 한다(COPY-003)
+examples:
+  good:
+  - lang: html
+    code: '<ol class="steps"><li aria-current="step">본인 확인</li><li>신청서 작성</li><li>서류 제출</li></ol>
+
+      '
+    note: 단계 레이블이 짧은 구라 줄바꿈·말줄임이 없다
+  bad:
+  - lang: html
+    code: '<ol class="steps"><li aria-current="step">공동인증서 또는 간편인증을 이용한 본인 확인 절차</li>…</ol>
+
+      '
+    note: 단계 레이블이 길어 줄바꿈되거나 잘린다
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(curl로 KRDS 페이지 HTML을 받아 텍스트로 직접 읽음): 단계 표시기(component_07_01) ''레이블로만 설명을 제공하기
+  어려운 경우, 보조 텍스트를 인접 영역에 제공할 수 있으나, 레이블 자체는 텍스트가 잘리거나 줄 바꿈이 발생하지 않도록 짧은 단어, 문구로 구성해야 한다'' 확인 — 보조 텍스트 부분을 statement에
+  넣음. 강도: KRDS ''해야 한다·않는다'' 표현 → SHOULD + public-sector-must(정책 2).'
+korean_specific: false
+tags:
+- krds
+- krds-component
+- public-sector-must

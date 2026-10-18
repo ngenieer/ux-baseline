@@ -1,0 +1,69 @@
+id: COPY-001
+category: COPY
+title: 감각적 특성에만 의존하지 않는 안내
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: MUST
+statement: 콘텐츠를 이해하고 조작하는 데 필요한 안내 문구가 모양·색·크기·화면 위치·방향·소리 같은 감각적 특성만으로 대상을 가리키지 않게 쓴다.
+measurement:
+  criteria: '(1) 안내 문구가 대상을 감각적 특성(모양·색·크기·위치·방향·소리)으로 가리키면, 같은 문장 안에 대상의 텍스트 레이블·이름도 함께 쓴다(예: ''오른쪽의 [다음] 버튼'').
+    (2) ''오른쪽 버튼'', ''빨간 항목'', ''동그란 아이콘'', ''소리가 나면''처럼 감각적 특성만으로 대상을 지정한 문구가 0건이다.'
+  method: 페이지의 안내·도움말·오류 문구에서 위치·방향어(위·아래·왼쪽·오른쪽·옆), 모양어(원·사각형·화살표), 색 이름, 크기어, 소리 언급을 검색하고, 검출된 문장마다 대상의 텍스트 레이블이
+    함께 쓰였는지 확인한다.
+automation:
+  feasibility: partial
+  checks:
+  - tool: html-validate
+    rule: ux-baseline/sensory-reference
+    method: '정적 HTML 의 문장에서 감각어+대상(오른쪽 버튼·빨간 항목·밑줄 친 부분·소리가 나면) 후보 검출, 같은 문장에 따옴표·대괄호 레이블이 있으면 제외 — 경고, 사람이 확인'
+  - tool: ux-baseline-check
+    rule: sensory-text
+    method: 'ux-baseline check: 스크립트가 만든 문구(처음 상태·states)에 같은 후보 검출 — 경고'
+  note: '4단계 커스텀 검사 후보: 안내 문구 텍스트에서 감각어 사전(왼쪽·오른쪽·위·아래·빨간·초록·둥근·네모 등)을 찾아 수동 검토 목록으로 뽑는다. 대상 레이블 병기 여부는 수동.'
+rationale: 화면을 보지 못하거나 색·소리를 구분하지 못하는 사용자, 화면 확대·재배치로 위치가 바뀐 사용자는 감각적 특성만으로 가리킨 대상을 찾을 수 없다.
+sources:
+- ref: WCAG22
+  locator: SC 1.3.3 Sensory Characteristics (Level A)
+  note: https://www.w3.org/TR/WCAG22/#sensory-characteristics
+- ref: WCAG22_UNDERSTANDING
+  locator: https://www.w3.org/WAI/WCAG22/Understanding/sensory-characteristics.html
+- ref: KWCAG22
+  locator: 검사항목 5.3.3
+scope:
+  level: global
+  targets:
+  - 안내 문구
+  - 도움말
+  - 오류 메시지
+  - 지시문
+exceptions: []
+relations:
+- type: depends
+  id: COLOR-001
+  note: 색에 관한 요구는 COLOR-001(WCAG 1.4.1)이 다룬다. 이 룰은 문구 쪽 요구.
+examples:
+  good:
+  - lang: html
+    code: '<p>입력을 마쳤으면 화면 아래의 <strong>[다음]</strong> 버튼을 누르세요.</p>
+
+      '
+    note: 대상을 위치와 함께 텍스트 레이블 [다음]으로도 가리킨다
+  bad:
+  - lang: html
+    code: '<p>입력을 마쳤으면 오른쪽 아래의 초록색 버튼을 누르세요.</p>
+
+      '
+    note: 위치·색으로만 버튼을 가리켜 화면을 보지 못하면 대상을 찾을 수 없다
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(sources/extracts/WCAG22-A-AA.yaml): SC 1.3.3 ''Instructions ... do not rely
+  solely on sensory characteristics of components such as shape, color, size, visual location, orientation, or sound.''
+  확인 — 원문 목록에 color가 있어 statement에 ''색''을 넣음(원문 note: 색 요구는 1.4 참조). KWCAG 2.2 대응 항목 번호는 비공식 HTML 판 기준 매핑 — 공식 원문
+  대조 전(registry KWCAG22 verified=false). 룰의 요구는 WCAG 원문만으로 성립. KWCAG 5.3.3도 ''색''을 나열.'
+korean_specific: false
+tags:
+- wcag22
+- level-a
+- new-in-2.0
+- kwcag22

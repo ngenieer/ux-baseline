@@ -1,0 +1,66 @@
+id: TYPO-002
+category: TYPO
+title: 텍스트 간격 조정 허용
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: MUST
+statement: 사용자가 행간을 글자 크기의 1.5배, 문단 뒤 간격을 2배, 자간을 0.12배, 단어 간격을 0.16배 이상으로 바꿔도 콘텐츠와 기능이 손실되지 않게 한다.
+measurement:
+  criteria: 모든 요소에 line-height:1.5 !important; letter-spacing:0.12em !important; word-spacing:0.16em !important,
+    문단(p)에 margin-bottom:2em !important 를 덮어씌운 상태에서 텍스트 잘림(overflow:hidden에 의한 가림), 텍스트끼리 겹침, 컨트롤 사용 불가가 0건이면 통과.
+  method: '수동+스크립트: 위 스타일을 주입하는 북마클릿(WCAG Understanding 1.4.12 Test Rules 참고)을 적용하고 주요 화면을 육안 비교한다. 보조로 요소별 scrollHeight
+    > clientHeight 이면서 overflow:hidden 인 텍스트 요소를 스크립트로 찾는다.'
+automation:
+  feasibility: partial
+  checks:
+  - tool: axe-core
+    rule: avoid-inline-spacing
+    method: 인라인 style에 !important 로 지정된 line-height·letter-spacing·word-spacing 이 사용자 재정의를 막는지만 검사
+  note: axe는 인라인 !important 만 본다. 고정 높이 컨테이너에서 글자가 잘리는지는 스타일 주입 후 수동 또는 커스텀 스크립트로 확인.
+rationale: 저시력·난독증 사용자는 행간·자간·단어 간격을 넓혀 읽는다. 고정 높이·overflow:hidden 등으로 이 재정의가 내용을 가리면 정보를 잃는다.
+sources:
+- ref: WCAG22
+  locator: SC 1.4.12 Text Spacing (Level AA)
+  note: https://www.w3.org/TR/WCAG22/#text-spacing
+- ref: WCAG22_UNDERSTANDING
+  locator: https://www.w3.org/WAI/WCAG22/Understanding/text-spacing.html
+- ref: KRDS
+  locator: 디자인 스타일 > 타이포그래피 > 줄 간격 (가이드라인 PDF 2025.08 105쪽)
+  note: https://www.krds.go.kr/html/site/style/style_03.html — KRDS 줄 간격 기준이 WCAG 1.4.12를 근거로 듦(웹 페이지 링크 기준 — PDF 105쪽 본문에는 1.4.12 인용이 없다) — TYPO-004 참고
+scope:
+  level: global
+  targets:
+  - 마크업 언어로 구현한 모든 텍스트
+exceptions:
+- 해당 언어·문자 체계가 쓰지 않는 텍스트 스타일 속성은 제외하고, 존재하는 속성만으로 충족할 수 있다 (WCAG 1.4.12 Exception)
+relations:
+- type: conflicts
+  id: TYPO-004
+  note: 양립. TYPO-004는 기본값, TYPO-002는 사용자가 값을 바꿨을 때의 손실 금지다. 둘 다 적용한다.
+  decision: CF-018
+examples:
+  good:
+  - lang: html
+    code: '<div class="card"><p>신청 서류는 10월 31일까지 제출해 주세요.</p></div>
+
+      <style>.card{min-height:6rem}</style>'
+    note: 높이가 최소값이라 간격을 늘리면 카드가 함께 늘어난다
+  bad:
+  - lang: html
+    code: '<div class="card"><p>신청 서류는 10월 31일까지 제출해 주세요.</p></div>
+
+      <style>.card{height:6rem;overflow:hidden}</style>'
+    note: 고정 높이와 overflow:hidden 때문에 간격을 늘리면 글자가 잘린다
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(sources/extracts/WCAG22-A-AA.yaml SC 1.4.12): 네 수치(1.5/2/0.12/0.16)와 예외가 원문과
+  일치. 원문 Note: 이 값을 쓰라는 요구가 아니라 재정의 시 손실이 없어야 한다는 요구. 한국어는 띄어쓰기를 쓰므로 word-spacing도 적용 대상. 2026-10-18 원문 대조(KRDS
+  https://www.krds.go.kr/html/site/style/style_03.html HTML을 curl로 받아 본문 확인): KRDS 줄 간격 절이 근거로 ''1.4.12 Text Spacing-Level
+  AA''를 링크함을 확인 — TYPO-004와의 관계는 BACKLOG.'
+korean_specific: false
+tags:
+- wcag22
+- level-aa
+- new-in-2.1
+- krds

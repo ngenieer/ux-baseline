@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>민원 안내 문서 AI 요약</title>
+  <link rel="stylesheet" href="vendor/ux-baseline/tokens.css">
+  <link rel="stylesheet" href="vendor/ux-baseline/base.css">
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <main class="page">
+    <header class="page__header">
+      <h1 class="page__title">민원 안내 문서 AI 요약</h1>
+      <p class="ai-notice" data-ai-disclosure>이 화면의 요약은 AI가 생성합니다. AI 요약은 틀릴 수 있으니 근거 원문과 함께 확인하세요.</p>
+    </header>
+
+    <section class="demo" aria-labelledby="demo-title">
+      <h2 class="demo__title" id="demo-title">시연 설정</h2>
+      <p class="demo__hint" id="demo-hint">실제 AI 대신 화면에 들어 있는 가짜 응답을 씁니다. 고른 상황은 다음에 '요약하기'나 '다시 생성'을 누를 때 적용됩니다.</p>
+      <fieldset class="radio-group" aria-describedby="demo-hint">
+        <legend class="radio-group__legend">재현할 응답 상황 (선택)</legend>
+        <div class="radio-group__options">
+          <div class="radio-group__option">
+            <input class="radio-group__input" type="radio" name="demo-mode" id="demo-mode-error" value="error">
+            <span class="radio-group__indicator" aria-hidden="true"></span>
+            <label class="radio-group__label" for="demo-mode-error">서비스 오류</label>
+            <p class="radio-group__description">요약 서비스가 응답하지 않아 요약을 만들지 못한 상황</p>
+          </div>
+          <div class="radio-group__option">
+            <input class="radio-group__input" type="radio" name="demo-mode" id="demo-mode-empty" value="empty">
+            <span class="radio-group__indicator" aria-hidden="true"></span>
+            <label class="radio-group__label" for="demo-mode-empty">요약할 내용 없음</label>
+            <p class="radio-group__description">문서에서 요약할 안내 내용을 찾지 못한 상황(답 없음)</p>
+          </div>
+          <div class="radio-group__option">
+            <input class="radio-group__input" type="radio" name="demo-mode" id="demo-mode-normal" value="normal" checked>
+            <span class="radio-group__indicator" aria-hidden="true"></span>
+            <label class="radio-group__label" for="demo-mode-normal">정상 요약</label>
+            <p class="radio-group__description">요약을 스트리밍으로 받는 기본 상황</p>
+          </div>
+        </div>
+      </fieldset>
+    </section>
+
+    <section class="intro" aria-labelledby="intro-title">
+      <h2 class="intro__title" id="intro-title">이 기능으로 할 수 있는 일</h2>
+      <ul class="intro__list" data-ai-capabilities>
+        <li>민원 안내 문서의 신청 기한·방법·준비 서류·수수료를 항목별로 요약합니다.</li>
+        <li>요약 항목마다 근거가 된 원문 문장을 함께 보여 줍니다.</li>
+      </ul>
+      <p class="intro__limit" data-ai-limitations>개인별 민원 처리 결과 조회, 법률 판단, 원문에 없는 내용 안내는 할 수 없습니다.</p>
+    </section>
+
+    <form class="request" id="summary-form" novalidate>
+      <div class="text-area" id="doc-field">
+        <label class="text-area__label" for="doc-input">민원 안내 문서 (필수)</label>
+        <p class="text-area__hint" id="doc-input-hint">기관 누리집이나 안내문에서 문서 본문을 복사해 붙여 넣으세요. 최대 5,000자까지 요약합니다.</p>
+        <textarea class="text-area__input" id="doc-input" name="document" rows="10" maxlength="5000" required aria-describedby="doc-input-hint doc-input-count"></textarea>
+        <p class="text-area__count" id="doc-input-count"><span class="text-area__count-current" id="doc-input-count-current">0</span>/5000</p>
+        <p class="text-area__status sr-only" role="status" id="doc-input-status"></p>
+        <p class="text-area__message" id="doc-input-error" hidden></p>
+      </div>
+      <div class="request__actions">
+        <button type="submit" class="button button--primary button--medium" id="summarize-button">요약하기</button>
+        <button type="button" class="button button--text button--small" id="sample-button">예시 문서 넣기</button>
+      </div>
+    </form>
+
+    <section class="result" id="result" aria-labelledby="result-title" hidden>
+      <div class="result__head">
+        <h2 class="result__title" id="result-title" tabindex="-1">요약 결과</h2>
+        <span class="badge badge--information" id="ai-label">AI 생성</span>
+        <span class="badge badge--gray" id="edited-label" hidden>사용자가 고침</span>
+      </div>
+
+      <div class="result__progress" id="progress" hidden>
+        <div class="spinner spinner--small">
+          <progress class="spinner__indicator" aria-labelledby="progress-text"></progress>
+          <span class="spinner__text" id="progress-text">요약을 만드는 중입니다.</span>
+        </div>
+        <button type="button" class="button button--secondary button--small" id="stop-button">생성 중단</button>
+      </div>
+
+      <div class="result__body" id="result-body" data-ai-status="idle">
+        <article class="result__output" id="ai-output" data-ai-output aria-describedby="ai-label" aria-busy="false">
+          <ol class="summary-list" id="summary-list"></ol>
+          <p class="result__stopped" id="stopped-note" hidden>생성 중단됨 — 요약이 끝나기 전에 멈춘 결과입니다. 빠진 내용이 있을 수 있으니 '다시 생성'을 누르거나 원문을 확인하세요.</p>
+        </article>
+
+        <div class="result__edit" id="edit-panel" hidden>
+          <p class="result__edit-hint" id="edit-hint">요약 항목의 문장을 직접 고칠 수 있습니다. 근거 원문은 바뀌지 않습니다.</p>
+          <div class="result__edit-fields" id="edit-fields"></div>
+          <div class="button-group" role="group" aria-label="요약 고치기 작업">
+            <button type="button" class="button button--primary button--small" id="edit-save">고친 내용 저장</button>
+            <button type="button" class="button button--secondary button--small" id="edit-cancel">고치기 취소</button>
+          </div>
+        </div>
+
+        <div class="state-box state-box--error" id="error-box" data-ai-status="error" hidden>
+          <h3 class="state-box__title">요약을 만들지 못했습니다</h3>
+          <p class="state-box__text">요약 서비스가 응답하지 않습니다. 붙여 넣은 문서는 입력란에 그대로 남아 있습니다. 잠시 후 다시 시도하세요.</p>
+          <div class="state-box__actions">
+            <button type="button" class="button button--secondary button--small" id="retry-button">다시 시도</button>
+            <button type="button" class="button button--text button--small" id="error-back-button" hidden>이전 요약 보기</button>
+          </div>
+        </div>
+
+        <div class="state-box state-box--empty" id="empty-box" data-ai-status="empty" hidden>
+          <h3 class="state-box__title">요약할 안내 내용을 찾지 못했습니다</h3>
+          <p class="state-box__text">붙여 넣은 글에서 신청 기한·방법·준비 서류·수수료 같은 민원 안내 문장을 찾지 못해 요약하지 않았습니다. 메뉴 이름이나 표 제목만 복사된 것은 아닌지 확인하고, 안내 문서의 본문 전체를 붙여 넣어 주세요.</p>
+          <div class="state-box__actions">
+            <button type="button" class="button button--secondary button--small" id="repaste-button">문서 다시 붙여넣기</button>
+            <button type="button" class="button button--text button--small" id="empty-back-button" hidden>이전 요약 보기</button>
+          </div>
+        </div>
+      </div>
+
+      <p class="sr-only" id="error-live" role="alert"></p>
+
+      <div class="result__footer" id="result-footer" hidden>
+        <dl class="confidence-legend">
+          <div class="confidence-legend__row">
+            <dt>표시 없음</dt>
+            <dd>근거 원문과 내용이 맞는 항목입니다. 그대로 참고해도 됩니다.</dd>
+          </div>
+          <div class="confidence-legend__row">
+            <dt><span class="badge badge--warning">확인 필요</span></dt>
+            <dd>AI의 확신이 낮은 항목입니다. 밑줄 친 부분을 근거 원문과 직접 비교해 확인하세요.</dd>
+          </div>
+        </dl>
+
+        <div class="result__actions" role="group" aria-label="요약 결과 작업">
+          <button type="button" class="button button--secondary button--small" id="regenerate-button" data-ai-regenerate>다시 생성</button>
+          <button type="button" class="button button--secondary button--small" id="edit-button">결과 고치기</button>
+          <button type="button" class="button button--secondary button--small" id="copy-button">요약 복사</button>
+        </div>
+
+        <div class="version-nav" id="version-nav" role="group" aria-label="요약 결과 버전" hidden>
+          <button type="button" class="button button--text button--small" id="version-prev">이전 결과</button>
+          <span class="version-nav__count" id="version-count">결과 1/1</span>
+          <button type="button" class="button button--text button--small" id="version-next">다음 결과</button>
+        </div>
+      </div>
+
+      <p class="sr-only" role="status" id="result-status"></p>
+    </section>
+  </main>
+</body>
+</html>

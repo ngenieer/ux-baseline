@@ -1,0 +1,59 @@
+id: COPY-034
+category: COPY
+title: 토글 상태 텍스트는 별도로
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 토글 상태를 텍스트('켜짐'·'꺼짐')로 보여줄 때는 레이블과 분리된 별도 텍스트로 스위치 바로 옆에 둔다.
+measurement:
+  criteria: 상태 텍스트가 있는 토글에서 (1) 상태 텍스트가 label 요소 밖의 별도 요소다. (2) 상태 텍스트 요소가 스위치 요소와 DOM 형제이거나 같은 컨테이너 안에서 스위치 바로
+    앞·뒤에 있다.
+  method: 상태 텍스트가 있는 토글의 마크업 구조를 확인한다.
+automation:
+  feasibility: none
+  checks: []
+  note: '4단계 커스텀 검사: 토글 규격 마크업에서 상태 텍스트 요소의 위치 검사.'
+rationale: 상태 텍스트를 레이블에 섞으면 레이블이 상태에 따라 바뀌게 되어 COPY-033을 어긴다. 스위치 옆에 두어야 상태와 컨트롤의 관계가 보인다(KRDS 토글 스위치).
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 토글 스위치 > 사용성 가이드라인 (가이드라인 PDF 2025.08 575쪽)
+  note: https://www.krds.go.kr/html/site/component/component_06_07.html
+scope:
+  level: component
+  targets:
+  - '[role=switch]'
+  - 토글 스위치
+exceptions: []
+relations:
+- type: depends
+  id: COPY-033
+  note: 레이블 고정(COPY-033)을 전제로 상태 텍스트 위치를 정함
+- type: depends
+  id: LAYOUT-051
+  note: 한 항목에 상태 텍스트를 넣으면 모든 항목에 넣는다(LAYOUT-051)
+examples:
+  good:
+  - lang: html
+    code: '<div class="switch-row"><label for="s2">자동 로그인</label>
+
+      <button id="s2" role="switch" aria-checked="false"></button><span aria-hidden="true">꺼짐</span></div>
+
+      '
+    note: 상태 텍스트 '꺼짐'을 레이블 밖 별도 요소로 스위치 바로 옆에 둔다
+  bad:
+  - lang: html
+    code: '<label for="s2">자동 로그인(꺼짐)</label><button id="s2" role="switch" aria-checked="false"></button>
+
+      '
+    note: 상태 텍스트를 레이블 안에 섞었다
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(curl로 KRDS 페이지 HTML을 받아 텍스트로 직접 읽음): 토글 스위치(component_06_07) ''상태 정보를 텍스트로
+  제공하고자 하는 경우, 스위치의 인접 영역에 별도 텍스트로 제공해야 한다'' 확인. 강도: KRDS ''해야 한다·않는다'' 표현 → SHOULD + public-sector-must(정책 2).
+  예시의 aria-hidden은 상태가 aria-checked로 이미 전달되므로 중복 낭독을 피하는 이 체계의 예.'
+korean_specific: false
+tags:
+- krds
+- krds-component
+- public-sector-must

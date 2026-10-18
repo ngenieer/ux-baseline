@@ -1,0 +1,172 @@
+{
+  "version": "0.1.0",
+  "cssDir": "vendor/ux-baseline",
+  "html": [
+    "**/*.html"
+  ],
+  "css": [
+    "**/*.css"
+  ],
+  "ignore": [
+    "node_modules/**",
+    "vendor/ux-baseline/**",
+    ".claude/**",
+    ".git/**",
+    "dist/**",
+    "build/**",
+    "coverage/**"
+  ],
+  "urls": [],
+  "states": [
+    {
+      "page": "index.html",
+      "name": "기간 오늘",
+      "steps": [
+        {
+          "click": "[data-period=\"1\"]"
+        },
+        {
+          "wait": 1000
+        },
+        {
+          "waitFor": "#metrics .metric"
+        }
+      ]
+    },
+    {
+      "page": "index.html",
+      "name": "기간 30일",
+      "steps": [
+        {
+          "click": "[data-period=\"30\"]"
+        },
+        {
+          "wait": 1000
+        },
+        {
+          "waitFor": "#metrics .metric"
+        }
+      ]
+    },
+    {
+      "page": "index.html",
+      "name": "새로 고침 중(스피너)",
+      "steps": [
+        {
+          "click": "#refresh"
+        },
+        {
+          "waitFor": "#loading"
+        }
+      ]
+    },
+    {
+      "page": "index.html",
+      "name": "새로 고침 완료",
+      "steps": [
+        {
+          "click": "#refresh"
+        },
+        {
+          "wait": 2700
+        },
+        {
+          "waitFor": "#metrics .metric"
+        }
+      ]
+    },
+    {
+      "page": "index.html",
+      "name": "불러오기 실패",
+      "steps": [
+        {
+          "select": [
+            "#demo-scenario",
+            "error"
+          ]
+        },
+        {
+          "click": "#refresh"
+        },
+        {
+          "waitFor": "#error-region .notice"
+        }
+      ]
+    },
+    {
+      "page": "index.html",
+      "name": "데이터 없음",
+      "steps": [
+        {
+          "select": [
+            "#demo-scenario",
+            "empty"
+          ]
+        },
+        {
+          "click": "#refresh"
+        },
+        {
+          "waitFor": "#orders-empty .empty-state__title"
+        }
+      ]
+    },
+    {
+      "page": "index.html",
+      "name": "상태 필터 처리 중",
+      "steps": [
+        {
+          "click": "[data-status=\"processing\"]"
+        },
+        {
+          "waitFor": "#orders-rows tr"
+        }
+      ]
+    },
+    {
+      "page": "index.html",
+      "name": "정렬 금액",
+      "steps": [
+        {
+          "click": "[data-sort=\"amount\"]"
+        },
+        {
+          "waitFor": "#orders-rows tr"
+        }
+      ]
+    },
+    {
+      "page": "index.html",
+      "name": "페이지 2",
+      "steps": [
+        {
+          "click": "a.pagination__link[data-page=\"2\"]"
+        },
+        {
+          "waitFor": "#orders-rows tr"
+        }
+      ]
+    },
+    {
+      "page": "index.html",
+      "name": "30일 페이지 중간",
+      "steps": [
+        {
+          "click": "[data-period=\"30\"]"
+        },
+        {
+          "wait": 1000
+        },
+        {
+          "click": "a.pagination__link[data-page=\"8\"]"
+        },
+        {
+          "click": "a.pagination__link[data-page=\"9\"]"
+        },
+        {
+          "waitFor": "#orders-rows tr"
+        }
+      ]
+    }
+  ]
+}

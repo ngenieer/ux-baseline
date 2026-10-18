@@ -1,0 +1,57 @@
+id: NAV-071
+category: NAV
+title: 탭바 하단 고정
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 탭바는 화면 하단에 고정하고, 스크롤 등 사용자 동작에 따라 숨기거나 위치를 바꾸지 않는다.
+measurement:
+  criteria: '탭바가 있는 화면에서 탭바의 position이 fixed(또는 sticky)이고 bottom: 0이며, 위·아래로 스크롤한 뒤에도 탭바가 같은 위치에 보인다(transform·visibility·display
+    변화 없음).'
+  method: 'E2E: 스크롤 전후 탭바 getBoundingClientRect()와 표시 상태를 비교한다.'
+automation:
+  feasibility: none
+  checks: []
+  note: 기존 검사기 규칙 없음. E2E 커스텀 검사로 자동화 가능.
+rationale: 탭바에 익숙하지 않은 사용자가 탭바를 찾지 못하는 일을 막는다.
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 탭바 > 사용성 가이드라인 (탭바는 화면 하단에 위치를 고정하여 제공하며, 스크롤 동작 시 숨겨지지 않도록 한다) (가이드라인 PDF 2025.08 349쪽)
+  note: https://www.krds.go.kr/html/site/component/component_12_07.html
+scope:
+  level: component
+  targets:
+  - 탭바
+exceptions:
+- 정보 구조상 하위 수준 화면에서 탭바를 두지 않는 것 — 원문 명시('이 항목을 준수하지 않는 것이 아니다')
+relations:
+- type: depends
+  id: LAYOUT-001
+  note: 고정 탭바가 초점 받은 요소를 가리지 않게(WCAG 2.4.11) — 본문에 scroll-padding-bottom을 탭바 높이 이상으로 둔다
+examples:
+  good:
+  - lang: css
+    code: ':root { --tab-bar-height: var(--size-height-8); } /* 탭바 높이 — 토큰 값 */
+
+      .tab-bar { position: fixed; inset: auto 0 0 0; block-size: var(--tab-bar-height); }
+
+      html { scroll-padding-bottom: var(--tab-bar-height); }
+
+      '
+    note: 탭바를 하단에 고정하고 스크롤에 반응하지 않는다.
+  bad:
+  - lang: css
+    code: '.tab-bar.is-scrolling-down { transform: translateY(100%); }  /* 스크롤 시 숨김 */
+
+      '
+    note: 아래로 스크롤하면 탭바를 숨긴다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(KRDS 페이지 curl 수신 후 텍스트 추출): ''탭바의 배치를 변경하거나 사용자의 행동에 반응하여 숨겨졌다 표시되지 않도록 한다'',
+  ''정보 구조상 하위 수준에 속하는 뷰에 진입하였을 때 탭바가 제공되지 않는 것은 적절하며'' 확인. 원문 지시형 문장을 의무로 읽어 SHOULD + public-sector-must.'
+korean_specific: false
+tags:
+- krds
+- krds-component
+- public-sector-must

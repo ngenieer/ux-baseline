@@ -1,0 +1,45 @@
+id: STATE-010
+category: STATE
+title: 디스클로저 초기 상태
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: MAY
+statement: 디스클로저는 페이지가 로딩될 때 접힌 상태로 제공한다.
+measurement:
+  criteria: 페이지 로드 직후 디스클로저가 details 요소면 open 속성이 없고, 버튼 패턴이면 트리거의 aria-expanded="false"이며 내용 영역이 숨겨져 있다.
+  method: 페이지를 새로 열고 DOM을 검사한다.
+automation:
+  feasibility: none
+  checks: []
+  note: '4단계 커스텀 검사: 로드 직후 details[open] 또는 디스클로저 트리거의 [aria-expanded=true] 존재 시 실패(아코디언 등 다른 컴포넌트와 셀렉터 구분 필요).'
+rationale: 디스클로저는 부가 정보를 숨겨 훑어보기 부담을 줄이는 용도라 펼친 채 시작하면 목적에 맞지 않는다(KRDS).
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 디스클로저 > 사용성 가이드라인 (가이드라인 PDF 2025.08 383쪽)
+  note: https://www.krds.go.kr/html/site/component/component_04_04.html
+scope:
+  level: component
+  targets:
+  - details
+  - 디스클로저
+exceptions: []
+relations: []
+examples:
+  good:
+  - lang: html
+    code: "<details>\n  <summary>그래프 대체 텍스트 보기</summary>\n  <p>2026년 분기별 신청 건수: 1분기 120건, 2분기 180건 …</p>\n</details>\n"
+    note: 로드 시 open 속성 없이 접힌 상태로 제공한다.
+  bad:
+  - lang: html
+    code: "<details open>\n  <summary>그래프 대체 텍스트 보기</summary>\n  <p>2026년 분기별 신청 건수: 1분기 120건, 2분기 180건 …</p>\n\
+      </details>\n"
+    note: 로드 시 펼친 상태(open)로 제공한다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(curl로 KRDS 페이지 HTML을 받아 텍스트로 직접 읽음): 디스클로저 component_04_04 ''기본적으로 축소된 상태로
+  제공한다 … 펼쳐진 상태로 제공하는 것은 적절하지 않다'' 확인. 근거 문장이 ''적절하지 않다''(권장 수준)라 MAY.'
+korean_specific: false
+tags:
+- krds
+- krds-component

@@ -1,0 +1,46 @@
+id: STATE-009
+category: STATE
+title: 긴급 공지 숨기기 금지
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 긴급 공지에 숨기기·닫기 버튼이나 접기 기능을 두지 않는다.
+measurement:
+  criteria: 긴급 공지 컴포넌트 안에 공지를 숨기거나 접는 button·details/summary·aria-expanded 컨트롤이 없다.
+  method: 긴급 공지 마크업을 검사한다.
+automation:
+  feasibility: none
+  checks: []
+  note: '4단계 커스텀 검사: .emergency-notice(규격 셀렉터) 안의 button, summary, [aria-expanded] 존재 시 실패(공지 상세 링크 a[href]는 허용).'
+rationale: 한 번 숨기면 새로 고침이나 방문 기록 초기화 전까지 사용자가 반드시 알아야 할 공지를 다시 볼 수 없다(KRDS).
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 긴급 공지 > 사용성 가이드라인 (가이드라인 PDF 2025.08 364쪽)
+  note: https://www.krds.go.kr/html/site/component/component_04_02.html
+scope:
+  level: component
+  targets:
+  - 긴급 공지
+exceptions: []
+relations: []
+examples:
+  good:
+  - lang: html
+    code: "<section class=\"emergency-notice\" aria-labelledby=\"en-l\">\n  <strong id=\"en-l\">긴급도: 상</strong>\
+      \ 시스템 장애로 결제가 중단되었습니다. <a href=\"/notice/9\">결제 중단 안내 자세히 보기</a>\n</section>\n"
+    note: 긴급 공지에 닫기·접기 컨트롤이 없다.
+  bad:
+  - lang: html
+    code: "<section class=\"emergency-notice\" aria-labelledby=\"en-l\">\n  <strong id=\"en-l\">긴급도: 상</strong>\
+      \ 시스템 장애로 결제가 중단되었습니다.\n  <button type=\"button\" aria-label=\"공지 닫기\">×</button>\n</section>\n"
+    note: 긴급 공지를 닫는 버튼이 있어 사용자가 놓칠 수 있다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(curl로 KRDS 페이지 HTML을 받아 텍스트로 직접 읽음): 긴급 공지 component_04_02 ''긴급 공지 배너 숨기기 버튼을
+  제공하지 않는다 … 숨기거나 일시적으로 접어두는 기능을 제공해서는 안 된다'' 확인.'
+korean_specific: false
+tags:
+- krds
+- krds-component
+- public-sector-must

@@ -1,0 +1,56 @@
+id: PERF-007
+category: PERF
+title: INP 200ms 이하(p75)
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 실사용자 측정(RUM) 기준 75번째 백분위 INP를 모바일과 데스크톱 각각 200ms 이하로 유지하고, 응답성 지표로 FID를 쓰지 않는다.
+measurement:
+  criteria: 최근 28일 RUM 데이터(web-vitals onINP)를 모바일·데스크톱으로 나눠 집계한 p75 INP가 각각 200ms 이하이다. 성능 대시보드·예산에 FID 항목이 없다.
+  method: web-vitals onINP로 수집해 기기군별 p75로 집계한다. 실험실 대리 지표로 Lighthouse total-blocking-time을 본다.
+automation:
+  feasibility: partial
+  checks:
+  - tool: lighthouse
+    rule: total-blocking-time
+    method: 실험실 대리 지표(INP 판정 아님)
+  note: INP는 실제 상호작용이 있어야 측정된다 — 판정은 RUM. Playwright로 개별 상호작용(클릭→다음 페인트) 시간을 재는 회귀 테스트는 4단계 커스텀.
+rationale: 클릭·탭·키 입력 뒤 화면이 늦게 바뀌면 사용자는 입력이 무시됐다고 느끼고 반복 입력한다. FID는 2024-03-12 Core Web Vitals에서 INP로 대체됐다.
+sources:
+- ref: WEBDEV_INP
+  locator: What is a good INP score?
+  note: ≤200ms good, 200<x≤500 needs improvement, >500 poor. 측정 대상은 클릭·탭·키 입력(호버·스크롤 제외)
+- ref: WEBDEV_VITALS
+  locator: Core Web Vitals 목록
+- ref: WEBDEV_INP_CWV_2024
+  locator: INP replaces FID on March 12 (2024)
+scope:
+  level: global
+  targets:
+  - 모든 페이지
+exceptions: []
+relations:
+- type: conflicts
+  id: PERF-017
+  note: 양립. PERF-017은 조작 직후 화면에 보이는 즉각 반응(눌림·선택 표시)의 상한, PERF-007은 실사용자 측정 지표(INP p75)의 상한이다. 측정 대상이 다르므로 둘 다 적용한다.
+  decision: CF-015
+examples:
+  good:
+  - lang: js
+    code: 'import { onINP } from ''web-vitals'';
+
+      onINP(m => navigator.sendBeacon(''/rum'', JSON.stringify({ name: m.name, value: m.value })));'
+    note: web-vitals onINP로 실사용자 INP를 수집한다.
+  bad:
+  - lang: js
+    code: import { onFID } from 'web-vitals'; // 폐기된 지표만 수집
+    note: 폐기된 FID만 수집한다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(web.dev INP·Web Vitals·INP CWV 블로그 curl): ''An INP below or at 200 milliseconds
+  means … good'', ''above 500 milliseconds … poor'', 호버·스크롤 미측정, ''INP will … replace FID on March 12'', ''FID will
+  be deprecated'' 확인. 28일 집계 창은 체계 선택.'
+korean_specific: false
+tags:
+- research-motion_perf

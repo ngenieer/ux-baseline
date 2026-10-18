@@ -1,0 +1,82 @@
+id: RESP-003
+category: RESP
+title: 리플로우
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: MUST
+statement: 세로 스크롤 콘텐츠는 너비 320 CSS px, 가로 스크롤 콘텐츠는 높이 256 CSS px에 해당하는 화면에서 정보와 기능의 손실 없이, 두 방향 스크롤 없이 이용할 수 있게 한다.
+  사용이나 의미 전달에 2차원 배치가 필요한 부분만 예외로 한다.
+measurement:
+  criteria: '(1) 뷰포트 너비 320 CSS px(또는 1280px 창에서 확대 400%)일 때 document.documentElement.scrollWidth ≤ clientWidth(페이지
+    전체 가로 스크롤 없음). (2) 그 상태에서 모든 텍스트·컨트롤이 보이고 조작된다(잘림·겹침 없음). (3) 가로 스크롤이 남는 요소는 데이터 표·지도·도표·동영상·게임·프레젠테이션·작업 중
+    계속 보여야 하는 도구 막대뿐이고, 그 요소 자체의 스크롤 영역(overflow-x: auto)이다.'
+  method: Playwright로 viewport 320×256 이상 높이에서 (1)을 계산하고, 화면 점검으로 (2)(3)을 확인한다.
+automation:
+  feasibility: partial
+  checks:
+  - tool: custom
+    method: 'Playwright: setViewportSize({width:320, height:800}) 후 scrollWidth ≤ clientWidth 확인, 넘치는 요소 목록을 출력해
+      예외 유형인지 수동 판정'
+  - tool: ux-baseline-check
+    rule: reflow-320
+    method: 'ux-baseline check: 320×800 에서 문서 가로 스크롤 0px (처음 상태·states)'
+  note: axe-core에 1.4.10 규칙 없음(추출본 axe_rules 비어 있음). 페이지 가로 넘침은 커스텀 자동 검사, 손실·예외 판정은 수동.
+rationale: 확대해 쓰는 저시력 사용자는 한 줄을 읽을 때마다 좌우로 스크롤하면 내용을 따라가기 어렵다.
+sources:
+- ref: WCAG22
+  locator: SC 1.4.10 Reflow (Level AA)
+  note: https://www.w3.org/TR/WCAG22/#reflow
+- ref: WCAG22_UNDERSTANDING
+  locator: https://www.w3.org/WAI/WCAG22/Understanding/reflow.html
+- ref: WCAG22_UNDERSTANDING
+  locator: Understanding 1.4.10 Reflow — Note 1·2, Tabular data and grid-based UI
+  note: 1280px·400% 환산, 2차원 배치 예외 유형
+- ref: KRDS
+  locator: 컴포넌트 > 화면 크기 조정 > 접근성 가이드라인 (가이드라인 PDF 2025.08 734쪽)
+  note: https://www.krds.go.kr/html/site/component/component_10_02.html — 확대 시 스크롤은 단일 방향, 이미지·멀티미디어·표·모바일 레이아웃은
+    양방향 허용
+- ref: KRDS
+  locator: 컴포넌트 > 표 > 플랫폼에 대한 고려 사항 (가이드라인 PDF 2025.08 468쪽)
+  note: https://www.krds.go.kr/html/site/component/component_04_11.html — 행·열 관계 유지가 필요한 표는 표 섹션에 가로 스크롤
+- ref: KRDS
+  locator: 컴포넌트 (여러 페이지) (가이드라인 PDF 2025.08 467~468, 734쪽)
+  note: '같은 요구를 다루는 KRDS 컴포넌트: 표, 화면 크기 조정 — 상세는 sources/extracts/KRDS-components.yaml'
+scope:
+  level: global
+  targets:
+  - html
+  - body
+  - table
+  - pre
+exceptions:
+- 사용이나 의미 전달에 2차원 배치가 필요한 부분(이해에 필요한 이미지·지도·도표, 동영상, 게임, 프레젠테이션, 데이터 표(개별 셀 제외), 콘텐츠를 조작하는 동안 도구 막대가 계속 보여야 하는 인터페이스)
+  — WCAG 1.4.10 Note 2.
+relations:
+- type: conflicts
+  id: LAYOUT-043
+  note: 양립. LAYOUT-043은 아코디언·모달처럼 공간이 제한된 영역에만 적용한다. 일반 본문의 데이터 표는 표 영역 안에서만 가로 스크롤을 허용하고 페이지 전체 가로 스크롤은 만들지 않는다.
+  decision: CF-012
+examples:
+  good:
+  - lang: css
+    code: '.table-wrap { overflow-x: auto; }
+
+      .layout { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr)); }'
+    note: 표만 자체 가로 스크롤을 두고 레이아웃은 320px에서 한 열로 접힌다.
+  bad:
+  - lang: css
+    code: '.layout { width: 1200px; } /* 320px에서 페이지 전체 가로 스크롤 */'
+    note: 고정 너비 1200px로 320px에서 페이지 전체가 가로 스크롤된다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(sources/extracts/WCAG22-A-AA.yaml, Understanding 1.4.10 curl): SC 문장·320/256
+  CSS px·Note 1(1280px 400%)·Note 2(2차원 배치 예외 목록) 확인. KRDS 화면 크기 조정(component_10_02)·표(component_04_11) 문장 curl
+  확인. 1단계에 붙은 CSS_TEXT_3(keep-all + overflow-wrap)·Understanding 1.4.10 ''같은 요구'' 출처 2건은 한국어 줄바꿈 구현 규칙(TYPO-017/018)이라
+  떼어 내고 제안 파일 notes에 TYPO 쪽 이동을 적었다.'
+korean_specific: false
+tags:
+- wcag22
+- level-aa
+- new-in-2.1
+- krds

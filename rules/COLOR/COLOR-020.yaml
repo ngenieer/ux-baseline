@@ -1,0 +1,49 @@
+id: COLOR-020
+category: COLOR
+title: 자막 텍스트 윤곽선·배경
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: MAY
+statement: 영상 자막 텍스트에는 윤곽선이나 반투명 검은색 배경을 넣어 영상 화면과 대비를 확보한다.
+measurement:
+  criteria: 자막 요소(::cue 또는 커스텀 자막 컨테이너)의 계산값에 text-shadow(윤곽선 효과), -webkit-text-stroke, 또는 알파 0보다 크고 1보다 작은 검은색
+    계열 background-color 중 1개 이상이 있다.
+  method: '수동+스크립트: 플레이어 자막 스타일을 확인한다.'
+automation:
+  feasibility: none
+  note: '4단계: 커스텀 스타일 검사로 가능(::cue는 계산 스타일 수집이 제한적).'
+rationale: 자막 뒤 영상 장면은 계속 바뀌므로 윤곽선·반투명 배경이 없으면 밝은 장면에서 자막을 읽지 못할 수 있다(KRDS 접근 가능한 미디어).
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 접근 가능한 미디어 > 디자인 (가이드라인 PDF 2025.08 745쪽)
+  note: https://www.krds.go.kr/html/site/component/component_11_01.html
+scope:
+  level: component
+  targets:
+  - video 자막
+  - ::cue
+exceptions: []
+relations:
+- type: refines
+  id: A11Y-043
+  note: A11Y-043(자막이 가려지거나 흐리게 표시되지 않게)의 구현 방법 하나.
+examples:
+  good:
+  - lang: css
+    code: video::cue{color:var(--palette-gray-0);background:var(--color-alpha-inverse75)} /* rgba(0,0,0,.75) */
+    note: 자막 뒤에 반투명 검은 배경을 둬 밝은 장면에서도 읽힌다
+  bad:
+  - lang: css
+    code: video::cue{color:var(--palette-gray-0);background:transparent}
+    note: 윤곽선도 배경도 없어 밝은 장면에서 흰 자막이 묻힌다
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(KRDS https://www.krds.go.kr/html/site/component/component_11_01.html HTML을
+  curl로 받아 본문 확인): ''배경과의 충분한 명도 대비 확보를 위해 자막 텍스트에 윤곽선을 표시하거나 반투명한 검은색 배경을 추가하는 것이 좋다'' 확인 → ''좋다'' → MAY. 반투명 정도의
+  수치는 원문에 없음.'
+korean_specific: false
+tags:
+- krds
+- krds-component
+- system-choice

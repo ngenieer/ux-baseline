@@ -1,0 +1,52 @@
+id: TYPO-030
+category: TYPO
+title: font-family generic family 폴백
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: font-family 목록의 마지막에 generic family(sans-serif, serif, monospace 등)를 둔다.
+measurement:
+  criteria: 모든 font-family 선언(및 font 단축 속성)의 마지막 항목이 따옴표 없는 generic family 키워드다. 아이콘 폰트 전용 선언은 판정에서 뺀다.
+  method: stylelint font-family-no-missing-generic-family-keyword.
+automation:
+  feasibility: partial
+  checks:
+  - tool: stylelint
+    rule: font-family-no-missing-generic-family-keyword
+    method: 기본 옵션. 아이콘 폰트는 ignoreFontFamilies 옵션
+  note: 이 규칙이 키워드의 '마지막 위치'까지 검사하는지 4단계에서 확인.
+rationale: 웹폰트 로드 실패나 서브셋에 없는 글자는 generic family로 대체되며, generic family는 content language(lang=ko)에 맞는 시스템 글꼴로 합성될
+  수 있다.
+sources:
+- ref: CSS_FONTS_4
+  locator: 2.1.5 Generic font families
+  note: generic family는 유니코드 범위·content language·사용자 설정에 따라 시스템 글꼴로 합성될 수 있음
+- ref: WEBDEV_OPT_CLS
+  locator: Web fonts
+  note: '''Ensure the appropriate fallback font is used. For example, using font-family: "Google Sans", sans-serif;
+    … Not specifying a fallback font … the default font is used, which on Chrome is "Times"'' — generic family 지정
+    근거(2026-10-18 curl 확인)'
+scope:
+  level: global
+  targets:
+  - font-family 선언 전체
+exceptions: []
+relations: []
+examples:
+  good:
+  - lang: css
+    code: body{font-family:"Pretendard GOV",sans-serif}
+    note: 웹폰트가 없으면 시스템 고딕으로 대체된다
+  bad:
+  - lang: css
+    code: body{font-family:"Pretendard GOV"}
+    note: generic family가 없어 웹폰트 실패 시 브라우저 기본(명조 계열)으로 표시될 수 있다
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(CSS Fonts 4 §2.1.5 HTML): ''Authors are encouraged to append a generic font
+  family as a last alternative for improved robustness'' 확인 → 표준의 권고 문장이라 SHOULD. lang=ko 대체 글꼴 선택에는 A11Y-022(lang
+  지정)가 함께 필요. PERF-012의 첫 요구(일반 글꼴 계열 지정)와 겹침 — 제안 파일 notes.'
+korean_specific: false
+tags:
+- research-typo

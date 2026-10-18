@@ -1,0 +1,103 @@
+id: toast
+title: 토스트
+status: confirmed
+summary: 사용자 행동의 결과(저장 완료·업로드 완료 등)를 한 줄로 잠시 보여 주고 스스로 사라지는 알림이다.
+use_instead:
+- when: 반드시 읽고 확인해야 하는 내용, 중요·긴급 메시지
+  use: 모달 또는 긴급 공지
+  rule: STATE-037
+- when: 두 줄 이상의 설명이 필요하거나 되돌리기·재시도 같은 추가 행동을 붙여야 하는 결과 알림
+  use: 스낵바
+  rule: COPY-050
+- when: 개별 입력 항목의 오류·성공·경고
+  use: 해당 필드 옆 인라인 메시지(텍스트 입력 필드 규격의 text-field__message)
+  rule: FORM-003
+- when: 같은 인증 절차에서 연속 2회 이상 인증 실패
+  use: 모달
+  rule: STATE-036
+krds:
+  page: component_12_05.html
+anatomy:
+- part: 루트(알림 영역)
+  class: toast
+  element: div
+  required: true
+  note: role="status" 인 라이브 영역. 페이지를 불러올 때부터 비어 있는 상태로 DOM 에 있어야 하고, 메시지를 넣을 때 새로 만들지 않는다(STATE-001). 화면 하단 중앙에 고정한다.
+- part: 메시지
+  class: toast__message
+  element: p
+  required: true
+  note: 사용자 행동의 결과를 한 문장·한 줄로 쓴다(COPY-050). 버튼·링크를 넣지 않는다.
+markup: |-
+  <div class="toast" role="status">
+    <p class="toast__message">임시 저장했습니다.</p>
+  </div>
+css: |-
+  .toast {
+    position: fixed;
+    inset-inline: 0;
+    inset-block-end: var(--space-gap-7);
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    padding-inline: var(--layout-screen-margin-small);
+    pointer-events: none;
+  }
+  .toast__message {
+    max-inline-size: 100%;
+    margin: 0;
+    padding: var(--space-padding-4) var(--space-padding-6);
+    border-radius: var(--radius-medium3);
+    background-color: var(--color-surface-inverse);
+    box-shadow: var(--shadow-3);
+    color: var(--color-text-basic-inverse);
+    font-size: var(--font-size-body-small);
+    line-height: var(--font-line-height-base);
+  }
+  .toast__message--leaving {
+    opacity: 0;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .toast__message {
+      transition-property: opacity;
+      transition-duration: var(--motion-duration-fast);
+      transition-timing-function: var(--motion-easing-standard);
+    }
+  }
+states:
+- name: 비어 있음(기본)
+  markup_change: toast 영역 안에 toast__message 가 없다. 영역 자체는 DOM 에 남긴다(라이브 영역을 미리 등록해야 스크린 리더가 다음 메시지를 읽는다).
+  rule: STATE-001
+- name: 표시
+  markup_change: toast 영역에 toast__message 를 넣는다(이미 있으면 텍스트만 바꾼다). 보조기술은 초점 이동 없이 메시지를 읽는다.
+  rule: STATE-001
+- name: 사라지는 중
+  markup_change: toast__message 에 toast__message--leaving 을 붙여 불투명도를 0 으로 바꾼 뒤 요소를 지운다.
+keyboard: []
+behavior:
+- 메시지는 role="status" 영역에 넣어 초점을 옮기지 않고 보조기술에 전달한다. 메시지마다 영역을 새로 만들지 않는다(STATE-001).
+- 토스트에는 다른 곳(화면의 바뀐 상태·목록·저장 상태 표시)에서도 확인할 수 있는 결과만 담는다. 그래서 자동으로 사라져도 A11Y-014 의 시간 제한에 해당하지 않는다(CF-030). 토스트에만 있는 정보·조작이 필요하면 스낵바·모달을 쓴다(STATE-037, COPY-050).
+- 표시 시간은 KRDS 토스트 페이지 값(정보형 2~3초, 주의·경고형 3~4초)을 기본으로 하되, 위 조건(다른 곳에서 확인 가능)을 지키는 한 A11Y-014 판정과 무관하다(CF-030).
+- 토스트 안에 button·a 를 넣지 않는다. 행동이 필요하면 스낵바를 쓴다(COPY-050).
+- 하단 탭 바·플로팅 버튼 위에 띄우고, 키보드 초점을 받은 요소를 완전히 가리지 않게 한다 — 토스트가 떠 있는 동안 문서에 scroll-padding-block-end 를 토스트 높이 이상으로 둔다(LAYOUT-001).
+- 동시에 1개만 표시한다. 새 메시지가 오면 기존 메시지 텍스트를 바꾼다.
+- 코치마크가 표시되는 동안에는 토스트를 띄우지 않고 보류했다가 코치마크가 끝난 뒤 표시한다(STATE-030, CF-001).
+- 같은 인증 절차의 연속 2회 이상 실패는 토스트가 아니라 모달로 알린다(STATE-036). 필드 검증 오류는 토스트로 띄우지 않고 해당 필드에 인라인으로 표시한다(FORM-003, STATE-037).
+rules:
+- A11Y-014
+- COLOR-002
+- FORM-003
+- LAYOUT-001
+- MOTION-010
+- SHAPE-001
+- SHAPE-004
+- STATE-001
+- STATE-030
+- STATE-036
+- STATE-037
+- COPY-050
+kit_differences:
+- KRDS HTML 키트 v1.1.0 에는 토스트 마크업이 없다. KRDS 페이지는 표시 시간만 정하고 라이브 영역을 말하지 않는다 — 이 규격은 role="status" 영역을 필수로 둔다(STATE-001).
+notes:
+- 색(반전 표면 surface-inverse + 반전 텍스트 text-basic-inverse)과 그림자 3단계는 KRDS 키트에 토스트 값이 없어 KRDS 툴팁(inline) 값을 따랐다. 프로젝트가 다른 색을 쓰려면 COLOR-002(4.5:1)를 다시 확인한다.
+- 실패 알림(임시 저장 실패 등)도 role="status"(polite)로 전한다. 사용자가 즉시 알아야 하는 실패는 STATE-037 에 따라 토스트가 아닌 모달·인라인으로 보내므로 토스트에 role="alert" 를 쓰지 않는다.

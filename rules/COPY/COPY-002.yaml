@@ -1,0 +1,80 @@
+id: COPY-002
+category: COPY
+title: 링크 목적
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: MUST
+statement: 링크의 목적을 링크 텍스트만으로, 또는 링크 텍스트와 프로그램으로 판별되는 링크 맥락(같은 문장·문단·목록 항목·표 셀·aria-describedby)으로 알 수 있게 쓴다.
+measurement:
+  criteria: (1) 모든 a[href]·area[href]·role=link의 접근 가능한 이름이 비어 있지 않다. (2) 링크 이름이 '여기', '클릭', '더 보기', '바로가기', '자세히'처럼
+    목적지를 밝히지 않는 일반어뿐이면, 같은 문장·문단·목록 항목·표 셀·연결된 표 머리글 또는 aria-describedby 대상 텍스트에 목적지가 쓰여 있다. (3) 같은 페이지에서 같은 링크
+    텍스트(맥락 포함)가 서로 다른 목적지로 가지 않는다.
+  method: axe-core로 (1)을 검사하고, 링크 목록(텍스트·href·맥락 텍스트)을 뽑아 (2)(3)을 수동으로 확인한다.
+automation:
+  feasibility: partial
+  checks:
+  - tool: axe-core
+    rule: link-name
+    method: axe-core 실행 결과 위반 0건
+  - tool: axe-core
+    rule: area-alt
+    method: axe-core 실행 결과 위반 0건
+  note: 'axe-core는 이름의 존재만 판정한다. 일반어 링크의 맥락 확인과 같은 텍스트·다른 목적지 검사는 수동(4단계 커스텀: 같은 이름·다른 href 쌍 목록 추출).'
+rationale: 스크린 리더 사용자는 링크 목록만 따로 훑어 탐색하는 경우가 많아, 링크 텍스트(와 맥락)만으로 목적지를 알 수 없으면 링크를 하나씩 열어 봐야 한다.
+sources:
+- ref: WCAG22
+  locator: SC 2.4.4 Link Purpose (In Context) (Level A)
+  note: https://www.w3.org/TR/WCAG22/#link-purpose-in-context
+- ref: WCAG22_UNDERSTANDING
+  locator: https://www.w3.org/WAI/WCAG22/Understanding/link-purpose-in-context.html
+- ref: KWCAG22
+  locator: 검사항목 6.4.3
+- ref: KRDS
+  locator: 컴포넌트 (여러 페이지) (가이드라인 PDF 2025.08 367·503·507·335쪽)
+  note: '같은 요구를 다루는 KRDS 컴포넌트: 긴급 공지, 링크, 페이지네이션 — 상세는 sources/extracts/KRDS-components.yaml'
+scope:
+  level: global
+  targets:
+  - a[href]
+  - area[href]
+  - '[role=link]'
+exceptions:
+- 링크의 목적이 일반 사용자 누구에게나 모호한 경우(WCAG 2.4.4 예외).
+relations:
+- type: depends
+  id: NAV-046
+  note: 목적지 자체를 레이블과 맞추는 요구는 NAV-046
+examples:
+  good:
+  - lang: html
+    code: '<p>2026년 장애아동수당 신청 안내 <a href="/guide/2026">신청 안내 전문 보기</a></p>
+
+      <a href="/notice/12">개인정보 처리방침 개정 안내</a>
+
+      '
+    note: 링크 텍스트만으로 목적지(신청 안내 전문, 처리방침 개정 안내)를 알 수 있다
+  bad:
+  - lang: html
+    code: '<p>장애아동수당 신청 방법은 <a href="/guide/2026">여기</a>를 클릭하세요.</p>
+
+      <!-- 맥락에도 목적지가 없는 경우 -->
+
+      <li><a href="/a">더 보기</a></li><li><a href="/b">더 보기</a></li>
+
+      '
+    note: '''여기''·''더 보기''만 있고 맥락에도 목적지가 없거나 같은 텍스트가 다른 곳으로 간다'
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(sources/extracts/WCAG22-A-AA.yaml): SC 2.4.4 원문(link text alone or together
+  with its programmatically determined link context, except ... ambiguous to users in general)과 일치 확인. KWCAG 2.2
+  대응 항목 번호는 비공식 HTML 판 기준 매핑 — 공식 원문 대조 전(registry KWCAG22 verified=false). 룰의 요구는 WCAG 원문만으로 성립. 2026-10-18 원문
+  대조(curl로 KRDS 페이지 HTML을 받아 텍스트로 직접 읽음): KRDS 링크 컴포넌트(component_05_01) ''이곳을 클릭하세요·더 읽기 같은 일반 텍스트를 레이블로 사용해서는 안
+  된다(주변 맥락으로 명확한 경우 제외)'' 확인 — 측정 기준 (2)에 반영. 1단계에 병합된 다른 KRDS 컴포넌트 항목(긴급 공지·페이지네이션)은 개별 페이지를 다시 열지 않았다.'
+korean_specific: false
+tags:
+- wcag22
+- level-a
+- new-in-2.0
+- kwcag22
+- krds

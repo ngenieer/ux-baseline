@@ -1,0 +1,76 @@
+id: LAYOUT-001
+category: LAYOUT
+title: 초점이 가려지지 않게
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: MUST
+statement: 키보드 초점을 받은 컴포넌트가 작성자가 만든 콘텐츠(고정 헤더·고정 푸터·쿠키 배너·비모달 대화상자 등)에 완전히 가려지지 않게 한다.
+measurement:
+  criteria: 'Tab·Shift+Tab으로 초점을 옮길 때마다 초점 받은 요소의 경계 상자 중 1 CSS px 이상이 position: fixed·sticky 요소나 다른 오버레이에 덮이지 않고
+    보인다(일부 가림은 통과, 전부 가림은 실패). 사용자가 위치를 옮길 수 있는 콘텐츠는 초기 위치만 본다. 사용자가 연 콘텐츠가 가리더라도 초점을 옮기지 않고(Esc 등) 드러낼 수 있으면 통과.'
+  method: 뷰포트 320·768·1280 CSS px에서 페이지 처음부터 끝까지 Tab으로 이동하며 각 초점 요소의 가시 여부를 확인한다. 고정 헤더·푸터·배너가 열린 상태와 닫힌 상태를 모두
+    본다.
+automation:
+  feasibility: none
+  checks: []
+  note: 'axe-core 규칙 없음. 4단계 커스텀 검사: Playwright로 Tab 이동마다 document.activeElement의 getBoundingClientRect()를 여러 점에서
+    document.elementsFromPoint()로 조회해 최상위 요소가 초점 요소(또는 그 자손)인 점이 하나도 없으면 실패.'
+rationale: 초점 위치를 볼 수 없으면 키보드 사용자는 자신이 어디에 있는지 알 수 없다. 고정 헤더·쿠키 배너가 흔한 원인이다.
+sources:
+- ref: WCAG22
+  locator: SC 2.4.11 Focus Not Obscured (Minimum) (Level AA)
+  note: https://www.w3.org/TR/WCAG22/#focus-not-obscured-minimum
+- ref: WCAG22_UNDERSTANDING
+  locator: https://www.w3.org/WAI/WCAG22/Understanding/focus-not-obscured-minimum.html
+- ref: KRDS
+  locator: 컴포넌트 (여러 페이지) (가이드라인 PDF 2025.08 242쪽 — 헤더만. 스낵바·토스트·플로팅 버튼 컴포넌트는 PDF에 없음)
+  note: '같은 요구를 다루는 KRDS 컴포넌트: 스낵바, 토스트, 플로팅 버튼, 헤더 — 상세는 sources/extracts/KRDS-components.yaml'
+scope:
+  level: global
+  targets:
+  - :focus
+  - :focus-visible
+  - 고정 헤더
+  - 고정 푸터
+  - 플로팅 버튼
+  - 쿠키 배너
+exceptions:
+- 사용자가 위치를 옮길 수 있는 콘텐츠는 초기 위치만 평가한다(SC 2.4.11 Note 1).
+- 사용자가 연 콘텐츠가 초점 요소를 가려도 초점을 옮기지 않고 드러낼 수 있으면 가려진 것으로 보지 않는다(SC 2.4.11 Note 2).
+relations:
+- type: depends
+  id: A11Y-016
+  note: 초점 표시가 보여야(2.4.7) 가림 여부를 판정할 수 있다.
+examples:
+  good:
+  - lang: css
+    code: ':root { --layout-header-height: var(--size-height-9); } /* 프로젝트 헤더 높이 — 토큰 값으로 정한다 */
+
+      .site-header { position: sticky; top: 0; block-size: var(--layout-header-height); }
+
+      html { scroll-padding-block-start: var(--layout-header-height); } /* 초점 이동 스크롤 시 헤더 높이만큼 비켜 둠 */
+
+      '
+    note: 고정 헤더 높이만큼 scroll-padding을 둬 초점 요소가 헤더 밑에 완전히 숨지 않는다.
+  bad:
+  - lang: css
+    code: ':root { --layout-header-height: var(--size-height-9); } /* 프로젝트 헤더 높이 — 토큰 값으로 정한다 */
+
+      .site-header { position: fixed; top: 0; block-size: var(--layout-header-height); }
+
+      /* scroll-padding 없음 — Shift+Tab으로 위로 갈 때 초점 받은 링크가 헤더 밑에 완전히 숨는다 */
+
+      '
+    note: 고정 헤더가 초점 요소를 전부 덮어 키보드 사용자가 초점 위치를 볼 수 없다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(sources/extracts/WCAG22-A-AA.yaml): SC 2.4.11 규범 문장과 Note 2개를 확인하고 statement·예외를
+  원문대로 맞춤. KRDS 출처(헤더·플로팅 버튼·토스트·스낵바)는 1단계 병합 항목 — 헤더 고정 방식, 토스트·스낵바를 탭바·플로팅 버튼과 겹치지 않게 하는 요구로 이 SC와 일부만 겹친다(KRDS
+  페이지 component_02_03·05_03·12_05·12_06 재조회로 문장 확인). 요구 기준은 WCAG 원문.'
+korean_specific: false
+tags:
+- wcag22
+- level-aa
+- new-in-2.2
+- krds

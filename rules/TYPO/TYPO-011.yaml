@@ -1,0 +1,53 @@
+id: TYPO-011
+category: TYPO
+title: rem 기준값
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: MAY
+statement: rem 환산을 10px 기준으로 단순화하려면 html의 font-size를 62.5%로 지정하고, 10px 같은 px 값으로 지정하지 않는다.
+measurement:
+  criteria: 'html(:root)의 font-size 선언이 62.5% 이고, 이 경우 body의 font-size가 rem으로 다시 지정되어 있다(예: 1.7rem).'
+  method: 'stylelint 커스텀: html·:root 셀렉터 font-size 값 확인 + body font-size 선언 존재 확인.'
+automation:
+  feasibility: none
+  note: 커스텀 stylelint 규칙으로 가능.
+rationale: 62.5%로 두면 1rem=10px(브라우저 기본 16px일 때)이라 px 시안을 rem으로 바꾸기 쉽고, %라서 사용자의 브라우저 기본 글자 크기 설정도 반영된다.
+sources:
+- ref: KRDS
+  locator: 디자인 스타일 > 타이포그래피 > 표현 단위 (가이드라인 PDF 2025.08 108쪽)
+  note: https://www.krds.go.kr/html/site/style/style_03.html
+scope:
+  level: global
+  targets:
+  - html
+  - :root
+exceptions: []
+relations:
+- type: depends
+  id: TYPO-026
+  note: KRDS 원문은 '10px 또는 62.5%'를 모두 제시하지만 10px은 TYPO-026 위반이므로 62.5%만 채택.
+examples:
+  good:
+  - lang: css
+    code: ':root{font-size:62.5%}
+
+      body{font-size:1.7rem} /* 기본 16px에서 17px */'
+    note: 62.5%로 지정하고 body에 rem 크기를 다시 준다
+  bad:
+  - lang: css
+    code: ':root{font-size:10px}
+
+      body{font-size:1.7rem}'
+    note: px 루트 크기는 사용자의 브라우저 글자 크기 설정을 무시한다
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(KRDS https://www.krds.go.kr/html/site/style/style_03.html HTML을 curl로 받아 본문
+  확인): ''rem 기본값은 10px 또는 62.5%로 설정하여 px로 환산해 설정한다'' 및 표(100%=16px, 62.5%=10px, 50%=8px) 확인. 시스템 고유 선택 → MAY. 원문의
+  ''10px'' 선택지는 TYPO-026과 충돌해 statement에서 제외(제안 파일 conflicts). 위험: body·컴포넌트에서 rem 지정을 빠뜨리면 10px 글자가 생김.'
+korean_specific: false
+tags:
+- krds
+- system-choice
+decisions:
+- CF-044

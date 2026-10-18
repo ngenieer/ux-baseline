@@ -1,0 +1,51 @@
+id: LAYOUT-029
+category: LAYOUT
+title: 긴급 공지
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 긴급 공지는 메인 메뉴 아래 본문 콘텐츠의 첫 요소로 두고, 공지 컨테이너가 화면 전체 너비를 차지하게 한다.
+measurement:
+  criteria: (1) 긴급 공지 요소가 main(또는 메인 메뉴 다음 본문 영역)의 첫 자식이며 히어로 영역보다 앞에 있다. (2) 공지 컨테이너의 렌더링 너비가 뷰포트 너비(스크롤바 제외)와
+    같다. 공지 안의 텍스트는 LAYOUT-004 스크린 마진을 따른다.
+  method: 긴급 공지가 있는 메인 화면을 360·1280px에서 열어 DOM 위치와 컨테이너 너비를 확인한다.
+automation:
+  feasibility: none
+  checks: []
+  note: '4단계 커스텀 검사: 공지 컴포넌트의 DOM 위치와 offsetWidth == document.documentElement.clientWidth.'
+rationale: 긴급한 정보는 서비스에 접속하자마자 가장 먼저 보여야 한다.
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 긴급 공지 > 사용성 가이드라인 (가이드라인 PDF 2025.08 363쪽)
+  note: https://www.krds.go.kr/html/site/component/component_04_02.html
+scope:
+  level: component
+  targets:
+  - 긴급 공지
+exceptions: []
+relations:
+- type: depends
+  id: LAYOUT-004
+  note: 전체 너비는 컨테이너 배경 기준이고, 공지 텍스트는 스크린 마진 안에 둔다.
+examples:
+  good:
+  - lang: html
+    code: "<main id=\"main\">\n  <section class=\"critical-alert\"><div class=\"container\"><strong>긴급</strong>\
+      \ 태풍 북상으로 2026. 10. 20. 현장 접수를 중단합니다.</div></section>\n  <section class=\"hero\">…</section>\n</main>\n<!--\
+      \ .critical-alert { inline-size: 100%; } 배경은 전체 너비, 텍스트는 .container 스크린 마진 안 -->\n"
+    note: 긴급 공지가 본문 첫 요소이고 전체 너비를 차지한다.
+  bad:
+  - lang: html
+    code: "<main id=\"main\">\n  <section class=\"hero\">…</section>\n  <section class=\"critical-alert\"><div class=\"\
+      container\"><strong>긴급</strong> 태풍 북상으로 2026. 10. 20. 현장 접수를 중단합니다.</div></section>\n</main>\n"
+    note: 긴급 공지가 히어로 영역 뒤에 있어 본문 첫 요소가 아니다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(curl로 KRDS 페이지 HTML을 받아 본문 텍스트를 직접 확인): 긴급 공지(component_04_02) ''서비스에 접속하자마자
+  사용자가 가장 먼저 볼 수 있도록 본문 콘텐츠의 가장 첫 요소로 배치하며 컨테이너가 화면의 전체 너비를 차지하도록 표현한다.''와 ''긴급 공지는 메인 메뉴와 히어로 영역 사이에 배치되어'' 확인.
+  지시형 → SHOULD.'
+korean_specific: false
+tags:
+- krds
+- krds-component

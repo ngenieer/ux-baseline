@@ -1,0 +1,60 @@
+id: NAV-033
+category: NAV
+title: 사이드 메뉴 현재 위치 표시
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 사이드 메뉴에서 현재 화면에 해당하는 링크를 식별자로 강조 표시하고 그 링크에 aria-current="page"를 붙인다.
+measurement:
+  criteria: 사이드 메뉴 안에서 현재 URL과 같은 href를 가진 링크 정확히 1개에 aria-current="page"가 있고, 다른 링크에는 없다. 그 링크는 다른 링크와 색 외의 시각적
+    차이(식별자 막대·굵기·밑줄 등)로도 구분된다.
+  method: 사이드 메뉴가 있는 페이지에서 DOM의 aria-current를 확인하고, 흑백(grayscale) 화면에서 현재 링크가 구분되는지 확인한다.
+automation:
+  feasibility: partial
+  checks:
+  - tool: custom
+    method: 'Playwright: 사이드 메뉴 a[aria-current=page] 개수 =1이고 그 href가 location.pathname과 같은지 검사'
+  note: 색 외 시각 구분은 수동(COLOR-001).
+rationale: 사용자가 탐색 계층 안에서 지금 어디에 있는지 시각과 보조기술 양쪽으로 알 수 있어야 한다.
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 사이드 메뉴 > 사용성 가이드라인 / 접근성 가이드라인 (가이드라인 PDF 2025.08 298·299·304쪽)
+  note: https://www.krds.go.kr/html/site/component/component_03_04.html — '현재 탐색 중인 화면에 대한 링크를 강조 표시한다.' / '식별자를
+    통해 탐색 중인 링크를 강조 표시한다.' / '현재 탐색 중인 화면에 대한 링크인 경우 aria-current="page" 속성을 추가한다.'
+- ref: ARIA_APG
+  locator: https://www.w3.org/WAI/ARIA/apg/patterns/disclosure/examples/disclosure-navigation/
+  note: 'aria-current="page": ''Indicates that the page referenced by the link is currently displayed.'''
+scope:
+  level: component
+  targets:
+  - 사이드 메뉴
+exceptions: []
+relations:
+- type: depends
+  id: COLOR-001
+  note: 현재 위치를 색만으로 표시하지 않음
+examples:
+  good:
+  - lang: html
+    code: "<nav aria-label=\"사이드 메뉴\"><ul>\n  <li><a href=\"/civil/move\" aria-current=\"page\" class=\"is-current\"\
+      >전입신고</a></li>\n  <li><a href=\"/civil/seal\">인감증명</a></li>\n</ul></nav>\n<style>.is-current { font-weight:\
+      \ 700; border-left: 4px solid currentColor; }</style>\n"
+    note: 현재 링크에 aria-current="page"를 붙이고 굵기·막대로도 구분한다.
+  bad:
+  - lang: html
+    code: '<li><a href="/civil/move" class="is-current">전입신고</a></li>  <!-- 색만 다름, aria-current 없음 -->
+
+      <style>.is-current { color: var(--color-element-primary); }</style>
+
+      '
+    note: 현재 링크를 색으로만 구분하고 aria-current가 없다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(KRDS component_03_04, APG WebFetch): 강조 표시·식별자·aria-current="page" 문장 확인. 접근성
+  문장을 statement에 추가. 단정형 → SHOULD. BACKLOG의 KRDS aria-current 값 불일치(메뉴 ''page'', 페이지네이션 ''true'')는 이 룰에서 ''page''로
+  고정.'
+korean_specific: false
+tags:
+- krds
+- krds-component

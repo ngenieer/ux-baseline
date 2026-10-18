@@ -1,0 +1,55 @@
+id: TYPO-028
+category: TYPO
+title: 본문 자간 0, 음수 자간 금지
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: MAY
+statement: 본문 텍스트의 letter-spacing은 0(normal)으로 두고 음수 값을 쓰지 않는다.
+measurement:
+  criteria: 본문 텍스트 요소(p, li, dd, td)의 계산값 letter-spacing이 normal 또는 0px. 스타일시트에 음수 letter-spacing 선언이 0건.
+  method: stylelint 커스텀(음수 값 검사) + 계산 스타일 검사.
+automation:
+  feasibility: none
+  note: 음수 값 금지는 stylelint 커스텀 정규식으로 가능.
+rationale: klreq는 한글의 기본 글자사이를 0으로 기술하고 KRDS 본문(Body) 단계 자간도 0px이다. 국내 웹의 음수 자간 관행은 검증된 근거가 없다.
+sources:
+- ref: KLREQ
+  locator: 7.3.1 Inter-Character Spacing
+  note: 한글·한자·가나는 기본 글자사이 0, 좁히기·넓히기 설정은 양끝 맞춤 지원용
+- ref: KRDS
+  locator: 스타일 가이드 > 타이포그래피 > Body 표 (가이드라인 PDF 2025.08 110·111·113쪽)
+  note: Body 전 단계 letter-spacing 0px, Heading large 이상·Display만 1px
+- ref: UXB_SYSTEM_CHOICE
+  locator: CF-052
+  note: 음수 자간 금지 부분은 표준·연구 근거 없는 체계 선호.
+scope:
+  level: global
+  targets:
+  - p
+  - li
+  - dd
+  - td
+exceptions: []
+relations: []
+examples:
+  good:
+  - lang: css
+    code: p{letter-spacing:normal}
+    note: 본문 자간 0
+  bad:
+  - lang: css
+    code: p{letter-spacing:-0.03em}
+    note: 본문에 음수 자간을 썼다
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(klreq 7.3.1, KRDS https://www.krds.go.kr/html/site/style/style_03.html HTML):
+  klreq ''한글, 한자, 가나 등의 문자는 글자사이 0으로 배열하는 것을 기본으로 한다'' 확인 — 음수 금지는 말하지 않음. KRDS Body 표 letter-spacing 0px 전 단계,
+  Display·Heading xlarge·large만 1px 확인. 음수 금지는 근거 없는 체계 선호 → PREFERENCE 추가, MAY. JUNG_1997_THESIS(미검증, 초록)는 좁은 자간이
+  읽기 속도를 높였다고 보고 — 반대 방향 근거. 음수 자간도 TYPO-002 재정의를 막지 않으면 접근성 위반은 아님. 2026-10-18 CF-052로 체계 선택을 기록하고 PREFERENCE를
+  UXB_SYSTEM_CHOICE로 바꿈. 확정 시 미검증 출처 JUNG_1997_THESIS 제외(반대 방향 근거라 룰 근거가 아니었음 — 원문 확인 시 재검토).'
+korean_specific: true
+tags:
+- research-typo
+decisions:
+- CF-052

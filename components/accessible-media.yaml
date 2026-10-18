@@ -1,0 +1,150 @@
+id: accessible-media
+title: 접근 가능한 미디어
+status: confirmed
+summary: 사전 녹음된 영상·오디오를 페이지에 넣을 때 자막·화면 해설·대본을 함께 제공하는 틀로 쓴다.
+krds:
+  page: component_11_01.html
+anatomy:
+- part: 루트
+  class: accessible-media
+  element: figure
+  required: true
+  note: 미디어와 그 대체 수단(자막·해설·대본)을 한 묶음으로 둔다.
+- part: 제목
+  class: accessible-media__title
+  element: figcaption
+  required: true
+  note: 미디어의 주제와 재생 시간을 쓴다.
+- part: 플레이어
+  class: accessible-media__player
+  element: video · audio
+  required: true
+  note: controls 를 주고 autoplay 를 쓰지 않는다(A11Y-009). 소리가 있는 영상은 kind="captions" track 을 기본(default)으로 넣는다(A11Y-003). 화면 해설 텍스트는 kind="descriptions" track(타임코드가 있는 WebVTT)으로 넣을 수 있다(A11Y-004).
+- part: 대체 수단 목록
+  class: accessible-media__alternatives
+  element: ul
+  required: true
+  note: 음성 해설 버전·대본 링크를 플레이어 바로 다음에 둔다(A11Y-002, A11Y-004, A11Y-006).
+- part: 대본
+  class: accessible-media__transcript
+  element: div
+  note: 같은 페이지에 둘 때 쓴다. 대사·화자·의미 있는 효과음과 화면에만 나오는 정보(장면·화면 속 글자)를 모두 담는다(A11Y-004). 다른 페이지에 두면 대체 수단 목록의 링크로 잇는다.
+markup: |-
+  <figure class="accessible-media">
+    <figcaption class="accessible-media__title">2026년 여권 재발급 온라인 신청 방법 (3분 20초)</figcaption>
+    <video class="accessible-media__player" controls preload="metadata" src="/media/passport-guide-2026.mp4">
+      <track kind="captions" src="/media/passport-guide-2026.ko.vtt" srclang="ko" label="한국어 자막" default>
+      <track kind="descriptions" src="/media/passport-guide-2026.desc.ko.vtt" srclang="ko" label="화면 해설">
+      이 브라우저는 영상 재생을 지원하지 않습니다. 아래 대본에서 같은 내용을 볼 수 있습니다.
+    </video>
+    <ul class="accessible-media__alternatives" role="list">
+      <li><a href="/media/passport-guide-2026-audio-description">음성 해설이 들어간 영상 보기</a></li>
+      <li><a href="#passport-guide-transcript">대본 보기</a></li>
+    </ul>
+  </figure>
+  <div class="accessible-media__transcript" id="passport-guide-transcript">
+    <h2>대본: 2026년 여권 재발급 온라인 신청 방법</h2>
+    <p>[화면: 신청 사이트 첫 화면, 검색창에 '여권 재발급'이 입력된다]</p>
+    <p>안내자: 검색창에 여권 재발급을 입력해 신청 화면으로 들어갑니다.</p>
+    <p>[효과음: 알림음] [화면 자막: 신청 전 준비물 — 신분증, 여권 사진 파일]</p>
+  </div>
+css: |-
+  .accessible-media {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-gap-3);
+    margin: 0;
+  }
+  .accessible-media__title {
+    color: var(--color-text-basic);
+    font-size: var(--font-size-label-medium);
+    font-weight: var(--font-weight-bold);
+  }
+  .accessible-media__player {
+    display: block;
+    inline-size: 100%;
+    block-size: auto;
+    border-radius: var(--radius-medium3);
+    background-color: var(--color-surface-inverse-static);
+  }
+  .accessible-media__player::cue {
+    background-color: var(--color-background-dim);
+    color: var(--color-text-inverse-static);
+  }
+  .accessible-media__alternatives {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-gap-2) var(--space-gap-5);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    font-size: var(--font-size-body-small);
+  }
+  .accessible-media__alternatives a {
+    display: inline-flex;
+    align-items: center;
+    min-block-size: var(--size-height-4);
+    color: var(--color-link-default);
+    text-decoration: underline;
+  }
+  .accessible-media__alternatives a:focus-visible,
+  .accessible-media__player:focus-visible {
+    outline: var(--space-scale-2) solid var(--color-input-border-active);
+    outline-offset: var(--space-scale-1);
+  }
+  .accessible-media__transcript {
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-layout-text-text-small);
+    padding: var(--padding-card-small);
+    border: var(--space-scale-1) solid var(--color-border-gray-light);
+    border-radius: var(--radius-medium3);
+    color: var(--color-text-basic);
+    font-size: var(--font-size-body-medium);
+  }
+states:
+- name: 오디오 전용(accessible-media--audio)
+  markup_change: 플레이어를 audio controls 로 바꾸고, 대체 수단 목록에 대본만 둔다(A11Y-002). 화면이 커버 이미지뿐인 영상도 이 유형으로 본다(A11Y-041).
+  rule: A11Y-002
+- name: 비디오 전용(소리 없음)
+  markup_change: 자막 track 대신 화면 정보를 설명하는 대본 또는 같은 정보를 말로 전하는 오디오 트랙 링크를 둔다. 소리가 배경음뿐인 영상도 이 유형으로 본다(A11Y-002, A11Y-041).
+  rule: A11Y-041
+- name: 원래 오디오가 화면 정보를 모두 말로 전하는 영상
+  markup_change: 음성 해설 버전 링크를 생략할 수 있다. 자막과 대본은 그대로 둔다(A11Y-006).
+  rule: A11Y-006
+- name: 생중계
+  markup_change: 실시간 자막(문자통역 등)을 켤 수 있는 플레이어를 쓴다(A11Y-005).
+  rule: A11Y-005
+keyboard:
+- key: Tab / Shift+Tab
+  action: 플레이어 컨트롤 → 대체 수단 링크 순서로 옮긴다. 초점 표시가 보인다(A11Y-016).
+- key: Space / Enter
+  action: 브라우저 기본 컨트롤에서 재생·일시정지를 실행한다. 자체 플레이어는 재생·일시정지·음량·자막 켜기를 모두 버튼으로 두고 키보드로 실행할 수 있게 한다(A11Y-011).
+behavior:
+- 페이지가 열리거나 바뀔 때 소리를 자동으로 재생하지 않는다. autoplay 를 쓰지 않는다(A11Y-009).
+- 자막은 대사·화자(2명 이상일 때)·의미 있는 효과음을 담고 오디오와 시간 동기화한다(A11Y-003).
+- 화면에만 나오는 정보가 있으면 음성 해설 버전(또는 해설 오디오 트랙)을 고를 수 있게 한다. 대본은 그 정보까지 담는다(A11Y-004, A11Y-006).
+- 자막이 플레이어 컨트롤·로고에 가려지거나 흐리게(opacity 1 미만·blur) 표시되지 않게 하고, 영상 속 글자·화자 얼굴과 겹치는 구간은 WebVTT line·position 으로 자막 위치를 옮긴다(A11Y-043).
+- 자막 텍스트에는 반투명 검은 배경(::cue background-color)을 넣어 영상과 대비를 확보한다(COLOR-020). 영상 안에 넣은 글자·정보 그래픽은 배경과 4.5:1 이상 대비로 제작한다(COLOR-002).
+- 자체 플레이어를 만들면 자막 크기·색·위치를 바꾸는 설정을 둔다(A11Y-044).
+- 모든 사용자가 알아야 할 중요 정보를 이 미디어로만 전하면 수어 영상 제공 여부와 그 이유를 기록한다(A11Y-042).
+rules:
+- A11Y-002
+- A11Y-003
+- A11Y-004
+- A11Y-005
+- A11Y-006
+- A11Y-009
+- A11Y-011
+- A11Y-016
+- A11Y-025
+- A11Y-041
+- A11Y-042
+- A11Y-043
+- A11Y-044
+- COLOR-002
+- COLOR-020
+notes:
+- KRDS HTML 키트에는 이 컴포넌트의 마크업 파일이 없다. KRDS 페이지(component_11_01.html)와 위 확정 룰로 작성했다.
+- 대본을 다른 페이지에 둘 때는 accessible-media__transcript 를 빼고 대체 수단 목록의 링크가 그 페이지를 가리키게 한다.
+- 자막·해설 파일 경로와 대본 문장은 예시다.

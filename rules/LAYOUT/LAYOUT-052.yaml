@@ -1,0 +1,55 @@
+id: LAYOUT-052
+category: LAYOUT
+title: 단계 표시기
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 단계 표시기의 단계는 왼쪽에서 오른쪽, 또는 위에서 아래로 한 방향으로 나열한다.
+measurement:
+  criteria: 단계 항목이 한 행(가로) 또는 한 열(세로)에 있고, DOM 순서 = 시각 순서(가로는 x 증가, 세로는 y 증가)다. 단계가 여러 행으로 줄바꿈되지 않는다.
+  method: 360·1280px에서 단계 표시기 항목의 위치를 확인한다.
+automation:
+  feasibility: none
+  checks: []
+  note: '4단계 커스텀 검사: 항목 bounding box의 top(가로) 또는 left(세로)가 모두 같은지 확인.'
+rationale: 단계가 선형으로 놓여야 사용자가 여러 단계 절차 중임과 진행 방향을 안다.
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 단계 표시기 > 사용성 가이드라인 (가이드라인 PDF 2025.08 583·585쪽)
+  note: https://www.krds.go.kr/html/site/component/component_07_01.html
+scope:
+  level: component
+  targets:
+  - 단계 표시기
+  - ol.steps
+exceptions: []
+relations:
+- type: depends
+  id: RESP-013
+  note: 좁은 화면에서는 현재 단계·전체 단계 수만 남길 수 있다(RESP-013).
+examples:
+  good:
+  - lang: html
+    code: '<ol class="steps"><li>정보 입력</li><li aria-current="step">확인</li><li>완료</li></ol>
+
+      <!-- .steps { display: flex; } — 한 행, 왼쪽에서 오른쪽 -->
+
+      '
+    note: 단계가 한 행에 왼쪽에서 오른쪽으로 나열된다.
+  bad:
+  - lang: css
+    code: '.steps { display: flex; flex-wrap: wrap; }
+
+      .steps li { flex-basis: 50%; } /* 4단계가 2행으로 줄바꿈 */
+
+      '
+    note: 단계가 여러 행으로 나뉘어 진행 방향이 한 방향이 아니다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(curl로 KRDS 페이지 HTML을 받아 본문 텍스트를 직접 확인): 단계 표시기(component_07_01) ''단계는 좌에서 우
+  또는 상에서 하의 순서로 논리적으로 전개될 수 있도록 구성한다.'', ''각 단계는 선형적으로 표현한다.'' 확인. 지시형 → SHOULD.'
+korean_specific: false
+tags:
+- krds
+- krds-component

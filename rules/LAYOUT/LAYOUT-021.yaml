@@ -1,0 +1,54 @@
+id: LAYOUT-021
+category: LAYOUT
+title: 버튼
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 버튼 그룹을 세로로 배열할 때는 최상위 강조 버튼을 맨 위(첫 번째)에 둔다.
+measurement:
+  criteria: '세로 배열 버튼 그룹(flex-direction: column 등)에서 DOM 첫 버튼이자 화면 맨 위 버튼이 그룹 안 가장 높은 강조 스타일(채움)을 가진다.'
+  method: 좁은 패널·모바일 너비에서 세로로 쌓인 버튼 그룹의 순서를 확인한다.
+automation:
+  feasibility: none
+  checks: []
+  note: '4단계 커스텀 검사: 세로 그룹의 첫 버튼 클래스가 primary인지 확인.'
+rationale: 중요도 순으로 위에서부터 두어야 시선이 가장 중요한 버튼에 먼저 닿는다.
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 버튼 > 사용성 가이드라인 (가이드라인 PDF 2025.08 512·516쪽)
+  note: https://www.krds.go.kr/html/site/component/component_05_02.html
+scope:
+  level: component
+  targets:
+  - .btn-group
+  - 세로 버튼 그룹
+exceptions: []
+relations:
+- type: depends
+  id: COLOR-015
+examples:
+  good:
+  - lang: html
+    code: '<div class="btn-group vertical"><button type="button" class="btn-primary">신청하기</button><button type="button"
+      class="btn-secondary">임시 저장</button></div>
+
+      '
+    note: 세로 그룹의 첫 버튼이 최상위 강조(채움) 버튼이다.
+  bad:
+  - lang: html
+    code: '<div class="btn-group vertical"><button type="button" class="btn-secondary">임시 저장</button><button type="button"
+      class="btn-primary">신청하기</button></div>
+
+      '
+    note: 최상위 강조 버튼이 세로 그룹 맨 아래에 있다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(curl로 KRDS 페이지 HTML을 받아 본문 텍스트를 직접 확인): 버튼(component_05_02) ''버튼 그룹을 수직으로 배열할
+  때 최상위 수준의 강조 버튼을 첫 번째로 배치한다.''와 ''버튼의 중요도 순으로 위쪽에 배치하여 … 구현해야 한다'' 확인. 세로 배치 자체는 ''배치할 수 있다''. ''해야 한다'' → SHOULD
+  + public-sector-must.'
+korean_specific: false
+tags:
+- krds
+- krds-component
+- public-sector-must

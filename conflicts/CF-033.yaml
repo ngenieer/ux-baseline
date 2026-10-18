@@ -1,0 +1,11 @@
+id: CF-033
+rules:
+- TYPO-031
+- LAYOUT-007
+against: 신종현·박민용(2003) — 50자/줄 최고 속도, 30자 선호
+summary: 한 줄 길이 기준이 WCAG 1.4.8(CJK 40자 이하, AAA)과 국내 연구(50자 최고 속도, 30자 선호)에서 다르다.
+principle: 1
+decision: 본문 한 줄 상한을 40자(40ic)로 하는 TYPO-031(SHOULD)을 신설한다.
+reason: 접근성 기준(원칙 1)을 상한으로 삼되 AAA이므로 SHOULD로 둔다. 연구의 선호값(30자)과도 범위 안에서 양립한다.
+deviates_from_priority: false
+date: '2026-10-18'

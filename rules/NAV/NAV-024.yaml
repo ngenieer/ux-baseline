@@ -1,0 +1,49 @@
+id: NAV-024
+category: NAV
+title: 1수준 메뉴 우선순위 배치
+stage: platformed
+status:
+  value: confirmed
+type: guide
+strength: SHOULD
+statement: 메인 메뉴 링크는 이용 빈도가 높고 중요한 콘텐츠로 연결된 것일수록 왼쪽에 배치한다.
+measurement:
+  criteria: '점검 질문: 이용 통계(방문 수·클릭 수) 상위 링크가 왼쪽에 있는가? 통계가 없으면 서비스의 핵심 과업으로 가는 링크가 왼쪽에 있는가?'
+  method: 이용 통계 또는 과업 분석 결과와 메뉴 순서를 비교해 검토한다.
+automation:
+  feasibility: none
+  note: '''중요도'' 판단이 필요해 자동 검사 대상 아님.'
+rationale: 자주 쓰는 링크를 먼저 보이는 위치에 두어 접근을 쉽게 한다.
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 메인 메뉴 > 사용성 가이드라인 (가이드라인 PDF 2025.08 275쪽)
+  note: https://www.krds.go.kr/html/site/component/component_03_02.html — '링크는 우선순위에 따라 배치한다.' / '이용 빈도가 높고 중요한
+    콘텐츠로 연결된 링크일수록 좌측에 배치하여 접근과 사용이 쉽게 만든다.'
+scope:
+  level: component
+  targets:
+  - 메인 메뉴
+exceptions: []
+relations: []
+examples:
+  good:
+  - lang: html
+    code: '<!-- 이용 통계 1~3위 순 -->
+
+      <ul class="gnb"><li><a>민원 신청</a></li><li><a>조회·발급</a></li><li><a>정책 정보</a></li><li><a>기관 소개</a></li></ul>
+
+      '
+    note: 이용 통계 상위 메뉴를 왼쪽부터 배치한다.
+  bad:
+  - lang: html
+    code: '<ul class="gnb"><li><a>기관 소개</a></li><li><a>인사말</a></li><li><a>민원 신청</a></li></ul>
+
+      '
+    note: 이용 빈도가 낮은 기관 소개 메뉴가 왼쪽에 있다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(KRDS component_03_02 WebFetch): 문장 확인. 1단계 statement의 ''1수준 메뉴''는 원문에서 ''링크''
+  — 범위를 원문에 맞춤. ''중요한''은 판단이 필요해 guide. 단정형 → SHOULD. FORM-032(옵션 가나다순 기본)와 정렬 원칙이 다름 — 대상이 달라 충돌로 보지 않음.'
+korean_specific: false
+tags:
+- krds
+- krds-component

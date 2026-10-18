@@ -1,0 +1,60 @@
+id: A11Y-036
+category: A11Y
+title: 셀렉트 목록 열고 닫기
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 커스텀 셀렉트 컨테이너에 초점이 있을 때 Enter 또는 Space를 누르면 옵션 목록을 펼치거나 접는다.
+measurement:
+  criteria: 커스텀 셀렉트 컨테이너(role="combobox" 등)에 초점을 두고 Enter·Space를 각각 누르면 옵션 목록 표시 상태와 aria-expanded 값이 바뀐다.
+  method: 커스텀 셀렉트마다 Enter·Space를 눌러 목록 표시와 aria-expanded를 확인한다.
+automation:
+  feasibility: none
+  checks: []
+  note: '4단계 커스텀 검사: Playwright 키보드 시나리오.'
+rationale: 키보드 사용자가 마우스 없이 옵션 목록을 열고 닫을 수 있어야 한다.
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 셀렉트 > 상호작용 가이드라인 (가이드라인 PDF 2025.08 557쪽)
+  note: https://www.krds.go.kr/html/site/component/component_06_03.html
+scope:
+  level: component
+  targets:
+  - '[role=combobox]'
+  - 커스텀 셀렉트
+exceptions: []
+relations:
+- type: refines
+  id: A11Y-011
+examples:
+  good:
+  - lang: html
+    code: '<span id="sido-l">시·도</span>
+
+      <button type="button" role="combobox" aria-labelledby="sido-l" aria-expanded="false" aria-controls="lb">서울</button>
+
+      <ul role="listbox" id="lb" aria-labelledby="sido-l" hidden>…</ul>
+
+      '
+    note: button 기반이라 Enter·Space가 click을 일으켜 목록을 열고 닫음
+  bad:
+  - lang: html
+    code: '<span id="sido-l">시·도</span>
+
+      <div role="combobox" tabindex="0" aria-labelledby="sido-l" aria-expanded="false" aria-controls="lb" onclick="toggleList()">서울</div>
+
+      <!-- Enter·Space keydown 처리 없음 -->
+
+      '
+    note: 클릭으로만 목록이 열리고 Enter·Space에 반응하지 않음
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(WebFetch로 KRDS 페이지 재조회, 요약 모델 인용 확인): 상호작용 가이드라인 Enter·Space 행 ''컨테이너에 초점이
+  있는 경우, 옵션 목록이 확장되거나 축소된다.'' 확인. 서술형 → SHOULD. 원문은 커스텀/기본 셀렉트를 구분하지 않는다. 네이티브 <select>의 키보드 동작은 브라우저·OS가 정하므로 이
+  룰의 측정은 커스텀 구현(role=combobox/listbox)에 적용한다 — 정책 5(예외는 출처 명시만)와 달리 범위로 처리한 이유.'
+korean_specific: false
+tags:
+- krds
+- krds-component
+- krds-descriptive

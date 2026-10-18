@@ -1,0 +1,54 @@
+id: STATE-029
+category: STATE
+title: 코치마크 동시 1개
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 한 화면에 코치마크를 동시에 2개 이상 표시하지 않는다.
+measurement:
+  criteria: 코치마크 진행 중 어느 시점에도 보이는 코치마크 팝오버가 1개 이하다.
+  method: 코치마크 전체 단계를 진행하며 각 단계에서 보이는 코치마크 수를 센다.
+automation:
+  feasibility: none
+  checks: []
+  note: 'E2E: 보이는 .coachmark(규격 셀렉터) 수 ≤ 1.'
+rationale: 여러 코치마크가 동시에 보이면 단계별 안내라는 목적과 이용 흐름에 맞지 않는다(KRDS 코치마크).
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 코치마크 > 사용성 가이드라인 (가이드라인 PDF 2025.08 642쪽)
+  note: https://www.krds.go.kr/html/site/component/component_08_04.html
+scope:
+  level: component
+  targets:
+  - 코치마크
+exceptions: []
+relations:
+- type: depends
+  id: COPY-047
+  note: 페이지당 4개 이하·15단계 이하는 순차 표시를 전제
+examples:
+  good:
+  - lang: html
+    code: "<div class=\"coachmark\" role=\"dialog\" aria-labelledby=\"cm1\">\n  <h2 id=\"cm1\">검색창 (1/3)</h2> …\n\
+      </div>\n"
+    note: 코치마크를 한 번에 1개만 표시한다.
+  bad:
+  - lang: html
+    code: '<div class="coachmark" role="dialog" aria-label="검색창 안내">…</div>
+
+      <div class="coachmark" role="dialog" aria-label="메뉴 안내">…</div>
+
+      <div class="coachmark" role="dialog" aria-label="로그인 안내">…</div>
+
+      '
+    note: 코치마크 3개를 동시에 띄운다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(curl로 KRDS 페이지 HTML을 받아 텍스트로 직접 읽음): 코치마크 component_08_04 ''한 화면에 여러 개의 코치마크가
+  표시되지 않도록 한다'' 확인.'
+korean_specific: false
+tags:
+- krds
+- krds-component
+- public-sector-must

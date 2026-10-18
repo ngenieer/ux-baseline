@@ -1,0 +1,67 @@
+id: NAV-002
+category: NAV
+title: 페이지 제목
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: MUST
+statement: 각 페이지의 <title>에 그 페이지의 주제나 목적을 설명하는 제목을 넣는다.
+measurement:
+  criteria: 문서에 비어 있지 않은 <title> 요소가 정확히 1개 있다. 제목 텍스트에 그 페이지의 주제(대개 h1 또는 화면 이름)가 들어 있다. 같은 사이트의 서로 다른 화면이 같은 <title>을
+    쓰지 않는다(SPA에서 화면 전환 시 document.title도 바뀐다).
+  method: axe-core document-title로 존재·비어 있지 않음을 확인한다. 주제 설명 여부는 페이지마다 <title>과 h1을 나란히 놓고 <title>만 보고 어느 화면인지 구분되는지
+    수동 확인한다.
+automation:
+  feasibility: partial
+  checks:
+  - tool: axe-core
+    rule: document-title
+    method: <title> 존재와 비어 있지 않음 검사
+  - tool: html-validate
+    rule: empty-title
+    method: title 요소 비어 있음 (정적 HTML 검사, lint/.htmlvalidate.json)
+  note: '설명적인지는 사람 판단. 4단계 커스텀 검사: 사이트 크롤 후 서로 다른 URL의 <title> 중복 목록 출력, SPA는 라우트 전환 후 document.title 변경 여부 확인.'
+rationale: 스크린 리더는 페이지를 열 때 제목을 먼저 읽고, 탭·방문 기록·북마크도 제목으로 구분한다. 제목이 없거나 같으면 지금 어느 페이지인지 알 수 없다.
+sources:
+- ref: WCAG22
+  locator: SC 2.4.2 Page Titled (Level A)
+  note: https://www.w3.org/TR/WCAG22/#page-titled
+- ref: WCAG22_UNDERSTANDING
+  locator: https://www.w3.org/WAI/WCAG22/Understanding/page-titled.html
+- ref: KWCAG22
+  locator: 검사항목 6.4.2 제목 제공
+  note: '''페이지, 프레임, 콘텐츠 블록에는 적절한 제목을 제공해야 한다.'' — 프레임·콘텐츠 블록까지 포함해 범위가 넓음(비공식 HTML 판).'
+scope:
+  level: global
+  targets:
+  - html > head > title
+  - SPA 라우트 전환
+exceptions: []
+relations:
+- type: refines
+  id: FORM-079
+  note: 'FORM-079(오류 페이지 <title> 앞에 ''오류: '')가 이 룰을 구체화'
+examples:
+  good:
+  - lang: html
+    code: '<title>전입신고 신청 - 정부24</title>
+
+      '
+    note: 화면 주제와 사이트 이름이 함께 들어간 고유한 제목이다.
+  bad:
+  - lang: html
+    code: '<title>정부24</title>  <!-- 모든 화면이 같은 제목 -->
+
+      '
+    note: 모든 화면이 같은 제목이라 탭·기록에서 화면을 구분할 수 없다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(WCAG22-A-AA.yaml 2.4.2): ''Web pages have titles that describe topic or purpose.''와
+  일치. 측정 기준의 ''화면 간 <title> 중복 금지''는 SC 원문 요구가 아니라 ''주제를 설명''을 판정하기 위한 조건 — 3단계에서 과한지 검토. KWCAG 6.4.2는 프레임·콘텐츠 블록
+  제목까지 요구 — iframe title 등은 이 룰 범위 밖이라 별도 룰 후보로 제안. KWCAG 대응은 비공식 HTML 판 기준, 공식 원문 미대조.'
+korean_specific: false
+tags:
+- wcag22
+- level-a
+- new-in-2.0
+- kwcag22

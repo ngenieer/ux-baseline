@@ -1,0 +1,50 @@
+id: A11Y-055
+category: A11Y
+title: 대화형 팝오버는 맥락적 도움말
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 팝오버 안에 링크·버튼 같은 대화형 요소가 필요하면 툴팁 대신 맥락적 도움말을 쓴다.
+measurement:
+  criteria: role="tooltip"(또는 툴팁 컴포넌트) 안에 a[href]·button·input·select·textarea·[tabindex] 같은 대화형 자손이 0개다.
+  method: 툴팁 요소의 자손을 검사한다.
+automation:
+  feasibility: none
+  checks: []
+  note: '4단계 커스텀 검사: [role=tooltip] :is(a[href],button,input,select,textarea,[tabindex]) 0건.'
+rationale: 툴팁은 초점이 트리거를 떠나면 사라지므로 그 안의 링크·버튼에 키보드로 닿을 수 없다.
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 툴팁 > 용례 (가이드라인 PDF 2025.08 649쪽)
+  note: https://www.krds.go.kr/html/site/component/component_08_05.html
+scope:
+  level: component
+  targets:
+  - '[role=tooltip]'
+  - 툴팁
+exceptions: []
+relations: []
+examples:
+  good:
+  - lang: html
+    code: '<button type="button" aria-expanded="false" aria-controls="help1">도움말</button>
+
+      <div id="help1" hidden>자세한 기준은 <a href="/rules">선정 기준</a>을 보세요.</div>
+
+      '
+    note: 링크가 필요한 도움말은 맥락적 도움말(디스클로저)로 제공
+  bad:
+  - lang: html
+    code: '<div role="tooltip">자세한 기준은 <a href="/rules">선정 기준</a>을 보세요.</div>
+
+      '
+    note: role="tooltip" 안에 링크를 넣음
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(WebFetch로 KRDS 페이지 재조회, 요약 모델 인용 확인): 용례 ''사용하기 적합하지 않은 경우'' — ''팝오버에 대화형 요소가
+  포함되어야 하는 경우'' ''맥락적 도움말을 사용한다.'' 확인. 지시형(해야 아님) → SHOULD.'
+korean_specific: false
+tags:
+- krds
+- krds-component

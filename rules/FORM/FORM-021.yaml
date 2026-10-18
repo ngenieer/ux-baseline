@@ -1,0 +1,57 @@
+id: FORM-021
+category: FORM
+title: 생년월일에 날짜 선택기 금지
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 생년월일 입력에는 날짜 선택기(달력)를 쓰지 않고, 연도와 일 입력에 셀렉트를 쓰지 않는다.
+measurement:
+  criteria: 생년월일 필드(autocomplete="bday" 계열 또는 레이블 '생년월일')가 (1) input[type=date]·달력 팝업 버튼을 쓰지 않고, (2) 연도·일 입력이 select가
+    아니다(텍스트 입력 필드 하나 또는 년·월·일 다중 텍스트 입력 필드). 월 입력의 select는 허용.
+  method: 생년월일 필드의 마크업과 달력 버튼 유무를 확인한다.
+automation:
+  feasibility: partial
+  checks:
+  - tool: custom
+    method: autocomplete^=bday 필드가 input[type=date]이거나 bday-year·bday-day가 select이면 실패(DOM 검사)
+  note: 레이블로만 생년월일임을 알 수 있는 필드는 수동.
+rationale: 달력은 오늘 기준으로 앞뒤를 탐색하는 도구라 수십 년 전 날짜를 고르기 어렵고, 연도·일 셀렉트는 옵션이 수십~100개가 넘어 고르기 어렵다.
+sources:
+- ref: KRDS
+  locator: 기본 패턴 > 개인 식별 정보 입력 > 사용성 가이드라인(생년월일) (가이드라인 PDF 2025.08 764~765쪽)
+  note: https://www.krds.go.kr/html/site/global/global_01.html — '생년월일의 입력에 날짜 선택기를 사용하지 않는다.' / '연도, 일의 입력에 셀렉트를
+    사용하지 않는다. ... 날짜 입력 서식 컴포넌트 중 다중 입력 필드나 단일 입력 필드를 사용하는 것이 좋다.'
+scope:
+  level: component
+  targets:
+  - 생년월일 입력 필드
+exceptions: []
+relations:
+- type: depends
+  id: FORM-001
+  note: 생년월일 필드에 autocomplete bday 계열 지정
+examples:
+  good:
+  - lang: html
+    code: "<fieldset>\n  <legend>생년월일</legend>\n  <label>년 <input inputmode=\"numeric\" autocomplete=\"bday-year\"\
+      \ maxlength=\"4\"></label>\n  <label>월 <input inputmode=\"numeric\" autocomplete=\"bday-month\" maxlength=\"\
+      2\"></label>\n  <label>일 <input inputmode=\"numeric\" autocomplete=\"bday-day\" maxlength=\"2\"></label>\n\
+      </fieldset>\n"
+    note: 년·월·일을 텍스트 입력으로 받아 달력과 연도 셀렉트를 쓰지 않는다.
+  bad:
+  - lang: html
+    code: '<label for="birth">생년월일</label>
+
+      <input id="birth" type="date" autocomplete="bday">
+
+      '
+    note: 생년월일에 날짜 선택기(달력)를 써서 수십 년 전 연도까지 이동해야 한다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(KRDS global_01 HTML curl): ''사용하지 않는다'' 두 문장 확인 → SHOULD + public-sector-must.
+  FORM-049(기억하지 못하는 날짜에 날짜 선택기 제공)와는 대상이 다름(정확히 아는 날짜 vs 기억 못 하는 날짜) — 충돌 아님.'
+korean_specific: false
+tags:
+- krds
+- public-sector-must

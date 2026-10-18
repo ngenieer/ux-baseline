@@ -1,0 +1,54 @@
+id: FORM-037
+category: FORM
+title: 옵션 20개 초과 시 콤보 상자
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 단일 선택 옵션이 20개를 넘으면 셀렉트 대신 입력으로 옵션을 걸러 주는 콤보 상자를 쓰거나 셀렉트 여러 개로 단계를 나눈다.
+measurement:
+  criteria: select(multiple 없음)의 옵션 수(빈 안내 옵션 제외)가 21 이상이면 실패. 21개 이상 옵션의 단일 선택은 role=combobox(입력으로 필터) 또는 상위 셀렉트
+    선택에 따라 하위 셀렉트 옵션이 바뀌는 다단 셀렉트로 구현돼 있다.
+  method: DOM에서 select의 option 수를 센다.
+automation:
+  feasibility: full
+  checks:
+  - tool: custom
+    method: select:not([multiple])의 유효 option 수가 20 초과면 실패(DOM 검사)
+  note: ''
+rationale: 좁은 목록 영역에서 20개가 넘는 옵션을 스크롤해 찾기는 어렵다. 입력으로 거르거나 단계를 나누면 찾는 시간이 준다.
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 셀렉트 > 용례(사용하기 적합하지 않은 경우) (가이드라인 PDF 2025.08 552쪽)
+  note: 'https://www.krds.go.kr/html/site/component/component_06_03.html — ''옵션의 개수가 20개를 초과하는 경우: 사용자가 좁은 목록 영역에서
+    옵션을 탐색하는 것이 어려울 수 있다. 셀렉트 대신 ... 콤보상자를 사용하거나, 여러 개의 셀렉트 요소로 분할하는 방법을 고려해야 한다.'''
+scope:
+  level: component
+  targets:
+  - select
+exceptions: []
+relations:
+- type: refines
+  id: FORM-036
+  note: FORM-036의 상한(20개)을 넘었을 때의 대안을 지정
+examples:
+  good:
+  - lang: html
+    code: "<label for=\"country\">국가</label>\n<input id=\"country\" role=\"combobox\" aria-expanded=\"false\" aria-controls=\"\
+      country-list\"\n       aria-autocomplete=\"list\" autocomplete=\"country-name\">\n<ul id=\"country-list\"\
+      \ role=\"listbox\" hidden>…</ul>\n"
+    note: 옵션 200여 개를 입력으로 걸러 주는 콤보 상자로 받는다.
+  bad:
+  - lang: html
+    code: "<label for=\"country\">국가</label>\n<select id=\"country\" name=\"country\" autocomplete=\"country-name\"\
+      >\n  <!-- 국가 200여 개 -->\n</select>\n"
+    note: 20개를 넘는 옵션을 셀렉트 하나에 넣어 스크롤로 찾아야 한다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(KRDS component_06_03 HTML curl): ''사용하기 적합하지 않은 경우''와 ''고려해야 한다'' 확인 → SHOULD
+  + public-sector-must. 대상이 ''방법 고려''이나 ''적합하지 않은 경우''로 셀렉트 사용을 명시적으로 배제해 결과 판정 가능 — rule.'
+korean_specific: false
+tags:
+- krds
+- krds-component
+- public-sector-must

@@ -1,0 +1,71 @@
+id: A11Y-024
+category: A11Y
+title: 초점 시 맥락 변화 금지
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: MUST
+statement: UI 컴포넌트가 초점을 받는 것만으로 맥락 변화(새 창 열기, 페이지 이동, 폼 제출, 초점 이동, 화면 의미를 바꾸는 콘텐츠 변경)를 일으키지 않는다.
+measurement:
+  criteria: focus·focusin 이벤트 핸들러가 window.open·location 변경·form.submit()·다른 요소 focus()·모달 열기를 실행하지 않는다. Tab으로 모든
+    요소를 지나갈 때 새 창·페이지 이동·제출·초점 강제 이동이 일어나지 않는다.
+  method: Tab으로 페이지 전체를 이동하며 맥락 변화가 생기는지 확인하고, 코드에서 focus 핸들러를 검사한다.
+automation:
+  feasibility: none
+  checks: []
+  note: '검사기 규칙 없음. 4단계 커스텀 검사: eslint로 onFocus 핸들러 안의 window.open·location·submit·focus() 호출 표시.'
+rationale: 초점만으로 맥락이 바뀌면 키보드·스크린 리더 사용자가 방향을 잃고 의도하지 않은 동작이 일어난다.
+sources:
+- ref: WCAG22
+  locator: SC 3.2.1 On Focus (Level A)
+  note: https://www.w3.org/TR/WCAG22/#on-focus
+- ref: WCAG22_UNDERSTANDING
+  locator: https://www.w3.org/WAI/WCAG22/Understanding/on-focus.html
+- ref: KWCAG22
+  locator: 검사항목 7.2.1
+- ref: KRDS
+  locator: 컴포넌트 (여러 페이지) (가이드라인 PDF 2025.08 396·605·632·647쪽)
+  note: '같은 요구를 다루는 KRDS 컴포넌트: 도움 패널, 맥락적 도움말, 모달, 코치마크 — 상세는 sources/extracts/KRDS-components.yaml'
+scope:
+  level: global
+  targets: []
+exceptions: []
+relations:
+- type: conflicts
+  id: NAV-013
+  note: 새 탭으로 열되, NAV-012에 따라 새 탭이 열린다는 사실을 링크에 텍스트(스크린 리더용 포함)로 미리 알린다. 미리 알린 새 탭은 사용자가 의도한 동작으로 본다.
+  decision: CF-002
+- type: conflicts
+  id: NAV-059
+  note: 양립. 로딩 시 펼친 상태는 초기 화면 상태일 뿐 맥락 변화가 아니다. 단, 펼친 패널로 키보드 초점을 옮기지 않는다.
+  decision: CF-003
+examples:
+  good:
+  - lang: html
+    code: '<select id="region"><option>서울</option><option>부산</option></select>
+
+      <button type="submit">이동</button>
+
+      '
+    note: 값 선택 후 별도 버튼으로 이동
+  bad:
+  - lang: html
+    code: '<input onfocus="window.open(''/help'')">
+
+      '
+    note: 초점을 받자마자 새 창을 엶
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(sources/extracts/WCAG22-A-AA.yaml): statement·수치가 SC 원문과 일치함을 확인. KWCAG 2.2
+  대응 항목 번호는 비공식 HTML 판 기준 매핑 — 공식 원문 대조 전(registry KWCAG22 verified=false). 룰의 요구·수치는 WCAG 원문만으로 성립. 1단계에 이 룰로 병합된
+  KRDS 컴포넌트 항목(sources/extracts/KRDS-components.yaml)은 개별 페이지를 다시 열지 않았다 — 룰의 요구는 WCAG 원문 기준. KWCAG 7.2.1은 사용자가
+  의도하지 않은 새 창·팝업 금지까지 포함해 범위가 넓음 — BACKLOG, 3단계.'
+korean_specific: false
+tags:
+- wcag22
+- level-a
+- new-in-2.0
+- kwcag22
+- krds
+decisions:
+- CF-027

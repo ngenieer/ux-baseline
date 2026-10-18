@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>회원 정보 수정 | 예시 서비스</title>
+  </head>
+  <body>
+    <a href="#main">본문 바로가기</a>
+    <main id="main">
+      <h1>회원 정보 수정</h1>
+      <img src="profile.png" alt="프로필 사진">
+      <form action="/profile" method="post">
+        <label for="email">이메일</label>
+        <input id="email" name="email" type="email" autocomplete="email">
+        <button type="submit">저장</button>
+      </form>
+      <!-- FORM-012: 별표 방식 폼의 '선택 안 함' 옵션 레이블은 표시가 아니다 -->
+      <form action="/survey" method="post">
+        <label for="nick">별명 *</label>
+        <input id="nick" name="nick" type="text" autocomplete="nickname" required>
+        <fieldset>
+          <legend>결혼 여부</legend>
+          <label><input type="radio" name="married" value="y"> 기혼</label>
+          <label><input type="radio" name="married" value="n"> 미혼</label>
+          <label><input type="radio" name="married" value="na"> 선택 안 함</label>
+        </fieldset>
+        <button type="submit">보내기</button>
+      </form>
+      <!-- FORM-012: form 밖 독립 fieldset 은 따로 판정한다(필수 항목이 없어 별표 방식 서비스에서는 표시하지 않는다) -->
+      <fieldset>
+        <legend>화면 글자 크기</legend>
+        <label><input type="radio" name="fs" value="m" checked> 보통</label>
+        <label><input type="radio" name="fs" value="l"> 크게</label>
+      </fieldset>
+    </main>
+  </body>
+</html>

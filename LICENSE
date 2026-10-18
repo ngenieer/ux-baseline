@@ -1,0 +1,51 @@
+ux-baseline 라이선스
+
+이 저장소는 두 가지 라이선스를 쓴다. 제3자 자료는 아래 "예외"와 NOTICE.md 를 따른다.
+
+1. 코드 — MIT License
+   대상: kit/, lint/ (설정·플러그인·검사 스크립트), scripts/, tests/, trials/*.mjs, .github/,
+         tokens/base.css, package.json 과 그 밖의 실행 코드
+
+2. 룰·결정·규격·문서 — Creative Commons Attribution 4.0 International (CC BY 4.0)
+   대상: rules/, conflicts/, components/, schema/, dist/, docs/, tokens/*.tokens.json, tokens/build/,
+         sources/registry.yaml, sources/extracts/KRDS-*, trials/ 의 과제·결과 기록, README.md 와 그 밖의 문서
+   전문: https://creativecommons.org/licenses/by/4.0/legalcode.ko (한국어), https://creativecommons.org/licenses/by/4.0/legalcode
+   이용할 때 표시: "ux-baseline (https://github.com/ngenieer/ux-baseline), CC BY 4.0" 와 변경 여부.
+   KRDS 를 바탕으로 한 부분은 KRDS 출처 표기(NOTICE.md)도 함께 한다.
+
+예외
+- sources/extracts/WCAG22-A-AA.yaml — W3C 문서 원문. W3C Document License 를 따르며 위 라이선스로 다시 허락하지 않는다.
+- tokens/vendor/krds/ — KRDS 원본(공공누리 제1유형). 출처 표기 조건은 NOTICE.md.
+
+-------------------------------------------------------------------------------
+
+MIT License
+
+Copyright (c) 2026 시즐론 (sizlon)
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+-------------------------------------------------------------------------------
+
+Creative Commons Attribution 4.0 International (CC BY 4.0)
+
+Copyright (c) 2026 시즐론 (sizlon)
+
+룰·결정·규격·문서는 CC BY 4.0 으로 이용을 허락한다. 출처를 표시하면 상업적 이용을 포함해 복제·배포·변경할 수 있다.
+라이선스 전문(법적 효력이 있는 문서)은 위 링크의 legalcode 다.

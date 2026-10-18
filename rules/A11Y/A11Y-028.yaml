@@ -1,0 +1,49 @@
+id: A11Y-028
+category: A11Y
+title: 콘텐츠 내 탐색에 h1 금지
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 콘텐츠 내 탐색(페이지 안 링크 목록)의 제목과 링크에 h1 요소를 쓰지 않는다.
+measurement:
+  criteria: '콘텐츠 내 탐색 컨테이너(예: nav[aria-label] 안의 페이지 내 앵커 목록) 안에 h1 또는 role="heading" aria-level="1"이 0개다.'
+  method: 콘텐츠 내 탐색 영역의 제목 요소 수준을 확인한다.
+automation:
+  feasibility: none
+  checks: []
+  note: '4단계 커스텀 검사: 콘텐츠 내 탐색 컨테이너 셀렉터(프로젝트 규약) 안의 h1 개수 검사.'
+rationale: '각 화면의 h1은 핵심 콘텐츠의 제목 하나에만 쓴다. 콘텐츠 내 탐색에 h1을 쓰면 h1이 중복된다(KRDS 근거: KWCAG 2.2 제목 제공, WCAG Info and Relationships).'
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 콘텐츠 내 탐색 > 접근성 가이드라인 (가이드라인 PDF 2025.08 315쪽)
+  note: https://www.krds.go.kr/html/site/component/component_03_05.html
+scope:
+  level: component
+  targets:
+  - 콘텐츠 내 탐색
+exceptions: []
+relations:
+- type: refines
+  id: A11Y-007
+examples:
+  good:
+  - lang: html
+    code: "<nav aria-labelledby=\"toc-t\">\n  <h2 id=\"toc-t\">이 페이지의 구성</h2>\n  <ul><li><a href=\"#s1\">신청 자격</a></li></ul>\n\
+      </nav>\n"
+    note: 콘텐츠 내 탐색 제목에 h2 사용
+  bad:
+  - lang: html
+    code: '<nav><h1>이 페이지의 구성</h1><ul>…</ul></nav>
+
+      '
+    note: 콘텐츠 내 탐색 제목에 h1 사용
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(WebFetch로 KRDS 페이지 재조회, 요약 모델 인용 확인): 항목 제목 ''링크 목록에 <h1>을 사용하지 않는다.''와 ''콘텐츠
+  내 탐색에 <h1> 태그를 사용하는 경우 중복될 수 있다'' 확인. ''~하지 않는다'' → SHOULD + public-sector-must.'
+korean_specific: false
+tags:
+- krds
+- krds-component
+- public-sector-must

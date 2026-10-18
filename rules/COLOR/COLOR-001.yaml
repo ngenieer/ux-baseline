@@ -1,0 +1,87 @@
+id: COLOR-001
+category: COLOR
+title: 색만으로 정보 전달 금지
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: MUST
+statement: 색만으로 정보를 전달하거나 동작·응답 요청·요소를 구분하지 않고, 텍스트·아이콘·패턴·밑줄 같은 다른 시각 단서를 함께 쓰거나 두 색의 명도 대비를 3:1 이상으로 한다.
+measurement:
+  criteria: 색으로 구분되는 정보(상태 색, 필수·오류 필드, 링크와 주변 텍스트, 차트 계열, 선택 상태, 비활성 상태)마다 (a) 색 외의 시각 단서(텍스트, 아이콘, 모양, 패턴, 밑줄)가
+    있거나 (b) 구분되는 두 색의 상대 휘도 대비가 3:1 이상이면 통과. 둘 다 아니면 실패. (b)의 두 색은 구분되는 두 요소·두 상태에서 같은 부분의 색이다 — 채움 배경끼리, 글자끼리,
+    테두리끼리(링크와 주변 텍스트는 글자색끼리, 기법 G183). 두 상태 사이에 색이 바뀌는 부분 중 하나라도 3:1 이상이면 통과한다(전경·배경을 뒤바꾼 표시는 채움끼리 비교). 한 상태 안의
+    글자색과 채움색처럼 다른 부분끼리의 대비는 이 룰이 아니라 COLOR-002·COLOR-003 으로 잰다. 비활성(disabled·aria-disabled="true") 상태와 활성 상태의 구분도
+    대상이다 — SC 1.4.1 에는 비활성 예외가 없다(COLOR-003 의 inactive 예외는 비텍스트 대비에만 해당).
+  method: 'axe-core link-in-text-block으로 본문 링크를 검사하고, 나머지는 수동: 화면을 흑백(grayscale)으로 바꿔 색으로만 구분되던 정보가 여전히 구분되는지 확인한다.'
+automation:
+  feasibility: partial
+  checks:
+  - tool: axe-core
+    rule: link-in-text-block
+    method: 본문 안 링크가 주변 텍스트와 색만으로 구분되는지(3:1 또는 비색 단서) 검사
+  note: axe는 본문 링크만 본다. 상태 색·폼 오류·차트 등은 수동(흑백 확인).
+rationale: 색각 이상자(적록·청색맹 등), 저시력 사용자, 흑백 출력 환경에서는 색 차이만으로는 정보를 받을 수 없다.
+sources:
+- ref: WCAG22
+  locator: SC 1.4.1 Use of Color (Level A)
+  note: https://www.w3.org/TR/WCAG22/#use-of-color
+- ref: WCAG22_UNDERSTANDING
+  locator: https://www.w3.org/WAI/WCAG22/Understanding/use-of-color.html
+- ref: KWCAG22
+  locator: 검사항목 5.4.1
+- ref: KRDS
+  locator: 디자인 스타일 > 색상 > 시스템 색상 / 색약자를 위한 고려 (가이드라인 PDF 2025.08 78·87·99쪽)
+  note: https://www.krds.go.kr/html/site/style/style_02.html — 상태 색은 아이콘·텍스트와 함께 사용
+- ref: KRDS
+  locator: 컴포넌트 (여러 페이지) (가이드라인 PDF 2025.08 274·285·334·343·376·455·502·534·547·567·588쪽)
+  note: '같은 요구를 다루는 KRDS 컴포넌트: 단계 표시기, 달력, 라디오 버튼, 링크, 메인 메뉴, 브레드크럼, 체크박스, 태그, 탭, 탭바, 페이지네이션 — 상세는 sources/extracts/KRDS-components.yaml'
+- ref: KRDS
+  locator: 디자인 스타일 > 색상 > 색약자를 위한 고려 (가이드라인 PDF 2025.08 78쪽)
+  note: 'https://www.krds.go.kr/html/site/style/style_02.html — COLOR-008에서 병합: 적색·녹색처럼 혼동되는 조합은 피하거나 명도 차이를 두고,
+    텍스트·아이콘으로 보완.'
+scope:
+  level: global
+  targets:
+  - 색으로 의미를 전달하는 모든 요소
+exceptions: []
+relations: []
+examples:
+  good:
+  - lang: html
+    code: |-
+      <p class="msg msg--error">
+        <svg class="icon-error" aria-hidden="true"></svg>
+        오류: 생년월일을 YYYY.MM.DD 형식으로 입력해 주세요.
+      </p>
+      <style>.msg--error{color:var(--palette-danger-60)}</style>
+    note: 색에 더해 오류 아이콘과 '오류:' 텍스트로 상태를 전달한다
+  - lang: css
+    code: |-
+      /* 활성 → 비활성: 채움 쌍 primary-50 ↔ gray-20 은 2.96:1 이지만 글자색 쌍 gray-0 ↔ gray-50 이 4.51:1 이라 (b)로 통과 */
+      .button--primary{background:var(--color-button-primary-fill);color:var(--color-text-basic-inverse)}
+      .button--primary[aria-disabled="true"]{background:var(--color-button-disabled-fill);color:var(--color-text-disabled-on)}
+    note: 상태 구분 대비는 두 상태의 같은 부분(채움끼리 또는 글자끼리)으로 재고, 하나라도 3:1 이상이면 된다
+  bad:
+  - lang: html
+    code: |-
+      <p class="msg msg--error">생년월일을 YYYY.MM.DD 형식으로 입력해 주세요.</p>
+      <style>.msg--error{color:var(--palette-danger-60)}</style>
+    note: 빨간 글자색 말고는 오류임을 알 단서가 없다
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(sources/extracts/WCAG22-A-AA.yaml SC 1.4.1): 원문 ''Color is not used as the
+  only visual means of conveying information, indicating an action, prompting a response, or distinguishing a visual
+  element'' 일치. Understanding 1.4.1 Note ''색조뿐 아니라 명도 차이가 커서 상대 휘도 대비가 3:1 이상이면 추가 시각 구분으로 인정'' 확인 → statement·criteria
+  (b)에 반영. 2026-10-18 원문 대조(KRDS https://www.krds.go.kr/html/site/style/style_02.html HTML을 curl로 받아 본문 확인): ''시스템
+  색상 … 아이콘이나 텍스트를 함께 사용'', 색약자 절 ''색상 외에 텍스트와 아이콘으로 정보를 보완하고, 특정 색상 조합(예: 적색과 녹색)을 피하거나 명도 차이를 조절'' 확인. COLOR-008을
+  이 룰로 병합(정책 1, WCAG > KRDS). KWCAG 5.4.1 대응은 비공식 판 기준 — 공식 원문 미대조. KRDS 컴포넌트 묶음 출처는 이번에 개별 대조하지 않음. (2026-10-18
+  시험 4 검토 반영) 상태 구분(T7 비활성 새로 고침 버튼) 대비를 어느 색 쌍으로 재는지 불명(채움색 쌍 2.96:1, 글자색 쌍 4.51:1)이고 비활성 상태가 대상인지도 불명 → Understanding
+  1.4.1(2026-10-18 curl 재확인) Note ''색 차이에 명도 차이가 커서 두 색의 대비가 3:1 이상이면 추가 시각 구분'', ''전경·배경을 뒤바꾼 표시도 통과''와 G183(링크
+  글자색 대 주변 글자색)에 따라 ''두 상태의 같은 부분끼리, 바뀌는 부분 중 하나라도 3:1''로 정했다. SC 1.4.1 에는 비활성 예외 문장이 없어 비활성 상태를 대상에 넣었다.'
+korean_specific: false
+tags:
+- wcag22
+- level-a
+- new-in-2.0
+- kwcag22
+- krds

@@ -1,0 +1,66 @@
+id: MOTION-010
+category: MOTION
+title: 모션 값은 토큰으로만
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: MUST
+statement: 애니메이션·전환의 지속 시간(duration)과 이징(easing)은 모션 디자인 토큰(CSS 변수)에서만 고르고 CSS·JS에 ms 값이나 cubic-bezier() 값을 직접 쓰지
+  않는다.
+measurement:
+  criteria: transition·transition-duration·transition-timing-function·animation·animation-duration·animation-timing-function
+    선언 값의 시간·이징 부분이 var(--motion-*) 토큰 참조이거나 0s/none이다. JS의 element.animate() duration·easing 인자도 토큰에서 읽은 값이다.
+  method: stylelint로 CSS를 검사하고, JS는 코드 리뷰(또는 eslint 커스텀)로 숫자 리터럴 duration을 찾는다.
+automation:
+  feasibility: partial
+  checks:
+  - tool: stylelint
+    rule: scale-unlimited/declaration-strict-value
+    method: transition-duration, animation-duration, transition-timing-function, animation-timing-function에 var()
+      참조만 허용
+  note: stylelint-declaration-strict-value 플러그인으로 CSS 속성 값은 판정 가능. 단축 속성(transition·animation) 안의 시간 값과 JS 인자는 커스텀
+    검사 필요.
+rationale: 모션 값이 흩어지면 화면마다 속도가 달라지고, 모션 줄이기·전역 속도 조정을 한곳에서 바꿀 수 없다. 이 체계는 모든 시각 값을 W3C DTCG 토큰으로 정의한다(프로젝트 지침).
+sources:
+- ref: DTCG_FORMAT
+  locator: 8.5 Duration, 8.6 Cubic Bézier
+  note: duration·cubicBezier 토큰 타입 정의
+- ref: MATERIAL3_MOTION_TOKENS
+  locator: md-sys-motion duration/easing 토큰
+  note: 모션 토큰 체계 참고 사례
+scope:
+  level: global
+  targets:
+  - transition
+  - animation
+  - element.animate()
+exceptions:
+- 외부 라이브러리·KRDS 키트 원본 CSS(CF-049)
+relations:
+- type: depends
+  id: MOTION-011
+  note: 토큰 값의 범위는 MOTION-011이 정한다.
+examples:
+  good:
+  - lang: css
+    code: ':root { --motion-duration-short: 100ms; --motion-easing-standard: cubic-bezier(0.2, 0, 0, 1); }
+
+      .chip { transition: background-color var(--motion-duration-fast) var(--motion-easing-standard); }'
+    note: :root에서 토큰을 정의하고 선언에서는 var(--motion-*)만 쓴다.
+  bad:
+  - lang: css
+    code: '.chip { transition: background-color 120ms cubic-bezier(.4,0,.2,1); }'
+    note: 지속 시간과 cubic-bezier 값을 선언에 직접 썼다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(DTCG 2025.10 curl): 8.5 Duration·8.6 Cubic Bézier 타입(''$type MUST be cubicBezier'',
+  네 수 배열) 존재 확인. Material 토큰은 registry 확인 내용. 출처 강도는 reference_system + 체계 선택이라 SHOULD — 프로젝트 지침은 토큰 외 값 금지를 MUST로
+  두라고 하므로 3단계에서 SPACE-001·SHAPE-001과 함께 체계 내부 결정(CF)으로 MUST 상향 검토. stylelint 플러그인 이름은 npm registry에서 확인(stylelint-declaration-strict-value
+  1.12.1). 2026-10-18 확정 시 미검증 출처 PREFERENCE 제외(나머지 검증된 출처로 근거 성립). MUST 상향의 체계 결정은 CF-024에 기록돼 있어 PREFERENCE 자리표시
+  출처 없이도 근거가 성립한다. 2026-10-18 독립 검토: COLOR-022·TYPO-032와 같은 적용 범위 예외(외부 라이브러리·KRDS 키트 원본 CSS, CF-049) 추가(CF-024).'
+korean_specific: false
+tags:
+- research-motion_perf
+- design-token
+decisions:
+- CF-024

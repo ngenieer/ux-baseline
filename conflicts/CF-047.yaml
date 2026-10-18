@@ -1,0 +1,10 @@
+id: CF-047
+rules:
+- COLOR-017
+against: KRDS 배지 페이지 마크업 예시(.bg-primary 클래스 제공)
+summary: 배지 가이드는 주조색 배경을 금지하는데 같은 페이지 마크업이 주조색 배경 클래스를 제공한다.
+principle: 3
+decision: 가이드라인 문장을 따른다. COLOR-017 유지.
+reason: 규범 문장이 예시 코드보다 우선한다.
+deviates_from_priority: false
+date: '2026-10-18'

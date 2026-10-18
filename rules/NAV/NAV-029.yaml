@@ -1,0 +1,50 @@
+id: NAV-029
+category: NAV
+title: 브레드크럼 첫 항목
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 브레드크럼의 첫 항목은 사용자가 실제로 방문 중인 웹사이트의 메인 화면으로 가는 링크로 둔다.
+measurement:
+  criteria: 브레드크럼 목록 첫 li 안의 a href가 현재 사이트(같은 서비스)의 메인 화면 URL이다(상위 기관 사이트 등 다른 사이트의 메인이 아님).
+  method: 브레드크럼 첫 링크의 href를 서비스 메인 URL과 비교한다.
+automation:
+  feasibility: none
+  note: '4단계 커스텀 검사 가능: nav[aria-label=''브레드크럼''] li:first-child a의 href가 설정된 사이트 루트와 같은지 확인.'
+rationale: 브레드크럼 경로의 시작점이 현재 사이트여야 사용자가 지금 이용 중인 서비스 안에서 위치를 파악한다.
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 브레드크럼 > 사용성 가이드라인 (가이드라인 PDF 2025.08 283쪽)
+  note: https://www.krds.go.kr/html/site/component/component_03_03.html — '브레드크럼 목록의 가장 첫 번째 항목은 메인 화면 링크여야하며, 실제
+    사용자가 방문한 웹사이트의 메인 화면으로 연결되어야 한다.'
+scope:
+  level: component
+  targets:
+  - 브레드크럼
+exceptions: []
+relations: []
+examples:
+  good:
+  - lang: html
+    code: '<nav aria-label="브레드크럼"><ol><li><a href="/"><svg aria-hidden="true">…</svg>홈</a></li><li><a href="/civil">민원</a></li><li
+      aria-current="page">전입신고</li></ol></nav>
+
+      '
+    note: 브레드크럼 첫 항목이 현재 사이트 메인 화면(/)으로 간다.
+  bad:
+  - lang: html
+    code: '<nav aria-label="브레드크럼"><ol><li><a href="https://www.mois.go.kr">행정안전부</a></li>…</ol></nav>  <!-- 다른
+      사이트 메인 -->
+
+      '
+    note: 브레드크럼 첫 항목이 다른 사이트(상위 기관) 메인으로 간다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(KRDS component_03_03 WebFetch): ''메인 화면 링크여야하며 … 연결되어야 한다'' 확인 → SHOULD + public-sector-must.
+  1단계 statement의 ''홈 아이콘+레이블''은 사용성 가이드라인이 아니라 ''구조'' 설명(강도 없음) — statement에서 빼고 예시에만 반영.'
+korean_specific: false
+tags:
+- krds
+- krds-component
+- public-sector-must

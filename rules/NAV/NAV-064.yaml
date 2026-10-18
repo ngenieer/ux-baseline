@@ -1,0 +1,53 @@
+id: NAV-064
+category: NAV
+title: 뒤로가기 버튼 목적지
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 뒤로가기 버튼은 직전에 보던 화면으로 이동시키고, 직전 화면이 없으면(외부에서 바로 진입 등) 정보 구조상 상위 화면으로 이동시킨다.
+measurement:
+  criteria: (1) 서비스 안에서 A → B로 이동한 뒤 B의 뒤로가기 버튼을 누르면 A가 표시된다. (2) B에 직접 진입했으면 B의 상위 화면이 표시된다.
+  method: 'E2E 또는 수동: 두 진입 경로(서비스 내 이동, URL 직접 진입)로 B에 들어가 뒤로가기 버튼 결과를 확인한다.'
+automation:
+  feasibility: none
+  checks: []
+  note: 기존 검사기 규칙 없음. E2E 커스텀 검사로 자동화 가능.
+rationale: 사용자가 직전 단계나 상위 구조로 예측 가능하게 되돌아가게 한다.
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 뒤로가기 버튼 > 사용성 가이드라인 (이전 화면으로의 이동을 기본으로 한다)
+  note: https://www.krds.go.kr/html/site/component/component_12_02.html
+scope:
+  level: component
+  targets:
+  - 뒤로가기 버튼
+exceptions: []
+relations:
+- type: depends
+  id: NAV-066
+  note: 앱 내 뒤로가기와 시스템 뒤로가기 결과 일치
+- type: depends
+  id: STATE-032
+  note: 작성 중인 내용이 사라지면 이동 전 경고
+examples:
+  good:
+  - lang: html
+    code: "<script>\nbackBtn.onclick = () => (history.length > 1 && document.referrer.startsWith(location.origin))\n\
+      \  ? history.back() : location.assign(parentUrl);\n</script>\n"
+    note: 서비스 안에서 왔으면 직전 화면, 아니면 상위 화면으로 간다.
+  bad:
+  - lang: html
+    code: '<script>backBtn.onclick = () => location.assign(''/'');</script>  <!-- 항상 홈으로 -->
+
+      '
+    note: 직전 화면과 관계없이 항상 홈으로 간다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(KRDS 페이지 curl 수신 후 텍스트 추출): ''뒤로가기는 기본적으로 직전에 보던 화면(또는 상위 단계)으로 이동해야 한다'' 확인.
+  ''직전 화면이 없으면 상위 화면''이라는 선택 조건은 원문 ''(또는 상위 단계)''를 판정 가능하게 바꾼 이 체계의 해석. 원문 지시형 문장을 의무로 읽어 SHOULD + public-sector-must.'
+korean_specific: false
+tags:
+- krds
+- krds-component
+- public-sector-must

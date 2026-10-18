@@ -1,0 +1,145 @@
+id: prose
+title: 본문 텍스트 블록
+status: confirmed
+summary: 제목·문단·목록·인라인 링크로 된 한국어 본문을 한 줄 40자 이하, 어절 단위 줄바꿈, 행간 1.5로 표시하는 블록이다.
+use_instead:
+- when: 데이터 표·코드 블록
+  use: .prose 밖의 표·코드 블록 컴포넌트(줄 길이 상한의 예외)
+  rule: TYPO-031
+- when: 카드·배지·버튼처럼 컴포넌트 안의 짧은 텍스트
+  use: 각 컴포넌트 규격의 텍스트 스타일
+anatomy:
+- part: 루트
+  class: prose
+  element: div 또는 article
+  required: true
+  note: 'max-inline-size: 40ic(TYPO-031, 린트 ux-baseline/prose-max-inline-size 기본 대상 .prose). 하위 요소는 클래스 없이 요소 선택자로 꾸민다.'
+- part: 제목
+  class: prose
+  element: h2~h4
+  note: 구조는 h 요소로 표시한다(A11Y-007). 굵게만 처리한 p 를 제목처럼 쓰지 않는다.
+- part: 문단
+  class: prose
+  element: p
+- part: 목록
+  class: prose
+  element: ul / ol / dl
+- part: 인라인 링크
+  class: prose
+  element: a
+  note: 밑줄을 표시하고 주변 본문과 같은 글자 크기로 쓴다(TYPO-008, TYPO-013). 링크 텍스트만으로 목적지를 알 수 있게 쓴다(COPY-002).
+markup: |-
+  <div class="prose">
+    <h2>신청 자격</h2>
+    <p>신청일 기준으로 주민등록상 주소가 서울특별시에 있는 만 19세 이상 34세 이하 청년이 신청할 수 있습니다. 가구 소득 기준은 연도마다 바뀌므로 신청 전에 확인해 주세요.</p>
+    <ul>
+      <li>본인 명의의 무주택 임차 계약이 있어야 합니다.</li>
+      <li>같은 지원금을 받고 있는 사람은 신청할 수 없습니다.</li>
+    </ul>
+    <p>자세한 소득 기준은 <a href="/guide/income">가구 소득 기준 안내</a>에서 확인해 주세요.</p>
+  </div>
+css: |-
+  .prose {
+    max-inline-size: 40ic;
+    color: var(--color-text-basic);
+    font-size: var(--font-size-body-medium);
+    font-weight: var(--font-weight-regular);
+    line-height: var(--font-line-height-base);
+    text-align: start;
+    word-break: keep-all;
+    overflow-wrap: anywhere;
+  }
+  .prose > * {
+    margin-block: 0;
+  }
+  .prose > * + * {
+    margin-block-start: var(--space-gap-6);
+  }
+  .prose > * + :is(h2, h3, h4) {
+    margin-block-start: var(--space-gap-9);
+  }
+  .prose :is(h2, h3, h4) {
+    color: var(--color-text-bolder);
+    font-weight: var(--font-weight-bold);
+    line-height: var(--font-line-height-base);
+    text-wrap: balance;
+  }
+  .prose h2 {
+    font-size: var(--font-size-heading-small);
+  }
+  .prose h3 {
+    font-size: var(--font-size-heading-xsmall);
+  }
+  .prose h4 {
+    font-size: var(--font-size-heading-xxsmall);
+  }
+  .prose :is(ul, ol) {
+    padding-inline-start: var(--space-padding-8);
+  }
+  .prose li + li {
+    margin-block-start: var(--space-gap-3);
+  }
+  .prose a {
+    color: var(--color-link-default);
+    font-size: inherit;
+    text-decoration-line: underline;
+  }
+  .prose a:visited {
+    color: var(--color-link-visited);
+  }
+  .prose a:hover {
+    color: var(--color-link-hover);
+  }
+  .prose a:active {
+    color: var(--color-link-pressed);
+  }
+  .prose a:focus-visible {
+    outline: var(--space-scale-2) solid var(--color-border-primary);
+    outline-offset: var(--space-scale-1);
+  }
+states:
+- name: 텍스트 간격 사용자 조정
+  markup_change: '마크업 변화 없음. 행간 1.5배·문단 뒤 2배·자간 0.12배·단어 간격 0.16배를 덮어써도 잘림·겹침이 없어야 한다 — 높이·overflow: hidden 을 두지 않는다(TYPO-002).'
+  rule: TYPO-002
+keyboard:
+- key: Tab
+  action: 본문 안 링크로 초점을 옮긴다. 초점 표시가 보인다(A11Y-016).
+behavior:
+- 한 줄 길이를 전각 40자(40ic) 이하로 제한한다. 표·코드 블록은 이 블록 밖에 둔다(TYPO-031).
+- '한국어 줄바꿈은 word-break: keep-all 로 어절 단위로 하고, 긴 URL·영문 어절의 넘침은 overflow-wrap: anywhere 로 처리한다. break-all·break-word·line-break: anywhere 는 쓰지 않는다(TYPO-017, TYPO-018, TYPO-019, TYPO-020, TYPO-021).'
+- 'word-break: auto-phrase 를 추가하려면 같은 규칙 블록에서 keep-all 다음에 선언하고 lang="ko" 를 보장한다(TYPO-024).'
+- 글자 크기는 body-medium(17px, 16px 이상), 행간은 1.5(단위 없는 수)로 둔다(TYPO-003, TYPO-004, TYPO-005, TYPO-010).
+- 양쪽 정렬을 쓰지 않고 시작 정렬한다(TYPO-025). 자간은 0 으로 두고 음수 자간을 쓰지 않는다(TYPO-028).
+- 'text-wrap: balance 는 제목에만 쓴다(TYPO-022). 문단에 text-wrap: pretty 를 더하려면 대량 텍스트 화면의 렌더링 시간을 먼저 측정한다(TYPO-023).'
+- 본문 콘텐츠 영역의 최대 너비(LAYOUT-007)와는 별개다 — 콘텐츠 영역 안에서 이 블록이 줄 길이를 다시 제한한다.
+rules:
+- A11Y-007
+- A11Y-016
+- COLOR-002
+- COPY-002
+- LAYOUT-007
+- RESP-002
+- TYPO-002
+- TYPO-003
+- TYPO-004
+- TYPO-005
+- TYPO-008
+- TYPO-010
+- TYPO-013
+- TYPO-017
+- TYPO-018
+- TYPO-019
+- TYPO-020
+- TYPO-021
+- TYPO-022
+- TYPO-023
+- TYPO-024
+- TYPO-025
+- TYPO-027
+- TYPO-028
+- TYPO-031
+- TYPO-032
+notes:
+- KRDS 에 대응하는 컴포넌트 이름이 없다. 적용 룰은 rules/TYPO 를 직접 읽어 골랐다.
+- 문단·제목 간격은 KRDS gap-layout-* 토큰 대신 --space-gap-* 를 썼다 — SPACE-001 이 간격 값을 var(--space-*) 로 정한다.
+- TYPO-010(Pretendard GOV·17px)은 KRDS 표준형 서비스에 적용된다. 이 블록은 서체를 직접 지정하지 않고 상위(body)의 --font-family-base 를 물려받는다.

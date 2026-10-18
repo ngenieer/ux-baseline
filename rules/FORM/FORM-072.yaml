@@ -1,0 +1,76 @@
+id: FORM-072
+category: FORM
+title: 최솟값·최댓값에서 증감 버튼 비활성
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 수량 토글의 값이 최솟값이면 감소 버튼을, 최댓값이면 증가 버튼을 aria-disabled="true"로 비활성 표시하고, 누른 버튼에서 키보드 초점이 사라지지 않게 disabled
+  속성은 쓰지 않는다.
+measurement:
+  criteria: 값 = 최솟값이면 감소 버튼에 aria-disabled="true", 값 = 최댓값이면 증가 버튼에 aria-disabled="true"가 있고, 두 버튼 모두 disabled 속성이
+    없으며, 그 사이 값에서는 aria-disabled가 없거나 false다. 버튼을 눌러 경계값에 닿은 직후 document.activeElement가 그 버튼이다. aria-disabled="true"인
+    버튼을 클릭·Enter·Space로 눌러도 값이 경계값 그대로다(CF-060).
+  method: 'E2E: 최솟값·중간값·최댓값으로 바꾸며 두 버튼의 상태를 확인하고, 경계값에서 aria-disabled="true"인 버튼을 클릭·Enter·Space로 눌러 값이 바뀌지 않는지
+    확인한다.'
+automation:
+  feasibility: none
+  checks: []
+  note: 기존 검사기 규칙 없음. 4단계 커스텀 E2E로 판정 가능.
+rationale: KRDS는 최소·최대 값에 도달하면 증감 버튼을 비활성화하여 즉시 피드백을 제공해야 한다고 한다.
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 수량 토글 > 개요
+  note: 'https://www.krds.go.kr/html/site/component/component_12_04.html — 원문: ''최소 또는 최대 값에 도달하는 경우 증감 버튼을 비활성화
+    하여야 한다'''
+- ref: KRDS
+  locator: 컴포넌트 > 수량 토글 > 사용성 가이드라인(선택 수량의 범위를 제한해야 한다)
+  note: 'https://www.krds.go.kr/html/site/component/component_12_04.html — 원문: ''버튼 상태를 비활성화로 변경하여 즉시 피드백을 제공해야
+    하며'''
+scope:
+  level: component
+  targets:
+  - 수량 토글
+exceptions: []
+relations: []
+examples:
+  good:
+  - lang: html
+    code: '<!-- 값 1 = 최솟값 -->
+
+      <button type="button" aria-label="수량 줄이기" aria-disabled="true">−</button>
+
+      <input aria-label="발급 부수" inputmode="numeric" value="1" data-min="1" data-max="10">
+
+      <button type="button" aria-label="수량 늘리기">+</button>
+
+      '
+    note: 최솟값에서 감소 버튼을 aria-disabled로 비활성 표시해 초점이 버튼에 남는다.
+  bad:
+  - lang: html
+    code: '<!-- 값 1 = 최솟값인데 감소 버튼이 활성 -->
+
+      <button type="button" aria-label="수량 줄이기">−</button>
+
+      <input aria-label="발급 부수" inputmode="numeric" value="1" data-min="1" data-max="10">
+
+      <button type="button" aria-label="수량 늘리기">+</button>
+
+      '
+    note: 최솟값에서도 감소 버튼이 눌리고 아무 반응이 없다.
+  - lang: html
+    code: '<!-- 감소 버튼을 눌러 최솟값이 된 순간 disabled 를 붙임 → 초점이 사라짐 -->
+
+      <button type="button" aria-label="수량 줄이기" disabled>−</button>'
+    note: disabled 로 바꾸면 방금 누른 버튼에서 키보드 초점이 사라진다(CF-060).
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(curl로 KRDS 페이지 HTML을 받아 본문 텍스트와 대조): 두 문장 일치 확인. 원문 강도 ''비활성화 하여야 한다'' → SHOULD
+  + public-sector-must.'
+korean_specific: false
+tags:
+- krds
+- krds-component
+- public-sector-must
+decisions:
+- CF-060

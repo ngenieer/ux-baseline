@@ -1,0 +1,349 @@
+id: help-panel
+title: 도움 패널
+status: confirmed
+summary: 양이 많거나 복잡한 과업 화면에서 본문 옆에 펼쳐 두고 화면 단위 도움말·관련 서비스를 보여 주는 패널이다.
+use_instead:
+- when: 한두 문장으로 끝나는 간단한 안내
+  use: 맥락적 도움말
+  rule: COPY-043
+- when: 작업 방법을 단계별로 안내
+  use: 따라하기 패널과 코치마크
+  rule: COPY-043
+- when: 작업을 마치는 데 반드시 알아야 하는 정보
+  use: 본문 인라인 텍스트
+  rule: COPY-009
+krds:
+  page: component_08_01.html
+  kit: html/code/help_panel.html
+  kit_classes:
+    help-panel: krds-help-panel
+    help-panel__toggle: btn-help-panel
+    help-panel__tablist: krds-tab-area tab
+    help-panel__tab: btn-tab
+    help-panel__tabpanel: tab-conts
+    help-panel__section: conts-area conts-wrap
+    help-panel__heading: help-title
+    help-panel__links: link-list
+anatomy:
+- part: 루트(패널)
+  class: help-panel
+  element: aside
+  required: true
+  note: 보충(complementary) 랜드마크. aria-labelledby 로 패널 제목을 연결한다. 본문 옆(오른쪽)에 나란히 두고, DOM 에서는 본문 다음에 둔다(A11Y-008).
+- part: 패널 제목
+  class: help-panel__title
+  element: h2
+  required: true
+  note: 펼침·접기 버튼을 감싼다(APG 아코디언 머리글과 같은 구조). 루트의 aria-labelledby 가 이 id 를 가리킨다.
+- part: 펼침·접기 버튼
+  class: help-panel__toggle
+  element: button
+  required: true
+  note: 접근 가능한 이름 '도움말'(상태와 관계없이 같다), aria-expanded 로 펼침 상태, aria-controls 로 패널 본문을 가리킨다. 여닫는 버튼이 하나이므로 닫은 뒤 초점이
+    그 버튼에 남는다(A11Y-050).
+- part: 패널 본문
+  class: help-panel__body
+  element: div
+  required: true
+  note: 접힌 상태에서는 hidden.
+- part: 탭 목록
+  class: help-panel__tablist
+  element: div
+  note: 따라하기 패널을 함께 제공할 때만 둔다. role="tablist". 처음에는 '도움' 탭을 선택한다(NAV-060, COPY-041).
+- part: 탭
+  class: help-panel__tab
+  element: button
+  note: role="tab", aria-selected, aria-controls.
+- part: 탭 패널
+  class: help-panel__tabpanel
+  element: div
+  note: role="tabpanel", aria-labelledby 로 탭을 연결한다. 따라하기 탭 패널 안에는 따라하기 패널(tutorial-panel) 규격을 넣는다.
+- part: 도움 섹션
+  class: help-panel__section
+  element: section
+  required: true
+  note: 섹션 하나는 패널 기본 크기에서 세로 스크롤 없이 보이는 분량으로 쓴다(COPY-042).
+- part: 섹션 제목
+  class: help-panel__heading
+  element: h3
+  required: true
+- part: 관련 링크 목록
+  class: help-panel__links
+  element: ul
+  note: 관련 화면·리소스 링크는 새 탭으로 열고 링크 컴포넌트와 같은 새 창 아이콘(svg, aria-hidden="true")과 링크 안 숨긴 텍스트(.sr-only ' (새 창 열림)')을
+    넣는다(NAV-013, NAV-012, CF-002).
+- part: 도움 아이콘 버튼
+  class: help-panel__trigger
+  element: button
+  note: 본문의 도움 대상 레이블·제목 바로 다음에 두고, 누르면 패널에 그 항목의 상세 도움말을 표시한다(LAYOUT-056).
+markup: |-
+  <div class="help-panel-layout">
+    <div class="help-panel-layout__main">
+      <h2 class="help-panel-demo__title">전자증명서 발급 <button class="help-panel__trigger" type="button" aria-controls="help-panel-body" aria-label="전자증명서 발급 도움말 보기"><svg class="help-panel__trigger-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .8-1 1.5V14M12 17h.01"/></svg></button></h2>
+      <p>발급할 증명서를 선택해 주세요.</p>
+    </div>
+    <aside class="help-panel" aria-labelledby="help-panel-title">
+      <h2 class="help-panel__title" id="help-panel-title">
+        <button class="help-panel__toggle" type="button" aria-expanded="true" aria-controls="help-panel-body">도움말<svg class="help-panel__toggle-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></button>
+      </h2>
+      <div class="help-panel__body" id="help-panel-body">
+        <div class="help-panel__tablist" role="tablist" aria-label="도움말 종류">
+          <button class="help-panel__tab" type="button" role="tab" id="help-tab-help" aria-selected="true" aria-controls="help-tabpanel-help">도움</button>
+          <button class="help-panel__tab" type="button" role="tab" id="help-tab-tutorial" aria-selected="false" aria-controls="help-tabpanel-tutorial" tabindex="-1">따라하기</button>
+        </div>
+        <div class="help-panel__tabpanel" role="tabpanel" id="help-tabpanel-help" aria-labelledby="help-tab-help">
+          <section class="help-panel__section" aria-labelledby="help-intro-title">
+            <h3 class="help-panel__heading" id="help-intro-title">이 패널 사용 방법</h3>
+            <p class="help-panel__text">화면의 항목 옆 도움말 아이콘을 누르면 그 항목의 설명이 여기에 표시됩니다.</p>
+          </section>
+          <section class="help-panel__section" aria-labelledby="help-related-title">
+            <h3 class="help-panel__heading" id="help-related-title">관련 서비스</h3>
+            <ul class="help-panel__links" role="list">
+              <li><a class="help-panel__link" href="https://example.com/certificates/resident" target="_blank" rel="noopener">주민등록표등본 발급<span class="sr-only"> (새 창 열림)</span><svg class="help-panel__new-window" aria-hidden="true" viewBox="0 0 16 16"><path d="M6 3H3v10h10v-3M9 3h4v4M13 3L7 9"></path></svg></a></li>
+              <li><a class="help-panel__link" href="https://example.com/faq" target="_blank" rel="noopener">자주 묻는 질문<span class="sr-only"> (새 창 열림)</span><svg class="help-panel__new-window" aria-hidden="true" viewBox="0 0 16 16"><path d="M6 3H3v10h10v-3M9 3h4v4M13 3L7 9"></path></svg></a></li>
+            </ul>
+          </section>
+        </div>
+        <div class="help-panel__tabpanel" role="tabpanel" id="help-tabpanel-tutorial" aria-labelledby="help-tab-tutorial" hidden>
+          <p class="help-panel__text">따라하기 패널(tutorial-panel) 규격의 내용이 들어갑니다.</p>
+        </div>
+      </div>
+    </aside>
+  </div>
+css: |-
+  .help-panel-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: var(--gap-layout-contents-right);
+    align-items: start;
+  }
+  .help-panel {
+    position: sticky;
+    inset-block-start: 0;
+    inline-size: 24.375rem;
+    max-block-size: 100dvh;
+    overflow-y: auto;
+    padding: var(--space-padding-10);
+    border-inline-start: var(--border-width-variable-regular) solid var(--color-border-gray);
+    background-color: var(--color-surface-gray-subtler);
+    box-shadow: var(--shadow-3);
+    color: var(--color-text-basic);
+  }
+  .help-panel--collapsed {
+    inline-size: auto;
+    padding: var(--space-padding-6);
+    box-shadow: none;
+  }
+  .help-panel__title {
+    margin: 0;
+  }
+  .help-panel__toggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    inline-size: 100%;
+    min-block-size: var(--size-height-6);
+    padding: 0;
+    border: 0;
+    background-color: transparent;
+    color: var(--color-text-bolder);
+    font-size: var(--font-size-heading-small);
+    font-weight: var(--font-weight-bold);
+  }
+  .help-panel__toggle-icon {
+    inline-size: var(--size-height-3);
+    block-size: var(--size-height-3);
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+  }
+  .help-panel__toggle[aria-expanded="false"] .help-panel__toggle-icon {
+    transform: rotate(180deg);
+  }
+  .help-panel__tab {
+    min-block-size: var(--size-height-5);
+    padding-inline: var(--space-padding-4);
+    border: var(--border-width-variable-regular) solid var(--color-button-tertiary-border);
+    border-radius: var(--radius-medium1);
+    background-color: var(--color-button-tertiary-fill);
+    color: var(--color-text-basic);
+    font-size: var(--font-size-label-small);
+  }
+  .help-panel__tablist {
+    display: flex;
+    gap: var(--space-gap-2);
+    margin-block: var(--space-gap-5);
+  }
+  .help-panel__tab {
+    flex: 1;
+  }
+  .help-panel__tab[aria-selected="true"] {
+    border-color: var(--color-border-primary);
+    border-block-end-width: var(--space-scale-3);
+    color: var(--color-text-primary);
+    font-weight: var(--font-weight-bold);
+  }
+  .help-panel__body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-layout-title-body-small);
+  }
+  .help-panel__section {
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-layout-text-text-small);
+    padding-block: var(--space-padding-6);
+    border-block-start: var(--border-width-variable-regular) solid var(--color-divider-gray-light);
+  }
+  .help-panel__heading {
+    margin: 0;
+    color: var(--color-text-bolder);
+    font-size: var(--font-size-heading-xsmall);
+    font-weight: var(--font-weight-bold);
+  }
+  .help-panel__text {
+    margin: 0;
+    font-size: var(--font-size-body-medium);
+    line-height: var(--font-line-height-base);
+  }
+  .help-panel__links {
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-layout-text-text-small);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .help-panel__link {
+    display: inline-flex;
+    align-items: center;
+    min-block-size: var(--layout-target-min);
+    color: var(--color-text-primary);
+    font-size: var(--font-size-body-small);
+    text-decoration: underline;
+  }
+  .help-panel__new-window {
+    inline-size: 1em;
+    block-size: 1em;
+    margin-inline-start: var(--space-gap-1);
+    flex-shrink: 0;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.5;
+  }
+  .help-panel__trigger {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-inline-size: var(--size-height-5);
+    min-block-size: var(--size-height-5);
+    padding: 0;
+    border: 0;
+    border-radius: var(--radius-medium1);
+    background-color: transparent;
+    color: var(--color-icon-gray);
+    vertical-align: middle;
+  }
+  .help-panel__trigger-icon {
+    inline-size: var(--size-height-3);
+    block-size: var(--size-height-3);
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+  }
+  .help-panel__toggle:focus-visible,
+  .help-panel__tab:focus-visible,
+  .help-panel__link:focus-visible,
+  .help-panel__trigger:focus-visible {
+    outline: var(--space-scale-2) solid var(--color-border-primary);
+    outline-offset: var(--space-scale-1);
+  }
+  @media (max-width: 1023px) {
+    .help-panel-layout {
+      grid-template-columns: minmax(0, 1fr);
+    }
+    .help-panel {
+      position: static;
+      inline-size: auto;
+      max-block-size: none;
+      box-shadow: none;
+    }
+  }
+states:
+- name: 펼침(로딩 직후 기본)
+  markup_change: 패널 본문이 보이고 help-panel__toggle 은 aria-expanded="true". 초점은 패널로 옮기지 않는다(NAV-059, CF-003). 본문은 '이
+    패널 사용 방법' 기본 안내이고, 따라하기 탭이 있으면 '도움' 탭이 선택돼 있다(COPY-041, NAV-060).
+  rule: NAV-059
+- name: 접힘
+  markup_change: 루트에 help-panel--collapsed, help-panel__body 에 hidden, help-panel__toggle 은 aria-expanded="false"(이름은
+    '도움말' 그대로). 초점은 토글 버튼에 남는다(A11Y-050).
+  rule: A11Y-050
+- name: 항목 상세
+  markup_change: 본문의 help-panel__trigger 를 누르면 '도움' 탭 패널에 그 항목의 help-panel__section(상세 도움말)을 표시하고, 접혀 있으면 펼친다. 초점은
+    누른 버튼에 그대로 둔다.
+  rule: LAYOUT-056
+- name: 좁은 화면(1단 레이아웃)
+  markup_change: 본문과 패널을 나란히 놓을 수 없는 너비에서는 패널을 '도움말' 열기 버튼으로 줄이고, 버튼을 누르면 패널 내용을 모달 규격(dialog.showModal, aria-modal)으로
+    연다. 닫으면 초점을 그 버튼으로 돌려놓는다(RESP-016, A11Y-050).
+  rule: RESP-016
+keyboard:
+- key: Enter / Space
+  action: 토글 버튼에서 패널을 접거나 펼친다. 초점은 토글 버튼에 남는다(A11Y-050). 도움 아이콘 버튼에서는 해당 항목의 도움말을 표시한다.
+- key: ← / →
+  action: 탭 목록에서 이전·다음 탭으로 초점을 옮기고 그 탭을 선택한다(WAI-ARIA APG Tabs, 자동 활성화).
+- key: Home / End
+  action: 탭 목록에서 첫·마지막 탭을 선택한다.
+- key: Tab
+  action: 탭 목록에서 선택된 탭 패널 안으로 초점을 옮긴다. 패널 밖으로도 Tab 으로 나갈 수 있다(A11Y-012).
+behavior:
+- 도움 패널이 있는 화면은 로딩 직후 패널을 펼친 상태로 표시하되 초점을 패널로 옮기지 않는다(NAV-059, CF-003, A11Y-024).
+- 패널을 처음 표시할 때는 패널 용도·사용법 기본 안내를 보이고, 사용자가 도움 아이콘 버튼을 누르기 전에는 상세 도움말을 표시하지 않는다. 따라하기 패널과 함께 쓰면 '도움' 탭을 선택한 상태로 연다(COPY-041,
+  NAV-060).
+- 패널을 접었다 펼치거나 다른 탭으로 갔다 돌아오면 마지막으로 보던 콘텐츠를 다시 표시한다(STATE-024).
+- 패널을 닫는 버튼으로 닫으면 초점은 패널을 연 버튼으로 간다 — 이 규격은 여닫는 버튼이 하나라 초점이 그 버튼에 남는다(A11Y-050).
+- 패널 안 관련 화면·리소스 링크는 새 탭으로 열고 링크 컴포넌트와 같은 새 창 아이콘(svg, aria-hidden="true")과 링크 안 숨긴 텍스트(.sr-only ' (새 창 열림)')을 넣는다.
+  title 속성만으로 알리지 않는다(NAV-013, NAV-012, CF-002, CF-043).
+- 같은 화면·같은 과업 흐름에서 도움 패널과 맥락적 도움말·정보 아이콘 툴팁을 함께 쓰지 않는다(COPY-048, NAV-062).
+- 작업 완료에 반드시 필요한 정보는 패널에만 두지 않고 본문에 쓴다(COPY-009). 섹션 하나는 패널 기본 크기에서 스크롤 없이 보이게 짧게 쓴다(COPY-042).
+- 패널과 본문은 나란히 놓는다(패널이 본문을 덮지 않는다). 1단 레이아웃이 되는 너비에서는 열기 버튼 + 모달로 바꾼다(RESP-016, LAYOUT-001).
+- 같은 기능의 도움 아이콘·레이블은 모든 화면에서 같게 쓴다(COPY-004).
+rules:
+- A11Y-001
+- A11Y-008
+- A11Y-011
+- A11Y-012
+- A11Y-015
+- A11Y-016
+- A11Y-024
+- A11Y-025
+- A11Y-050
+- COLOR-003
+- COPY-003
+- COPY-004
+- COPY-009
+- COPY-041
+- COPY-042
+- COPY-043
+- COPY-048
+- LAYOUT-001
+- LAYOUT-002
+- LAYOUT-056
+- NAV-012
+- NAV-013
+- NAV-059
+- NAV-060
+- NAV-062
+- RESP-016
+- STATE-024
+kit_differences:
+- KRDS 키트는 role="tab" 을 li 에 두고 그 안에 button 을 넣으며 화살표 키 이동이 없다 — 이 규격은 button 자체를 role="tab" 으로 쓰고 APG 탭 키보드(←→·Home·End)를
+  따른다(A11Y-025, A11Y-011).
+- KRDS 키트는 선택 상태를 sr-only 텍스트 '선택됨'으로도 알린다 — aria-selected 와 중복이므로 이 규격은 aria-selected 만 쓴다(A11Y-025).
+- KRDS 키트는 새 창 링크를 title="새 창 열림" 으로만 알린다 — 이 규격은 새 창 아이콘과 링크 안 숨긴 텍스트 '(새 창 열림)'으로 알린다(NAV-012, CF-043).
+- KRDS 키트는 열기 버튼(패널 밖)과 '접어두기' 버튼(패널 안 마지막)을 따로 두고 열기 버튼에 aria-expanded 가 없다 — 이 규격은 aria-expanded 를 가진 토글 버튼 하나를
+  패널 제목(h2) 안에 둔다. 닫은 뒤 초점이 여는 버튼에 있게 하는 A11Y-050 을 버튼 하나로 만족한다.
+- KRDS 키트는 섹션 제목 안에 span.krds-btn 로 만든 가짜 도움말 아이콘을 둔다(초점·역할 없음) — 이 규격은 도움 대상 옆에 실제 button 을 둔다(LAYOUT-056, A11Y-025).
+- KRDS 키트 패널은 position fixed 로 본문 위에 겹친다 — 이 규격은 본문 옆에 나란히 두어 초점 받은 본문 요소를 가리지 않는다(LAYOUT-001).
+notes:
+- 패널 너비 24.375rem 은 KRDS 키트 PC 너비(39rem, 루트 62.5% 기준 390px)를 16px 루트로 옮긴 값이다.
+- markup 의 help-panel-layout 래퍼와 본문 예시는 패널과 본문을 나란히 놓는 배치를 보이기 위한 것이다. 따라하기 탭 패널 내용은 tutorial-panel 규격을 넣는다.

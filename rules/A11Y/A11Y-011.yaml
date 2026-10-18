@@ -1,0 +1,83 @@
+id: A11Y-011
+category: A11Y
+title: 키보드 조작
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: MUST
+statement: 모든 기능을 키 입력 타이밍에 의존하지 않는 키보드 조작만으로 쓸 수 있게 한다.
+measurement:
+  criteria: (1) 마우스·터치로 가능한 모든 기능(링크·버튼·폼·메뉴·드롭다운·캐러셀·드래그 대체 등)을 Tab·Shift+Tab·Enter·Space·방향키·Esc로 실행할 수 있다. (2)
+    키를 일정 시간 안에 누르거나 길게 눌러야만 되는 기능이 없다. (3) 스크롤 영역은 키보드로 스크롤할 수 있다. (4) click 핸들러를 단 div·span에 role·tabindex·키보드
+    핸들러가 함께 있다.
+  method: axe-core 실행 후, 마우스를 쓰지 않고 페이지의 모든 기능을 키보드로 수행하는 수동 점검.
+automation:
+  feasibility: partial
+  checks:
+  - tool: axe-core
+    rule: scrollable-region-focusable
+    method: axe-core 실행 결과 위반 0건
+  - tool: axe-core
+    rule: frame-focusable-content
+    method: axe-core 실행 결과 위반 0건
+  - tool: axe-core
+    rule: server-side-image-map
+    method: axe-core 실행 결과 위반 0건
+  - tool: eslint
+    rule: jsx-a11y/click-events-have-key-events
+    method: JSX 프로젝트에서 click 핸들러에 키보드 핸들러가 함께 있는지 검사
+  - tool: ux-baseline-check
+    rule: tabs-arrow-keys
+    method: 'ux-baseline check: 탭 목록의 선택된 탭에서 → 키로 다음 탭에 초점'
+  - tool: ux-baseline-check
+    rule: disclosure-toggle
+    method: 'ux-baseline check: aria-expanded 버튼을 Enter 로 펼치고 접는다'
+  note: 검사기는 일부 패턴만 판정한다. 기능 전체의 키보드 조작 가능 여부는 수동.
+rationale: 키보드·스위치·음성 입력 사용자는 키보드 인터페이스로만 기능을 쓸 수 있다.
+sources:
+- ref: WCAG22
+  locator: SC 2.1.1 Keyboard (Level A)
+  note: https://www.w3.org/TR/WCAG22/#keyboard
+- ref: WCAG22_UNDERSTANDING
+  locator: https://www.w3.org/WAI/WCAG22/Understanding/keyboard.html
+- ref: KWCAG22
+  locator: 검사항목 6.1.1
+- ref: KRDS
+  locator: 컴포넌트 (여러 페이지) (가이드라인 PDF 2025.08 278·305·314·358·376·386·458·507·509·521·535·537·548·550·557·578·580·609·675·676·685·696·713·726·735쪽)
+  note: '같은 요구를 다루는 KRDS 컴포넌트: 구조화 목록, 날짜 입력 필드, 달력, 도움 패널, 디스클로저, 라디오 버튼, 링크, 메인 메뉴, 버튼, 사이드 메뉴, 셀렉트, 언어 변경, 체크박스,
+    콘텐츠 내 탐색, 탭, 텍스트 영역, 텍스트 입력 필드, 토글 스위치, 파일 업로드, 화면 크기 조정 — 상세는 sources/extracts/KRDS-components.yaml'
+scope:
+  level: global
+  targets: []
+exceptions:
+- '기능 자체가 사용자 움직임의 경로에 의존하는 입력을 요구하는 경우(예: 자유 곡선 그리기). 손글씨로 텍스트를 입력하는 것처럼 입력 기법만 경로 의존인 경우는 예외가 아니다.'
+relations: []
+examples:
+  good:
+  - lang: html
+    code: '<button type="button" class="card-action">상세 보기</button>
+
+      '
+    note: 네이티브 button이라 Enter·Space로 실행됨
+  bad:
+  - lang: html
+    code: '<div class="card-action" onclick="openDetail()">상세 보기</div>
+
+      '
+    note: click 핸들러만 있는 div라 키보드로 실행할 수 없음
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(sources/extracts/WCAG22-A-AA.yaml): statement·수치가 SC 원문과 일치함을 확인. KWCAG 2.2
+  대응 항목 번호는 비공식 HTML 판 기준 매핑 — 공식 원문 대조 전(registry KWCAG22 verified=false). 룰의 요구·수치는 WCAG 원문만으로 성립. 1단계에 이 룰로 병합된
+  KRDS 컴포넌트 항목(sources/extracts/KRDS-components.yaml)은 개별 페이지를 다시 열지 않았다 — 룰의 요구는 WCAG 원문 기준. BACKLOG ''숨긴 콘텐츠 opacity로
+  숨김'' vs 라디오·체크박스·토글 ''opacity:0으로 숨기지 않음''(이 룰에 병합된 KRDS C:15·C:32·C:83과 A11Y-016에 병합된 C:210)은 CF-051로 정리 — opacity:0
+  숨김은 허용하고 초점 표시(A11Y-016)를 요구하며, display:none·visibility:hidden 숨김은 금지(A11Y-048).'
+korean_specific: false
+tags:
+- wcag22
+- level-a
+- new-in-2.0
+- kwcag22
+- krds
+decisions:
+- CF-051

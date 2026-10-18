@@ -1,0 +1,52 @@
+id: NAV-015
+category: NAV
+title: 헤더 유틸리티 링크 배치
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 헤더의 유틸리티 링크 그룹은 헤더 오른쪽 위에 두고, 서로 관련 없는 링크 사이를 디바이더로 구분한다.
+measurement:
+  criteria: 유틸리티 링크 그룹의 박스가 헤더 첫 행에 있고 오른쪽 끝이 헤더 콘텐츠 영역 오른쪽 끝에 맞춰져 있다. 인접한 서로 관련 없는 링크 사이에 시각적 디바이더(border 또는 장식
+    요소, 보조기술에 숨김)가 있다.
+  method: 헤더를 화면에서 확인하고 개발자 도구로 위치·디바이더 요소를 확인한다.
+automation:
+  feasibility: none
+  note: 시각 배치라 수동. 4단계 헤더 컴포넌트 규격(마크업·CSS)으로 고정하면 검사 불필요.
+rationale: 정부 서비스 전체에서 같은 위치에 두어 로그인·언어 등 보조 기능을 바로 찾게 하고, 디바이더로 서로 다른 링크를 시각적으로 구분한다.
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 헤더 > 사용성 가이드라인 (가이드라인 PDF 2025.08 237쪽)
+  note: https://www.krds.go.kr/html/site/component/component_02_03.html — '유틸리티 링크 그룹은 헤더 우측 상단에 제공한다.' / '서로 관련되지
+    않은 링크가 시각적으로 명확하게 변별될 수 있도록 여러 가지 형태의 디바이더를 활용하여 구분해야 한다.'
+scope:
+  level: component
+  targets:
+  - 헤더 유틸리티 링크 그룹
+exceptions: []
+relations: []
+examples:
+  good:
+  - lang: html
+    code: "<div class=\"header-top\">\n  <ul class=\"utility\">\n    <li><a href=\"/login\">로그인</a></li>\n    <li><a\
+      \ href=\"/join\">회원가입</a></li>\n  </ul>\n</div>\n<style>\n.header-top { display: flex; justify-content: flex-end;\
+      \ }\n.utility { display: flex; gap: var(--space-gap-2); }\n.utility li + li { border-left: 1px solid var(--color-border-gray);\
+      \ padding-left: var(--space-gap-2); }\n</style>\n"
+    note: 유틸리티 링크가 헤더 첫 행 오른쪽 끝에 있고 링크 사이를 디바이더로 구분한다.
+  bad:
+  - lang: html
+    code: '<ul class="utility"><li><a href="/login">로그인</a></li><li><a href="/join">회원가입</a></li></ul>
+
+      <!-- 헤더 왼쪽 아래, 구분 없이 붙어 있음 -->
+
+      '
+    note: 유틸리티 링크가 헤더 왼쪽 아래에 디바이더 없이 붙어 있다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(KRDS component_02_03 WebFetch): 두 문장 확인. 디바이더 ''구분해야 한다'' → SHOULD + public-sector-must.
+  원문 디바이더 요구는 ''서로 관련되지 않은 링크'' 사이 — 1단계 statement(''링크 사이'')를 원문에 맞춤. 카테고리 재검토(배치 룰이라 LAYOUT 후보).'
+korean_specific: false
+tags:
+- krds
+- krds-component
+- public-sector-must

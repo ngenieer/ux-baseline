@@ -1,0 +1,61 @@
+id: A11Y-048
+category: A11Y
+title: 숨긴 대화형 요소 위치 유지
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 대화형 요소를 시각적으로 숨길 때 text-indent나 top·left 값으로 본래 위치 밖으로 옮기지 않고 top·left를 auto로 유지한다.
+measurement:
+  criteria: '(1) 시각적으로 숨긴 a·button·input(커스텀 라디오·체크박스·토글의 원본 input 포함)에 text-indent 음수 값이나 top·left의 auto가 아닌 값이
+    지정되지 않는다. (2) 커스텀 라디오·체크박스·토글의 원본 input에 display: none·visibility: hidden이 지정되지 않는다(계산값 기준, CF-051).'
+  method: 숨긴 대화형 요소의 계산된 스타일(top·left·text-indent·display·visibility)을 확인하고, 스크린 리더 가상 커서·초점 표시가 보이는 대체 요소 위치에 나타나는지
+    확인한다.
+automation:
+  feasibility: none
+  checks: []
+  note: '4단계 커스텀 검사: 렌더링 DOM에서 시각적으로 숨긴 대화형 요소의 getComputedStyle top·left·text-indent 검사.'
+rationale: 숨긴 대화형 요소가 화면 밖으로 옮겨지면 초점·가상 커서 위치가 보이는 요소와 어긋나 저시력·스크린 리더 사용자가 위치를 잃는다.
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 숨긴 콘텐츠 > 사용성 가이드라인 (가이드라인 PDF 2025.08 750쪽)
+  note: https://www.krds.go.kr/html/site/component/component_11_02.html
+- ref: WAI_ARIA_12
+  locator: 7.1 Excluding Elements from the Accessibility Tree
+  note: '접근성 트리에서 빼는 요소: ''CSS display:none, visibility:hidden, or the HTML hidden attribute'' — opacity는 해당 없음(CF-051)'
+scope:
+  level: component
+  targets:
+  - 시각적으로 숨긴 대화형 요소
+  - 커스텀 라디오·체크박스·토글의 input
+exceptions: []
+relations:
+- type: refines
+  id: A11Y-016
+examples:
+  good:
+  - lang: css
+    code: '.switch input { position: absolute; opacity: 0; z-index: 1; width: 100%; height: 100%; }
+
+      '
+    note: 원본 input을 제자리에서 opacity로 숨김(top·left auto)
+  bad:
+  - lang: css
+    code: '.switch input { position: absolute; left: -9999px; }
+
+      '
+    note: 'left: -9999px로 화면 밖으로 옮김'
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(WebFetch로 KRDS 페이지 재조회, 요약 모델 인용 확인): 항목 제목 ''대화형 요소를 숨길 때 상대적 위치 지정에 유의한다.(text-indent,
+  top/left)''와 ''별도의 값을 지정하는 대신 top, left 스타일 속성값이 auto로 유지되도록 해야 한다.'' 확인. ''해야'' → SHOULD + public-sector-must.
+  같은 페이지의 ''z-index, opacity 스타일 속성을 사용하여 숨겨야 한다''(A11Y-016에 병합된 C:210)와 라디오·체크박스·토글 페이지의 opacity:0 숨김 금지(A11Y-011에
+  병합)는 BACKLOG 상충 → CF-051로 정리(opacity:0 숨김 허용 + 초점 표시, display:none·visibility:hidden 금지 — 측정 기준 (2)). 좋은 예는 숨긴
+  콘텐츠 페이지 기준.'
+korean_specific: false
+tags:
+- krds
+- krds-component
+- public-sector-must
+decisions:
+- CF-051

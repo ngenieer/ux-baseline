@@ -1,0 +1,60 @@
+id: STATE-034
+category: STATE
+title: 바텀시트 겹침
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 바텀시트는 한 번에 1개만 띄우고, 불가피하게 여러 개를 겹칠 때는 현재 단계를 표시하며 닫기 동작을 '현재 시트만 닫기'와 '전체 닫기'로 나눠 제공하고, 배경 딤드는 한 겹만 표시한다.
+measurement:
+  criteria: '(1) 열린 바텀시트가 1개다. 또는 (2) 2개 이상이면 맨 위 시트에 현재 단계 텍스트(예: ''2/3'' 또는 단계 제목)가 있고, 현재 시트만 닫는 버튼과 모든 시트를 닫는
+    버튼이 따로 있으며, 배경 딤드 요소가 1개만 보인다.'
+  method: 바텀시트에서 다른 바텀시트를 여는 흐름을 찾아 확인한다.
+automation:
+  feasibility: none
+  checks: []
+  note: 'E2E: 열린 시트 수 계산 후 2 이상이면 버튼 2종 존재 검사.'
+rationale: 시트가 겹치면 사용자가 현재 단계를 혼동하므로 하나만 쓰는 것이 기본이다(KRDS 바텀시트).
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 바텀시트 > 상호작용 가이드라인
+  note: https://www.krds.go.kr/html/site/component/component_12_03.html
+scope:
+  level: component
+  targets:
+  - 바텀시트
+exceptions: []
+relations:
+- type: conflicts
+  id: SHAPE-005
+  note: 바텀시트를 겹쳐 띄우더라도 배경 딤드는 맨 위 시트 아래 한 겹만 표시한다.
+  decision: CF-017
+examples:
+  good:
+  - lang: html
+    code: "<div role=\"dialog\" aria-modal=\"true\" aria-labelledby=\"t2\" class=\"bottom-sheet\">\n  <header><h2\
+      \ id=\"t2\">시간 선택 (2/2)</h2>\n    <button type=\"button\">이전 시트로</button><button type=\"button\">모두 닫기</button></header>\
+      \ …\n</div>\n"
+    note: 겹친 시트에 현재 단계와 "현재만 닫기·전체 닫기"를 따로 둔다.
+  bad:
+  - lang: html
+    code: '<!-- 시트 3개가 겹쳐 있고 닫기 하나로 무엇이 닫히는지 알 수 없다 -->
+
+      <div role="dialog" aria-label="지역 선택" class="bottom-sheet">…</div>
+
+      <div role="dialog" aria-label="날짜 선택" class="bottom-sheet">…</div>
+
+      <div role="dialog" aria-label="시간 선택" class="bottom-sheet"><button type="button" aria-label="닫기">×</button>…</div>
+
+      '
+    note: 여러 시트를 단계 표시·닫기 구분 없이 겹친다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(curl로 KRDS 페이지 HTML을 받아 텍스트로 직접 읽음): 바텀시트 component_12_03 ''다중으로 바텀 시트를 사용하지
+  않아야 한다 … 하나의 바텀시트만 사용하는 것이 바람직하다. 부득이하게 … 현 단계를 … 전달하여야 하며, … 구분하여 사용자에게 제공해야 한다'' 확인. 1단계 statement에 빠진 ''1개만
+  사용'' 원칙을 넣음. SHAPE-005(딤드 한 겹)와 함께 4단계 규격에 반영. 2026-10-18 측정 기준을 3단계 결정(statement 변경)에 맞춰 고침.'
+korean_specific: false
+tags:
+- krds
+- krds-component
+- public-sector-must

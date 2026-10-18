@@ -1,0 +1,145 @@
+{
+  "version": "0.1.0",
+  "cssDir": "vendor/ux-baseline",
+  "html": [
+    "**/*.html"
+  ],
+  "css": [
+    "**/*.css"
+  ],
+  "ignore": [
+    "node_modules/**",
+    "vendor/ux-baseline/**",
+    ".claude/**",
+    ".git/**",
+    "dist/**",
+    "build/**",
+    "coverage/**"
+  ],
+  "urls": [],
+  "states": [
+    {
+      "page": "index.html",
+      "name": "빈 입력 제출",
+      "steps": [
+        {
+          "click": "#summarize-button"
+        },
+        {
+          "waitFor": "#doc-input-error"
+        }
+      ]
+    },
+    {
+      "page": "index.html",
+      "name": "생성 중",
+      "steps": [
+        {
+          "click": "#sample-button"
+        },
+        {
+          "click": "#summarize-button"
+        },
+        {
+          "waitFor": "#stop-button"
+        },
+        {
+          "wait": 1200
+        }
+      ]
+    },
+    {
+      "page": "index.html",
+      "name": "중단됨",
+      "steps": [
+        {
+          "click": "#sample-button"
+        },
+        {
+          "click": "#summarize-button"
+        },
+        {
+          "wait": 1300
+        },
+        {
+          "click": "#stop-button"
+        },
+        {
+          "waitFor": "#stopped-note"
+        }
+      ]
+    },
+    {
+      "page": "index.html",
+      "name": "완료",
+      "steps": [
+        {
+          "click": "#sample-button"
+        },
+        {
+          "click": "#summarize-button"
+        },
+        {
+          "waitFor": "#result-footer"
+        }
+      ]
+    },
+    {
+      "page": "index.html",
+      "name": "고치는 중",
+      "steps": [
+        {
+          "click": "#sample-button"
+        },
+        {
+          "click": "#summarize-button"
+        },
+        {
+          "waitFor": "#result-footer"
+        },
+        {
+          "click": "#edit-button"
+        },
+        {
+          "waitFor": "#edit-panel"
+        }
+      ]
+    },
+    {
+      "page": "index.html",
+      "name": "서비스 오류",
+      "steps": [
+        {
+          "check": "#demo-mode-error"
+        },
+        {
+          "click": "#sample-button"
+        },
+        {
+          "click": "#summarize-button"
+        },
+        {
+          "waitFor": "#error-box"
+        }
+      ]
+    },
+    {
+      "page": "index.html",
+      "name": "답 없음",
+      "steps": [
+        {
+          "check": "#demo-mode-empty"
+        },
+        {
+          "click": "#sample-button"
+        },
+        {
+          "click": "#summarize-button"
+        },
+        {
+          "waitFor": "#empty-box"
+        }
+      ]
+    }
+  ]
+}

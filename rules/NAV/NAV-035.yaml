@@ -1,0 +1,47 @@
+id: NAV-035
+category: NAV
+title: 사이드 메뉴 현재 위치 펼침
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: MAY
+statement: 확장형 사이드 메뉴는 페이지를 불러올 때 현재 화면이 속한 하위 목록을 펼친 상태로 보여준다.
+measurement:
+  criteria: 페이지 로드 직후 aria-current="page" 링크를 포함한 하위 목록이 보이고, 그 목록을 여닫는 버튼의 aria-expanded가 true다.
+  method: 사이드 메뉴의 깊은 화면으로 직접 URL로 들어가 하위 목록 펼침 상태를 확인한다.
+automation:
+  feasibility: none
+  note: '4단계 커스텀 검사 가능: 로드 후 a[aria-current=page]의 조상 목록 visible 여부와 제어 버튼 aria-expanded 확인.'
+rationale: 현재 위치가 보이는 상태로 시작하면 사용자가 형제 화면을 바로 훑어볼 수 있다.
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 사이드 메뉴 > 사용성 가이드라인 (가이드라인 PDF 2025.08 298·301쪽)
+  note: https://www.krds.go.kr/html/site/component/component_03_04.html — '하위 수준 메뉴 표시에 확장 가능한 영역을 사용하는 방안을 고려한다.'
+    / '페이지가 로딩되었을 때 사용자가 탐색 중인 메뉴의 하위 수준 메뉴를 확장된 상태로 제공하면 사용자가 목록을 보다 쉽게 탐색할 수 있다.'
+scope:
+  level: component
+  targets:
+  - 확장형 사이드 메뉴
+exceptions: []
+relations:
+- type: depends
+  id: NAV-033
+  note: 현재 위치 링크 식별(aria-current)
+examples:
+  good:
+  - lang: html
+    code: "<li><button aria-expanded=\"true\" aria-controls=\"sub-1\">주민등록</button>\n  <ul id=\"sub-1\"><li><a href=\"\
+      /civil/move\" aria-current=\"page\">전입신고</a></li></ul></li>\n"
+    note: 페이지를 열 때 현재 화면이 속한 하위 목록이 펼쳐져 있다.
+  bad:
+  - lang: html
+    code: "<li><button aria-expanded=\"false\" aria-controls=\"sub-1\">주민등록</button>\n  <ul id=\"sub-1\" hidden><li><a\
+      \ href=\"/civil/move\" aria-current=\"page\">전입신고</a></li></ul></li>\n"
+    note: 현재 화면이 속한 하위 목록이 접힌 채로 열린다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(KRDS component_03_04 WebFetch): ''고려한다''·''제공하면 … 쉽게 탐색할 수 있다''(권장) 확인 → MAY.'
+korean_specific: false
+tags:
+- krds
+- krds-component

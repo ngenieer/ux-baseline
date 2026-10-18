@@ -1,0 +1,52 @@
+id: NAV-018
+category: NAV
+title: 건너뛰기 링크 개수·순서
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 건너뛰기 링크는 3개 이하로 두고, 여러 개일 때는 화면의 핵심 영역(본문)으로 가는 링크를 첫 번째에 둔다.
+measurement:
+  criteria: '문서 시작 부분의 건너뛰기 링크(같은 페이지 #id로 가는 링크 묶음) 수 ≤ 3. 2개 이상이면 첫 번째 링크의 목적지가 main 요소이거나 main 안의 요소다.'
+  method: DOM 첫 부분의 건너뛰기 링크 목록과 각 href 목적지를 확인한다.
+automation:
+  feasibility: none
+  note: '4단계 커스텀 검사 가능: .skip-link 규격 셀렉터 개수와 첫 링크 목적지의 closest(''main'') 확인.'
+rationale: 건너뛰기 링크가 많으면 오히려 탐색할 요소가 늘어난다. 대부분은 본문 바로가기 1개로 충분하다.
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 건너뛰기 링크 > 사용성 가이드라인 (가이드라인 PDF 2025.08 258쪽)
+  note: https://www.krds.go.kr/html/site/component/component_03_01.html — '건너뛰기 링크의 개수는 3개 이내로 제공한다.' / '여러 개의 건너뛰기
+    링크를 제공하는 경우, 다른 링크보다 화면의 핵심 영역으로 이동하는 링크를 가장 첫 번째 항목으로 제공해야 한다.'
+- ref: KWCAG22
+  locator: 검사항목 6.4.1 해설
+  note: 여러 개일 경우 핵심 영역 링크를 가장 먼저 둔다(비공식 HTML 판 해설 요약).
+scope:
+  level: component
+  targets:
+  - 건너뛰기 링크
+exceptions: []
+relations:
+- type: refines
+  id: NAV-001
+  note: NAV-001의 건너뛰기 수단을 구체화
+examples:
+  good:
+  - lang: html
+    code: "<nav class=\"skip\" aria-label=\"건너뛰기 링크\">\n  <a href=\"#content\">본문 바로가기</a>\n  <a href=\"#gnb\">주메뉴\
+      \ 바로가기</a>\n</nav>\n"
+    note: 건너뛰기 링크가 2개이고 본문 바로가기가 첫 번째다.
+  bad:
+  - lang: html
+    code: "<nav class=\"skip\" aria-label=\"건너뛰기 링크\">\n  <a href=\"#gnb\">주메뉴 바로가기</a><a href=\"#search\">검색 바로가기</a>\n\
+      \  <a href=\"#content\">본문 바로가기</a><a href=\"#footer\">하단 바로가기</a>\n</nav>\n"
+    note: 건너뛰기 링크가 4개이고 본문 바로가기가 첫 번째가 아니다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(KRDS component_03_01 WebFetch): 수치(3개 이내)·첫 항목 문장 확인. 원문은 ''본문''이 아니라 ''화면의
+  핵심 영역''이라고 씀 — statement에 반영. 첫 항목 문장 ''제공해야 한다'' → SHOULD + public-sector-must. KWCAG 해설은 비공식 판 요약.'
+korean_specific: false
+tags:
+- krds
+- krds-component
+- public-sector-must

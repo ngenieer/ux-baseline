@@ -1,0 +1,71 @@
+id: COPY-056
+category: COPY
+title: 숫자 날짜 표기(마침표)
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 화면에 숫자만으로 날짜를 쓸 때는 '2026. 10. 18.'처럼 연·월·일 자리에 각각 마침표를 찍고 마침표 뒤를 한 칸 띄우며 마지막 마침표를 생략하지 않고, 날짜를 time 요소로
+  감싸 datetime 속성에 YYYY-MM-DD 형식 값(시각까지 나타내면 YYYY-MM-DDTHH:MM 또는 YYYY-MM-DDTHH:MM:SS)을 넣는다.
+measurement:
+  criteria: (1) 화면에 보이는 숫자 날짜가 정규식 ^\d{4}\. \d{1,2}\. \d{1,2}\.$ (연월일), ^\d{4}\. \d{1,2}\.$ (연월), ^\d{1,2}\. \d{1,2}\.$
+    (월일) 중 하나와 일치한다. (2) '2026. 10. 18'처럼 일 뒤 마침표가 없는 표기, '2026.10.18'처럼 마침표 뒤를 붙인 표기가 0건이다. (3) 연월일 날짜는 <time datetime>으로
+    감싸져 있고 datetime 값이 ^\d{4}-\d{2}-\d{2}(T\d{2}:\d{2}(:\d{2})?)?$ 와 일치하며, 날짜 부분이 화면에 보이는 연월일과 같다(시각을 함께 보이면 T 뒤
+    시각도 같다).
+  method: 날짜 포맷 함수 출력과 화면 텍스트를 정규식으로 검사한다.
+automation:
+  feasibility: partial
+  checks:
+  - tool: html-validate
+    rule: ux-baseline/date-format
+    method: 텍스트의 숫자 날짜 형식과 <time> 사용 검사 (lint/plugins/html-ux-baseline.mjs)
+  note: '4단계 커스텀 검사: 날짜 포맷 함수 단위 테스트(format(2026-10-18) === ''2026. 10. 18.''), 렌더링 텍스트에서 \d+\. ?\d+\. ?\d+(?!\.)
+    패턴 검출.'
+rationale: 한글 맞춤법은 아라비아 숫자만으로 연월일을 쓸 때 마침표를 쓰며, '일'의 마침표를 빼면 '쓰다 만' 표기가 되고 숫자를 덧붙여 변조할 우려가 있다고 해설한다.
+sources:
+- ref: KR_HANGUL_ORTHO
+  locator: 문장 부호 1. 마침표 (2) 아라비아 숫자만으로 연월일을 표시할 때
+scope:
+  level: global
+  targets:
+  - 화면에 표시되는 날짜 텍스트
+  - time
+exceptions:
+- '''연''·''월''·''일'' 중 하나만 쓸 때는 마침표로 대신하지 않는다(예: ''2014년''을 ''2014.''로 쓰지 않음 — 한글 맞춤법 해설).'
+relations: []
+examples:
+  good:
+  - lang: html
+    code: |
+      <p>신청 마감: <time datetime="2026-10-31">2026. 10. 31.</time></p>
+    note: '''2026. 10. 31.''로 쓰고 time 요소에 YYYY-MM-DD 값을 둔다'
+  - lang: html
+    code: |
+      <p>갱신: <time datetime="2026-10-18T14:30">2026. 10. 18. 14:30</time></p>
+    note: 날짜와 시각을 함께 보이면 datetime 에 YYYY-MM-DDTHH:MM 을 쓴다
+  bad:
+  - lang: html
+    code: |
+      <p>신청 마감: 2026.10.31</p>
+      <p>신청 마감: 2026. 10. 31</p>
+    note: 마침표 뒤를 붙이거나 일 뒤 마침표를 생략했다
+  - lang: html
+    code: |
+      <p>갱신: <time datetime="2026.10.18 14:30">2026. 10. 18. 14:30</time></p>
+    note: datetime 값이 YYYY-MM-DD(THH:MM) 형식이 아니다
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(curl로 국립국어원 한글 맞춤법 문장 부호 페이지를 받아 읽음): 마침표 (2) ''아라비아 숫자만으로 연월일을 표시할 때 쓴다. 예
+  1919. 3. 1. / 10. 1.~10. 12.'', 해설 ''1919. 3. 1은 ... 잘못된 표기 ... 변조할 우려 ... 일을 나타내는 마침표는 생략해서는 안 된다'', 연·월만 또는
+  월·일만 표기 허용, 연·월·일 하나만은 마침표 불가 확인. ''마침표 뒤 한 칸 띄움''은 규정 문장이 아니라 예시 표기(1919. 3. 1.)에서 따른 것(해설 ''마침표는 앞말에 붙여 쓴다''만
+  명시). 강도: 국가 어문 규범이나 웹 UI에 대한 법적 의무가 아니고, KR_ADMIN_REG(공문서 규정)는 원문 미확인이라 SHOULD. 월·일 0 채움(10. 08.)은 규범에 없음 — 측정
+  기준은 1~2자리 모두 허용. BACKLOG ''날짜 표기 vs KS X ISO 8601''은 상대 룰 ID가 없어 relations에 넣지 않음(3단계) — 측정 기준 (3)의 <time datetime>
+  분리안이 후보. 확정 시 미검증 출처 KR_ADMIN_REG 제외(2026-10-18). 2026-10-18 측정 기준을 3단계 결정(statement 변경)에 맞춰 고침. (2026-10-18 시험
+  4 검토 반영) 측정 기준 (3)이 datetime 을 YYYY-MM-DD 로만 써 T7 의 날짜+시각(''2026-10-18T14:30'')을 허용하는지 불명 → HTML 의 local date
+  and time 문자열 중 ''YYYY-MM-DDTHH:MM(:SS)''를 허용하고 정규식으로 고정했다(시간대 오프셋·소수 초·공백 구분자는 쓰지 않는 체계 선택, CF-026 기계 판독 값 분리
+  결정의 연장). lint date-format 규칙은 화면 텍스트와 time 사용만 보고 datetime 값은 검사하지 않아 바꾸지 않았다.'
+korean_specific: true
+tags:
+- research-state_copy_resp
+decisions:
+- CF-026

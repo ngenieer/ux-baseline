@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8">
+    <title>회원 정보 수정</title>
+  </head>
+  <body>
+    <main>
+      <p>마지막 수정 2026-10-16</p>
+      <h1>회원 정보 수정</h1>
+      <p>안내</p>
+      <section class="error-summary" aria-labelledby="es-title" tabindex="-1">
+        <h2 id="es-title">입력 내용을 확인해 주세요</h2>
+      </section>
+      <p>밑줄 친 부분을 원문과 비교해 확인하세요.</p>
+      <p>입력을 마치면 오른쪽 버튼을 누르세요.</p>
+      <form action="/save" method="post">
+        <label for="name">이름 *</label>
+        <input id="name" name="name" type="text" aria-invalid="true">
+        <label for="mail">이메일 (선택)</label>
+        <input id="mail" name="mail" type="email">
+        <button type="submit">저장</button>
+      </form>
+      <!-- form 밖 독립 fieldset 도 판정 단위다 (FORM-012) -->
+      <fieldset>
+        <legend>약관 동의</legend>
+        <label><input type="checkbox" name="terms" required> 이용약관 동의 *</label>
+        <label><input type="checkbox" name="ads"> 마케팅 정보 수신 동의 <span>선택</span></label>
+      </fieldset>
+      <dialog open aria-label="삭제 확인">
+        <button type="button">취소</button>
+        <button type="button">확인</button>
+      </dialog>
+    </main>
+  </body>
+</html>

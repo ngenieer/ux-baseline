@@ -1,0 +1,66 @@
+id: NAV-013
+category: NAV
+title: 도움 링크 새 탭
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 도움 콘텐츠(도움 패널, 따라하기 패널, 맥락적 도움말, 코치마크) 안의 관련 화면·리소스 링크는 새 탭으로 열고, 새 탭으로 열 때는 NAV-012에 따라 새 탭이 열린다는 사실을
+  링크에 텍스트로 반드시 표시하며, 표시할 수 없으면 새 탭 대신 같은 탭으로 연다.
+measurement:
+  criteria: '도움 콘텐츠 컨테이너 안의 a[href](같은 페이지 안 #앵커 제외)에 target="_blank"가 있다. target="_blank"인 링크는 예외 없이 NAV-012 측정
+    기준 (1)(2)(3)(보이는 새 창 아이콘·텍스트, 접근 가능한 이름 또는 aria-describedby의 ''새 창'' 텍스트, 서비스 전체에서 같은 아이콘·문구)를 충족한다 — 이 표시는
+    KWCAG 7.2.1을 지키는 수단이라 NAV-012의 강도(SHOULD)와 관계없이 필수다(CF-002).'
+  method: 도움 컴포넌트 안 링크 목록을 DOM에서 뽑아 target 값을 확인한다.
+automation:
+  feasibility: none
+  note: '4단계 커스텀 검사 가능: 도움 컴포넌트 루트에 data-help 속성 규격을 두고 [data-help] a[href]:not([href^=''#'']):not([target=_blank])
+    셀렉터로 위반 탐지.'
+rationale: 관련 화면·리소스는 현재 과업을 돕는 부가 정보이므로, 링크를 열었을 때 현재 화면이 바뀌어 사용자가 맥락을 잃지 않게 한다.
+sources:
+- ref: KRDS
+  locator: 기본 패턴 > 도움 > 공통 (가이드라인 PDF 2025.08 780·783쪽)
+  note: https://www.krds.go.kr/html/site/global/global_02.html — '관련 화면/리소스 링크는 새 탭에서 화면이 연결되도록 제공한다.' / '…맥락을 잃어버리지
+    않도록 새 탭으로 링크를 실행해야 한다.'
+- ref: KRDS
+  locator: 컴포넌트 > 도움 패널 / 따라하기 패널 / 맥락적 도움말 / 코치마크 > 사용성 가이드라인 (가이드라인 PDF 2025.08 605·615·628·642쪽)
+  note: 각 컴포넌트 안 링크를 '항상 … 새 창으로 실행' — sources/extracts/KRDS-components.yaml (outcome merge:NAV-013, 원문 재대조 안 함)
+scope:
+  level: component
+  targets:
+  - 도움 패널
+  - 따라하기 패널
+  - 맥락적 도움말
+  - 코치마크
+exceptions: []
+relations:
+- type: conflicts
+  id: A11Y-024
+  note: 새 탭으로 열되, NAV-012에 따라 새 탭이 열린다는 사실을 링크에 텍스트(스크린 리더용 포함)로 미리 알린다. 미리 알린 새 탭은 사용자가 의도한 동작으로 본다.
+  decision: CF-002
+- type: conflicts
+  id: NAV-012
+  note: 새 탭으로 열되, NAV-012에 따라 새 탭이 열린다는 사실을 링크에 텍스트(스크린 리더용 포함)로 미리 알린다. 미리 알린 새 탭은 사용자가 의도한 동작으로 본다.
+  decision: CF-002
+examples:
+  good:
+  - lang: html
+    code: "<aside data-help aria-label=\"도움\">\n  <a href=\"/guide/upload\" target=\"_blank\" rel=\"noopener\">\n\
+      \    파일 첨부 안내<svg aria-hidden=\"true\" class=\"icon-new-win\">…</svg><span class=\"sr-only\"> (새 창 열림)</span>\n\
+      \  </a>\n</aside>\n"
+    note: 도움 패널 안 링크가 새 탭으로 열리고, 새 창 아이콘과 '(새 창 열림)' 텍스트로 미리 알린다.
+  bad:
+  - lang: html
+    code: "<aside data-help aria-label=\"도움\">\n  <a href=\"/guide/upload\">파일 첨부 안내</a>  <!-- 작성 중이던 화면이 바뀜 -->\n\
+      </aside>\n"
+    note: 도움 패널 안 링크가 같은 탭에서 열려 작성 중이던 화면을 떠난다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(KRDS global_02 WebFetch): ''새 탭으로 링크를 실행해야 한다'' 확인 → SHOULD + public-sector-must.
+  기본 패턴은 ''새 탭'', 컴포넌트 페이지는 ''새 창''으로 표기 — 웹에서는 같은 target=_blank로 봄. 원문에는 새 탭임을 알리라는 문장이 없음 — 측정 기준의 NAV-012 병행은
+  이 체계의 연결(3단계 충돌 해소에서 확정). 2026-10-18 독립 검토: 새 탭 예고(NAV-012)가 KWCAG 7.2.1을 지키는 수단이므로 이 룰에서는 필수이고, 예고할 수 없으면 같은
+  탭으로 연다는 점을 statement·측정 기준에 명시(CF-002).'
+korean_specific: false
+tags:
+- krds
+- public-sector-must

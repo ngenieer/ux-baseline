@@ -1,0 +1,59 @@
+id: AI-009
+category: AI
+title: 재생성과 이전 결과 보존
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: MAY
+statement: AI 결과마다 같은 요청으로 다시 생성하는 버튼을 제공하고, 다시 생성한 뒤에도 이전 결과를 다시 볼 수 있게 한다.
+measurement:
+  criteria: '(1) 각 AI 결과에 접근 가능한 이름(예: ''다시 생성'')이 있는 재생성 <button>이 있다. (2) 재생성 후 같은 위치에서 이전 결과로 돌아가는 컨트롤(예: ''1/2''
+    버전 이동 버튼 또는 이전 결과 목록)이 있고, 누르면 이전 결과 전문이 보인다.'
+  method: 'E2E: 재생성 버튼을 눌러 새 결과를 받은 뒤 버전 이동 컨트롤로 이전 결과가 보이는지 확인한다.'
+automation:
+  feasibility: none
+  checks: []
+  note: '기존 검사기 규칙 없음. 4단계 커스텀 E2E: button[data-ai-regenerate] 존재, 재생성 후 이전 버전 탐색 컨트롤 존재.'
+rationale: AI가 틀렸을 때 다시 시도하는 것이 가장 쉬운 복구 경로이고, 이전 결과가 더 나았을 수 있으므로 되돌아갈 수 있어야 한다.
+sources:
+- ref: HAX_GUIDELINES_POSTER
+  locator: G9 Support efficient correction
+  note: '''Make it easy to edit, refine, or recover when the AI system is wrong.'' — 재생성은 이 체계가 고른 구체 수단'
+- ref: PAIR_GUIDEBOOK
+  locator: Errors + Graceful Failure — Return control to the user
+- ref: UXB_SYSTEM_CHOICE
+  note: 재생성 버튼과 이전 결과 보존 방식은 관행 — 출처가 직접 요구하지 않음
+  locator: CF-052
+scope:
+  level: component
+  targets:
+  - AI 결과 영역
+  - button[data-ai-regenerate]
+exceptions: []
+relations:
+- type: refines
+  id: AI-010
+  note: G9 복구 수단 중 재생성 경로.
+examples:
+  good:
+  - lang: html
+    code: "<div class=\"ai-actions\">\n  <button type=\"button\" data-ai-regenerate>다시 생성</button>\n  <button type=\"\
+      button\" aria-label=\"이전 결과\">‹</button><span>2/2</span><button type=\"button\" aria-label=\"다음 결과\" disabled>›</button>\n\
+      </div>"
+    note: 재생성 버튼과 이전 결과로 돌아가는 버전 이동 버튼(2/2)이 있다.
+  bad:
+  - lang: html
+    code: "<div class=\"ai-actions\">\n  <button type=\"button\" data-ai-regenerate>다시 생성</button>\n</div>\n<!--\
+      \ 누르면 이전 결과를 덮어써 다시 볼 수 없음 -->"
+    note: 다시 생성하면 이전 결과가 사라진다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조: HAX 포스터 G9 ''Support efficient correction. Make it easy to edit, refine, or
+  recover when the AI system is wrong.'' 확인, PAIR Errors+Graceful Failure ''Return control to the user'' 절 확인(curl).
+  두 출처 모두 재생성·이전 결과 보존을 직접 요구하지 않아 PREFERENCE를 더하고 MAY(정책 3). 보존 방식(버전 탐색/목록)은 측정 기준에서 둘 다 허용. 2026-10-18 CF-052로
+  체계 선택을 기록하고 PREFERENCE를 UXB_SYSTEM_CHOICE로 바꿈.'
+korean_specific: false
+tags:
+- research-ai
+decisions:
+- CF-052

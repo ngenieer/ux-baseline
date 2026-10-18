@@ -1,0 +1,52 @@
+id: A11Y-046
+category: A11Y
+title: 숨긴 콘텐츠에 display:none 금지
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 스크린 리더에 전달할 숨긴 콘텐츠에는 display:none이나 visibility:hidden을 쓰지 않고 시각적 숨김 스타일(clip·1px 크기 등)을 쓴다.
+measurement:
+  criteria: 스크린 리더 전용 텍스트 클래스(.sr-only 등)와 그 조상 요소에 display:none, visibility:hidden, hidden 속성이 적용되지 않는다.
+  method: 숨긴 텍스트 클래스 정의를 검사하고, 스크린 리더로 해당 텍스트가 읽히는지 확인한다.
+automation:
+  feasibility: none
+  checks:
+  - tool: stylelint
+    rule: ux-baseline/sr-only-no-display-none
+    method: 숨긴 텍스트 클래스 선택자에 display:none·visibility:hidden 선언이 있으면 오류 (lint/plugins/ux-baseline.mjs)
+  note: 기존 검사기 규칙 없음. 4단계 커스텀 stylelint 규칙으로 클래스 정의를 판정하고, 조상 요소가 숨겨지는 경우는 렌더링 DOM 검사로 보완.
+rationale: display:none·visibility:hidden은 접근성 트리에서도 제거해 스크린 리더가 읽지 못한다.
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 숨긴 콘텐츠 > 사용성 가이드라인 (가이드라인 PDF 2025.08 749쪽)
+  note: https://www.krds.go.kr/html/site/component/component_11_02.html
+scope:
+  level: component
+  targets:
+  - .sr-only
+  - 숨긴 콘텐츠
+exceptions: []
+relations: []
+examples:
+  good:
+  - lang: css
+    code: ".sr-only {\n  position: absolute; width: 1px; height: 1px;\n  overflow: hidden; clip-path: inset(50%);\
+      \ white-space: nowrap;\n}\n"
+    note: 보조기술에는 남고 화면에서만 숨김
+  bad:
+  - lang: css
+    code: '.sr-only { display: none; }
+
+      '
+    note: display:none은 스크린 리더에서도 사라짐
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(WebFetch로 KRDS 페이지 재조회, 요약 모델 인용 확인): 사용성 가이드라인 ''숨긴 콘텐츠에 스크린 리더가 정보를 탐지하는
+  것을 방지하는 스타일을 사용하지 않는다.''와 ''visibility:hidden 또는 display:none이 사용되어서는 안 된다.'' 확인. ''안 된다'' → SHOULD + public-sector-must.
+  좋은 예의 시각적 숨김 스타일 값은 원문 수치가 아니라 일반 기법 예시.'
+korean_specific: false
+tags:
+- krds
+- krds-component
+- public-sector-must

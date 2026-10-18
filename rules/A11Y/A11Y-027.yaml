@@ -1,0 +1,51 @@
+id: A11Y-027
+category: A11Y
+title: 로고 대체 텍스트에 '로고' 금지
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 헤더의 이미지 로고에는 대체 텍스트를 제공하되, 대체 텍스트에 '로고'라는 단어를 넣지 않는다.
+measurement:
+  criteria: header 안 로고 링크의 img(또는 svg role="img")가 비어 있지 않은 alt(접근 가능한 이름)를 가지며, 그 값에 문자열 '로고'가 없다.
+  method: header 영역의 로고 이미지 alt 값을 확인한다.
+automation:
+  feasibility: none
+  checks: []
+  note: '기존 검사기 규칙 없음. 4단계 커스텀 검사: header a img[alt*="로고"] 셀렉터가 0건인지 검사(axe 커스텀 규칙 또는 DOM 질의).'
+rationale: '헤더 로고는 메인 페이지로 가는 링크라서 ''로고''라는 말은 링크 목적을 전달하지 않는다(KRDS 근거: KWCAG 2.2 적절한 대체 텍스트 제공, WCAG Non-text Content).'
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 헤더 > 접근성 가이드라인 (가이드라인 PDF 2025.08 245쪽)
+  note: https://www.krds.go.kr/html/site/component/component_02_03.html
+scope:
+  level: component
+  targets:
+  - header a img
+  - 헤더 로고
+exceptions: []
+relations:
+- type: refines
+  id: A11Y-001
+examples:
+  good:
+  - lang: html
+    code: '<header><a href="/"><img src="logo.svg" alt="행정안전부"></a></header>
+
+      '
+    note: 로고 alt에 기관명만 씀
+  bad:
+  - lang: html
+    code: '<header><a href="/"><img src="logo.svg" alt="행정안전부 로고"></a></header>
+
+      '
+    note: alt에 "로고"라는 단어를 넣음
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(WebFetch로 KRDS 페이지 재조회, 요약 모델 인용 확인): ''헤더의 로고는 메인 페이지로 이동하는 링크로 사용되므로 대체 텍스트에
+  ''''로고''''라는 단어가 포함되지 않도록 유의해야 한다'' 확인. ''해야 한다'' → SHOULD + public-sector-must.'
+korean_specific: false
+tags:
+- krds
+- krds-component
+- public-sector-must

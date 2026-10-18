@@ -1,0 +1,55 @@
+id: COPY-052
+category: COPY
+title: 탭바 레이블 길이
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 탭바 레이블은 1~2단어(어절)로 쓰고, 번역 레이블을 포함해 모든 지원 화면 너비에서 잘리거나 말줄임표가 생기지 않게 한다.
+measurement:
+  criteria: (1) 지원하는 모든 언어의 탭바 레이블 어절 수 ≤ 2(공백 없는 언어는 이 조건 제외). (2) 지원 화면 너비·언어마다 각 레이블 요소의 scrollWidth ≤ clientWidth이고
+    text-overflow 말줄임이 그려지지 않으며 줄 수가 1이다.
+  method: 지원 언어 × 지원 중단점 조합마다 탭바를 렌더링해 레이블 넘침·줄 수를 측정하고, 레이블 문자열의 어절 수를 센다.
+automation:
+  feasibility: none
+  checks: []
+  note: '4단계 커스텀 검사(Playwright): 언어별·중단점별 탭바 레이블 scrollWidth/clientWidth 비교와 줄 수 측정.'
+rationale: 탭바는 좁은 화면 하단에 고정된 주 내비게이션이라 레이블이 잘리면 메뉴 의미를 알 수 없다. 번역 레이블은 길이가 달라 따로 확인해야 한다(KRDS 탭바).
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 탭바 > 사용성 가이드라인 (가이드라인 PDF 2025.08 347쪽)
+  note: https://www.krds.go.kr/html/site/component/component_12_07.html
+scope:
+  level: component
+  targets:
+  - 탭바 레이블
+exceptions: []
+relations:
+- type: depends
+  id: NAV-070
+  note: 탭에는 아이콘과 텍스트 레이블을 함께(NAV-070)
+examples:
+  good:
+  - lang: html
+    code: '<nav class="tabbar" aria-label="주요 메뉴"><a href="/" aria-current="page">홈</a><a href="/apply">신청</a><a
+      href="/my">내 정보</a><a href="/menu">전체</a></nav>
+
+      '
+    note: 탭 레이블이 1~2어절이라 잘리지 않는다
+  bad:
+  - lang: html
+    code: '<nav class="tabbar" aria-label="주요 메뉴"><a href="/apply" style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">민원
+      신청 및 발급 내역…</a></nav>
+
+      '
+    note: 레이블이 길어 말줄임표로 잘린다
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(curl로 KRDS 페이지 HTML을 받아 텍스트로 직접 읽음): 탭바(component_12_07) ''레이블 텍스트는 짧고 간결하게
+  작성해야 하며, 화면에서 잘리거나 말줄임표가 표시되지 않도록 한다. 각 레이블은 1~2 단어로 작성 ... 다양한 화면 크기와 해상도에서도 테스트 ... 다국어 지원 시 번역된 레이블도 잘리거나 축약되지
+  않도록 한다'' 확인. 강도: KRDS ''해야 한다·않는다'' 표현 → SHOULD + public-sector-must(정책 2). ''단어''는 어절로 셈(COPY-031과 같은 해석).'
+korean_specific: false
+tags:
+- krds
+- krds-component
+- public-sector-must

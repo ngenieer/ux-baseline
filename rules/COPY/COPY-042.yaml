@@ -1,0 +1,52 @@
+id: COPY-042
+category: COPY
+title: 패널 콘텐츠 분량
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: MAY
+statement: 도움 패널·따라하기 패널의 각 콘텐츠는 짧은 문장으로 써서 패널 기본 크기에서 세로 스크롤 없이 한 번에 보이게 한다.
+measurement:
+  criteria: 패널을 데스크톱 기본 크기로 열었을 때 각 도움 콘텐츠(한 섹션)의 패널 본문 영역 scrollHeight ≤ clientHeight다.
+  method: 패널의 도움 콘텐츠를 하나씩 열어 본문 영역 스크롤 발생 여부를 측정한다.
+automation:
+  feasibility: none
+  checks: []
+  note: '4단계 커스텀 검사(Playwright): 콘텐츠별 패널 본문 scrollHeight와 clientHeight 비교.'
+rationale: 패널은 본문 작업 중에 곁눈질로 보는 보조 영역이라 스크롤 없이 훑어볼 수 있어야 한다(KRDS 도움 패널·따라하기 패널).
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 도움 패널 > 사용성 가이드라인 (가이드라인 PDF 2025.08 604쪽)
+  note: https://www.krds.go.kr/html/site/component/component_08_01.html
+- ref: KRDS
+  locator: 컴포넌트 > 따라하기 패널 > 사용성 가이드라인 — '콘텐츠를 간결하게 유지한다' (가이드라인 PDF 2025.08 615쪽)
+  note: https://www.krds.go.kr/html/site/component/component_08_02.html
+scope:
+  level: component
+  targets:
+  - 도움 패널
+  - 따라하기 패널
+exceptions: []
+relations: []
+examples:
+  good:
+  - lang: html
+    code: '<section class="help-content"><h3>가구원 수</h3><p>주민등록표에 함께 올라 있는 사람 수를 적습니다.</p></section>
+
+      '
+    note: 한 섹션 콘텐츠가 짧아 스크롤 없이 보인다
+  bad:
+  - lang: html
+    code: '<section class="help-content"><h3>가구원 수</h3><p>…화면 높이를 넘는 법령 조문 전문…</p></section>
+
+      '
+    note: 법령 전문을 넣어 패널 안에서 세로 스크롤이 생긴다
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(curl로 KRDS 페이지 HTML을 받아 텍스트로 직접 읽음): 도움 패널(component_08_01)·따라하기 패널(component_08_02)
+  ''가능한 한 사용자가 패널 영역을 스크롤 하지 않고 정보를 훑어볼 수 있도록 필요한 내용을 간결한 문장으로 작성한다'' 확인. 원문이 ''가능한 한''으로 완화돼 있어 MAY(정책 2 권장 표현).
+  판정 크기를 ''데스크톱 기본 크기''로 정한 것은 이 체계의 판정 조건(모바일에서는 패널이 모달로 바뀜).'
+korean_specific: false
+tags:
+- krds
+- krds-component

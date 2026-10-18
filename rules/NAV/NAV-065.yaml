@@ -1,0 +1,57 @@
+id: NAV-065
+category: NAV
+title: 뒤로가기와 닫기·취소 버튼 함께 두지 않기
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 뒤로가기 버튼이 있는 상단바에는 닫기(X)·취소 버튼을 함께 두지 않는다.
+measurement:
+  criteria: 뒤로가기 버튼(이전 화면으로 이동하는 버튼, 접근 가능한 이름 '뒤로' 또는 '이전')이 있는 상단바 요소마다, 같은 상단바 안에 접근 가능한 이름이 '닫기'·'취소'인 버튼이 0개다.
+  method: 상단바가 있는 화면마다 DOM에서 상단바 안 버튼의 접근 가능한 이름 목록을 뽑아 '뒤로'·'이전'과 '닫기'·'취소'가 함께 있는지 확인한다.
+automation:
+  feasibility: partial
+  checks:
+  - tool: custom
+    method: 'E2E: 상단바 선택자 안 button·a의 accessible name 에 ''뒤로|이전'' 과 ''닫기|취소'' 가 함께 있으면 실패'
+  note: 상단바 선택자는 프로젝트마다 달라 설정이 필요하다.
+rationale: 같은 상단바에 뒤로가기와 닫기가 함께 있으면 두 버튼이 어디로 이동하는지 구분되지 않아 사용자가 이동 결과를 예측하지 못한다. KRDS는 뒤로가기만 둔 상단바를 모범 사례로, 왼쪽
+  뒤로가기와 오른쪽 X를 함께 둔 상단바를 피해야 할 사례로 제시한다.
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 뒤로가기 버튼 > 사용성 가이드라인 > 이전 화면으로의 이동을 기본으로 한다
+  note: 'https://www.krds.go.kr/html/site/component/component_12_02.html — ''동일 위치에 닫기, 취소 버튼을 위치 시켜 버튼 본연의 역할이
+    겹치지 않도록 명확이 구분하여 사용한다.'' 모범 사례 이미지(back_button_guide_02.png): 뒤로가기만 있는 상단바. 피해야 할 사례(back_button_guide_02_02.png):
+    왼쪽 뒤로가기 + 오른쪽 X.'
+scope:
+  level: component
+  targets:
+  - 상단바(앱바)
+  - 뒤로가기 버튼
+exceptions:
+- 뒤로가기 버튼이 없는 레이어(모달·바텀시트)의 닫기 버튼은 대상이 아니다.
+relations:
+- type: depends
+  id: NAV-064
+  note: 뒤로가기의 이동 대상(직전 화면, 없으면 상위 화면)은 NAV-064
+examples:
+  good:
+  - lang: html
+    code: "<header class=\"app-bar\">\n  <a href=\"/applications\" class=\"back\"><img src=\"arrow-left.svg\" alt=\"\
+      뒤로\"></a>\n  <h1>신청 내역</h1>\n</header>"
+    note: 상단바에 뒤로가기만 둔다.
+  bad:
+  - lang: html
+    code: "<header class=\"app-bar\">\n  <a href=\"/applications\" class=\"back\"><img src=\"arrow-left.svg\" alt=\"\
+      뒤로\"></a>\n  <h1>신청 내역</h1>\n  <button type=\"button\"><img src=\"close.svg\" alt=\"닫기\"></button>\n</header>"
+    note: 뒤로가기와 닫기가 같은 상단바에 있어 두 버튼의 이동 결과를 구분할 수 없다(KRDS 피해야 할 사례).
+needs_verification: false
+verification_note: '2026-10-18 KRDS 페이지의 모범·피해야 할 사례 이미지(back_button_guide_02.png, _02_02.png)를 내려받아 확인: 모범은 왼쪽
+  뒤로가기만 있는 상단바, 피해야 할 사례는 왼쪽 뒤로가기와 오른쪽 X가 함께 있는 상단바. 이미지 위치가 해당 문장 단락 바로 뒤라 이 문장의 예시로 판단 — 원문의 두 해석 중 (가) ''같은 자리(상단바)에
+  뒤로가기와 닫기·취소를 함께 두지 않는다''로 확정. 원문이 지시형 서술이라 SHOULD(krds-descriptive).'
+korean_specific: false
+tags:
+- krds
+- krds-component
+- krds-descriptive

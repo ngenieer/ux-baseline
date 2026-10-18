@@ -1,0 +1,51 @@
+id: NAV-054
+category: NAV
+title: 현재 단계 시각 구분
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 단계 표시기에서 현재 단계를 다른 단계와 시각적으로 구분해 표시한다.
+measurement:
+  criteria: 현재 단계 항목의 계산된 스타일이 다른 단계 항목과 색 이외의 속성(굵기·밑줄·테두리 1px 이상 차이·식별자 아이콘 중 하나 이상)에서 다르다.
+  method: 단계 표시기의 현재 항목과 나머지 항목의 getComputedStyle 값을 비교하거나, 흑백 화면에서 현재 단계를 식별할 수 있는지 수동 확인한다.
+automation:
+  feasibility: none
+  checks: []
+  note: 기존 검사기 규칙 없음. 4단계 커스텀 검사(현재 항목 표식 aria-current와 스타일 차이 비교) 가능.
+rationale: 사용자가 지나온 단계, 남은 단계, 지금 해야 할 과업을 알게 한다.
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 단계 표시기 > 사용성 가이드라인 (현재 단계를 명확하게 인지할 수 있도록 표현한다) (가이드라인 PDF 2025.08 586쪽)
+  note: https://www.krds.go.kr/html/site/component/component_07_01.html
+scope:
+  level: component
+  targets:
+  - 단계 표시기
+exceptions: []
+relations:
+- type: depends
+  id: COLOR-001
+  note: 색만으로 구분하지 않음 — 같은 페이지 접근성 항목이 COLOR-001로 병합됨
+- type: depends
+  id: A11Y-025
+  note: 현재 단계를 aria-current 또는 '현재 단계' 텍스트로 보조기술에 전달 — 같은 페이지 항목이 A11Y-025로 병합됨
+examples:
+  good:
+  - lang: css
+    code: ".steps [aria-current=\"step\"] {\n  color: var(--palette-primary-60);\n  font-weight: var(--font-weight-bold);\n\
+      \  text-decoration: underline;\n}\n"
+    note: 현재 단계를 색에 더해 굵기와 밑줄로도 구분한다.
+  bad:
+  - lang: css
+    code: ".steps [aria-current=\"step\"] {\n  color: var(--palette-primary-60);  /* 색 외의 구분 없음 */\n}\n"
+    note: 현재 단계를 색으로만 구분한다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(KRDS 페이지 curl 수신 후 텍스트 추출): ''현재 단계를 다른 단계와 구분하여 표현해야 한다'' 확인. ''색 이외'' 판정
+  조건은 같은 페이지 접근성 가이드라인(''밑줄 제공, 1px 이상의 테두리 차이, 식별자 제공'')에서 가져옴. 원문 지시형 문장을 의무로 읽어 SHOULD + public-sector-must.'
+korean_specific: false
+tags:
+- krds
+- krds-component
+- public-sector-must

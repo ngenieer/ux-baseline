@@ -1,0 +1,62 @@
+id: TYPO-001
+category: TYPO
+title: 텍스트 이미지 금지
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: MUST
+statement: CSS로 같은 시각 표현을 낼 수 있는 텍스트 정보는 텍스트 이미지가 아닌 실제 텍스트로 제공한다.
+measurement:
+  criteria: '글자가 들어 있는 이미지(img, svg 안의 래스터, CSS background-image, canvas)마다 다음 중 하나에 해당해야 통과: (1) 로고·브랜드명의 일부, (2)
+    특정 글자 표현이 정보 전달에 필수, (3) 사용자가 글꼴·크기·색·배경을 바꿀 수 있는 이미지. 해당하지 않으면 실패.'
+  method: '수동: 페이지의 이미지 목록을 뽑아(DevTools 또는 스크립트) 글자가 들어 있는 이미지를 찾고, 각 이미지가 위 예외 (1)~(3) 중 하나인지 확인한다.'
+automation:
+  feasibility: none
+  note: 'axe-core에 1.4.5 대응 규칙이 없다(추출본 axe_rules 비어 있음). 4단계 후보: 이미지 OCR로 글자 포함 여부를 찾아 사람 검토 목록을 만드는 보조 스크립트.'
+rationale: 텍스트 이미지는 사용자가 글자 크기·색·간격을 바꾸거나 확대할 때 깨지거나 바뀌지 않아 저시력·읽기 장애 사용자가 내용을 인지하기 어렵다.
+sources:
+- ref: WCAG22
+  locator: SC 1.4.5 Images of Text (Level AA)
+  note: https://www.w3.org/TR/WCAG22/#images-of-text
+- ref: WCAG22_UNDERSTANDING
+  locator: https://www.w3.org/WAI/WCAG22/Understanding/images-of-text.html
+- ref: KRDS
+  locator: 기본 패턴 > 상세 정보 확인 > 접근성 가이드라인 (가이드라인 PDF 2025.08 826쪽)
+  note: https://www.krds.go.kr/html/site/global/global_06.html — 이미지 텍스트 사용 금지(심미적 효과·필수 표현 예외)
+- ref: KRDS
+  locator: 컴포넌트 (여러 페이지) (가이드라인 PDF 2025.08 422·442쪽)
+  note: '같은 요구를 다루는 KRDS 컴포넌트: 이미지, 캐러셀 — 상세는 sources/extracts/KRDS-components.yaml'
+scope:
+  level: global
+  targets:
+  - img
+  - svg image
+  - '[style*=background-image]'
+  - canvas
+exceptions:
+- 사용자가 요구에 맞게 시각적으로 바꿀 수 있는 텍스트 이미지 (WCAG 1.4.5)
+- 특정 텍스트 표현이 전달하는 정보에 필수인 경우 — 로고·브랜드명은 필수로 본다 (WCAG 1.4.5 Note)
+relations: []
+examples:
+  good:
+  - lang: html
+    code: '<h2 class="promo-title">가을 할인 30%</h2>
+
+      <style>.promo-title{font:700 2rem/1.5 sans-serif;color:var(--palette-point-60)}</style>'
+    note: CSS로 같은 표현을 낸 실제 텍스트라 확대·번역·스크린리더가 가능하다
+  bad:
+  - lang: html
+    code: <img src="promo-title.png" alt="가을 할인 30%">
+    note: CSS로 낼 수 있는 제목을 글자 이미지로 넣었다
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(sources/extracts/WCAG22-A-AA.yaml SC 1.4.5): statement·예외가 원문과 일치. 2026-10-18
+  원문 대조(KRDS https://www.krds.go.kr/html/site/global/global_06.html HTML을 curl로 받아 본문 확인): ''가능한 한 이미지 텍스트를 사용하지
+  않는다'' 문장 확인. KRDS 예외는 ''심미적인 효과 또는 특정한 텍스트 표현이 필수적인 경우''로 WCAG보다 넓다(심미적 효과) — 우선순위 1에 따라 WCAG 예외만 채택. KWCAG 대응
+  항목은 이 룰 출처에 없음. KRDS 컴포넌트 묶음(이미지·캐러셀) 출처는 이번에 개별 페이지를 다시 열지 않았다.'
+korean_specific: false
+tags:
+- wcag22
+- level-aa
+- new-in-2.0
+- krds

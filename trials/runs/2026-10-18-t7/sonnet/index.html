@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>주문 운영 대시보드</title>
+  <link rel="stylesheet" href="vendor/ux-baseline/tokens.css">
+  <link rel="stylesheet" href="vendor/ux-baseline/base.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="skip-link">
+    <a class="skip-link__link" href="#main">본문 바로가기</a>
+  </div>
+
+  <header class="page-header">
+    <div class="page-width">
+      <h1 class="page-header__title">주문 운영 대시보드</h1>
+      <p class="page-header__lead">기간별 주문 현황을 확인합니다. 화면의 모든 데이터는 시연용 가짜 데이터입니다.</p>
+    </div>
+  </header>
+
+  <main id="main" class="page-width" tabindex="-1">
+    <!-- 조회 조건: 기간 선택·새로 고침·시연 상태 -->
+    <section class="panel toolbar" aria-labelledby="toolbar-title">
+      <h2 id="toolbar-title" class="sr-only">조회 조건</h2>
+
+      <div class="toolbar__item">
+        <p class="toolbar__label" id="period-label">기간</p>
+        <div class="button-group" role="group" aria-labelledby="period-label" id="period-group">
+          <button type="button" class="button button--small button--tertiary" data-period="1" aria-pressed="false">오늘</button>
+          <button type="button" class="button button--small button--tertiary" data-period="7" aria-pressed="true">7일</button>
+          <button type="button" class="button button--small button--tertiary" data-period="30" aria-pressed="false">30일</button>
+        </div>
+      </div>
+
+      <div class="toolbar__item">
+        <p class="toolbar__label" id="refresh-label">데이터</p>
+        <div class="toolbar__refresh">
+          <button type="button" class="button button--small button--primary" id="refresh" aria-describedby="updated-text">새로 고침</button>
+          <p class="toolbar__updated" id="updated-text">마지막 갱신 <time id="updated-at">-</time></p>
+        </div>
+      </div>
+
+      <div class="toolbar__item toolbar__item--demo">
+        <div class="select">
+          <label class="select__label" for="demo-scenario">시연 상태</label>
+          <p class="select__hint" id="demo-hint">고른 상태는 '새로 고침'을 누를 때 한 번만 적용됩니다.</p>
+          <div class="select__field">
+            <select class="select__control" id="demo-scenario" aria-describedby="demo-hint">
+              <option value="normal" selected>정상</option>
+              <option value="empty">데이터 없음</option>
+              <option value="error">불러오기 실패</option>
+            </select>
+            <svg class="select__arrow" aria-hidden="true" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"></path></svg>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 안내 방송용 상태 영역: 정렬·필터·페이지 이동·갱신 결과를 초점 이동 없이 알린다 -->
+    <p class="sr-only" id="live" role="status"></p>
+
+    <div id="data-region" aria-busy="false">
+      <!-- 1초 넘게 걸리는 불러오기에만 나타난다 -->
+      <div id="loading" class="panel loading" hidden>
+        <div class="spinner spinner--large" role="status">
+          <progress class="spinner__indicator" aria-labelledby="loading-text"></progress>
+          <span class="spinner__text" id="loading-text">주문 데이터를 불러오는 중입니다.</span>
+        </div>
+      </div>
+
+      <!-- 불러오기 실패 안내가 여기에 들어온다 -->
+      <div id="error-region" role="alert"></div>
+
+      <div id="content">
+        <section class="panel" aria-labelledby="summary-title">
+          <h2 class="panel__title" id="summary-title">요약 지표</h2>
+          <p class="panel__note" id="range-text">-</p>
+          <ul class="metrics" id="metrics"></ul>
+          <p class="panel__note" id="summary-empty" hidden>선택한 기간에 접수된 주문이 없어 지표를 계산하지 못했습니다.</p>
+        </section>
+
+        <section class="panel" aria-labelledby="trend-title">
+          <h2 class="panel__title" id="trend-title">일별 주문 추이</h2>
+          <p class="panel__note" id="trend-note">-</p>
+          <div id="trend-body" class="trend-grid">
+            <figure class="chart">
+              <figcaption class="chart__caption" id="chart-caption">일별 주문 수</figcaption>
+              <div class="chart__canvas" id="chart-canvas"></div>
+              <p class="sr-only" id="chart-desc"></p>
+            </figure>
+            <section class="data-table" aria-labelledby="trend-table-caption" tabindex="0">
+              <table class="data-table__table">
+                <caption class="data-table__caption" id="trend-table-caption">일별 주문 수 — 열: 날짜, 주문 수(건), 취소(건), 매출(원)</caption>
+                <thead>
+                  <tr>
+                    <th scope="col" id="trend-col-label">날짜</th>
+                    <th scope="col" class="data-table__cell--number">주문 수(건)</th>
+                    <th scope="col" class="data-table__cell--number">취소(건)</th>
+                    <th scope="col" class="data-table__cell--number">매출(원)</th>
+                  </tr>
+                </thead>
+                <tbody id="trend-rows"></tbody>
+              </table>
+            </section>
+          </div>
+          <div id="trend-empty" class="empty-state" hidden>
+            <h3 class="empty-state__title">표시할 주문 추이가 없습니다</h3>
+            <p class="empty-state__text">선택한 기간에 접수된 주문이 없습니다. 더 긴 기간을 선택해 보세요.</p>
+          </div>
+        </section>
+
+        <section class="panel" aria-labelledby="orders-title">
+          <h2 class="panel__title" id="orders-title">최근 주문</h2>
+
+          <div class="orders-controls">
+            <div class="toolbar__item">
+              <p class="toolbar__label" id="status-label">상태</p>
+              <div class="button-group" role="group" aria-labelledby="status-label" id="status-group">
+                <button type="button" class="button button--small button--tertiary" data-status="all" aria-pressed="true">전체</button>
+                <button type="button" class="button button--small button--tertiary" data-status="processing" aria-pressed="false">처리 중</button>
+                <button type="button" class="button button--small button--tertiary" data-status="done" aria-pressed="false">완료</button>
+                <button type="button" class="button button--small button--tertiary" data-status="cancelled" aria-pressed="false">취소</button>
+              </div>
+            </div>
+            <p class="orders-controls__summary" id="orders-summary">-</p>
+          </div>
+
+          <div id="orders-table-wrap">
+            <section class="data-table" aria-labelledby="orders-caption" tabindex="0">
+              <table class="data-table__table" id="orders-table">
+                <caption class="data-table__caption" id="orders-caption">최근 주문 — 열: 주문번호, 주문 시각, 고객, 금액(원), 상태, 처리 시간. 열 제목의 버튼으로 정렬합니다.</caption>
+                <thead>
+                  <tr>
+                    <th scope="col" data-key="id"><button type="button" class="sort-button" data-sort="id"><span>주문번호</span><span class="sort-button__icon" aria-hidden="true">↕</span></button></th>
+                    <th scope="col" data-key="time"><button type="button" class="sort-button" data-sort="time"><span>주문 시각</span><span class="sort-button__icon" aria-hidden="true">↕</span></button></th>
+                    <th scope="col" data-key="customer"><button type="button" class="sort-button" data-sort="customer"><span>고객</span><span class="sort-button__icon" aria-hidden="true">↕</span></button></th>
+                    <th scope="col" class="data-table__cell--number" data-key="amount"><button type="button" class="sort-button" data-sort="amount"><span>금액(원)</span><span class="sort-button__icon" aria-hidden="true">↕</span></button></th>
+                    <th scope="col" data-key="status"><button type="button" class="sort-button" data-sort="status"><span>상태</span><span class="sort-button__icon" aria-hidden="true">↕</span></button></th>
+                    <th scope="col" class="data-table__cell--number" data-key="proc"><button type="button" class="sort-button" data-sort="proc"><span>처리 시간</span><span class="sort-button__icon" aria-hidden="true">↕</span></button></th>
+                  </tr>
+                </thead>
+                <tbody id="orders-rows"></tbody>
+              </table>
+            </section>
+            <nav class="pagination" id="pagination" aria-label="최근 주문 목록 페이지"></nav>
+          </div>
+
+          <div id="orders-empty" class="empty-state" hidden></div>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

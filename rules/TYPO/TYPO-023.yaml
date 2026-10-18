@@ -1,0 +1,47 @@
+id: TYPO-023
+category: TYPO
+title: 'text-wrap: pretty 점진적 향상'
+stage: platformed
+status:
+  value: confirmed
+type: guide
+strength: MAY
+statement: '본문 문단에 text-wrap: pretty를 쓸 때는 이 선언을 지원하지 않는 브라우저에서 무시되어도 레이아웃이 깨지지 않게 하고, 대량 텍스트 화면에서는 렌더링 성능 영향을 측정한
+  뒤 적용한다.'
+measurement:
+  criteria: '점검 질문: (1) text-wrap: pretty 를 지운 상태에서도 줄 수 변화 때문에 잘림·겹침이 생기지 않는가? (2) 긴 문서 화면에 적용했다면 적용 전후 렌더링 시간을
+    비교했는가?'
+  method: 수동 검토.
+automation:
+  feasibility: none
+  note: 판정에 사람 판단이 필요 → guide.
+rationale: pretty는 속도보다 줄바꿈 품질을 우선하는 기능이라 개선 내용이 브라우저마다 다르고 Firefox는 지원하지 않는다. 명세는 대량 텍스트에 쓸 때 성능 영향 평가를 권한다.
+sources:
+- ref: CSS_TEXT_4
+  locator: 5.4 text-wrap-style (pretty)
+  note: 속도보다 품질 우선, 마지막 줄이 짧은 것 회피 등은 UA 재량. 대량 텍스트에 성능 비용 평가 권고
+- ref: MDN_BCD
+  locator: css.properties.text-wrap.pretty
+  note: Chrome 117, Safari 26, Firefox 미지원(BCD 8.1.6)
+scope:
+  level: situation
+  targets:
+  - 'text-wrap: pretty 를 쓰는 본문 문단'
+exceptions: []
+relations: []
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(CSS Text 4 §5.4 HTML, MDN BCD): ''Authors are encouraged to assess the impact
+  on performance when using text-wrap-style: pretty, and possibly use it selectively'' 확인. 지원 Chrome/Edge 117, Safari
+  26, Firefox 미지원 확인. 한국어(keep-all)에서 pretty의 실제 개선 효과는 연구·실측 근거 없음(1단계 메모 유지).'
+korean_specific: false
+tags:
+- research-typo
+examples:
+  good:
+  - lang: text
+    code: '본문 p에 text-wrap: pretty를 넣고, 선언을 지운 상태에서도 잘림·겹침이 없는지 확인했다. 3,000자 이상 공지 화면은 적용 전후 렌더링 시간을 비교한 뒤 적용했다.'
+    note: 미지원 브라우저 폴백과 대량 텍스트 성능을 확인했다
+  bad:
+  - lang: text
+    code: 카드 높이를 pretty 적용 시 줄 수에 맞춰 고정해, pretty를 지원하지 않는 Firefox에서 마지막 줄이 잘린다.
+    note: pretty에 의존한 레이아웃이라 미지원 브라우저에서 깨진다

@@ -1,0 +1,58 @@
+id: FORM-025
+category: FORM
+title: 전체 동의 체크박스 연동
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 일괄 동의 체크박스를 선택하면 모든 항목을 '동의함'으로, 해제하면 모든 항목을 '동의하지 않음'으로 바꾸고, 개별 항목 중 하나라도 '동의하지 않음'이면 일괄 동의 체크박스를 해제
+  상태로 두며, Click·Space로 조작한 뒤에도 키보드 초점을 일괄 동의 체크박스에 유지한다.
+measurement:
+  criteria: (1) 일괄 동의 체크박스를 Click 또는 Space로 checked=true로 바꾸면 모든 항목의 '동의함' 라디오가 checked, false로 바꾸면 모든 '동의하지 않음'
+    라디오가 checked. (2) 일괄 동의가 checked인 상태에서 한 항목을 '동의하지 않음'으로 바꾸면 일괄 동의 체크박스 checked=false. (3) (1) 조작 직후 document.activeElement가
+    일괄 동의 체크박스다.
+  method: 마우스와 키보드로 조작하며 각 라디오 상태와 activeElement를 확인한다(수동 또는 Playwright).
+automation:
+  feasibility: none
+  checks:
+  - tool: custom
+    method: Playwright 시나리오로 (1)~(3) 확인
+  note: 4단계 E2E 검사 후보.
+rationale: 일괄 동의 상태가 개별 항목과 어긋나면 실제로 무엇에 동의했는지 오해하고, 조작 뒤 초점이 사라지면 키보드 사용자가 위치를 잃는다.
+sources:
+- ref: KRDS
+  locator: 기본 패턴 > 동의 > 상호작용 가이드라인(일괄 선택) (가이드라인 PDF 2025.08 796쪽)
+  note: 'https://www.krds.go.kr/html/site/global/global_03.html — ''개별 선택 항목 중 단 하나라도 ''동의 안 함'' 옵션이 선택되어 있다면 일괄
+    선택 체크박스는 선택 해제 상태가 유지되어야 한다.'' / Click·Space: ''모든 동의 옵션의 ''동의함'' 값이 선택된다 ... 선택이 해제되면서 모든 동의 옵션의 ''동의 안 함''
+    값이 선택된다. 초점은 체크박스에 유지되어야 한다.'''
+scope:
+  level: component
+  targets:
+  - 일괄 동의 체크박스
+exceptions: []
+relations:
+- type: depends
+  id: FORM-024
+  note: 개별 항목이 동의함·동의하지 않음 선택지를 가진 구조가 전제
+examples:
+  good:
+  - lang: js
+    code: "all.addEventListener('change', () => {\n  items.forEach(g => { g.querySelector(all.checked ? '[value=y]'\
+      \ : '[value=n]').checked = true; });\n  // 초점은 all에 그대로 둔다\n});\nitems.forEach(g => g.addEventListener('change',\
+      \ () => {\n  all.checked = items.every(x => x.querySelector('[value=y]').checked);\n}));\n"
+    note: 일괄 동의와 개별 항목 상태를 양방향으로 맞추고 초점을 옮기지 않는다.
+  bad:
+  - lang: js
+    code: "all.addEventListener('change', () => {\n  items.forEach(g => { g.querySelector(all.checked ? '[value=y]'\
+      \ : '[value=n]').checked = true; });\n  items[0].querySelector('input').focus();  // 초점을 첫 항목으로 옮김\n});\n"
+    note: 일괄 동의를 조작한 뒤 초점이 첫 항목으로 이동한다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(KRDS global_03 HTML curl): ''선택 해제 상태가 유지되어야 한다'', ''초점은 체크박스에 유지되어야 한다'' 확인
+  → SHOULD + public-sector-must. Click·Space 시 전체 동의함/동의 안 함으로 바뀌는 동작을 같은 표에서 statement에 추가. 1단계에서 같은 룰로 묶였던 체크박스
+  컴포넌트의 ''전체 선택 체크박스는 일부 선택 시 중간 상태''(component_06_02)는 대상(일반 체크박스 계층 목록)과 요구(중간 상태 표시)가 달라 제외 — 제안 파일 notes(FORM-042와
+  관련).'
+korean_specific: true
+tags:
+- krds
+- public-sector-must

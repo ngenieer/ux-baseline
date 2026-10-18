@@ -1,0 +1,52 @@
+id: A11Y-013
+category: A11Y
+title: 문자 단축키
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: MUST
+statement: 문자·숫자·구두점·기호 키 하나로 동작하는 단축키를 두면 끄기, 수정 키(Ctrl·Alt 등)를 포함하도록 재설정, 해당 컴포넌트에 초점이 있을 때만 동작 중 하나 이상을 제공한다.
+measurement:
+  criteria: 수정 키 없이 단일 인쇄 문자 키에 반응하는 keydown/keypress 핸들러마다 (a) 설정에서 끌 수 있거나, (b) 수정 키 조합으로 바꿀 수 있거나, (c) 그 컴포넌트에
+    초점이 있을 때만 동작한다.
+  method: 단축키 목록을 확인하고, 입력 필드 밖에서 각 문자 키를 눌러 의도치 않은 동작이 생기는지와 끄기·재설정 수단을 확인한다.
+automation:
+  feasibility: none
+  checks: []
+  note: '검사기 규칙 없음. 4단계 커스텀 검사: document 수준 keydown 핸들러에서 e.key 단일 문자 비교 + 수정 키 검사 누락을 eslint 커스텀 규칙으로 표시.'
+rationale: 음성 입력 사용자는 말한 단어가 단일 문자 키로 입력되어 의도치 않은 단축키가 실행될 수 있다.
+sources:
+- ref: WCAG22
+  locator: SC 2.1.4 Character Key Shortcuts (Level A)
+  note: https://www.w3.org/TR/WCAG22/#character-key-shortcuts
+- ref: WCAG22_UNDERSTANDING
+  locator: https://www.w3.org/WAI/WCAG22/Understanding/character-key-shortcuts.html
+- ref: KWCAG22
+  locator: 검사항목 6.1.4
+scope:
+  level: situation
+  targets:
+  - 단일 문자 키 단축키를 제공하는 화면
+exceptions: []
+relations: []
+examples:
+  good:
+  - lang: js
+    code: "document.addEventListener('keydown', e => {\n  if (e.altKey && e.key === 's') openSearch(); // 수정 키 포함\n\
+      });\n"
+    note: 단축키에 수정 키(Alt)를 포함
+  bad:
+  - lang: js
+    code: "document.addEventListener('keydown', e => {\n  if (e.key === 's') openSearch(); // 단일 문자, 끄기·재설정 없음\n\
+      });\n"
+    note: 수정 키 없는 단일 문자 단축키를 끄거나 바꿀 수 없음
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(sources/extracts/WCAG22-A-AA.yaml): statement·수치가 SC 원문과 일치함을 확인. KWCAG 2.2
+  대응 항목 번호는 비공식 HTML 판 기준 매핑 — 공식 원문 대조 전(registry KWCAG22 verified=false). 룰의 요구·수치는 WCAG 원문만으로 성립.'
+korean_specific: false
+tags:
+- wcag22
+- level-a
+- new-in-2.1
+- kwcag22

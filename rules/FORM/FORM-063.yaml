@@ -1,0 +1,65 @@
+id: FORM-063
+category: FORM
+title: 업로드 후에도 파일 선택 가능
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 파일을 올린 뒤에도, 최대 개수에 도달한 뒤에도 파일 선택 버튼과 드롭 영역을 사용 가능한 상태로 두고, 최대 개수에 도달한 상태에서 파일을 더 선택하거나 드롭하면 추가 파일을 올리지
+  않고 최대 개수를 알리는 오류 문구를 표시하며, 사용자의 입력 자체를 막아야 할 때만 사용 불가 상태로 바꾼다.
+measurement:
+  criteria: (1) 파일을 1개 이상 선택·업로드한 직후, (2) 최대 개수까지 올린 뒤 모두 input[type=file]과 드롭 영역에 disabled 속성이나 aria-disabled="true"가
+    없다(입력 자체를 막는 상태는 예외). (3) 최대 개수에 도달한 상태에서 파일을 더 선택하거나 드롭한 직후, 목록의 파일 개수는 최대 개수 그대로이고 최대 개수를 알리는 오류 문구가 표시된다.
+  method: 'E2E: 파일 1개 업로드, 최대 개수까지 업로드, 최대 개수 상태에서 파일 추가 선택·드롭을 차례로 수행하며 disabled·aria-disabled, 목록 개수, 오류 문구를 확인한다.'
+automation:
+  feasibility: none
+  checks: []
+  note: 기존 검사기 규칙 없음. 4단계 커스텀 E2E로 판정 가능.
+rationale: KRDS는 파일을 선택한 뒤에도 새 파일을 추가하거나 바꿀 수 있게 파일 선택 버튼·드롭 영역을 기본 상태로 유지하고, 사용 불가 상태는 입력 행위 자체를 제한할 때 쓰라고 한다.
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 파일 업로드 > 사용성 가이드라인(파일이 업로드된 후에도 파일 선택 버튼을 기본 상태로 유지한다) (가이드라인 PDF 2025.08 705쪽)
+  note: https://www.krds.go.kr/html/site/component/component_09_04.html
+scope:
+  level: component
+  targets:
+  - input[type=file]
+  - 파일 업로드 드롭 영역
+exceptions:
+- 사용자의 입력 행위 자체를 제한하는 상태(원문 표현)
+relations:
+- type: refines
+  id: FORM-080
+  note: 'FORM-080(제출 시 오류 표시)의 파일 입력 예외: 형식·크기·개수 오류는 선택·드롭 직후, 필수 파일 누락은 제출 시 표시한다.'
+examples:
+  good:
+  - lang: html
+    code: '<label for="f">현장 사진(최대 3개)</label>
+
+      <input type="file" id="f" multiple>
+
+      <ul><li>사진1.jpg <button type="button">사진1.jpg 삭제</button></li></ul>
+
+      '
+    note: 파일을 올린 뒤에도 파일 선택 버튼을 사용 가능한 상태로 둔다.
+  bad:
+  - lang: html
+    code: '<label for="f">현장 사진(최대 3개)</label>
+
+      <input type="file" id="f" multiple disabled>
+
+      <ul><li>사진1.jpg <button type="button">사진1.jpg 삭제</button></li></ul>
+
+      '
+    note: 파일을 올린 뒤 파일 선택 버튼을 사용 불가로 바꿔 추가·교체를 막는다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(curl로 KRDS 페이지 HTML을 받아 본문 텍스트와 대조): 문장 일치 확인. 원문 강도 ''유지한다''(지시문) → SHOULD.
+  최대 개수에 도달한 상태가 ''입력 행위 자체를 제한할 때''에 해당하는지는 원문에 없음 — CF-040에서 해당하지 않는 것으로 정함. 2026-10-18 측정 기준을 3단계 결정(statement
+  변경)에 맞춰 고침. 2026-10-18 독립 검토: 오류 표시 시점을 ''더 선택·드롭한 직후''로 통일(CF-040).'
+korean_specific: false
+tags:
+- krds
+- krds-component
+decisions:
+- CF-040

@@ -1,0 +1,56 @@
+id: LAYOUT-013
+category: LAYOUT
+title: 헤더
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 헤더를 화면 상단에 고정할 때는 공식 배너를 뺀 헤더 전체를 고정한다.
+measurement:
+  criteria: '헤더에 position: sticky 또는 fixed를 쓸 때, 스크롤 후 공식 배너는 화면 밖으로 사라지고 서비스 아이덴티티·유틸리티 링크·검색·메인 메뉴는 모두 화면 상단에
+    남는다(헤더 일부만 고정하지 않는다).'
+  method: 긴 페이지를 아래로 스크롤해 고정된 영역에 포함된 요소를 확인한다.
+automation:
+  feasibility: none
+  checks: []
+  note: '4단계 커스텀 검사: 스크롤 후 헤더 하위 요소별 getBoundingClientRect().top 확인.'
+rationale: 헤더 일부만 고정하면 탐색 수단이 흩어지고, 공식 배너까지 고정하면 본문 공간을 불필요하게 차지한다.
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 헤더 > 사용성 가이드라인 (가이드라인 PDF 2025.08 242쪽)
+  note: https://www.krds.go.kr/html/site/component/component_02_03.html
+scope:
+  level: component
+  targets:
+  - header
+  - 고정 헤더
+exceptions: []
+relations:
+- type: depends
+  id: LAYOUT-001
+  note: 고정 헤더가 초점 요소를 완전히 가리지 않아야 한다(scroll-padding-top 등).
+examples:
+  good:
+  - lang: css
+    code: '.official-banner { position: static; } /* 스크롤하면 사라짐 */
+
+      .site-header { position: sticky; top: 0; } /* 배너 아래 헤더 전체(로고·유틸리티·검색·메인 메뉴) 고정 */
+
+      '
+    note: 공식 배너를 뺀 헤더 전체를 고정한다.
+  bad:
+  - lang: css
+    code: '.site-header .main-menu { position: sticky; top: 0; } /* 메인 메뉴만 고정 */
+
+      '
+    note: 헤더 일부(메인 메뉴)만 고정해 로고·유틸리티 링크·검색이 사라진다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(curl로 KRDS 페이지 HTML을 받아 본문 텍스트를 직접 확인): 헤더(component_02_03) ''헤더가 고정될 때에는 공식
+  배너를 제외한 전체 헤더가 고정되어야 한다.'' 확인. 고정 자체는 ''고정할 수 있다''(MAY), 고정할 때의 범위는 ''되어야 한다'' → SHOULD + public-sector-must.
+  같은 절의 ''2행을 초과하는 헤더는 아래로 스크롤할 때 고정하지 않고 위로 스크롤할 때 고정''은 1단계에 LAYOUT-001 출처로 병합돼 있음 — 이 룰을 구체화하는 별도 요구.'
+korean_specific: false
+tags:
+- krds
+- krds-component
+- public-sector-must

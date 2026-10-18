@@ -1,0 +1,63 @@
+id: LAYOUT-005
+category: LAYOUT
+title: 칼럼 수 혼용 금지
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: MAY
+statement: 한 화면(같은 뷰포트 너비) 안에서는 레이아웃 그리드의 칼럼 수를 하나로 통일한다.
+measurement:
+  criteria: 같은 뷰포트 너비에서 페이지의 레이아웃 그리드 컨테이너(본문·카드 목록 등 칼럼 그리드를 쓰는 요소)가 모두 같은 칼럼 수(grid-template-columns의 트랙 수 또는
+    그리드 시스템의 칼럼 클래스 기준)를 쓴다.
+  method: 각 브레이크포인트에서 개발자 도구 그리드 오버레이로 그리드 컨테이너의 칼럼 수를 비교한다.
+automation:
+  feasibility: none
+  checks: []
+  note: '4단계: 그리드 칼럼 수를 토큰(--layout-columns)으로만 지정하게 하고 stylelint로 grid-template-columns에 토큰 외 repeat() 값을 금지하면
+    부분 검사 가능.'
+rationale: 한 화면에서 칼럼 수가 섞이면 요소 정렬선이 어긋나 시각적 일관성이 깨진다(KRDS 칼럼).
+sources:
+- ref: KRDS
+  locator: 디자인 스타일 > 레이아웃 > 칼럼 (가이드라인 PDF 2025.08 142쪽)
+  note: https://www.krds.go.kr/html/site/style/style_05.html
+scope:
+  level: global
+  targets:
+  - 레이아웃 그리드
+  - '[style*=grid-template-columns]'
+exceptions: []
+relations:
+- type: refines
+  id: RESP-004
+  note: KRDS 칼럼 수는 브레이크포인트별(small 4~6, medium 8~12, large 이상 12~16).
+examples:
+  good:
+  - lang: css
+    code: ':root { --layout-columns: 4; } /* 모바일 4칸 */
+
+      @media (min-width: 1024px) { :root { --layout-columns: 12; } } /* PC 12칸 */
+
+      .page-grid, .card-grid { display: grid; grid-template-columns: repeat(var(--layout-columns), 1fr); column-gap:
+      var(--space-gap-7); }
+
+      /* --layout-columns는 브레이크포인트마다 하나의 값 */
+
+      '
+    note: 같은 뷰포트 너비의 모든 그리드가 같은 칼럼 수 토큰을 쓴다.
+  bad:
+  - lang: css
+    code: '.page-grid { display: grid; grid-template-columns: repeat(12, 1fr); }
+
+      .card-grid { display: grid; grid-template-columns: repeat(5, 1fr); } /* 같은 1280px 화면에 12칼럼과 5칼럼이 섞임 */
+
+      '
+    note: 한 화면에서 칼럼 수가 달라 정렬선이 어긋난다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(curl로 KRDS 페이지 HTML을 받아 본문 텍스트를 직접 확인): style_05 칼럼 ''동일 화면에서 칼럼 수를 혼용하지 않도록
+  하여, 시각적으로 일관된 레이아웃을 유지한다.'' 확인. system-choice(KRDS 그리드 체계 고유 선택) → MAY. 1단계 statement의 ''한 화면''을 ''같은 뷰포트 너비''로
+  판정 가능하게 바꿈.'
+korean_specific: false
+tags:
+- krds
+- system-choice

@@ -1,0 +1,68 @@
+id: LAYOUT-057
+category: LAYOUT
+title: 팝오버 위치
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 툴팁·맥락적 도움말·코치마크 팝오버는 모든 화면 너비에서 뷰포트 안에 전부 보이게 하고, 활성화 버튼과 안내 대상 본문 요소를 가리지 않는 방향으로 표시한다.
+measurement:
+  criteria: 뷰포트 너비 320·360·768·1024·1280 CSS px마다 팝오버를 열었을 때 (1) 팝오버 경계 상자가 뷰포트 안에 완전히 들어 있다(left ≥ 0, right ≤ innerWidth,
+    top ≥ 0, bottom ≤ innerHeight). (2) 팝오버 경계 상자가 활성화 버튼·안내 대상 요소의 경계 상자와 교차하지 않는다.
+  method: 각 너비에서 화면 가장자리 근처의 활성화 버튼을 포함해 모든 팝오버를 열어 확인한다.
+automation:
+  feasibility: none
+  checks: []
+  note: '4단계 커스텀 검사: Playwright로 너비별 팝오버 열기 → getBoundingClientRect() 경계·교차 확인.'
+rationale: 화면 밖으로 잘린 팝오버는 내용을 읽을 수 없고, 대상을 가리면 무엇에 대한 도움말인지 알 수 없다.
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 맥락적 도움말 > 사용성 가이드라인 (가이드라인 PDF 2025.08 623·625·626·630쪽)
+  note: https://www.krds.go.kr/html/site/component/component_08_03.html
+- ref: KRDS
+  locator: 컴포넌트 > 툴팁 > 사용성 가이드라인 (가이드라인 PDF 2025.08 652·654·655쪽)
+  note: 'https://www.krds.go.kr/html/site/component/component_08_05.html — 같은 요구: 팝오버가 화면을 벗어나지 않고 활성화 버튼·본문 요소를
+    가리지 않게'
+- ref: KRDS
+  locator: 컴포넌트 > 코치마크 > 사용성 가이드라인 / 플랫폼 고려 사항 (가이드라인 PDF 2025.08 640·646쪽)
+  note: 'https://www.krds.go.kr/html/site/component/component_08_04.html — 같은 요구: 팝오버가 대상을 가리지 않고 모든 화면 크기에서 완전히
+    표시'
+scope:
+  level: component
+  targets:
+  - '[role=tooltip]'
+  - 툴팁
+  - 맥락적 도움말
+  - 코치마크
+exceptions: []
+relations:
+- type: depends
+  id: A11Y-010
+  note: 호버·초점으로 뜨는 팝오버의 닫기·유지 조건은 A11Y-010(WCAG 1.4.13).
+examples:
+  good:
+  - lang: css
+    code: ".help-btn { anchor-name: --help; }\n.help-popover { position-anchor: --help; position-area: block-end;\n\
+      \  position-try-fallbacks: flip-block, flip-inline; } /* 화면 밖으로 나가면 반대쪽으로 표시 */\n"
+    note: 팝오버를 버튼 아래에 띄우고 뷰포트를 넘으면 반대쪽으로 뒤집는다.
+  bad:
+  - lang: css
+    code: '.help-btn { position: relative; }
+
+      .help-popover { position: absolute; inset-block-start: 0; inset-inline-start: 0; inline-size: 320px; } /*
+      버튼 위에 겹쳐 열림 */
+
+      '
+    note: 팝오버가 활성화 버튼을 가린다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(curl로 KRDS 페이지 HTML을 받아 본문 텍스트를 직접 확인): 맥락적 도움말(component_08_03) ''팝오버 영역이
+  화면을 벗어나지 않도록 표현한다.'', ''팝오버 영역이 활성화 버튼과 … 본문 콘텐츠 요소를 가리지 않도록 적절한 표시 방향을 설정한다.'', 플랫폼 ''모든 화면 크기에서 팝오버 영역이 완전히
+  표시되는지 확인한다 … 문제가 발견된 경우 적절한 영역으로 배치를 변경해야 한다.'' 확인. 같은 문장을 툴팁(component_08_05)·코치마크(component_08_04)에서도 확인 — 1단계
+  추출에서 이 룰로 통합(skip)된 항목이므로 출처로 추가. ''해야 한다'' → SHOULD + public-sector-must. 판정용 너비 320px은 RESP-003(WCAG 1.4.10)
+  기준을 더함.'
+korean_specific: false
+tags:
+- krds
+- krds-component
+- public-sector-must

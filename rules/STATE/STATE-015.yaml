@@ -1,0 +1,56 @@
+id: STATE-015
+category: STATE
+title: 아코디언 펼침 아이콘
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 아코디언 헤더의 상태 아이콘은 접힌 상태에서 아래 꺾쇠(V) 또는 '+'를, 펼친 상태에서 위 꺾쇠(^) 또는 '-'를 표시한다.
+measurement:
+  criteria: aria-expanded="false"인 아코디언 버튼의 아이콘이 아래 꺾쇠 또는 +이고, aria-expanded="true"인 버튼의 아이콘이 위 꺾쇠 또는 -이다. 한 아코디언
+    안에서 아이콘 쌍(꺾쇠 또는 +/-)이 하나로 통일돼 있다.
+  method: 각 헤더를 펼치고 접으며 aria-expanded 값과 아이콘을 대조한다.
+automation:
+  feasibility: none
+  checks: []
+  note: 아이콘을 [aria-expanded] 속성 셀렉터로만 바꾸도록 CSS 규격을 정하면 stylelint 커스텀 규칙으로 검사 가능.
+rationale: 아이콘이 펼침 방향을 반영해야 접힌 영역이 있음을 알 수 있다(KRDS 아코디언).
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 아코디언 > 사용성 가이드라인 (가이드라인 PDF 2025.08 410쪽)
+  note: https://www.krds.go.kr/html/site/component/component_04_07.html
+scope:
+  level: component
+  targets:
+  - 아코디언
+exceptions: []
+relations:
+- type: depends
+  id: A11Y-025
+  note: 시각 아이콘과 별도로 aria-expanded로 상태를 전달
+examples:
+  good:
+  - lang: css
+    code: '.accordion__btn[aria-expanded="false"] .icon { transform: rotate(0deg); }   /* 아래 꺾쇠 V */
+
+      .accordion__btn[aria-expanded="true"]  .icon { transform: rotate(180deg); } /* 위 꺾쇠 ^ */
+
+      '
+    note: 접힘은 V, 펼침은 ^로 상태에 따라 아이콘이 바뀐다.
+  bad:
+  - lang: css
+    code: '/* 상태와 무관하게 오른쪽 꺾쇠(>)를 고정 표시 */
+
+      .accordion__btn .icon { transform: rotate(-90deg); }
+
+      '
+    note: 아이콘이 펼침 상태를 나타내지 않는다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(curl로 KRDS 페이지 HTML을 받아 텍스트로 직접 읽음): 아코디언 component_04_07 ''접혀 있는 경우 … ''V''
+  또는 ''+'' 아이콘이, 펼쳐진 경우에는 ''^'', ''-'' 아이콘이 제공되어야 한다'' 확인.'
+korean_specific: false
+tags:
+- krds
+- krds-component
+- public-sector-must

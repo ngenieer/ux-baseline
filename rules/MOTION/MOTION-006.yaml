@@ -1,0 +1,57 @@
+id: MOTION-006
+category: MOTION
+title: 모션 대체 효과는 색·불투명도만
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 모션 줄이기 상태에서 모션 애니메이션을 대체 효과로 바꿀 때는 색·불투명도(opacity) 변화만 쓰고 흐림(blur)·크기·위치·모양 변화를 쓰지 않는다.
+measurement:
+  criteria: emulateMedia({reducedMotion:'reduce'}) 상태에서 document.getAnimations()와 계산된 transition-property의 애니메이션
+    대상 속성이 opacity, color, background-color, border-color, outline-color, fill, stroke 중에서만 나온다.
+  method: Playwright로 모션 줄이기를 켜고 상호작용·화면 전환을 실행한 뒤 실행 중인 애니메이션 키프레임 속성 목록을 수집한다.
+automation:
+  feasibility: none
+  checks: []
+  note: '4단계 커스텀 런타임 검사(위 method). 정적 보조: @media (prefers-reduced-motion: reduce) 블록 안의 transition-property·@keyframes
+    속성을 허용 목록으로 stylelint 커스텀 검사.'
+rationale: WCAG 정의상 색·불투명도 변화는 모션 애니메이션이 아니므로 전정기관 장애 사용자에게 상태 변화를 알리면서도 움직임을 만들지 않는다. 정오표로 흐림(blur)은 모션에서 제외되지
+  않게 정의가 바뀌었다.
+sources:
+- ref: WCAG22_UNDERSTANDING
+  locator: Understanding 2.3.3 — Key Terms 'motion animation' + Errata 'Amending the definition to not exclude blurring'
+- ref: CHROME_VT_SAME_DOC
+  locator: React to the 'reduced motion' preference
+  note: '''모션 줄이기 ≠ 모션 0, 더 미묘한 애니메이션 가능'' — 대체 효과 허용 근거'
+scope:
+  level: global
+  targets:
+  - '@media (prefers-reduced-motion: reduce)'
+exceptions:
+- 기능이나 전달하는 정보에 필수인 애니메이션(WCAG 2.3.3).
+relations:
+- type: refines
+  id: MOTION-004
+  note: 대체 효과를 쓸 때의 허용 속성.
+examples:
+  good:
+  - lang: css
+    code: "@media (prefers-reduced-motion: reduce) {\n  .toast { animation: fade var(--motion-duration-fast) var(--motion-easing-standard);\
+      \ }\n}\n@keyframes fade { from { opacity: 0; } to { opacity: 1; } }"
+    note: 모션 줄이기 상태의 대체 효과로 불투명도만 바꾼다.
+  bad:
+  - lang: css
+    code: "@media (prefers-reduced-motion: reduce) {\n  .toast { animation: blur-in var(--motion-duration-fast)\
+      \ var(--motion-easing-standard); }\n}\n@keyframes blur-in { from { filter: blur(8px); } to { filter: none;\
+      \ } }"
+    note: 대체 효과에 흐림(blur)을 써서 모션으로 취급되는 변화가 남는다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(Understanding 2.3.3 curl): 정의 ''Motion animation does not include changes of
+  color, blurring, or opacity ...''와 정오표 항목 ''Amending the definition to not exclude blurring'' 확인 — 본문 정의에는 아직
+  blurring이 남아 있으나 정오표 기준으로 blur를 모션으로 취급. Chrome 문서는 ''더 미묘한 애니메이션''도 허용하므로 완전 제거와 대체 중 선택은 MOTION-004가 정함.'
+korean_specific: false
+tags:
+- wcag22
+- level-aaa
+- research-motion_perf

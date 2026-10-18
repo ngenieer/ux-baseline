@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>내 알림 설정 | 한빛구청</title>
+  <link rel="stylesheet" href="../vendor/ux-baseline/tokens.css">
+  <link rel="stylesheet" href="../vendor/ux-baseline/base.css">
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <div class="skip-link">
+    <a class="skip-link__link" href="#page-content">본문 바로가기</a>
+  </div>
+
+  <header class="site-header">
+    <div class="site-header__inner">
+      <a class="site-header__logo" href="/">한빛구청</a>
+      <nav class="site-header__nav" aria-label="주요 메뉴">
+        <ul class="site-header__menu" role="list">
+          <li><a class="site-header__link" href="/civil">민원</a></li>
+          <li><a class="site-header__link" href="/news">구정 소식</a></li>
+          <li><a class="site-header__link" href="/mypage" aria-current="page">마이페이지</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="page">
+    <div class="page__title-area" id="page-content" tabindex="-1">
+      <h1 class="page__title">내 알림 설정</h1>
+      <p class="page__lead">받을 알림 분야와 수신 방법을 정하고 각 화면의 저장 버튼을 눌러 주세요. 저장하기 전에는 바꾼 내용이 반영되지 않습니다.</p>
+    </div>
+
+    <div class="tabs">
+      <div class="tabs__list" role="tablist" aria-label="알림 설정 항목">
+        <button type="button" class="tabs__tab" role="tab" id="tab-topics" aria-selected="true" aria-controls="panel-topics">알림 수신</button>
+        <button type="button" class="tabs__tab" role="tab" id="tab-channels" aria-selected="false" aria-controls="panel-channels" tabindex="-1">수신 방법</button>
+        <button type="button" class="tabs__tab" role="tab" id="tab-faq" aria-selected="false" aria-controls="panel-faq" tabindex="-1">자주 묻는 질문</button>
+      </div>
+
+      <!-- 알림 수신 -->
+      <div class="tabs__panel" role="tabpanel" id="panel-topics" aria-labelledby="tab-topics" tabindex="0">
+        <form class="settings-form" id="form-topics" novalidate>
+          <fieldset class="checkbox-group">
+            <legend class="checkbox-group__legend">받을 알림 분야</legend>
+            <p class="checkbox-group__hint">받을 분야를 모두 선택한 뒤 저장 버튼을 눌러 주세요.</p>
+            <div class="checkbox">
+              <input class="checkbox__input" type="checkbox" name="topic" id="topic-traffic" value="traffic" checked aria-describedby="topic-traffic-desc">
+              <span class="checkbox__indicator" aria-hidden="true"><svg class="checkbox__icon" viewBox="0 0 24 24"><path class="checkbox__check" d="M6 12.5l4 4 8-9"></path><path class="checkbox__dash" d="M6 12h12"></path></svg></span>
+              <label class="checkbox__label" for="topic-traffic">교통</label>
+              <p class="checkbox__description" id="topic-traffic-desc">도로 통제, 버스 노선 변경 소식</p>
+            </div>
+            <div class="checkbox">
+              <input class="checkbox__input" type="checkbox" name="topic" id="topic-culture" value="culture" aria-describedby="topic-culture-desc">
+              <span class="checkbox__indicator" aria-hidden="true"><svg class="checkbox__icon" viewBox="0 0 24 24"><path class="checkbox__check" d="M6 12.5l4 4 8-9"></path><path class="checkbox__dash" d="M6 12h12"></path></svg></span>
+              <label class="checkbox__label" for="topic-culture">문화</label>
+              <p class="checkbox__description" id="topic-culture-desc">구민 대상 공연·전시·강좌 소식</p>
+            </div>
+            <div class="checkbox">
+              <input class="checkbox__input" type="checkbox" name="topic" id="topic-welfare" value="welfare" checked aria-describedby="topic-welfare-desc">
+              <span class="checkbox__indicator" aria-hidden="true"><svg class="checkbox__icon" viewBox="0 0 24 24"><path class="checkbox__check" d="M6 12.5l4 4 8-9"></path><path class="checkbox__dash" d="M6 12h12"></path></svg></span>
+              <label class="checkbox__label" for="topic-welfare">복지</label>
+              <p class="checkbox__description" id="topic-welfare-desc">복지 지원 신청 기간, 지급 일정 안내</p>
+            </div>
+            <div class="checkbox">
+              <input class="checkbox__input" type="checkbox" name="topic" id="topic-disaster" value="disaster" checked disabled aria-describedby="topic-disaster-desc">
+              <span class="checkbox__indicator" aria-hidden="true"><svg class="checkbox__icon" viewBox="0 0 24 24"><path class="checkbox__check" d="M6 12.5l4 4 8-9"></path><path class="checkbox__dash" d="M6 12h12"></path></svg></span>
+              <label class="checkbox__label" for="topic-disaster">재난 문자 (항상 받음)</label>
+              <p class="checkbox__description checkbox__description--notice" id="topic-disaster-desc">재난 문자는 주민 안전을 위해 보내는 알림이라 끌 수 없습니다. 모든 알림을 해지해도 계속 받습니다.</p>
+            </div>
+          </fieldset>
+          <div class="settings-form__actions">
+            <button type="submit" class="button button--primary button--medium">알림 분야 저장</button>
+            <p class="save-state" id="save-state-topics">이 화면에서 아직 저장하지 않았습니다.</p>
+          </div>
+        </form>
+      </div>
+
+      <!-- 수신 방법 -->
+      <div class="tabs__panel" role="tabpanel" id="panel-channels" aria-labelledby="tab-channels" tabindex="0" hidden>
+        <form class="settings-form" id="form-channels" novalidate>
+          <fieldset class="checkbox-group" id="channel-group" aria-describedby="channel-hint">
+            <legend class="checkbox-group__legend">알림을 받을 방법 (1개 이상 선택)</legend>
+            <p class="checkbox-group__hint" id="channel-hint">여러 개를 고르면 고른 방법으로 모두 보냅니다.</p>
+            <div class="checkbox">
+              <input class="checkbox__input" type="checkbox" name="channel" id="channel-sms" value="sms" checked>
+              <span class="checkbox__indicator" aria-hidden="true"><svg class="checkbox__icon" viewBox="0 0 24 24"><path class="checkbox__check" d="M6 12.5l4 4 8-9"></path><path class="checkbox__dash" d="M6 12h12"></path></svg></span>
+              <label class="checkbox__label" for="channel-sms">문자</label>
+            </div>
+            <div class="checkbox">
+              <input class="checkbox__input" type="checkbox" name="channel" id="channel-push" value="push" aria-describedby="channel-push-desc">
+              <span class="checkbox__indicator" aria-hidden="true"><svg class="checkbox__icon" viewBox="0 0 24 24"><path class="checkbox__check" d="M6 12.5l4 4 8-9"></path><path class="checkbox__dash" d="M6 12h12"></path></svg></span>
+              <label class="checkbox__label" for="channel-push">앱 푸시</label>
+              <p class="checkbox__description" id="channel-push-desc">한빛구청 앱에 로그인한 휴대전화로 보냅니다.</p>
+            </div>
+            <div class="checkbox">
+              <input class="checkbox__input" type="checkbox" name="channel" id="channel-email" value="email">
+              <span class="checkbox__indicator" aria-hidden="true"><svg class="checkbox__icon" viewBox="0 0 24 24"><path class="checkbox__check" d="M6 12.5l4 4 8-9"></path><path class="checkbox__dash" d="M6 12h12"></path></svg></span>
+              <label class="checkbox__label" for="channel-email">이메일</label>
+            </div>
+            <p class="field-message" id="channel-error" hidden></p>
+          </fieldset>
+
+          <div class="text-field" id="email-field">
+            <label class="text-field__label" for="email">이메일 주소 (이메일을 고르면 필수)</label>
+            <p class="text-field__hint" id="email-hint">알림을 받을 이메일 주소를 입력해 주세요. 예: hong@example.com</p>
+            <input class="text-field__input" type="email" id="email" name="email" autocomplete="email" aria-describedby="email-hint">
+            <p class="text-field__message" id="email-error" hidden></p>
+          </div>
+
+          <div class="settings-form__actions">
+            <button type="submit" class="button button--primary button--medium">수신 방법 저장</button>
+            <p class="save-state" id="save-state-channels">이 화면에서 아직 저장하지 않았습니다.</p>
+          </div>
+        </form>
+      </div>
+
+      <!-- 자주 묻는 질문 -->
+      <div class="tabs__panel" role="tabpanel" id="panel-faq" aria-labelledby="tab-faq" tabindex="0" hidden>
+        <div class="accordion">
+          <div class="accordion__item">
+            <h2 class="accordion__heading">
+              <button type="button" class="accordion__trigger" id="faq-1-trigger" aria-expanded="false" aria-controls="faq-1-panel">알림 설정을 바꾸면 언제부터 적용되나요?</button>
+            </h2>
+            <div class="accordion__panel" id="faq-1-panel" hidden>
+              <p>저장 버튼을 누른 때부터 보내는 알림에 적용됩니다. 저장 전에 이미 보낸 알림은 취소되지 않습니다.</p>
+            </div>
+          </div>
+          <div class="accordion__item">
+            <h2 class="accordion__heading">
+              <button type="button" class="accordion__trigger" id="faq-2-trigger" aria-expanded="false" aria-controls="faq-2-panel">재난 문자는 왜 끌 수 없나요?</button>
+            </h2>
+            <div class="accordion__panel" id="faq-2-panel" hidden>
+              <p>재난 문자는 지진·호우·화재처럼 주민의 생명과 안전에 관한 정보를 알리는 문자라서 받지 않도록 바꿀 수 없습니다.</p>
+            </div>
+          </div>
+          <div class="accordion__item">
+            <h2 class="accordion__heading">
+              <button type="button" class="accordion__trigger" id="faq-3-trigger" aria-expanded="false" aria-controls="faq-3-panel">알림을 받는 데 요금이 드나요?</button>
+            </h2>
+            <div class="accordion__panel" id="faq-3-panel" hidden>
+              <p>문자·이메일·앱 푸시 알림은 모두 무료입니다. 앱 푸시는 데이터 통신을 쓰므로 가입한 요금제에 따라 데이터가 차감될 수 있습니다.</p>
+            </div>
+          </div>
+          <div class="accordion__item">
+            <h2 class="accordion__heading">
+              <button type="button" class="accordion__trigger" id="faq-4-trigger" aria-expanded="false" aria-controls="faq-4-panel">모든 알림을 해지한 뒤 다시 받을 수 있나요?</button>
+            </h2>
+            <div class="accordion__panel" id="faq-4-panel" hidden>
+              <p>네. 알림 수신 탭에서 분야를, 수신 방법 탭에서 받을 방법을 다시 선택하고 저장하면 그때부터 다시 받습니다.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <section class="revoke" aria-labelledby="revoke-title">
+      <h2 class="revoke__title" id="revoke-title">모든 알림 해지</h2>
+      <p class="revoke__desc">교통·문화·복지 알림과 문자·앱 푸시·이메일 수신을 한 번에 끕니다. 재난 문자는 해지되지 않습니다.</p>
+      <button type="button" class="button button--tertiary button--medium" id="revoke-open" aria-haspopup="dialog" aria-controls="revoke-modal">모든 알림 해지</button>
+    </section>
+  </main>
+
+  <dialog class="modal" id="revoke-modal" aria-labelledby="revoke-modal-title" aria-describedby="revoke-modal-desc">
+    <div class="modal__header">
+      <h2 class="modal__title" id="revoke-modal-title">모든 알림을 해지할까요?</h2>
+      <button class="modal__close" type="button" aria-label="닫기" data-modal-cancel>
+        <svg class="modal__close-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+    </div>
+    <div class="modal__body" id="revoke-modal-desc">
+      <p>해지하면 아래 알림을 더 이상 받지 않습니다.</p>
+      <ul class="modal__list">
+        <li>분야별 알림: 교통, 문화, 복지</li>
+        <li>수신 방법: 문자, 앱 푸시, 이메일</li>
+      </ul>
+      <p>재난 문자는 해지되지 않고 계속 받습니다. 다시 받으려면 알림 수신·수신 방법 탭에서 다시 선택하고 저장해 주세요.</p>
+    </div>
+    <div class="modal__footer">
+      <button class="modal__action" type="button" autofocus data-modal-cancel>취소</button>
+      <button class="modal__action modal__action--primary" type="button" id="revoke-confirm">모든 알림 해지</button>
+    </div>
+  </dialog>
+
+  <div class="toast" role="status" id="toast"></div>
+</body>
+</html>

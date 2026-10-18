@@ -1,0 +1,50 @@
+id: FORM-050
+category: FORM
+title: 상대 날짜는 텍스트·셀렉트로
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: '''5일 이내'', ''1일 후''처럼 기준일에서 상대적인 날짜는 날짜 입력 필드나 날짜 선택기 대신 짧은 텍스트 입력이나 날짜 옵션을 나열한 셀렉트로 받는다.'
+measurement:
+  criteria: 기준일에서의 상대 기간을 받는 필드가 input[type=date]·날짜 선택기가 아니라 짧은 텍스트(숫자) 입력 또는 상대 날짜 옵션을 나열한 select다.
+  method: '수동: 입력 목적이 상대 기간인 필드를 찾아 요소 종류를 확인한다.'
+automation:
+  feasibility: none
+  checks: []
+  note: 입력 목적 판별이 필요해 자동화 불가.
+rationale: KRDS는 특정 날짜로부터의 상대적인 날짜 입력은 날짜 입력 필드가 적합하지 않으며 짧은 텍스트 입력이나 셀렉트로 날짜 옵션을 제시해야 한다고 한다.
+sources:
+- ref: KRDS
+  locator: '컴포넌트 > 날짜 입력 필드 > 용례(사용하기 적합하지 않은 경우: 특정 날짜로부터의 상대적인 날짜의 입력을 요청할 때) (가이드라인 PDF 2025.08 664쪽)'
+  note: 'https://www.krds.go.kr/html/site/component/component_09_01.html — 원문: ''... 셀렉트 컴포넌트로 선택 가능한 날짜 옵션을 제시해야
+    한다'''
+scope:
+  level: situation
+  targets:
+  - 기준일에서의 상대 기간을 받는 입력
+exceptions: []
+relations: []
+examples:
+  good:
+  - lang: html
+    code: "<label for=\"within\">처리 기한(신청일 기준)</label>\n<select id=\"within\">\n  <option>1일 후</option><option>3일\
+      \ 이내</option><option>5일 이내</option>\n</select>\n"
+    note: 상대 날짜를 옵션으로 나열한 셀렉트로 받는다.
+  bad:
+  - lang: html
+    code: '<label for="within">처리 기한(신청일 기준)</label>
+
+      <input id="within" type="date">
+
+      '
+    note: 상대 기간을 날짜 입력 필드로 받아 사용자가 날짜를 직접 계산해야 한다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(curl로 KRDS 페이지 HTML을 받아 본문 텍스트와 대조): 문장·예시(''5일 이내'', ''1일 후'') 일치 확인. 원문 강도
+  ''제시해야 한다'' → SHOULD + public-sector-must.'
+korean_specific: false
+tags:
+- krds
+- krds-component
+- public-sector-must

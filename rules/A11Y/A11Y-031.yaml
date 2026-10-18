@@ -1,0 +1,65 @@
+id: A11Y-031
+category: A11Y
+title: 펼침 버튼 실행 후 초점 유지
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 아코디언 헤더나 패널 안의 펼침 버튼에 초점이 있을 때 Enter·Space로 펼침 상태를 바꾸고, 바꾼 뒤에도 초점을 그 버튼에 유지한다.
+measurement:
+  criteria: 펼침 버튼(aria-expanded를 가진 button)에 초점을 두고 Enter와 Space를 각각 누르면 (1) aria-expanded 값과 영역 표시 상태가 바뀌고, (2)
+    document.activeElement가 같은 버튼이다.
+  method: 각 펼침 버튼에서 Enter·Space를 눌러 상태 변화와 초점 위치를 확인한다.
+automation:
+  feasibility: partial
+  checks:
+  - tool: ux-baseline-check
+    rule: disclosure-toggle
+    method: 'ux-baseline check: aria-expanded 버튼을 Enter 로 누르면 상태가 바뀐다'
+  note: '4단계 커스텀 검사: Playwright로 [aria-expanded] 버튼에 focus→Enter/Space→activeElement 동일 여부와 aria-expanded 토글 검사.'
+rationale: 펼친 뒤 초점이 다른 곳으로 가면 키보드 사용자가 위치를 잃는다.
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 아코디언 > 상호작용 가이드라인 (가이드라인 PDF 2025.08 415쪽)
+  note: https://www.krds.go.kr/html/site/component/component_04_07.html
+- ref: KRDS
+  locator: 컴포넌트 > 따라하기 패널 > 상호작용 가이드라인 (가이드라인 PDF 2025.08 618쪽)
+  note: 'https://www.krds.go.kr/html/site/component/component_08_02.html — A11Y-051에서 병합: 패널 안 펼침 영역 Enter·Space
+    후 초점을 펼침 버튼에 유지'
+scope:
+  level: component
+  targets:
+  - button[aria-expanded]
+  - 아코디언
+  - 따라하기 패널 펼침 영역
+exceptions: []
+relations:
+- type: refines
+  id: A11Y-011
+- type: refines
+  id: A11Y-015
+examples:
+  good:
+  - lang: html
+    code: '<h3><button type="button" aria-expanded="false" aria-controls="p1">신청 자격</button></h3>
+
+      <div id="p1" hidden>…</div>
+
+      '
+    note: 펼침 버튼이 aria-expanded로 상태를 바꾸고 초점은 버튼에 남음
+  bad:
+  - lang: html
+    code: '<!-- 펼친 뒤 스크립트가 패널 첫 링크로 초점을 강제로 옮김 -->
+
+      '
+    note: 펼친 뒤 초점을 패널 안으로 강제로 옮김
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(WebFetch로 KRDS 페이지 재조회, 요약 모델 인용 확인): 아코디언 ''헤더에 초점이 있는 상태에서 Enter 또는 Space
+  키를 누르면 … 확장 상태가 변경된다. 이때, 초점은 헤더에 유지되어야 한다.''(해야 → SHOULD + public-sector-must), 따라하기 패널 ''초점은 확장 가능한 영역을 활성화하는
+  데 사용되는 버튼에 유지된다.''(서술형) 확인. A11Y-051을 이 룰로 병합.'
+korean_specific: false
+tags:
+- krds
+- krds-component
+- public-sector-must

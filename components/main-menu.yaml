@@ -1,0 +1,394 @@
+id: main-menu
+title: 메인 메뉴
+status: confirmed
+summary: 서비스의 최상위(1수준) 메뉴를 헤더의 메뉴 막대로 보이고, 1수준을 누르면 2·3수준 링크가 담긴 드롭다운 패널을 펼칠 때 쓴다. 좁은 화면에서는 같은 마크업을 전체 메뉴 레이어로 보인다.
+use_instead:
+- when: 현재 정보 구조 수준 안에서의 하위 화면 이동(다단 레이아웃)
+  use: 사이드 메뉴(side-navigation)
+- when: 한 페이지 안의 섹션 이동
+  use: 콘텐츠 내 탐색(in-page-navigation)
+  rule: NAV-039
+- when: 좁은 화면에서 주요 화면 3~5개를 오가는 하단 고정 탭
+  use: 하단 탭바
+  rule: NAV-067
+krds:
+  page: component_03_02.html
+  kit: html/code/main_menu_pc.html, html/code/main_menu_mobile.html
+  kit_classes:
+    main-menu: krds-main-menu / krds-main-menu-mobile
+    main-menu__list: gnb-menu
+    main-menu__trigger: gnb-main-trigger
+    main-menu__panel: gnb-toggle-wrap
+    main-menu__panel-title: gnb-sub-content sub-title
+    main-menu__group-title: gnb-sub-trigger
+    main-menu__sublist: gnb-sub-list ul
+anatomy:
+- part: 루트
+  class: main-menu
+  element: nav
+  required: true
+  note: 헤더의 header__menu 자리에 둔다. aria-label 은 '메인 메뉴'. 헤더의 '전체 메뉴' 버튼이 aria-controls 로 이 id 를 가리킨다.
+- part: 레이어 머리(좁은 화면)
+  class: main-menu__mobile-header
+  element: div
+  required: true
+  note: 좁은 화면 레이어에서만 보이는 제목과 닫기 버튼. 넓은 화면에서는 display none.
+- part: 레이어 제목
+  class: main-menu__mobile-title
+  element: h2
+  required: true
+- part: 닫기 버튼
+  class: main-menu__close
+  element: button
+  required: true
+  note: 보이는 텍스트 '메뉴 닫기'.
+- part: 1수준 목록
+  class: main-menu__list
+  element: ul
+  required: true
+  note: 이용 빈도가 높고 중요한 메뉴를 앞(왼쪽)에 둔다(NAV-024).
+- part: 1수준 항목
+  class: main-menu__item
+  element: li
+  required: true
+- part: 1수준 버튼
+  class: main-menu__trigger
+  element: button
+  required: true
+  note: 하위 메뉴가 있는 1수준. aria-expanded 와 aria-controls(패널 id)를 가진다(WAI-ARIA APG 디스클로저 내비게이션 패턴).
+- part: 1수준 링크
+  class: main-menu__top-link
+  element: a
+  note: 하위 메뉴가 없는 1수준은 바로 링크로 둔다.
+- part: 드롭다운 패널
+  class: main-menu__panel
+  element: div
+  required: true
+  note: 1수준 버튼 바로 다음에 둔다(A11Y-008). 닫혀 있으면 hidden 속성. max-height 70vh 이하 + overflow-y auto(NAV-021 — 린트 ux-baseline/menu-panel-max-height 의 기본 대상 클래스).
+- part: 패널 안쪽 영역
+  class: main-menu__panel-inner
+  element: div
+  required: true
+  note: 본문 콘텐츠 그리드와 같은 최대 너비·좌우 여백을 써서 하위 목록이 본문 첫 칼럼 왼쪽에서 시작하게 한다(LAYOUT-016).
+- part: 패널 제목
+  class: main-menu__panel-title
+  element: h2
+  required: true
+  note: 1수준 메뉴 이름(NAV-023).
+- part: 2수준 목록
+  class: main-menu__group-list
+  element: ul
+  required: true
+- part: 2수준 항목
+  class: main-menu__group
+  element: li
+  required: true
+- part: 2수준 제목
+  class: main-menu__group-title
+  element: h3
+  required: true
+- part: 3수준 목록
+  class: main-menu__sublist
+  element: ul
+  required: true
+  note: 메인 메뉴의 목록 중첩은 이 수준(3)까지다(NAV-022).
+- part: 메뉴 링크
+  class: main-menu__link
+  element: a
+  required: true
+  note: 현재 화면의 링크에는 aria-current="page".
+- part: 링크 설명
+  class: main-menu__description
+  element: p
+  note: 레이블만으로 화면 내용을 알기 어려운 메뉴에만 링크 아래에 둔다(NAV-025). 링크의 aria-describedby 로 연결한다.
+markup: |-
+  <nav class="main-menu" id="main-menu" aria-label="메인 메뉴">
+    <div class="main-menu__mobile-header">
+      <h2 class="main-menu__mobile-title">전체 메뉴</h2>
+      <button type="button" class="main-menu__close">메뉴 닫기</button>
+    </div>
+    <ul class="main-menu__list">
+      <li class="main-menu__item">
+        <button type="button" class="main-menu__trigger" aria-expanded="true" aria-controls="main-menu-panel-welfare">복지 서비스</button>
+        <div class="main-menu__panel" id="main-menu-panel-welfare">
+          <div class="main-menu__panel-inner">
+            <h2 class="main-menu__panel-title">복지 서비스</h2>
+            <ul class="main-menu__group-list">
+              <li class="main-menu__group">
+                <h3 class="main-menu__group-title">아동·청소년</h3>
+                <ul class="main-menu__sublist">
+                  <li><a class="main-menu__link" href="/welfare/child/allowance" aria-current="page">아동수당</a></li>
+                  <li><a class="main-menu__link" href="/welfare/child/voucher">첫만남이용권</a></li>
+                </ul>
+              </li>
+              <li class="main-menu__group">
+                <h3 class="main-menu__group-title">노인</h3>
+                <ul class="main-menu__sublist">
+                  <li><a class="main-menu__link" href="/welfare/senior/pension">기초연금</a></li>
+                  <li>
+                    <a class="main-menu__link" href="/welfare/senior/jobs" aria-describedby="main-menu-desc-jobs">노인일자리</a>
+                    <p class="main-menu__description" id="main-menu-desc-jobs">만 65세 이상이 참여할 수 있는 공공·민간 일자리를 찾고 신청합니다.</p>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </li>
+      <li class="main-menu__item">
+        <button type="button" class="main-menu__trigger" aria-expanded="false" aria-controls="main-menu-panel-health">건강·의료</button>
+        <div class="main-menu__panel" id="main-menu-panel-health" hidden>
+          <div class="main-menu__panel-inner">
+            <h2 class="main-menu__panel-title">건강·의료</h2>
+            <ul class="main-menu__group-list">
+              <li class="main-menu__group">
+                <h3 class="main-menu__group-title">건강검진</h3>
+                <ul class="main-menu__sublist">
+                  <li><a class="main-menu__link" href="/health/checkup/target">검진 대상 조회</a></li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </li>
+      <li class="main-menu__item"><a class="main-menu__top-link" href="/notice">알림·소식</a></li>
+    </ul>
+  </nav>
+css: |-
+  .main-menu {
+    display: none;
+    background-color: var(--color-surface-white);
+  }
+  .main-menu__mobile-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--space-gap-3);
+    padding-block: var(--space-padding-3);
+    padding-inline: var(--layout-screen-margin-small);
+    border-block-end: var(--border-width-static-regular) solid var(--color-divider-gray-light);
+  }
+  .main-menu__mobile-title {
+    color: var(--color-text-bolder);
+    font-size: var(--font-size-heading-small);
+    font-weight: var(--font-weight-bold);
+  }
+  .main-menu__close {
+    min-block-size: var(--size-height-6);
+    padding-inline: var(--space-padding-3);
+    border: var(--border-width-static-regular) solid var(--color-border-gray);
+    border-radius: var(--radius-medium1);
+    background-color: var(--color-surface-white);
+    color: var(--color-text-basic);
+    font-size: var(--font-size-label-small);
+  }
+  .main-menu__list {
+    display: flex;
+    flex-direction: column;
+  }
+  .main-menu__trigger,
+  .main-menu__top-link {
+    display: flex;
+    align-items: center;
+    inline-size: 100%;
+    min-block-size: var(--size-height-8);
+    padding-inline: var(--layout-screen-margin-small);
+    border: 0;
+    border-block-end: var(--border-width-static-medium) solid transparent;
+    background-color: transparent;
+    color: var(--color-text-subtle);
+    font-size: var(--font-size-navigation-title-small);
+    font-weight: var(--font-weight-bold);
+    text-align: start;
+  }
+  .main-menu__trigger:hover,
+  .main-menu__top-link:hover {
+    background-color: var(--color-action-secondary-hover);
+  }
+  .main-menu__trigger[aria-expanded="true"] {
+    border-block-end-color: var(--color-action-secondary-active);
+    color: var(--color-text-basic);
+  }
+  .main-menu__panel {
+    max-height: 70vh;
+    overflow-y: auto;
+    background-color: var(--color-surface-white);
+  }
+  .main-menu__panel-inner {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-gap-5);
+    max-inline-size: var(--layout-content-max);
+    margin-inline: auto;
+    padding-block: var(--space-padding-6);
+    padding-inline: var(--layout-screen-margin-small);
+  }
+  .main-menu__panel-title {
+    color: var(--color-text-bolder);
+    font-size: var(--font-size-navigation-title-medium);
+    font-weight: var(--font-weight-bold);
+  }
+  .main-menu__group-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr));
+    gap: var(--space-gap-6);
+  }
+  .main-menu__group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-gap-2);
+  }
+  .main-menu__group-title {
+    color: var(--color-text-basic);
+    font-size: var(--font-size-navigation-depth-medium-bold);
+    font-weight: var(--font-weight-bold);
+  }
+  .main-menu__sublist {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-gap-1);
+  }
+  .main-menu__link {
+    display: inline-flex;
+    align-items: center;
+    min-block-size: var(--size-height-4);
+    padding-inline: var(--space-padding-2);
+    border-radius: var(--radius-medium2);
+    color: var(--color-text-basic);
+    font-size: var(--font-size-navigation-depth-medium);
+    text-align: start;
+  }
+  .main-menu__link:hover {
+    background-color: var(--color-action-secondary-hover);
+  }
+  .main-menu__link[aria-current="page"] {
+    background-color: var(--color-action-secondary-selected);
+    color: var(--color-text-secondary);
+    font-weight: var(--font-weight-bold);
+    text-decoration: underline;
+  }
+  .main-menu__description {
+    padding-inline: var(--space-padding-2);
+    color: var(--color-text-subtle);
+    font-size: var(--font-size-body-small);
+    word-break: keep-all;
+    overflow-wrap: anywhere;
+  }
+  .main-menu__close:focus-visible,
+  .main-menu__trigger:focus-visible,
+  .main-menu__top-link:focus-visible,
+  .main-menu__link:focus-visible {
+    outline: var(--space-scale-2) solid var(--color-border-primary);
+    outline-offset: calc(var(--space-scale-2) * -1);
+  }
+  @media (max-width: 1023px) {
+    .main-menu--open {
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      display: block;
+      overflow-y: auto;
+    }
+  }
+  @media (min-width: 1024px) {
+    .main-menu {
+      position: relative;
+      display: block;
+    }
+    .main-menu__mobile-header {
+      display: none;
+    }
+    .main-menu__list {
+      flex-direction: row;
+      gap: var(--space-gap-5);
+      max-inline-size: var(--layout-content-max);
+      margin-inline: auto;
+      padding-inline: var(--layout-screen-margin-medium);
+    }
+    .main-menu__trigger,
+    .main-menu__top-link {
+      inline-size: auto;
+      padding-inline: var(--space-padding-2);
+    }
+    .main-menu__panel {
+      position: absolute;
+      inset-block-start: 100%;
+      inset-inline: 0;
+      z-index: 30;
+      max-height: 70vh;
+      overflow-y: auto;
+      border-block-start: var(--border-width-static-regular) solid var(--color-divider-gray-light);
+      box-shadow: var(--shadow-2);
+    }
+    .main-menu__panel-inner {
+      padding-inline: var(--layout-screen-margin-medium);
+    }
+  }
+states:
+- name: 드롭다운 열림
+  markup_change: 1수준 버튼 aria-expanded="true", 해당 패널의 hidden 제거. 다른 1수준 패널은 닫는다(aria-expanded="false", hidden).
+  rule: NAV-026
+- name: 좁은 화면 레이어 열림(1024px 미만)
+  markup_change: 루트에 main-menu--open, 헤더 '전체 메뉴' 버튼 aria-expanded="true". 레이어 밖 콘텐츠(main·footer 등)에 inert. 닫으면 클래스·inert 를 되돌린다(RESP-005, A11Y-029).
+  rule: RESP-005
+- name: 현재 화면
+  markup_change: 현재 화면 링크에 aria-current="page". 배경·굵기·밑줄로 표시해 색에만 의존하지 않는다(COLOR-001).
+  rule: COLOR-001
+keyboard:
+- key: Tab / Shift+Tab
+  action: 1수준 버튼·링크 사이를 이동한다. 펼친 패널이 있으면 그 1수준 버튼 다음에 패널 안 링크로 이동한다. 닫힌 패널 안으로는 초점이 가지 않는다(A11Y-015).
+- key: Enter / Space
+  action: 1수준 버튼에서 패널을 펼치고, 다시 누르면 접는다(NAV-026).
+- key: Esc
+  action: 패널 안 어디에서든 모든 패널을 접고 초점을 그 1수준 버튼으로 옮긴다(NAV-026, A11Y-010). 좁은 화면 레이어에서는 레이어를 닫고 초점을 헤더의 '전체 메뉴' 버튼으로 옮긴다(A11Y-015).
+behavior:
+- 1수준 버튼은 Click·Enter·Space 로 패널을 펼치고 다시 누르면 접는다. 펼친 상태에서 헤더(패널 포함) 밖을 클릭하면 접는다. Esc 로 접으면 초점을 그 1수준 버튼으로 옮긴다(NAV-026, A11Y-011).
+- 펼침 상태는 aria-expanded 로 알리고, 접힌 패널은 hidden 속성으로 숨겨 초점이 들어가지 않게 한다(A11Y-025, A11Y-015).
+- 패널은 호버·초점만으로 열지 않는다. 호버로 여는 변형을 만들면 Esc 로 닫히고, 포인터를 패널로 옮겨도 유지되며, 시간 제한으로 닫히지 않게 한다(A11Y-010).
+- 패널 높이는 뷰포트 높이의 70% 이하이고 넘치면 패널 자체가 스크롤된다(NAV-021).
+- 패널 안 하위 목록은 열린 1수준 위치와 관계없이 본문 그리드 첫 칼럼 왼쪽에서 왼쪽 정렬로 시작한다(LAYOUT-016).
+- 패널마다 1수준 이름을 제목으로 둔다(NAV-023). 제목·레이블은 영역 주제를 밝히는 말로 쓴다(COPY-003). 목록은 ul·li, 제목은 h2·h3 로 마크업한다(A11Y-007).
+- 메뉴는 3수준까지만 구성한다(NAV-022). 레이블만으로 내용을 알기 어려운 링크에만 설명을 붙인다(NAV-025).
+- 1수준 항목은 이용 빈도가 높고 중요한 것을 왼쪽에 두고, 모든 페이지에서 같은 순서다(NAV-024, NAV-004).
+- 헤더 너비가 1수준 항목 전체를 한 줄에 담으면 메뉴 막대에 모두 펼쳐 보인다(RESP-007). 담지 못하면 메뉴 막대를 숨기고 헤더의 '전체 메뉴' 버튼으로 이 마크업을 전체 화면 레이어(main-menu--open)로 연다(RESP-005). 예시 CSS 의 전환 너비 1024px 는 1수준 항목 수에 맞게 RESP-004 브레이크포인트 중에서 고른다.
+- 좁은 화면 레이어가 열리면 초점을 닫기 버튼으로 옮기고, 레이어 밖 콘텐츠에 inert 를 주어 초점과 가상 커서가 레이어 안에서만 움직이게 한다. 닫기 버튼·Esc 로 닫으면 초점을 '전체 메뉴' 버튼으로 돌려보낸다(A11Y-029, A11Y-015).
+- 현재 화면 링크는 aria-current="page" 와 함께 배경·굵기·밑줄로 표시해 색에만 의존하지 않는다(COLOR-001).
+- 좁은 화면 레이어는 하단 탭바와 함께 쓰지 않고, 넓은 화면에서는 하단 탭바 대신 메뉴 막대를 쓴다(NAV-067).
+- 사이드 메뉴 없이 메인 메뉴만으로 모든 화면에 도달할 수 있는 2수준 이하 서비스는 사이드 메뉴를 두지 않는다(NAV-036).
+rules:
+- A11Y-007
+- A11Y-008
+- A11Y-010
+- A11Y-011
+- A11Y-015
+- A11Y-016
+- A11Y-025
+- A11Y-029
+- COLOR-001
+- COPY-003
+- LAYOUT-016
+- NAV-004
+- NAV-012
+- NAV-021
+- NAV-022
+- NAV-023
+- NAV-024
+- NAV-025
+- NAV-026
+- NAV-036
+- NAV-039
+- NAV-067
+- RESP-004
+- RESP-005
+- RESP-007
+kit_differences:
+- KRDS 키트의 1수준 버튼에는 aria-expanded·aria-controls 가 없다 — 이 규격은 디스클로저 패턴으로 펼침 상태와 대상을 알린다(A11Y-025, NAV-026).
+- KRDS 키트(PC)는 2수준을 버튼으로 두고 선택한 2수준의 3수준 목록만 옆에 보인다 — 이 규격은 2수준을 제목(h3)으로, 그 3수준 링크를 모두 펼쳐 보여 조작 단계를 줄인다(A11Y-007, NAV-022).
+- KRDS 키트는 3수준 항목에 링크와 button 을 섞어 쓴다 — 이 규격은 화면 이동 항목을 모두 a 링크로 쓴다(A11Y-025).
+- KRDS 키트는 새 창 링크를 title 속성('새 창 열림')만으로 알린다 — 새 창 링크를 쓰면 링크 안 텍스트로 알린다(NAV-012).
+- KRDS 키트(모바일)는 1수준을 같은 레이어 안 앵커 링크로 두고 스크롤로 2수준 목록을 보인다 — 이 규격은 넓은 화면과 같은 디스클로저 마크업을 레이어로 보인다(NAV-004, A11Y-025).
+- KRDS 키트(모바일) 레이어에는 대화상자 역할·초점 가두기 설명이 없다 — 이 규격은 레이어 밖에 inert 를 주고 닫으면 초점을 '전체 메뉴' 버튼으로 돌려보낸다(A11Y-029, A11Y-015).
+notes:
+- 패널 배너(gnb-sub-banner, 신규 서비스 홍보)는 KRDS 키트에 있으나 룰 근거가 없어 표준 마크업에서 뺐다.
+- WAI-ARIA APG 디스클로저 내비게이션 예시는 1수준 버튼 사이 방향키 이동을 선택 사항으로 둔다. 넣는다면 Tab 이동을 막지 않는다.
+- 2수준 목록의 칸 너비(minmax 12rem)는 칸 나눔용 예시 값이다(토큰 대상 속성 아님).

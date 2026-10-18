@@ -1,0 +1,71 @@
+id: LAYOUT-007
+category: LAYOUT
+title: 본문 최대 폭
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: '본문 콘텐츠 영역에 최대 너비(max-width 또는 max-inline-size)를 지정해 뷰포트가 넓어져도 콘텐츠 영역이 그 값보다 넓어지지 않게 한다(KRDS 표준형: 사이드
+  메뉴 포함 1200px).'
+measurement:
+  criteria: 본문 콘텐츠 컨테이너의 max-width(또는 max-inline-size) 계산값이 none이 아니며, 뷰포트 너비 1920 CSS px에서 컨테이너 너비가 그 값 이하다. KRDS
+    표준형을 따르면 값은 1200px(사이드 메뉴 포함).
+  method: 뷰포트 1920px에서 개발자 도구로 본문 컨테이너의 max-width와 실제 너비를 확인한다.
+automation:
+  feasibility: none
+  checks: []
+  note: '4단계 커스텀 검사: 넓은 뷰포트에서 main 직계 콘텐츠 컨테이너 너비가 레이아웃 토큰(--layout-content-max) 이하인지 확인.'
+rationale: 넓은 화면에서 콘텐츠 영역이 무한히 넓어지면 한 줄이 길어져 읽기가 어렵고 시선 이동이 커진다.
+sources:
+- ref: KRDS
+  locator: 디자인 스타일 > 레이아웃 > 콘텐츠 영역 (가이드라인 PDF 2025.08 147·148·150쪽)
+  note: https://www.krds.go.kr/html/site/style/style_05.html
+- ref: WCAG22_UNDERSTANDING
+  locator: SC 1.4.8 Visual Presentation; C20, G204
+  note: '한 줄 80자 이하, CJK는 40자 이하(AAA, 사용자 수단으로도 충족 가능). CJK 글자는 약 2배 넓다는 연구를 언급하나 특정 연구명 없음 — 같은 요구: 본문 텍스트 블록의
+    최대 너비(max-inline-size)를 글자 기준 단위(ic 또는 em)로 지정해 한 줄이 한글 40자를 넘지 않게 한다.'
+- ref: SHIN_PARK_2003
+  locator: 결과 — 줄 길이
+  note: '10/30/50자/줄 중 50자가 가장 빠름, 선호는 30자. 저자들은 웹 문서 30자 이상 제안 — 같은 요구: 본문 텍스트 블록의 최대 너비(max-inline-size)를 글자 기준
+    단위(ic 또는 em)로 지정해 한 줄이 한글 40자를 넘지 않게 한다.'
+- ref: MDN_BCD
+  locator: css.types.length.ic
+  note: 'ic 단위 Chrome 106, Firefox 97, Safari 15.4 — 같은 요구: 본문 텍스트 블록의 최대 너비(max-inline-size)를 글자 기준 단위(ic 또는 em)로
+    지정해 한 줄이 한글 40자를 넘지 않게 한다.'
+scope:
+  level: global
+  targets:
+  - main
+  - .container
+  - 본문 콘텐츠 영역
+exceptions: []
+relations: []
+examples:
+  good:
+  - lang: css
+    code: '.container { max-inline-size: var(--layout-content-max); margin-inline: auto; padding-inline: var(--space-padding-8);
+      }
+
+      /* --layout-content-max: 1200px (KRDS 표준형, 사이드 메뉴 포함) */
+
+      '
+    note: 본문 컨테이너에 최대 너비가 있어 넓은 화면에서도 1200px를 넘지 않는다.
+  bad:
+  - lang: css
+    code: '.container { inline-size: 100%; padding-inline: var(--space-padding-8); } /* 최대 너비 없음 — 2560px 모니터에서
+      본문이 화면 끝까지 늘어남 */
+
+      '
+    note: max-width가 none이라 뷰포트와 함께 본문 영역이 무한히 넓어진다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(curl로 KRDS 페이지 HTML을 받아 본문 텍스트를 직접 확인): style_05 콘텐츠 영역 ''표준형 스타일은 제한된 콘텐츠
+  영역을 사용하며 최대 1200px의 콘텐츠 영역을 사용'', 가변형 ''큰 화면에서 콘텐츠 영역이 지나치게 넓어지지 않도록 … 레이아웃을 조정한다'', 서브 페이지 ''표준형 스타일은 사이드 메뉴를
+  포함한 최대 콘텐츠 너비를 1200px으로 사용'' 확인. 지시형 ''조정한다'' → SHOULD. 1단계에 함께 묶인 한 줄 길이 출처(WCAG 1.4.8 Understanding, 신·박 2003,
+  Dyson·Kipping 1998, MDN ic 단위)는 ''텍스트 블록 한 줄 글자 수'' 요구로 이 룰과 다른 요구 — 출처는 보존하되 TYPO 줄 길이 룰 신설과 출처 이동을 제안(제안 파일
+  notes, BACKLOG ''한 줄 길이'' 항목). 2026-10-18 확정 시 미검증 출처 DYSON_KIPPING_1998 제외(본 룰 근거는 KRDS 콘텐츠 영역 최대 1200px).'
+korean_specific: false
+tags:
+- krds
+decisions:
+- CF-033

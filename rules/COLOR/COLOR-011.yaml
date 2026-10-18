@@ -1,0 +1,58 @@
+id: COLOR-011
+category: COLOR
+title: 고대비 모드 링크 밑줄·외곽선
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 선명한 화면 모드에서는 본문의 모든 인라인 링크와 푸터의 모든 링크에 밑줄을 표시하고, 버튼·입력·선택 컴포넌트의 외곽선과 링크 밑줄을 기본 모드보다 굵게 한다.
+measurement:
+  criteria: 선명한 화면 모드에서 (1) main 안 문장 속 a[href]와 footer a[href]의 계산값 text-decoration-line에 underline 포함, (2) button·input·select·textarea의
+    border-width(또는 outline-width)와 링크 text-decoration-thickness가 기본 모드 값보다 크다.
+  method: 두 모드의 계산 스타일을 수집해 비교하는 스크립트(커스텀).
+automation:
+  feasibility: none
+  note: '4단계: 커스텀 계산 스타일 비교.'
+rationale: 시력이 낮은 사용자는 단순 텍스트와 링크·버튼을 구분하지 못할 수 있어, 선명한 화면 모드에서 대화형 요소에 추가 시각 단서를 준다(KRDS 시각 보조).
+sources:
+- ref: KRDS
+  locator: 디자인 스타일 > 선명한 화면 모드 > 시각 보조 (가이드라인 PDF 2025.08 195쪽)
+  note: https://www.krds.go.kr/html/site/style/style_09.html
+scope:
+  level: situation
+  targets:
+  - 선명한 화면 모드 활성 상태
+  - main a[href]
+  - footer a[href]
+  - button
+  - input
+  - select
+  - textarea
+exceptions: []
+relations: []
+examples:
+  good:
+  - lang: css
+    code: '[data-theme="high-contrast"] main p a,
+
+      [data-theme="high-contrast"] footer a{text-decoration:underline;text-decoration-thickness:2px}
+
+      [data-theme="high-contrast"] .btn,
+
+      [data-theme="high-contrast"] input{border-width:2px} /* 기본 모드 1px */'
+    note: 선명한 화면 모드에서 본문·푸터 링크에 밑줄을 두고 외곽선·밑줄을 기본 모드보다 굵게 한다
+  bad:
+  - lang: css
+    code: '[data-theme="high-contrast"] footer a{text-decoration:none}'
+    note: 선명한 화면 모드에서 푸터 링크 밑줄을 없앴다
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(KRDS https://www.krds.go.kr/html/site/style/style_09.html HTML을 curl로 받아 본문
+  확인): 시각 보조 ''푸터: 푸터 내 모든 링크에 밑줄을 표시한다'', ''액션, 선택, 입력: 버튼, 입력, 선택 컴포넌트의 외곽선, 링크 밑줄을 기본 모드에서 보다 굵게 제공하고 명도 대비를
+  높인다. 본문에 사용된 모든 인라인 유형의 링크에는 밑줄을 표시한다'' 확인 → SHOULD + public-sector-must. 원문의 ''헤더 유틸리티 링크 윤곽선/배경색''은 이 룰에 넣지
+  않음(별도 후보). 기본 모드의 인라인 링크 식별은 COLOR-001(link-in-text-block)이 다룬다.'
+korean_specific: false
+tags:
+- krds
+- high-contrast
+- public-sector-must

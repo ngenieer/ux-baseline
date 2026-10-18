@@ -1,0 +1,65 @@
+id: COPY-048
+category: COPY
+title: 툴팁과 도움말 혼용 금지
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 한 화면에서 정보·물음표 아이콘 툴팁과 맥락적 도움말·도움 패널을 함께 쓰지 않고, 맥락적 도움말이나 도움 패널이 필요하면 그 화면의 정보·물음표 아이콘을 모두 맥락적 도움말로 쓴다.
+measurement:
+  criteria: 한 화면에 정보(ⓘ)·물음표(?) 아이콘으로 여는 툴팁이 있으면 같은 화면에 맥락적 도움말 트리거와 도움 패널 트리거가 0개다. 아이콘만 있는 버튼의 이름을 보여 주는 툴팁(A11Y-054)은
+    '정보·물음표 아이콘 툴팁'에 넣지 않는다.
+  method: 화면별로 정보·물음표 아이콘 트리거를 모아 툴팁형([role=tooltip] 연결)과 맥락적 도움말형(aria-expanded 팝오버)·도움 패널형으로 분류해 혼용 여부를 확인한다.
+automation:
+  feasibility: none
+  checks: []
+  note: '4단계 커스텀 검사: 같은 문서에서 툴팁 트리거(data-help=tooltip)와 맥락적 도움말·도움 패널 트리거가 함께 있으면 실패.'
+rationale: 정보·물음표 아이콘 툴팁과 맥락적 도움말 버튼은 모양이 같고 동작이 달라, 한 화면에 섞이면 사용자가 동작을 예측하지 못한다(KRDS 툴팁).
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 툴팁 > 사용성 가이드라인
+  note: https://www.krds.go.kr/html/site/component/component_08_05.html
+scope:
+  level: situation
+  targets:
+  - 툴팁
+  - 맥락적 도움말
+  - 도움 패널
+exceptions: []
+relations:
+- type: depends
+  id: NAV-062
+  note: 맥락적 도움말과 도움 패널을 한 과업 흐름에서 함께 쓰지 않는 요구는 NAV-062
+examples:
+  good:
+  - lang: html
+    code: '<!-- 화면 전체에서 ⓘ 아이콘은 맥락적 도움말로만 -->
+
+      <button type="button" aria-expanded="false" aria-controls="h1">ⓘ<span class="sr-only">소득 기준 도움말</span></button>
+
+      '
+    note: 한 화면의 ⓘ 아이콘을 모두 맥락적 도움말로 쓴다
+  bad:
+  - lang: html
+    code: '<!-- 같은 화면에서 ⓘ 하나는 툴팁, 다른 하나는 맥락적 도움말 -->
+
+      <button type="button" aria-describedby="tip">ⓘ<span class="sr-only">가구원 수 설명</span></button><div role="tooltip"
+      id="tip">주민등록표 기준</div>
+
+      <button type="button" aria-expanded="false" aria-controls="pop">ⓘ<span class="sr-only">소득 기준 도움말</span></button>
+
+      '
+    note: 같은 화면에서 ⓘ 하나는 툴팁, 다른 하나는 맥락적 도움말을 연다
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(curl로 KRDS 페이지 HTML을 받아 텍스트로 직접 읽음): 툴팁(component_08_05) ''한 화면에 아이콘 툴팁과 맥락적
+  도움말 또는 도움말 패널을 혼용하지 않는다 ... 정보/물음표 아이콘 툴팁과 맥락적 도움말의 활성화 버튼은 동일하게 생겼으나 ... 맥락적 도움말이나 도움말 패널 사용이 필요하다면 툴팁 대신 맥락적
+  도움말 컴포넌트를 사용한다'' 확인 — 대상이 정보·물음표 아이콘 툴팁임을 statement에 넣음. 강도: ''혼용하지 않는다'' → SHOULD + public-sector-must. 문구가 아닌
+  컴포넌트 선택 규칙이라 카테고리 재검토(NAV-062와 같은 카테고리 제안).'
+korean_specific: false
+tags:
+- krds
+- krds-component
+- public-sector-must
+decisions:
+- CF-060

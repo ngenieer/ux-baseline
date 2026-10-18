@@ -1,0 +1,52 @@
+id: TYPO-027
+category: TYPO
+title: 글꼴 크기 상대 단위
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: font-size 값은 rem, em, % 중 하나로 지정하고 px·pt로 지정하지 않는다.
+measurement:
+  criteria: 스타일시트의 font-size(및 font 단축 속성의 크기) 선언에 px, pt 단위가 0건. 디자인 토큰을 px로 정의했다면 CSS 변환 결과가 rem.
+  method: stylelint declaration-property-unit-disallowed-list + 토큰 변환 결과 검사.
+automation:
+  feasibility: full
+  checks:
+  - tool: stylelint
+    rule: declaration-property-unit-disallowed-list
+    method: '{ "font-size": ["px", "pt"], "/^font$/": ["px", "pt"] }'
+  note: DTCG dimension 토큰은 px·rem 둘 다 허용하므로 토큰→CSS 변환 단계에서 rem 출력 여부를 따로 검사.
+rationale: 사용자 기본 글자 크기를 기준으로 한 상대값이 접근성에 가장 낫고, rem은 em의 누적 문제를 피한다(MDN). KRDS도 개발 시 rem 단위로 변환해 쓰라고 한다.
+sources:
+- ref: MDN_FONT_SIZE
+  locator: Pixels — Note; Rems
+  note: 사용자 기본 크기 기준 상대값이 접근성에 최선, rem은 em의 누적(compounding) 문제를 피함
+- ref: WCAG22_UNDERSTANDING
+  locator: SC 1.4.4; C12, C14, C28
+  note: '% · em 글꼴 크기, em 단위 컨테이너'
+- ref: KRDS
+  locator: 스타일 가이드 > 타이포그래피 > 표현 단위(rem) (가이드라인 PDF 2025.08 108쪽)
+  note: 개발 시 rem으로 변환해 사용
+scope:
+  level: global
+  targets:
+  - font-size 선언 전체
+exceptions: []
+relations: []
+examples:
+  good:
+  - lang: css
+    code: h2{font-size:1.5rem}
+    note: rem 지정이라 사용자 기본 크기에 비례한다
+  bad:
+  - lang: css
+    code: h2{font-size:24px}
+    note: px 지정이라 일부 브라우저에서 글자 크기 설정이 반영되지 않는다
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(MDN font-size, WCAG Understanding 1.4.4, KRDS https://www.krds.go.kr/html/site/style/style_03.html
+  HTML): MDN px Note 확인, 1.4.4 기법 C12·C14·C28 확인, KRDS ''글자 크기와 반응형 디자인을 고려하여 개발 시 코드에서 rem 단위로 변환해 사용한다'' 확인. 대부분
+  브라우저의 페이지 줌은 px도 확대하므로 SHOULD.'
+korean_specific: false
+tags:
+- research-typo

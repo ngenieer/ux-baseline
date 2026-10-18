@@ -1,0 +1,11 @@
+id: CF-015
+rules:
+- PERF-007
+- PERF-017
+summary: 시각 반응 100ms(PERF-017)와 INP 200ms(PERF-007)의 기준 수치가 다르다.
+principle: 3
+decision: 양립. PERF-017은 조작 직후 화면에 보이는 즉각 반응(눌림·선택 표시)의 상한, PERF-007은 실사용자 측정 지표(INP p75)의 상한이다. 측정 대상이 다르므로 둘 다
+  적용한다.
+reason: 다른 대상을 재므로 서로 모순되지 않는다.
+deviates_from_priority: false
+date: '2026-10-18'

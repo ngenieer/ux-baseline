@@ -1,0 +1,56 @@
+id: FORM-044
+category: FORM
+title: 기본 상태가 없는 선택에 토글 금지
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 켜짐·꺼짐 중 어느 쪽도 아닌 '아직 선택하지 않음' 상태가 필요한 선택에는 토글 스위치를 쓰지 않는다.
+measurement:
+  criteria: '모든 토글 스위치가 처음 그려질 때 켜짐 또는 꺼짐 상태를 갖는다(role="switch"에 aria-checked="true"|"false", 또는 input[type=checkbox]의
+    checked 유무로 결정). aria-checked가 없거나 "mixed"인 토글, 사용자가 아직 답하지 않았음을 구분해야 하는 질문(예: 동의 여부 미응답)에 쓴 토글은 위반.'
+  method: axe-core로 aria-checked 누락을 검사하고, '미선택' 상태가 업무상 필요한 질문인지는 수동 확인한다.
+automation:
+  feasibility: partial
+  checks:
+  - tool: axe-core
+    rule: aria-required-attr
+    method: role=switch 요소에 필수 상태 aria-checked가 없으면 실패(커스텀 요소에 해당)
+  note: '''미선택'' 상태가 필요한 질문인지 판단하는 부분은 수동.'
+rationale: KRDS는 토글 형태의 요소는 항상 기본 상태를 가지므로 기본 상태가 없는(켜짐도 꺼짐도 아닌) 상황에서는 토글을 사용하지 않아야 한다고 한다.
+sources:
+- ref: KRDS
+  locator: '컴포넌트 > 토글 스위치 > 용례(사용하기 적합하지 않은 경우: 기본 상태가 존재하지 않는 경우) (가이드라인 PDF 2025.08 571쪽)'
+  note: 'https://www.krds.go.kr/html/site/component/component_06_07.html — 원문: ''토글을 사용하지 않아야 한다'''
+scope:
+  level: component
+  targets:
+  - '[role="switch"]'
+  - 토글 스위치
+exceptions: []
+relations:
+- type: refines
+  id: FORM-041
+  note: 토글 부적합 조건 중 '기본 상태가 없는 경우'를 구체화
+examples:
+  good:
+  - lang: html
+    code: "<!-- 미응답을 구분해야 하는 질문: 기본 선택 없는 라디오 -->\n<fieldset>\n  <legend>개인정보 제3자 제공 동의</legend>\n  <label><input\
+      \ type=\"radio\" name=\"agree\" value=\"y\"> 동의함</label>\n  <label><input type=\"radio\" name=\"agree\" value=\"\
+      n\"> 동의하지 않음</label>\n</fieldset>\n"
+    note: 아직 답하지 않음 상태를 기본 선택 없는 라디오로 구분했다.
+  bad:
+  - lang: html
+    code: '<span role="switch" aria-checked="mixed" tabindex="0">개인정보 제3자 제공 동의</span>
+
+      '
+    note: 켜짐·꺼짐 어느 쪽도 아닌 상태가 필요한 질문에 토글을 썼다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(curl로 KRDS 페이지 HTML을 받아 본문 텍스트와 대조): 문장 일치 확인. 원문 강도 ''사용하지 않아야 한다'' → SHOULD
+  + public-sector-must.'
+korean_specific: false
+tags:
+- krds
+- krds-component
+- public-sector-must

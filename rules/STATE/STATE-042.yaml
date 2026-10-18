@@ -1,0 +1,52 @@
+id: STATE-042
+category: STATE
+title: 처음 사용 빈 상태의 다음 행동
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 처음 사용 빈 상태에는 데이터가 생기면 이 영역에 무엇이 표시되는지 설명하는 문장을 두고, 사용자가 직접 데이터를 만들 수 있으면 그 행동으로 가는 주 버튼 또는 링크를 1개 둔다.
+measurement:
+  criteria: 처음 사용 빈 상태 영역에 (1) 표시될 내용을 설명하는 텍스트가 있고, (2) 사용자가 데이터를 만들 수 있는 기능이면 그 기능으로 가는 button 또는 a[href]가 주 행동으로
+    정확히 1개 있다.
+  method: 새 계정(데이터 0건)으로 각 목록·대시보드 화면을 연다.
+automation:
+  feasibility: none
+  checks: []
+  note: '4단계 커스텀 검사: [data-empty-state=no-data] 안에 텍스트와 주 행동(button.primary 또는 a.primary) 1개.'
+rationale: 빈 상태에서 기능의 용도를 알려주고 바로 시작할 경로를 주면 학습과 첫 사용이 빨라진다(Carbon, NN/g).
+sources:
+- ref: CARBON_EMPTY
+  locator: No data empty states — 'explaining what will be in the space once it is populated with data, and providing
+    guidance for the next step'; 'include a direct link in your message copy or a primary action button'
+- ref: NNG_EMPTY_STATES
+  locator: Use Empty States to Provide Learning Cues; Provide Direct Pathways for Key Tasks
+scope:
+  level: component
+  targets:
+  - 빈 상태(처음 사용)
+exceptions:
+- 사용자가 데이터를 직접 만들 수 없는 영역(시스템이 채우는 목록)에는 주 행동 버튼·링크를 두지 않는다 — Carbon 'If there is an actionable next step'.
+relations:
+- type: refines
+  id: STATE-041
+examples:
+  good:
+  - lang: html
+    code: "<section data-empty-state=\"no-data\" aria-labelledby=\"es-t\">\n  <h2 id=\"es-t\">관심 서비스를 추가해 시작하세요</h2>\n\
+      \  <p>추가한 서비스의 신청 기간과 진행 상태가 여기에 표시됩니다.</p>\n  <a class=\"btn btn--primary\" href=\"/services\">서비스 찾기</a>\n\
+      </section>\n"
+    note: 무엇이 표시될지 설명하고 데이터를 만드는 주 행동 1개를 둔다.
+  bad:
+  - lang: html
+    code: "<section data-empty-state=\"no-data\" aria-labelledby=\"es-t\">\n  <h2 id=\"es-t\">관심 서비스</h2>\n  <p>데이터가\
+      \ 없습니다.</p>\n</section>\n"
+    note: 무엇이 표시될지와 시작할 행동이 없다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(Carbon·NN/g curl 확인): No data 빈 상태 설명·주 행동 문장, NN/g 학습 단서·직접 경로 확인. 1단계의 ''버튼
+  1개''는 Carbon이 조건부(''If there is an actionable next step'')라 조건을 statement에 넣음. 여러 빈 상태가 함께 보이면 tertiary 버튼을 쓰라는
+  Carbon 지침과 ''긍정형 제목'' 권장은 별도 룰 후보(제안 파일). AI-005(AI 첫 화면 빈 상태)는 이 룰의 AI 특화 — 관계 기록 제안.'
+korean_specific: false
+tags:
+- research-state_copy_resp

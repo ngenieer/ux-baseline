@@ -1,0 +1,50 @@
+id: COLOR-017
+category: COLOR
+title: 배지 배경에 주조색 금지
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 배지 배경색으로 서비스 주조색(primary color, 채움 버튼 배경색)을 쓰지 않는다.
+measurement:
+  criteria: 배지 요소의 계산값 background-color가 주조색 채움 버튼의 기본 상태 background-color와 같지 않다.
+  method: '커스텀 스크립트: 배지 셀렉터와 주조색 버튼의 계산 배경색 비교. 토큰 단계에서는 배지 배경 토큰이 primary 기본 단계를 참조하지 않는지 검사.'
+automation:
+  feasibility: none
+  note: '4단계: 토큰 참조 검사로 자동화 가능.'
+rationale: 배지 배경에 주조색을 쓰면 사용자가 배지를 버튼으로 오인할 수 있다(KRDS 배지).
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 배지 > 사용성 가이드라인 (가이드라인 PDF 2025.08 401·403쪽)
+  note: https://www.krds.go.kr/html/site/component/component_04_06.html
+scope:
+  level: component
+  targets:
+  - 배지
+exceptions: []
+relations: []
+examples:
+  good:
+  - lang: html
+    code: '<span class="badge badge--info">안내</span>
+
+      <style>.badge--info{color:var(--palette-information-70);background:var(--palette-information-10)}</style>'
+    note: 배지 배경을 주조색이 아닌 정보 색 연한 단계로 쓴다
+  bad:
+  - lang: html
+    code: '<span class="badge badge--primary">안내</span>
+
+      <style>.badge--primary{color:var(--palette-gray-0);background:var(--palette-primary-50)}</style>'
+    note: 배지 배경이 주조색 채움 버튼과 같아 버튼으로 오인된다
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(KRDS https://www.krds.go.kr/html/site/component/component_04_06.html HTML을
+  curl로 받아 본문 확인): ''배지의 배경색으로 서비스의 주조색을 사용하지 않는다. 배지의 배경색으로 주조색(Primary color)을 이용하게 되면 사용자는 배지를 버튼으로 오인할 수 있다''
+  확인 → SHOULD + public-sector-must. 같은 페이지 마크업 가이드는 배지 클래스로 .bg-primary 를 제공 — KRDS 내부 불일치(제안 파일 conflicts).'
+korean_specific: false
+tags:
+- krds
+- krds-component
+- public-sector-must
+decisions:
+- CF-047

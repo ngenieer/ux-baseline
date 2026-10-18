@@ -1,0 +1,50 @@
+id: NAV-025
+category: NAV
+title: 설명이 포함된 드롭다운
+stage: platformed
+status:
+  value: confirmed
+type: guide
+strength: MAY
+statement: 메뉴 레이블이 어려운 용어나 사용자에게 익숙하지 않은 단어이거나 레이블만으로 화면 내용을 파악하기 어려우면, 링크마다 설명이 붙은 드롭다운을 쓴다.
+measurement:
+  criteria: '점검 질문: 처음 방문한 사용자가 레이블만 보고 이동할 화면의 내용을 맞힐 수 있는가? 못 맞히는 레이블이 있는 드롭다운에 링크별 설명 텍스트가 있는가?'
+  method: 사용자 테스트(레이블만 보여주고 내용 예측) 또는 쉬운 말 검토로 판단한다.
+automation:
+  feasibility: none
+  note: 용어 난이도 판단이 필요해 자동 검사 대상 아님.
+rationale: 레이블만으로 목적지를 예측하기 어려우면 사용자가 메뉴를 하나씩 열어봐야 한다.
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 메인 메뉴 > 유형 (가이드라인 PDF 2025.08 265쪽)
+  note: 'https://www.krds.go.kr/html/site/component/component_03_02.html — 설명이 포함된 드롭다운: ''메뉴 레이블이 어려운 용어 또는 사용자에게
+    익숙하지 않은 단어로 제공된 경우나 메뉴 레이블을 통해 화면에서 제공되는 콘텐츠를 파악하기 어려운 경우에 사용한다.'''
+scope:
+  level: component
+  targets:
+  - 메인 메뉴 드롭다운
+exceptions: []
+relations:
+- type: depends
+  id: COPY-003
+  note: 레이블 자체를 설명적으로 쓰는 것(WCAG 2.4.6)이 먼저
+examples:
+  good:
+  - lang: html
+    code: '<li><a href="/mydata">마이데이터<span class="desc">내 행정정보를 모아 다른 기관에 제출</span></a></li>
+
+      '
+    note: 낯선 용어 레이블에 링크별 설명을 붙인다.
+  bad:
+  - lang: html
+    code: '<li><a href="/mydata">마이데이터</a></li>  <!-- 낯선 용어인데 설명 없음 -->
+
+      '
+    note: 낯선 용어 레이블에 설명이 없다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(KRDS component_03_02 WebFetch): 유형 설명 문장 확인. 유형 설명(언제 쓰는 유형인지)이라 의무 표현이 아니므로
+  MAY, 조건이 판단이라 guide.'
+korean_specific: false
+tags:
+- krds
+- krds-component

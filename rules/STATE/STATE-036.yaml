@@ -1,0 +1,55 @@
+id: STATE-036
+category: STATE
+title: 반복 인증 실패는 모달로
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: MAY
+statement: 같은 인증 절차에서 인증이 연속 2회 이상 실패하면 실패 알림을 토스트가 아닌 모달로 표시한다.
+measurement:
+  criteria: 인증을 1회 실패하면 토스트 또는 인라인 메시지가, 연속 2회째 실패부터 모달 대화상자가 표시된다.
+  method: 잘못된 인증 정보로 연속 2회 시도한다.
+automation:
+  feasibility: none
+  checks: []
+  note: E2E 시나리오 테스트로 검사 가능.
+rationale: 반복 실패는 사용자가 원인을 놓치고 있다는 신호라 사라지는 토스트보다 확인이 필요한 모달로 알린다(KRDS 토스트).
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 토스트 > 사용성 가이드라인
+  note: https://www.krds.go.kr/html/site/component/component_12_05.html
+- ref: UXB_SYSTEM_CHOICE
+  locator: CF-052
+  note: KRDS는 '반복 시'만 쓰고 횟수를 정하지 않음. 체계 내부 선택.
+scope:
+  level: situation
+  targets:
+  - 인증 실패 알림
+  - 토스트
+exceptions: []
+relations: []
+examples:
+  good:
+  - lang: html
+    code: "<dialog open aria-labelledby=\"t\">\n  <h2 id=\"t\">인증에 실패했습니다</h2>\n  <p>인증서 비밀번호를 2회 잘못 입력했습니다. 5회\
+      \ 잘못 입력하면 인증서가 잠깁니다.</p>\n  <button type=\"button\">다시 입력</button>\n</dialog>\n"
+    note: 연속 2회째 실패부터 모달로 알린다.
+  bad:
+  - lang: html
+    code: '<!-- 3회째 실패도 몇 초 뒤 사라지는 토스트로만 알림 -->
+
+      <div class="toast" role="status">인증에 실패했습니다</div>
+
+      '
+    note: 반복 실패를 사라지는 토스트로만 알린다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(curl로 KRDS 페이지 HTML을 받아 텍스트로 직접 읽음): 토스트 component_12_05 ''인증 실패 (반복 시 모달로
+  표시 권장)'' 확인 — ''권장''이라 MAY. 횟수 ''연속 2회''는 출처 없음(PREFERENCE) — 3단계에서 기준을 정하거나 근거를 찾아야 함. 2026-10-18 CF-052로 체계
+  선택을 기록하고 PREFERENCE를 UXB_SYSTEM_CHOICE로 바꿈.'
+korean_specific: false
+tags:
+- krds
+- krds-component
+decisions:
+- CF-052

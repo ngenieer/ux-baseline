@@ -1,0 +1,53 @@
+id: NAV-011
+category: NAV
+title: 정렬 컨트롤 위치
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: MAY
+statement: 인라인 정렬(표 열 머리글 정렬 등)을 쓰는 경우를 빼고, 정렬 컨트롤은 대상 목록의 오른쪽 위에 둔다.
+measurement:
+  criteria: 정렬 컨트롤의 getBoundingClientRect().bottom ≤ 목록 첫 항목의 top 이고, 정렬 컨트롤의 가로 중심이 목록 컨테이너의 가로 중심보다 오른쪽이다.
+  method: 목록 화면에서 개발자 도구로 위치를 측정하거나 화면을 보고 확인한다.
+automation:
+  feasibility: none
+  note: '4단계 커스텀 검사 가능: Playwright로 [data-sort-control]과 목록 컨테이너의 박스 좌표 비교.'
+rationale: 디지털 정부서비스 전체에서 같은 위치에 두어 사용자가 매번 정렬 컨트롤을 찾지 않게 한다(일관성).
+sources:
+- ref: KRDS
+  locator: 기본 패턴 > 필터링·정렬 > 사용성 가이드라인 (가이드라인 PDF 2025.08 865·871쪽)
+  note: https://www.krds.go.kr/html/site/global/global_10.html — '인라인 형식의 정렬을 사용할 때를 제외하고 정렬 컨트롤은 대상 목록 오른쪽 상단에
+    배치한다.' / '디지털 정부서비스를 이용하는 사용자의 일관된 경험을 위해…'
+- ref: KRDS
+  locator: 컴포넌트 > 구조화 목록 > 구조 (가이드라인 PDF 2025.08 353쪽)
+  note: https://www.krds.go.kr/html/site/component/component_04_01.html — 도구 막대는 '대개 구조화 목록의 상단에 배치함'
+scope:
+  level: component
+  targets:
+  - 목록 정렬 컨트롤
+exceptions:
+- '인라인 형식의 정렬(KRDS 원문) — 예: 표 열 머리글 정렬(NAV-050, LAYOUT-045)'
+relations: []
+examples:
+  good:
+  - lang: html
+    code: "<div class=\"list-toolbar\" style=\"display:flex;justify-content:space-between\">\n  <p>총 128건</p>\n\
+      \  <label>정렬 <select><option>최신순</option><option>조회순</option></select></label>\n</div>\n<ul class=\"list\"\
+      >…</ul>\n"
+    note: 정렬 컨트롤이 목록 위 오른쪽에 있다.
+  bad:
+  - lang: html
+    code: '<ul class="list">…</ul>
+
+      <label>정렬 <select>…</select></label>  <!-- 목록 아래 -->
+
+      '
+    note: 정렬 컨트롤이 목록 아래에 있다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(KRDS global_10, component_04_01 WebFetch): 문장·예외(인라인 정렬) 확인. 근거가 ''일관된 경험''(체계
+  선택)이고 태그 system-choice라 정책 2에 따라 MAY.'
+korean_specific: false
+tags:
+- krds
+- system-choice

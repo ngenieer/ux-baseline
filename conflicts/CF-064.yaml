@@ -1,0 +1,17 @@
+id: CF-064
+rules:
+- COLOR-022
+against: '강제 색상 모드(Windows 고대비) 대응 — @media (forced-colors: active) 안의 CSS 시스템 색'
+summary: 색은 토큰만 쓴다(COLOR-022, 린트 declaration-strict-value)는 규칙이 강제 색상 모드에서 초점·선택 표시를 살리는 시스템 색(Highlight 등)까지 막아,
+  AI 시험에서 접근성 보강 코드를 지우게 만들었다.
+principle: 1
+decision: 'CSS 시스템 색 키워드는 @media (forced-colors: active) 블록 안의 선언에서만 COLOR-022의 예외로 허용하고 린트 허용 값에 넣는다. 현재 stylelint
+  설정은 선언 위치를 구분하지 않으므로 블록 밖 사용은 수동·grep으로 확인한다.'
+reason: 시스템 색은 사용자가 고른 고대비 색이라 토큰으로 정의할 수 없고, 강제 색상 모드 대응은 저시력 사용자의 식별(원칙 1)을 돕는다. 토큰 일관성(원칙 3)보다 우선한다.
+deviates_from_priority: false
+date: '2026-10-18'
+rule_changes:
+- 'COLOR-022: 예외·측정 기준에 시스템 색 추가'
+- 'lint/stylelint.config.mjs: 시스템 색 허용'
+- 'COLOR-022: 측정 기준을 ''시스템 색은 @media (forced-colors: active) 블록 안에서만''으로 수정, automation.note에 stylelint 위치 미구분 한계
+  기록 (2026-10-18 독립 검토)'

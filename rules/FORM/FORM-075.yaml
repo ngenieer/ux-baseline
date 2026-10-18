@@ -1,0 +1,58 @@
+id: FORM-075
+category: FORM
+title: 증감 버튼은 필드 양쪽에
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: MAY
+statement: 수량 토글의 감소 버튼과 증가 버튼은 수량 필드 양쪽에 하나씩 두고 한쪽에 모아 배치하지 않는다.
+measurement:
+  criteria: 가로 배치에서 감소 버튼·수량 필드·증가 버튼 순으로 놓이고, 수량 필드 박스가 두 버튼 박스 사이에 있다.
+  method: 'E2E: getBoundingClientRect로 세 요소의 가로 위치를 비교한다.'
+automation:
+  feasibility: none
+  checks: []
+  note: 기존 검사기 규칙 없음. 4단계 커스텀 E2E로 판정 가능.
+rationale: KRDS는 증감 버튼을 모아 두거나 작게 두면 잘못 누르는 경우가 생길 수 있어 입력 필드를 가운데 두고 분리해 배치하는 것이 적합하다고 한다.
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 수량 토글 > 사용성 가이드라인(수량 조정 버튼의 크기를 ... 작게 표시하지 않는다)
+  note: 'https://www.krds.go.kr/html/site/component/component_12_04.html — 원문: ''항상 입력 필드를 가운데 두고 분리하여 배치하는 것이 적합하다'''
+scope:
+  level: component
+  targets:
+  - 수량 토글
+exceptions: []
+relations:
+- type: depends
+  id: LAYOUT-002
+  note: 원문의 '버튼을 작게 표시하지 않는다'는 수치가 없어 크기는 LAYOUT-002(24×24 CSS px) 기준
+examples:
+  good:
+  - lang: html
+    code: '<button type="button" aria-label="수량 줄이기" disabled>−</button>
+
+      <input aria-label="발급 부수" inputmode="numeric" value="1" data-min="1" data-max="10">
+
+      <button type="button" aria-label="수량 늘리기">+</button>
+
+      '
+    note: 감소·증가 버튼을 수량 필드 양쪽에 하나씩 두었다.
+  bad:
+  - lang: html
+    code: '<input aria-label="발급 부수" inputmode="numeric" value="1" data-min="1" data-max="10">
+
+      <button type="button" aria-label="수량 줄이기" disabled>−</button>
+
+      <button type="button" aria-label="수량 늘리기">+</button>
+
+      '
+    note: 두 버튼을 수량 필드 한쪽에 모았다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(curl로 KRDS 페이지 HTML을 받아 본문 텍스트와 대조): 문장 일치 확인(1단계 locator ''모범 사례·피해야 할 사례''는
+  사용성 가이드라인 절의 예시 — 고침). 원문 강도 ''적합하다'' → MAY.'
+korean_specific: false
+tags:
+- krds
+- krds-component

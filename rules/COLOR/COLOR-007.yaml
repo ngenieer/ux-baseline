@@ -1,0 +1,65 @@
+id: COLOR-007
+category: COLOR
+title: 상태 색은 같은 색조
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 상호작용 요소의 기본·hover·pressed(active) 상태 색은 같은 색상 계열 토큰 안에서 명도 단계만 올리거나 내려 표현하고 다른 색상 계열로 바꾸지 않는다.
+measurement:
+  criteria: '각 상호작용 컴포넌트의 기본·:hover·:active 상태 background-color, color, border-color가 같은 팔레트 계열 토큰(예: primary-50
+    → primary-60 → primary-70)이다. 기본 상태 값이 transparent(또는 지정 없음)인 속성은 색 계열이 없는 시작 단계로 보고, hover·active 값끼리 같은 계열이면
+    통과한다(예: tertiary 버튼·페이지네이션 배경 transparent → gray-5 → gray-10).'
+  method: 토큰 참조 검사(컴포넌트 토큰이 어떤 팔레트 계열을 참조하는지) 또는 계산 색을 팔레트에 역매핑하는 스크립트(커스텀).
+automation:
+  feasibility: none
+  note: '4단계: 컴포넌트 토큰 정의 검사로 자동화 가능.'
+rationale: 상태 값은 점진적 증가·감소 규칙으로 표현해야 같은 요소의 상태 변화로 인식된다. 색조가 바뀌면 다른 요소나 다른 의미로 오인할 수 있다(KRDS).
+sources:
+- ref: KRDS
+  locator: 디자인 스타일 > 색상 > 상태 값 색상 / 사용 가이드 (가이드라인 PDF 2025.08 95·101쪽)
+  note: https://www.krds.go.kr/html/site/style/style_02.html
+- ref: KRDS
+  locator: 컴포넌트 (여러 페이지) (가이드라인 PDF 2025.08 344쪽)
+  note: '같은 요구를 다루는 KRDS 컴포넌트: 탭바 — 상세는 sources/extracts/KRDS-components.yaml'
+scope:
+  level: component
+  targets:
+  - button
+  - a[href]
+  - '[role=tab]'
+  - select
+  - 상호작용 컴포넌트
+exceptions: []
+relations: []
+examples:
+  good:
+  - lang: css
+    code: |-
+      .btn-primary{background:var(--palette-primary-50)}
+      .btn-primary:hover{background:var(--palette-primary-60)}
+      .btn-primary:active{background:var(--palette-primary-70)}
+    note: 기본·hover·active가 같은 primary 계열에서 단계만 바뀐다
+  - lang: css
+    code: |-
+      .btn-text{background:transparent}
+      .btn-text:hover{background:var(--palette-gray-5)}
+      .btn-text:active{background:var(--palette-gray-10)}
+    note: 기본이 투명이면 hover·active 가 같은 gray 계열이라 통과한다
+  bad:
+  - lang: css
+    code: |-
+      .btn-primary{background:var(--palette-primary-50)}
+      .btn-primary:hover{background:var(--palette-point-50)}
+    note: hover에서 다른 색상 계열(point)로 바뀌어 다른 요소처럼 보인다
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(KRDS https://www.krds.go.kr/html/site/style/style_02.html HTML을 curl로 받아 본문
+  확인): ''상호 작용이 있는 요소의 상태 값은 점진적인 증가 또는 감소의 규칙을 사용한다'', 사용 가이드 ''상태 값에 다른 색조 사용하지 않는다'' 확인 → SHOULD + public-sector-must.
+  범위를 기본·hover·pressed로 한정함 — disabled(회색 계열)·focus 링 색이 이 규칙에 포함되는지 원문에 없음(제안 파일 notes). KRDS 컴포넌트 묶음(탭바) 출처는 이번에
+  다시 열지 않음. (2026-10-18 시험 4 검토 반영) T7 tertiary 버튼·페이지네이션처럼 기본 배경이 transparent 이고 hover·pressed 만 gray·secondary
+  계열인 경우를 ''같은 계열''로 볼지 불명 → 투명은 색 계열이 없는 시작 단계(KRDS ''점진적인 증가 또는 감소'')로 보고 hover·active 끼리 같은 계열이면 통과로 정했다.'
+korean_specific: false
+tags:
+- krds
+- public-sector-must

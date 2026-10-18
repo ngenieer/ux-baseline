@@ -1,0 +1,71 @@
+id: STATE-041
+category: STATE
+title: 빈 상태 유형 구분
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 목록·표·대시보드 영역에 보여줄 데이터가 없으면 아무것도 없는 빈 영역으로 두지 않고, '데이터 없음(처음 사용)', '사용자 행동의 결과(검색·필터 결과 없음)', '데이터를 가져올
+  수 없음(권한·시스템 문제·설정 필요)' 중 어느 경우인지 구분해 경우마다 비어 있는 이유와 사용자가 할 수 있는 다음 행동을 텍스트로 표시한다.
+measurement:
+  criteria: '(1) 데이터 0건 상태에서 해당 영역에 이유를 설명하는 텍스트가 있다(제목만 있는 표·빈 컨테이너가 아님). (2) 세 경우(처음 사용·검색/필터 결과 없음·가져올 수 없음)를
+    각각 재현했을 때 표시 문구가 서로 다르다. (3) 다음 행동이 있는 경우 그 행동의 안내 또는 버튼·링크가 있다(예: 검색 결과 없음 → 검색어·필터 조정 안내, 권한 문제 → 권한 요청 방법).
+    (4) 안내한 다음 행동은 그 상태에서 실행할 수 있다 — 안내가 가리키는 컨트롤이 화면에 있고 사용할 수 있으며(disabled·aria-disabled="true" 아님) 그 행동이 빈 상태를
+    바꿀 수 있는 선택지가 남아 있다. 예: 이미 가장 긴 기간(30일)을 고른 상태에서 ''더 긴 기간을 선택해 보세요''는 실패. 실행할 수 있는 다음 행동이 없으면 이유만 쓴다.'
+  method: 세 경우를 테스트 데이터·권한·오류 주입으로 재현해 화면을 비교하고, 조회 조건(기간·필터)의 각 값에서 빈 상태를 만들어 안내 문구가 그 값에서 실행 가능한지 확인한다.
+automation:
+  feasibility: none
+  checks: []
+  note: 컴포넌트 규격에 empty-state variant(no-data|no-results|error) 필수 prop을 두면 타입 검사로 누락을 막을 수 있음. 문구 차이는 E2E 스냅숏.
+rationale: 완전히 빈 화면은 처리가 끝났는지·로딩 중인지·오류인지 알 수 없게 한다(NN/g). 원인별로 사용자가 할 일이 다르므로 유형을 구분해 안내한다(Carbon).
+sources:
+- ref: CARBON_EMPTY
+  locator: Empty state types — No data / User action / Error management (Permissions issue, Systems issue, Configuration
+    required, Action not supported)
+- ref: NNG_EMPTY_STATES
+  locator: Use Empty States to Communicate System Status — 'Do not default to totally empty states'
+  note: 완전히 빈 화면은 시스템이 작동 중인지 혼란을 준다
+scope:
+  level: component
+  targets:
+  - 목록
+  - table
+  - 대시보드 위젯
+  - 빈 상태
+exceptions:
+- 알림처럼 '처리할 것이 없음' 자체가 정상 결과이고 다음 행동이 없는 경우 보조 설명과 다음 행동은 생략할 수 있다(Carbon 'next steps are not required' 예시).
+relations: []
+examples:
+  good:
+  - lang: html
+    code: |
+      <section aria-labelledby="t">
+        <h2 id="t">신청 내역</h2>
+        <p>검색 조건에 맞는 신청 내역이 없습니다. 기간을 늘리거나 상태 필터를 해제해 보세요.</p>
+      </section>
+    note: 빈 이유(검색 결과 없음)와 다음 행동을 텍스트로 쓴다.
+  bad:
+  - lang: html
+    code: |
+      <table>
+        <caption>신청 내역</caption>
+        <thead><tr><th scope="col">신청일</th><th scope="col">상태</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    note: 데이터가 0건일 때 머리글만 있는 빈 표를 둔다.
+  - lang: html
+    code: |
+      <button type="button" aria-pressed="true">30일</button> <!-- 가장 긴 기간이 이미 선택됨 -->
+      <p>선택한 기간에 접수된 주문이 없습니다. 더 긴 기간을 선택해 보세요.</p>
+    note: 이미 가장 긴 기간인데 더 긴 기간을 고르라고 안내한다 — 실행할 수 없는 다음 행동이다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(Carbon 빈 상태 패턴·NN/g 빈 상태 글을 curl로 받아 직접 읽음): Carbon 3유형(No data / User action
+  / Error management)과 오류 세부 유형, NN/g ''Do not default to totally empty states'' 확인. 1단계 statement의 ''사용자가 삭제해 비움''
+  유형은 두 출처 어디에도 없어(1단계 메모: 요청 범위에서 추가) statement에서 뺐다 — 필요하면 PREFERENCE로 별도 결정(제안 파일). 근거가 reference_system·experience의
+  지시문이라 SHOULD. (2026-10-18 시험 4 검토 반영) T7 에서 30일(가장 긴 기간) 상태에도 ''더 긴 기간을 선택해 보세요''가 나왔는데 측정 기준이 안내의 실행 가능성을 보지
+  않았다 → 측정 기준 (4) ''안내한 행동이 그 상태에서 실행 가능하다''를 넣었다. Carbon 빈 상태 패턴의 다음 단계(next steps) 안내는 사용자가 실제로 할 수 있는 행동이어야 의미가
+  있으므로 출처 범위 안의 명확화로 본다.'
+korean_specific: false
+tags:
+- research-state_copy_resp

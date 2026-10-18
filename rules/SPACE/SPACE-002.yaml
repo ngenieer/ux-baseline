@@ -1,0 +1,61 @@
+id: SPACE-002
+category: SPACE
+title: 가로 나열 선택 컨트롤 간격
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 체크박스·라디오 버튼을 가로로 나열할 때는 한 옵션의 레이블 끝과 다음 옵션 컨트롤 사이 간격을 24px(gap-7) 이상으로 두어, 컨트롤과 자기 레이블 사이 간격보다 넓게 한다.
+measurement:
+  criteria: 가로 배치된 체크박스·라디오 그룹에서 이웃 옵션 사이 간격(앞 옵션 레이블 right ~ 다음 옵션 컨트롤 left) ≥ 24 CSS px이고, 이 값 > 각 옵션의 컨트롤-레이블
+    간격이다.
+  method: 가로 배치 선택 그룹을 개발자 도구로 측정한다.
+automation:
+  feasibility: none
+  checks: []
+  note: '4단계 커스텀 검사: 그룹 내 label 경계 상자 간 거리 계산. 컴포넌트 규격에서 gap 토큰을 gap-7 이상으로 고정하면 stylelint로 부분 검사.'
+rationale: 옵션 간격이 컨트롤-레이블 간격과 같으면 어느 레이블이 어느 컨트롤의 것인지 혼동되고 오조작이 생긴다.
+sources:
+- ref: KRDS
+  locator: 디자인 스타일 > 레이아웃 > 컴포넌트 리스트 (가이드라인 PDF 2025.08 158쪽)
+  note: https://www.krds.go.kr/html/site/style/style_05.html
+- ref: KRDS
+  locator: 컴포넌트 (여러 페이지) (가이드라인 PDF 2025.08 529쪽)
+  note: '같은 요구를 다루는 KRDS 컴포넌트: 라디오 버튼 — 상세는 sources/extracts/KRDS-components.yaml'
+scope:
+  level: component
+  targets:
+  - input[type=checkbox]
+  - input[type=radio]
+  - 가로 배치 선택 그룹
+exceptions: []
+relations:
+- type: refines
+  id: LAYOUT-002
+  note: WCAG 2.5.8 간격 조건을 선택 컨트롤에 구체화한 KRDS 수치.
+examples:
+  good:
+  - lang: css
+    code: '.choice-group.horizontal { display: flex; column-gap: var(--space-gap-7); } /* 옵션 사이 24px */
+
+      .choice-item { display: inline-flex; gap: var(--space-gap-3); } /* 컨트롤-레이블 8px */
+
+      '
+    note: 옵션 간격 24px가 컨트롤-레이블 간격 8px보다 넓다.
+  bad:
+  - lang: css
+    code: '.choice-group.horizontal { display: flex; column-gap: var(--space-gap-3); } /* 옵션 사이 8px */
+
+      .choice-item { display: inline-flex; gap: var(--space-gap-3); } /* 컨트롤-레이블 8px */
+
+      '
+    note: 옵션 간격이 컨트롤-레이블 간격과 같아 어느 레이블인지 헷갈린다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(curl로 KRDS 페이지 HTML을 받아 본문 텍스트를 직접 확인): style_05 컴포넌트 리스트 ''체크박스나 라디오 버튼을 리스트
+  형태로 사용 시 컴포넌트 사이즈에 따라 gap5-gap7(16px-24px)의 토큰을 사용한다. 또한 가로형을 사용해야 하는 경우 간격을 gap7(24px)이상의 토큰을 사용하여 충분한 간격을 유지한다.''와
+  라디오 버튼(component_06_01) ''라디오 버튼을 수평으로 배치하는 경우 버튼 간 간격을 충분히 제공한다.'', ''각 라디오 버튼의 간격을 양식과 레이블 간 간격과 동일하게 제공하는 경우
+  사용자에게 혼동을 줄 수 있으므로 유의해야 한다.'' 확인. gap-7 = number-10 = 2.4rem = 24px(krds_tokens.css, 1rem=10px). 지시형 → SHOULD.'
+korean_specific: false
+tags:
+- krds

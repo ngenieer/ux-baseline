@@ -1,0 +1,47 @@
+id: COLOR-006
+category: COLOR
+title: 비활성 상태에 투명도 금지
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 비활성(disabled) 상태를 표현할 때 알파 값이 1 미만인 색(투명도 색)을 쓰지 않고 팔레트의 불투명 색을 쓴다.
+measurement:
+  criteria: :disabled, [aria-disabled=true] 요소의 계산값 color, background-color, border-color 알파가 모두 1(투명 배경 transparent는
+    제외).
+  method: 계산 스타일 수집 스크립트(커스텀). 소스 단계에서는 :disabled 셀렉터 안 rgba()/hsla()/알파 토큰 사용을 검사.
+automation:
+  feasibility: none
+  note: '4단계: stylelint 커스텀(:disabled 블록의 알파 색 금지) + 계산 스타일 검사.'
+rationale: 투명도 색은 배경에 따라 결과 색이 달라져 비활성 표현이 화면마다 일정하지 않다(KRDS 사용 가이드).
+sources:
+- ref: KRDS
+  locator: 디자인 스타일 > 색상 > 투명도 / 사용 가이드 (가이드라인 PDF 2025.08 84·101쪽)
+  note: https://www.krds.go.kr/html/site/style/style_02.html
+scope:
+  level: component
+  targets:
+  - :disabled
+  - '[aria-disabled=true]'
+exceptions: []
+relations: []
+examples:
+  good:
+  - lang: css
+    code: button:disabled{color:var(--palette-gray-40);background:var(--palette-gray-10)}
+    note: 비활성 상태를 팔레트의 불투명 회색 토큰으로 표현한다
+  bad:
+  - lang: css
+    code: '/* --color-black-alpha-38 = rgb(0 0 0 / .38) */
+
+      button:disabled{color:var(--color-alpha-inverse50);background:var(--palette-gray-10)}'
+    note: 비활성 글자색에 알파 1 미만 토큰을 써서 배경마다 결과 색이 달라진다
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(KRDS https://www.krds.go.kr/html/site/style/style_02.html HTML을 curl로 받아 본문
+  확인): 사용 가이드 ''투명도(alpha): disabled 상태에 투명도 색상을 사용하지 않는다'' 확인 → SHOULD + public-sector-must. 원문은 ''투명도 색상''만 말하고
+  opacity 속성은 언급하지 않음 — opacity 포함 여부는 3단계 검토(제안 파일 notes). 근거 문장(이유)은 원문에 없어 rationale은 체계 해석.'
+korean_specific: false
+tags:
+- krds
+- public-sector-must

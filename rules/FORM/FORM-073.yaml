@@ -1,0 +1,65 @@
+id: FORM-073
+category: FORM
+title: 수량 토글 범위 11단계 이내
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: '수량 토글의 선택 가능한 값은 기준 값을 포함해 11개 이내로 제한하고, 선택 가능한 값이 그보다 많으면(예: 나이) 수량 토글 대신 텍스트 입력 필드를 쓴다.'
+measurement:
+  criteria: 수량 토글마다 (최댓값 − 최솟값) ÷ 증감 단위 + 1 ≤ 11. 이를 넘는 값을 받는 필드는 수량 토글이 아니라 텍스트 입력 필드다.
+  method: '속성 검사: 수량 토글의 min·max·step으로 계산한다.'
+automation:
+  feasibility: none
+  checks: []
+  note: 기존 검사기 규칙 없음. 4단계 커스텀 lint로 판정 가능(min·max·step 계산).
+rationale: KRDS는 선택 수량을 기준 값을 포함해 총 11단계 이내로 제한하고 선택 값이 너무 많으면 텍스트 입력 필드가 적합하다고 하며, '나이'처럼 값의 범위가 넓은 경우를 수량 토글에
+  적합하지 않은 경우로 든다.
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 수량 토글 > 사용성 가이드라인(선택 수량의 범위를 제한해야 한다)
+  note: 'https://www.krds.go.kr/html/site/component/component_12_04.html — 원문: ''기준 값을 포함하여 총 11단계 이내 범위를 제한하여 구현한다'''
+- ref: KRDS
+  locator: '컴포넌트 > 수량 토글 > 용례(사용하기 적합하지 않은 경우: 사용자가 선택할 수 있는 값이 다양한 경우)'
+  note: 'https://www.krds.go.kr/html/site/component/component_12_04.html — FORM-076에서 병합. 원문: ''나이''와 같이 ... 사용하기
+    적합하지 않다'
+scope:
+  level: component
+  targets:
+  - 수량 토글
+exceptions: []
+relations: []
+examples:
+  good:
+  - lang: html
+    code: '<!-- 발급 부수 1~10, 단위 1: 10개 값 -->
+
+      <button type="button" aria-label="수량 줄이기" disabled>−</button>
+
+      <input aria-label="발급 부수" inputmode="numeric" value="1" data-min="1" data-max="10" data-step="1">
+
+      <button type="button" aria-label="수량 늘리기">+</button>
+
+      '
+    note: 선택 가능한 값이 10개로 11개 이내다.
+  bad:
+  - lang: html
+    code: '<!-- 나이 0~120, 단위 1: 121개 값 -->
+
+      <button type="button" aria-label="나이 줄이기">−</button>
+
+      <input aria-label="나이" inputmode="numeric" value="30" data-min="0" data-max="120" data-step="1">
+
+      <button type="button" aria-label="나이 늘리기">+</button>
+
+      '
+    note: 값이 121개인 나이를 수량 토글로 받는다. 텍스트 입력 필드를 써야 한다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(curl로 KRDS 페이지 HTML을 받아 본문 텍스트와 대조): 수치 ''총 11단계'' 확인. 원문 강도 ''제한해야 한다'' →
+  SHOULD + public-sector-must. ''기준 값을 포함하여''가 기준 값 앞뒤 대칭(±5)을 뜻하는지는 원문에 없어 ''선택 가능한 값 11개 이내''로만 해석.'
+korean_specific: false
+tags:
+- krds
+- krds-component
+- public-sector-must

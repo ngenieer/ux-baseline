@@ -1,0 +1,10 @@
+id: CF-018
+rules:
+- TYPO-002
+- TYPO-004
+summary: 행간 기본값 1.5배 이상(TYPO-004)과 사용자 텍스트 간격 재정의 허용(TYPO-002, WCAG 1.4.12)의 관계.
+principle: 1
+decision: 양립. TYPO-004는 기본값, TYPO-002는 사용자가 값을 바꿨을 때의 손실 금지다. 둘 다 적용한다.
+reason: 서로 다른 요구다. KRDS가 1.4.12를 근거로 든 것은 해석 차이로 기록한다.
+deviates_from_priority: false
+date: '2026-10-18'

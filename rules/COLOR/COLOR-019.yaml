@@ -1,0 +1,48 @@
+id: COLOR-019
+category: COLOR
+title: 태그 색 수 제한
+stage: platformed
+status:
+  value: confirmed
+type: guide
+strength: SHOULD
+statement: 태그는 한 가지 색을 기본으로 쓰고, 색을 추가하는 경우 색 구분이 사용자에게 의미가 있을 때만 추가하며 동시에 표시되는 태그들이 같은 강조 수준으로 보이게 한다.
+measurement:
+  criteria: '점검 질문: 한 화면의 태그 색이 1종인가? 2종 이상이면 색 구분이 사용자 과업에 의미가 있는가? 동시에 보이는 태그 중 특정 태그만 더 눈에 띄지 않는가?'
+  method: 수동 검토.
+automation:
+  feasibility: none
+  note: 강조 수준 동등성 판단이 필요 → guide. 태그 색 종류 수 집계는 커스텀 스크립트로 보조 가능.
+rationale: 태그에 여러 색을 쓰면 주의가 분산되고 혼동을 준다(KRDS 태그).
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 태그 > 사용성 가이드라인 (가이드라인 PDF 2025.08 562·565쪽)
+  note: https://www.krds.go.kr/html/site/component/component_06_04.html
+scope:
+  level: component
+  targets:
+  - 태그
+exceptions: []
+relations:
+- type: depends
+  id: COLOR-001
+  note: KRDS 태그 페이지도 '태그의 색상으로 의미를 전달하지 않아야 한다' — 색은 구분 보조일 뿐 의미는 텍스트로.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(KRDS https://www.krds.go.kr/html/site/component/component_06_04.html HTML을
+  curl로 받아 본문 확인): ''태그의 표현에 지나치게 많은 색상을 사용하지 않는다'', ''하나의 색상만 사용하는 것이 적합하다. 색상을 추가하고자 하는 경우, 색상을 활용한 태그 구분이 사용자에게
+  의미가 있는지를 가장 먼저 고려'', ''모든 태그가 동등한 수준으로 강조될 수 있는 색상을 사용해야 한다'' 확인. ''해야 한다'' 부분 기준 SHOULD + public-sector-must,
+  판정 불가라 guide.'
+korean_specific: false
+tags:
+- krds
+- krds-component
+- public-sector-must
+examples:
+  good:
+  - lang: text
+    code: 검색 결과의 주제 태그('복지', '교육', '주거')를 모두 같은 회색 계열 한 가지로 표시한다.
+    note: 태그 색 1종으로 모든 태그가 같은 강조 수준이다
+  bad:
+  - lang: text
+    code: 주제 태그마다 빨강·파랑·노랑·보라를 임의로 배정해, 빨간 태그만 유독 눈에 띈다.
+    note: 의미 없는 색 구분으로 특정 태그만 강조된다

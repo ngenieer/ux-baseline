@@ -1,0 +1,10 @@
+id: CF-048
+rules:
+- COLOR-002
+against: KRDS 타이포그래피 표 표기(큰 텍스트 24px '이상', 일반 텍스트 24px '이하')
+summary: KRDS 표가 24px 경계를 두 범주에 모두 넣었다.
+principle: 1
+decision: 'WCAG 정의를 따른다: 24px(18pt) 이상 또는 굵은 18.66px(14pt) 이상이 큰 텍스트다.'
+reason: 원 기준(WCAG)의 정의를 따른다.
+deviates_from_priority: false
+date: '2026-10-18'

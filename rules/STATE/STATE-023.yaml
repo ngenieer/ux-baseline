@@ -1,0 +1,53 @@
+id: STATE-023
+category: STATE
+title: 스피너 동시 1개
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 화면에 스피너를 동시에 2개 이상 표시하지 않는다. 버튼·입력 필드 같은 컴포넌트 안에 작게 표시하는 스피너와 파일 업로드처럼 항목마다 진행 상태를 보여야 하는 경우는 예외로 한다.
+measurement:
+  criteria: 한 시점에 보이는 스피너 중 컴포넌트 내부 소형 스피너와 항목별 진행 표시를 뺀 수가 1개 이하다.
+  method: 여러 영역을 동시에 불러오는 화면에서 로딩 중 스피너 수를 센다.
+automation:
+  feasibility: none
+  checks: []
+  note: 'E2E 커스텀 검사: 로딩 중 보이는 .spinner--lg(규격 셀렉터) 수 ≤ 1.'
+rationale: 스피너가 여러 개면 정보 과부하와 시각적 소음이 생긴다(KRDS).
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 스피너 > 사용성 가이드라인 (가이드라인 PDF 2025.08 594쪽)
+  note: https://www.krds.go.kr/html/site/component/component_07_02.html
+scope:
+  level: component
+  targets:
+  - 스피너
+exceptions:
+- 컴포넌트(버튼·입력 필드 등)의 일부로 작게 표시하는 스피너
+- 파일 업로드처럼 개별 항목에 진행 상태를 표시해야 하는 경우
+relations: []
+examples:
+  good:
+  - lang: html
+    code: "<main aria-busy=\"true\">\n  <div class=\"spinner spinner--lg\" role=\"status\" aria-label=\"불러오는 중\"\
+      ></div>\n</main>\n"
+    note: 페이지 로딩 스피너를 1개만 표시한다.
+  bad:
+  - lang: html
+    code: '<section aria-busy="true"><div class="spinner spinner--lg" role="status" aria-label="공지 불러오는 중"></div></section>
+
+      <section aria-busy="true"><div class="spinner spinner--lg" role="status" aria-label="일정 불러오는 중"></div></section>
+
+      <section aria-busy="true"><div class="spinner spinner--lg" role="status" aria-label="통계 불러오는 중"></div></section>
+
+      '
+    note: 영역마다 큰 스피너를 띄워 한 화면에 3개가 동시에 돈다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(curl로 KRDS 페이지 HTML을 받아 텍스트로 직접 읽음): 스피너 component_07_02 ''컴포넌트의 일부로 작게 표시되지
+  않는 한, 두 개 이상의 스피너를 동시에 표시하지 않는다 … 파일 업로드 컴포넌트와 같이 … 제외하고'' 확인.'
+korean_specific: false
+tags:
+- krds
+- krds-component
+- public-sector-must

@@ -1,0 +1,53 @@
+id: NAV-010
+category: NAV
+title: 기간 필터는 범위로
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 날짜·시간을 기준으로 거르는 필터와 목록 조회 기간 입력은 시작과 끝을 각각 지정하는 범위 입력으로 제공한다.
+measurement:
+  criteria: 날짜·시간 필터와 조회 기간 입력에 시작 값과 종료 값을 받는 입력 2개(또는 시작·종료를 함께 고르는 범위 선택기)가 있고, 단일 날짜 입력 1개만 있지 않다.
+  method: 날짜·시간 필터가 있는 화면을 열어 입력 구성을 확인한다(수동).
+automation:
+  feasibility: none
+  note: '4단계 커스텀 검사 가능: 필터 영역 안 input[type=date|datetime-local]이 1개뿐이면 경고(조회 기간 필터 표시 data 속성 규격 필요).'
+rationale: 사용자는 데이터에 붙은 정확한 날짜를 모르므로 단일 날짜만 고르게 하면 조건을 여러 번 바꿔야 한다.
+sources:
+- ref: KRDS
+  locator: 기본 패턴 > 필터링·정렬 > 사용성 가이드라인 (가이드라인 PDF 2025.08 872쪽)
+  note: https://www.krds.go.kr/html/site/global/global_10.html — '날짜, 시간을 기준으로 한 필터링은 범위를 입력할 수 있도록 제공한다.'
+- ref: KRDS
+  locator: 컴포넌트 > 날짜 입력 필드 > 사용성 가이드라인 (가이드라인 PDF 2025.08 672쪽)
+  note: 신청 내역 등 목록 조회 기간은 시작·종료 범위 입력 필드로 받는다(원문 강도 '구성해야 한다') — sources/extracts/KRDS-components.yaml(원문 재대조 안
+    함).
+scope:
+  level: component
+  targets:
+  - 날짜·시간 필터
+  - 목록 조회 기간 입력
+exceptions: []
+relations:
+- type: depends
+  id: FORM-010
+  note: 시작·종료 필드를 가로로 묶는 배치는 FORM-010
+examples:
+  good:
+  - lang: html
+    code: "<fieldset><legend>신청일</legend>\n  <label>시작일 <input type=\"date\" name=\"from\"></label> ~\n  <label>종료일\
+      \ <input type=\"date\" name=\"to\"></label>\n</fieldset>\n"
+    note: 시작일·종료일 두 입력으로 기간을 받는다.
+  bad:
+  - lang: html
+    code: '<label>신청일 <input type="date" name="date"></label>
+
+      '
+    note: 단일 날짜 입력 하나만 있어 기간을 지정할 수 없다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(KRDS global_10 WebFetch): 원문 문장 확인. 원문 강도는 단정형 ''제공한다''이고 날짜 입력 필드 컴포넌트는 ''구성해야
+  한다'' → SHOULD + public-sector-must. 1단계에서 붙어 있던 KR_HANGUL_ORTHO(물결표 범위 표기)는 다른 요구(표기 규칙)라 제거하고 제안 파일로 넘김.'
+korean_specific: false
+tags:
+- krds
+- public-sector-must

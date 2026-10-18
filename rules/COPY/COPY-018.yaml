@@ -1,0 +1,54 @@
+id: COPY-018
+category: COPY
+title: 전자상거래 푸터 고지
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 전자상거래 기능이 있는 서비스는 푸터에 이용약관 링크와 사업자 신원 정보, 거래 약관을 표시한다.
+measurement:
+  criteria: 결제·주문 기능이 있는 서비스의 모든 페이지 푸터에 (1) '이용약관' 링크, (2) 사업자 신원 정보(상호, 대표자, 주소, 사업자등록번호 등 텍스트), (3) 거래 약관(또는
+    그 링크)이 있다.
+  method: 서비스에 결제·주문 기능이 있는지 확인하고, 있으면 푸터 템플릿에서 세 항목을 확인한다.
+automation:
+  feasibility: none
+  checks: []
+  note: '4단계 커스텀 검사: is_ecommerce=true 이면 footer에 이용약관 링크와 사업자 정보 블록이 있는지 E2E로 확인.'
+rationale: 전자상거래가 포함된 서비스는 소비자가 안전하게 거래할 수 있도록 사업자의 신원과 거래 조건을 쉽게 찾을 수 있어야 한다(KRDS 푸터).
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 푸터 > 사용성 가이드라인 (가이드라인 PDF 2025.08 249쪽)
+  note: https://www.krds.go.kr/html/site/component/component_02_04.html
+scope:
+  level: situation
+  targets:
+  - footer
+  - 전자상거래 기능이 있는 서비스
+exceptions: []
+relations: []
+examples:
+  good:
+  - lang: html
+    code: '<footer><a href="/terms">이용약관</a> <a href="/trade-terms">거래 약관</a>
+
+      <p>상호: ○○ · 대표: ○○○ · 주소: 서울시 ○○구 · 사업자등록번호: 000-00-00000</p></footer>
+
+      '
+    note: 이용약관·거래 약관 링크와 사업자 신원 정보를 푸터에 둔다
+  bad:
+  - lang: html
+    code: '<footer><p>© 2026 ○○ Shop</p></footer>
+
+      '
+    note: 전자상거래 서비스 푸터에 약관과 사업자 정보가 없다
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(curl로 KRDS 페이지 HTML을 받아 텍스트로 직접 읽음): 푸터(component_02_04) ''전자상거래가 포함된 경우 이용약관을
+  반드시 표시한다 ... 사업자의 신원, 거래 약관 등을 푸터에서 제공해야 한다'' 확인. 강도: KRDS ''해야 한다·않는다'' 표현 → SHOULD + public-sector-must(정책 2).
+  사업자 신원 표시 의무는 전자상거래법(사이버몰 운영자 표시 의무)이 근거일 가능성 — 조문 미확인, 제안 파일 new_sources에 적음. 사업자 신원 항목 목록(상호·대표자 등)은 예시이며 KRDS
+  원문은 항목을 나열하지 않음.'
+korean_specific: false
+tags:
+- krds
+- krds-component
+- public-sector-must

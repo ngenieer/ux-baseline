@@ -1,0 +1,62 @@
+id: FORM-022
+category: FORM
+title: 전화번호 형식 유연성
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 전화번호 입력은 숫자만, 공백, 하이픈 구분 형식을 모두 허용하고, 특정 형식만 받아야 하면 그 형식을 입력 필드에 연결된 도움말 텍스트로 안내한다.
+measurement:
+  criteria: 전화번호 필드에 '01012345678', '010 1234 5678', '010-1234-5678'을 각각 넣어 제출하면 셋 다 검증을 통과한다. 하나라도 거부하면, 허용 형식을
+    설명하는 보이는 도움말 텍스트가 aria-describedby로 필드에 연결돼 있어야 통과.
+  method: 세 형식을 각각 입력·제출해 검증 결과를 확인한다(수동 또는 Playwright).
+automation:
+  feasibility: partial
+  checks:
+  - tool: custom
+    method: Playwright로 세 형식을 입력해 검증 통과 여부 확인
+  note: 도움말 문장의 내용 판정은 수동.
+rationale: 사용자마다 익숙한 전화번호 표기가 달라, 한 형식만 받으면 불필요한 입력 오류가 생긴다.
+sources:
+- ref: KRDS
+  locator: 기본 패턴 > 개인 식별 정보 입력 > 사용성 가이드라인(전화번호) (가이드라인 PDF 2025.08 771쪽)
+  note: https://www.krds.go.kr/html/site/global/global_01.html — '공백, 하이픈, 대시 등 ... 다양한 형식의 입력을 허용' / '하이픈을 반드시
+    포함해야 하는 등 특정 형식에 맞추어 입력이 필요한 경우, 도움말 텍스트로 입력 형식의 제한에 대해 명확하게 설명해야 한다. 사용자의 편의성을 위해 자동으로 형식을 수정할 수 있다.'
+scope:
+  level: component
+  targets:
+  - input[type=tel]
+  - 전화번호 입력 필드
+exceptions: []
+relations:
+- type: depends
+  id: FORM-005
+  note: 형식이 맞지 않으면 오류 메시지에 허용 형식을 제시(WCAG 3.3.3)
+examples:
+  good:
+  - lang: html
+    code: '<label for="tel">휴대 전화번호</label>
+
+      <input id="tel" type="tel" autocomplete="tel" inputmode="tel">
+
+      <!-- 서버는 숫자 이외 문자(공백·하이픈)를 지우고 검증한다 -->
+
+      '
+    note: 숫자만·공백·하이픈 형식을 모두 받는다.
+  bad:
+  - lang: html
+    code: '<label for="tel">휴대 전화번호</label>
+
+      <input id="tel" type="tel" autocomplete="tel" pattern="\d{3}-\d{4}-\d{4}">
+
+      '
+    note: 하이픈 형식만 받으면서 허용 형식을 도움말로 안내하지 않는다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(KRDS global_01 HTML curl): ''허용하여'', ''명확하게 설명해야 한다'' 확인 → SHOULD + public-sector-must.
+  측정 기준의 세 샘플 형식은 원문 ''공백, 하이픈''을 국내 휴대전화번호로 구체화한 것. 같은 절의 ''전화번호 유형별 명확한 레이블'', ''국가 코드 콤보박스'', ''여러 번호 구분 레이블''은
+  별도 요구 — 제안 파일 notes.'
+korean_specific: true
+tags:
+- krds
+- public-sector-must

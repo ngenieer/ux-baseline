@@ -1,0 +1,54 @@
+id: AI-008
+category: AI
+title: 중단된 응답 표시
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: MAY
+statement: 사용자가 생성을 중단한 응답에는 응답 끝에 '생성 중단됨' 텍스트를 표시해 완성된 응답과 구분한다.
+measurement:
+  criteria: '생성 중단 후 해당 응답 요소 끝에 ''중단''을 포함한 보이는 텍스트가 있고, 응답 요소의 상태 값(예: data-ai-status="stopped")이 완료(complete)와
+    다르다.'
+  method: 'E2E: 생성 중 중단 버튼을 누른 뒤 응답 요소의 텍스트와 상태 값을 확인한다.'
+automation:
+  feasibility: none
+  checks: []
+  note: 기존 검사기 규칙 없음. 4단계 커스텀 E2E.
+rationale: 중단된 답변을 완성된 답변으로 오인하면 빠진 내용을 모른 채 결과를 쓰게 된다.
+sources:
+- ref: UXB_SYSTEM_CHOICE
+  note: 1차 근거 없음 — 체계 선택
+  locator: CF-052
+- ref: HAX_GUIDELINES_POSTER
+  locator: G11 Make clear why the system did what it did
+  note: 간접 근거
+scope:
+  level: situation
+  targets:
+  - AI 스트리밍 응답
+  - '[data-ai-output]'
+exceptions: []
+relations:
+- type: depends
+  id: STATE-001
+  note: 중단 상태를 보조기술에 알리는 상태 메시지(role=status)는 STATE-001.
+examples:
+  good:
+  - lang: html
+    code: "<article data-ai-output data-ai-status=\"stopped\">\n  <p>신청 절차는 다음과 같습니다. 1) 본인 확인 …</p>\n  <p class=\"\
+      ai-status\">생성 중단됨</p>\n</article>"
+    note: 중단 상태 값과 '생성 중단됨' 텍스트로 완성된 응답과 구분한다.
+  bad:
+  - lang: html
+    code: "<article data-ai-output>\n  <p>신청 절차는 다음과 같습니다. 1) 본인 확인 …</p> <!-- 끊긴 채 표시 없음 -->\n</article>"
+    note: 끊긴 응답이 완성된 응답과 똑같이 보인다.
+needs_verification: false
+verification_note: '2026-10-18 대조: 출처가 PREFERENCE뿐이라 정책 2에 따라 MAY. HAX 포스터 G11(''Enable the user to access an explanation
+  of why the AI system behaved as it did'') 확인 — 간접 근거일 뿐 중단 표시를 요구하지 않음. 확정 전 근거를 찾거나 CF로 체계 결정을 기록해야 함. 2026-10-18
+  CF-052로 체계 선택을 기록하고 PREFERENCE를 UXB_SYSTEM_CHOICE로 바꿈.'
+korean_specific: false
+tags:
+- research-ai
+decisions:
+- CF-052

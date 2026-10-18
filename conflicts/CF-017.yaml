@@ -1,0 +1,12 @@
+id: CF-017
+rules:
+- SHAPE-005
+- STATE-034
+summary: 딤드는 한 겹만(SHAPE-005)인데 바텀시트는 불가피하면 여러 겹을 허용한다(STATE-034).
+principle: 3
+decision: 바텀시트를 겹쳐 띄우더라도 배경 딤드는 맨 위 시트 아래 한 겹만 표시한다.
+reason: 두 요구를 동시에 지킬 수 있는 배치가 있다(원칙 3).
+deviates_from_priority: false
+date: '2026-10-18'
+rule_changes:
+- 'STATE-034: statement 수정'

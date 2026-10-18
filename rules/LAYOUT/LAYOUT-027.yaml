@@ -1,0 +1,47 @@
+id: LAYOUT-027
+category: LAYOUT
+title: 구조화 목록
+stage: platformed
+status:
+  value: confirmed
+type: guide
+strength: SHOULD
+statement: 사용자가 자주 쓰는 기능의 행동 버튼을 구조화 목록 항목에 두어 상세 페이지로 가거나 항목을 펼치지 않고도 목적을 달성하게 한다.
+measurement:
+  criteria: '점검 질문: 이용 데이터나 과업 분석상 이 목록에서 자주 쓰는 기능은 무엇인가? 그 기능을 상세 페이지에 가지 않고 목록 항목에서 실행할 수 있는가?'
+automation:
+  feasibility: none
+  checks: []
+  note: 빈도 판단이 필요한 가이드.
+rationale: 자주 쓰는 기능을 목록에서 바로 실행하면 페이지 이동이 줄어든다.
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 구조화 목록 > 사용성 가이드라인 (가이드라인 PDF 2025.08 355·357쪽)
+  note: https://www.krds.go.kr/html/site/component/component_04_01.html
+scope:
+  level: component
+  targets:
+  - 구조화 목록
+exceptions: []
+relations: []
+examples:
+  good:
+  - lang: text
+    code: '자격증 발급 이력 목록 항목에 ''증명서 내려받기'' 버튼을 두어 상세 페이지에 가지 않고 내려받게 한다.
+
+      '
+    note: 자주 쓰는 기능을 목록 항목에서 바로 실행한다.
+  bad:
+  - lang: text
+    code: '가장 많이 쓰는 ''증명서 내려받기''가 상세 페이지 안에만 있어 항목마다 들어갔다 나와야 한다.
+
+      '
+    note: 자주 쓰는 기능이 상세 페이지에만 있다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(curl로 KRDS 페이지 HTML을 받아 본문 텍스트를 직접 확인): 구조화 목록(component_04_01) ''사용자가 필요로
+  하는 기능과 행동 버튼을 제공한다'', ''사용자가 필요로 하거나 가장 빈번하게 사용하는 기능과 관련된 다양한 행동 버튼을 제공함으로써 상세 페이지로 이동하거나 상세 정보 영역을 확장하지 않더라도
+  빠르게 목적을 달성'' 확인. 지시형 → SHOULD, 판정 불가 → guide.'
+korean_specific: false
+tags:
+- krds
+- krds-component

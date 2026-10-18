@@ -1,0 +1,99 @@
+id: FORM-004
+category: FORM
+title: 레이블 또는 안내
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: MUST
+statement: 사용자 입력을 받는 모든 컴포넌트에 무엇을 입력하는지 알려주는 보이는 레이블이나 입력 안내를 제공한다.
+measurement:
+  criteria: input(hidden·submit·button·reset 제외)·select·textarea와 role=textbox·combobox·listbox·radiogroup·slider·spinbutton·switch
+    요소마다 (1) 화면에 보이는 레이블 텍스트 또는 입력 안내 텍스트가 있고(플레이스홀더만 있으면 실패 — FORM-017), (2) 그 텍스트가 label[for]·감싼 label·aria-labelledby로
+    컴포넌트에 연결되어 접근 가능한 이름에 포함된다. 라디오·체크박스 그룹은 fieldset/legend 또는 role=radiogroup/group + aria-labelledby로 그룹 레이블을
+    가진다.
+  method: axe-core label·select-name·aria-input-field-name·aria-toggle-field-name·form-field-multiple-labels를 돌리고,
+    화면에서 각 컴포넌트에 보이는 레이블·안내가 있는지 눈으로 확인한다.
+automation:
+  feasibility: partial
+  checks:
+  - tool: axe-core
+    rule: label
+    method: 폼 요소의 접근 가능한 이름 존재 검사(SC 4.1.2 태그)
+  - tool: axe-core
+    rule: select-name
+  - tool: axe-core
+    rule: aria-input-field-name
+  - tool: axe-core
+    rule: aria-toggle-field-name
+  - tool: axe-core
+    rule: form-field-multiple-labels
+    method: 레이블 중복 연결 검사(SC 3.3.2 태그)
+  note: axe는 프로그램상 이름 존재만 판정하고, 레이블이 '보이는지'와 무엇을 입력할지 알려주는지는 판정하지 않음 — 수동. title·aria-label만 있는 경우 axe는 통과시키지만 이
+    룰의 (1)은 실패.
+rationale: 무엇을 입력해야 하는지 보이는 텍스트로 알려야 모든 사용자가 올바른 값을 넣고, 레이블이 컴포넌트와 연결돼야 스크린 리더가 용도를 읽어 준다.
+sources:
+- ref: WCAG22
+  locator: SC 3.3.2 Labels or Instructions (Level A)
+  note: https://www.w3.org/TR/WCAG22/#labels-or-instructions
+- ref: WCAG22_UNDERSTANDING
+  locator: https://www.w3.org/WAI/WCAG22/Understanding/labels-or-instructions.html
+  note: 이 SC는 레이블의 마크업 연결까지 요구하지 않는다고 명시 — 연결은 1.3.1·4.1.2(A11Y-007, A11Y-025)와 KWCAG 7.3.2 근거.
+- ref: KWCAG22
+  locator: 검사항목 7.3.2 레이블 제공
+  note: 비공식 HTML 판 — '레이블과 사용자 입력 간의 관계를 보조기술이 인식할 수 있도록 대응시키지 않고 단순히 텍스트로만 제공할 경우 ... 인식할 수 없다.'
+- ref: KRDS
+  locator: 기본 패턴 > 입력폼 > 접근성 가이드라인 (가이드라인 PDF 2025.08 847쪽)
+  note: https://www.krds.go.kr/html/site/global/global_08.html — '각 입력 필드와 입력폼에 이름을 제공한다.' 같은 절의 '입력폼 각 섹션에 <h2>~<h6>
+    제목을 제공한다'는 별도 요구(이 룰 범위 밖 — 제안 파일 notes).
+- ref: KRDS
+  locator: 컴포넌트 (여러 페이지) > 사용성·접근성 가이드라인 (가이드라인 PDF 2025.08 555, 669, 680, 691, 702쪽; 범위 슬라이더·수량 토글은 PDF에 없음)
+  note: 날짜 입력 필드·범위 슬라이드·셀렉트·수량 토글·텍스트 영역·텍스트 입력 필드·파일 업로드 — '모든 ○○에는 레이블을 제공한다. 레이블을 생략하고자 하는 경우에는 레이블 없이도 사용자가
+    값을 선택하는 데 문제가 없다는 근거가 명확해야 한다.' 상세는 sources/extracts/KRDS-components.yaml
+scope:
+  level: component
+  targets:
+  - input
+  - select
+  - textarea
+  - '[role=textbox]'
+  - '[role=combobox]'
+  - '[role=radiogroup]'
+  - '[role=slider]'
+  - '[role=spinbutton]'
+  - '[role=switch]'
+exceptions: []
+relations:
+- type: depends
+  id: A11Y-025
+  note: 레이블을 접근 가능한 이름으로 노출하는 요구(WCAG 4.1.2)
+- type: depends
+  id: A11Y-019
+  note: 보이는 레이블 텍스트가 접근 가능한 이름에 포함돼야 함(WCAG 2.5.3)
+examples:
+  good:
+  - lang: html
+    code: '<label for="addr">도로명 주소</label>
+
+      <input id="addr" name="addr" autocomplete="street-address">
+
+      '
+    note: 보이는 레이블을 label[for]로 입력 필드에 연결했다.
+  bad:
+  - lang: html
+    code: '<input id="addr" name="addr" autocomplete="street-address" placeholder="도로명 주소">
+
+      '
+    note: 플레이스홀더만 있고 보이는 레이블이 없어 입력을 시작하면 무엇을 쓰는 칸인지 사라진다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(WCAG22-A-AA.yaml SC 3.3.2, Understanding labels-or-instructions curl, KRDS
+  global_08·component_06_03·09_02·09_03·12_01·12_04 HTML curl, KWCAG 비공식 HTML 판 7.3.2): SC 원문과 맞음. Understanding의
+  ''마크업 연결은 요구하지 않음'' 문장을 확인해 연결 요구는 KWCAG 7.3.2·KRDS 근거로 측정 기준에 넣음. KRDS의 ''근거가 명확하면 레이블 생략 가능''은 판정 불가라 예외로 두지
+  않음(공공 MUST 근거인 KWCAG 7.3.2와도 맞지 않음). 1단계 automation의 form-field-multiple-labels 단일 매핑을 label 등으로 보강.'
+korean_specific: false
+tags:
+- wcag22
+- level-a
+- new-in-2.0
+- kwcag22
+- krds

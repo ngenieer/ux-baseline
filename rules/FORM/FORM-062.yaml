@@ -1,0 +1,54 @@
+id: FORM-062
+category: FORM
+title: 이미지 자동 압축
+stage: platformed
+status:
+  value: confirmed
+type: guide
+strength: MAY
+statement: 이미지 파일 제출에 크기 제한을 두면 이미지를 제한 크기 이하로 줄이는 자동 압축 기능을 제공한다.
+measurement:
+  criteria: '점검 질문: 이미지 업로드에 크기 제한이 있는가? 있다면 제한을 넘는 이미지를 서비스 안에서 줄여 주는 기능이 있는가, 없다면 제공하지 않기로 한 이유를 기록했는가?'
+  method: 수동 검토
+automation:
+  feasibility: none
+  checks: []
+  note: 기능 제공 여부 검토 항목이라 자동화 대상 아님.
+rationale: KRDS는 이미지를 원하는 크기·품질로 줄이려면 여러 번 시도해야 하므로, 이미지 제출이 필요하고 용량을 제한해야 하면 압축 기능 제공을 고려하라고 한다.
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 파일 업로드 > 사용성 가이드라인(이미지 유형의 파일에 대해 파일 크기 자동 압축 기능을 제공한다) (가이드라인 PDF 2025.08 704쪽)
+  note: 'https://www.krds.go.kr/html/site/component/component_09_04.html — 원문 본문: ''압축하는 기능을 제공하는 방안을 고려한다'''
+scope:
+  level: situation
+  targets:
+  - 크기 제한이 있는 이미지 업로드
+exceptions: []
+relations:
+- type: depends
+  id: FORM-061
+  note: 크기 제한을 두는 경우에만 해당
+examples:
+  good:
+  - lang: text
+    code: '증명사진 업로드 제한은 1MB다.
+
+      1MB를 넘는 사진을 고르면 "사진 크기를 1MB 이하로 줄여 올릴까요?"라고 묻고, [줄여서 올리기]를 누르면 서비스가 압축해 올린다.
+
+      '
+    note: 크기 제한을 넘는 이미지를 서비스 안에서 줄여 준다.
+  bad:
+  - lang: text
+    code: '증명사진 업로드 제한은 1MB다.
+
+      1MB를 넘으면 "1MB 이하 파일만 올릴 수 있습니다."만 표시하고, 압축 기능이나 제공하지 않는 이유 기록이 없다.
+
+      '
+    note: 이미지 크기 제한만 두고 사용자가 직접 줄이게 한다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(curl로 KRDS 페이지 HTML을 받아 본문 텍스트와 대조): 제목은 ''제공한다'', 본문은 ''고려한다'' — 본문 강도를 따라
+  MAY.'
+korean_specific: false
+tags:
+- krds
+- krds-component

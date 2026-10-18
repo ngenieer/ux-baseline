@@ -1,0 +1,70 @@
+id: AI-001
+category: AI
+title: AI 상호작용 사전 고지
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: MUST
+statement: 사용자가 AI 시스템과 직접 대화·상호작용하는 화면에는 사용자의 첫 입력을 받기 전에 상대가 AI라는 사실을 화면 텍스트로 표시한다.
+measurement:
+  criteria: '(1) 채팅·음성 비서 등 AI와 직접 상호작용하는 화면을 처음 열었을 때, 입력창이 활성화되기 전부터 ''AI''라는 말을 포함한 안내 텍스트(예: ''AI 상담원이 답변합니다'')가
+    화면에 보이고 접근성 트리에 노출된다. (2) 안내가 이미지·아이콘뿐이면 그 접근 가능한 이름에 같은 내용이 있다. (3) 안내를 닫거나 스크롤해도 첫 입력 전에는 사라지지 않는다.'
+  method: 'AI 상호작용 화면마다 새 세션으로 열어 첫 입력 전에 안내 텍스트가 보이는지 확인한다(Playwright: 로드 직후 [data-ai-disclosure]의 innerText와 가시성).'
+automation:
+  feasibility: none
+  checks: []
+  note: '기존 검사기 규칙 없음. 4단계 커스텀 E2E: 입력창이 있는 AI 화면에서 로드 직후 [data-ai-disclosure] 요소가 보이고 텍스트에 ''AI''가 있는지 검사.'
+rationale: 사람과 대화한다고 오인하면 사용자가 답변을 과신하거나 개인정보를 부적절하게 제공할 수 있다. EU AI Act는 늦어도 첫 상호작용 시점에 명확하고 구별되는 방식으로, 접근성 요구를
+  지켜 알리라고 하고, 한국 AI 기본법은 생성형·고영향 AI 기반 운용 사실의 사전 고지를 의무로 둔다.
+sources:
+- ref: EU_AI_ACT_ART50
+  locator: Art.50(1), 50(5)
+  note: 50(1) 직접 상호작용 AI임을 알릴 의무(맥락상 명백하면 예외), 50(5) 'clear and distinguishable manner at the latest at the time
+    of the first interaction', 'conform to the applicable accessibility requirements'
+- ref: KR_AI_BASIC_ACT
+  locator: 제31조 제1항
+  note: 생성형·고영향 AI 기반 운용 사실 사전 고지 의무(제43조 제1항 제1호 과태료 대상)
+- ref: KR_AI_BASIC_ACT_DECREE
+  locator: 제23조 제1항·제4항
+  note: '고지 방법: 제품 기재·약관 등 / 화면·단말 표시 / 장소 게시 / 장관 인정 방법 중 하나. 제4항 예외: 활용 사실이 명백한 경우, 내부 업무용'
+scope:
+  level: situation
+  targets:
+  - AI 채팅 화면
+  - AI 음성 상호작용 화면
+  - '[data-ai-chat]'
+exceptions:
+- 서비스명·화면 문구 등으로 AI와 상호작용한다는 사실이 이용자에게 명백한 경우(EU 50(1), 한국 시행령 제23조 제4항 제1호).
+- 인공지능사업자의 내부 업무 용도로만 쓰는 경우(한국 시행령 제23조 제4항 제2호).
+- 법률로 허가된 범죄 탐지·예방·수사·기소용 AI 시스템(EU 50(1), 단 공중의 범죄 신고용 제외).
+relations:
+- type: depends
+  id: A11Y-001
+  note: 안내를 아이콘으로 표시하면 대체 텍스트가 필요하다(EU 50(5) 접근성 요구).
+examples:
+  good:
+  - lang: html
+    code: "<section aria-label=\"AI 상담\">\n  <p data-ai-disclosure>이 상담은 AI가 답변합니다. 답변은 틀릴 수 있습니다.</p>\n  <textarea\
+      \ aria-label=\"질문 입력\"></textarea>\n</section>"
+    note: 첫 입력 전에 AI가 답한다는 사실을 화면 텍스트로 알린다.
+  bad:
+  - lang: html
+    code: "<section aria-label=\"상담\">\n  <p>무엇이든 물어보세요!</p> <!-- AI라는 사실이 이용약관에만 있음 -->\n  <textarea aria-label=\"\
+      질문 입력\"></textarea>\n</section>"
+    note: AI라는 사실이 약관에만 있고 상담 화면에는 표시가 없다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조: EU AI Act 원문은 EU 출판국 공식 사본(publications.europa.eu cellar dc8116a1-3fe6-11ef-865a-01aa75ed71a1,
+  OJ L 2024/1689 영문 HTML)을 curl로 받아 Article 50을 직접 읽음; 한국 AI 기본법은 law.go.kr lsInfoR.do?lsiSeq=282791(법률 제21311호,
+  2026-01-20 일부개정, 시행 2026-07-21), 시행령은 lsiSeq=288781(대통령령 제36580호, 시행 2026-08-20)을 curl로 받아 조문을 직접 읽음. EU 50(1)·50(5)
+  문장, 한국 제31조 제1항·제43조 제1항 제1호(과태료는 제1항 사전고지 미이행만 대상 — 제2·3항 표시 의무는 과태료 조항에 없음), 시행령 제23조 제1항(약관 기재도 허용)·제4항(예외)
+  확인. ''화면 텍스트''로 한정한 것은 법보다 강한 체계 선택(한국법은 약관 기재로도 충족) — BACKLOG ''AI 표시 의무(화면 텍스트) vs 한국 AI 기본법 제31조'' 항목으로 3단계
+  결정. EU 50(5)의 ''첫 상호작용 시점까지 명확·구별되는 방식''과는 일치. MSIT 가이드라인·Apple HIG는 원문 미확인(보조 출처). registry의 EU_AI_ACT_ART50·KR_AI_BASIC_ACT·KR_AI_BASIC_ACT_DECREE는
+  아직 verified=false — 갱신 제안은 제안 파일 notes. 2026-10-18 확정 시 미검증 출처 MSIT_AI_TRANSPARENCY_GUIDE·APPLE_HIG_GENAI 제외(나머지
+  검증된 출처로 근거 성립).'
+korean_specific: true
+tags:
+- research-ai
+- law
+decisions:
+- CF-025

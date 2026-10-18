@@ -1,0 +1,12 @@
+{
+  "name": "ux-baseline-trials",
+  "private": true,
+  "description": "AI 에이전트가 ux-baseline 패키지만 보고 만든 화면을 검사기로 채점한다.",
+  "type": "module",
+  "scripts": {
+    "grade": "node grade.mjs"
+  },
+  "devDependencies": {
+    "playwright-core": "1.56.1"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "name": "ux-baseline-lint",
+  "private": true,
+  "description": "ux-baseline 확정 룰을 검사기 설정으로 옮긴 것. 각 프로젝트는 이 설정을 extends 해서 쓴다.",
+  "type": "module",
+  "scripts": {
+    "test": "node test-fixtures.mjs && node test-components.mjs",
+    "rulemap": "node build-rule-map.mjs",
+    "rulemap:check": "node build-rule-map.mjs --check"
+  },
+  "devDependencies": {
+    "axe-core": "^4.14.0",
+    "html-validate": "^11.16.3",
+    "jsdom": "^26.1.0",
+    "stylelint": "^17.16.0",
+    "stylelint-declaration-strict-value": "^1.11.0",
+    "yaml": "^2.9.1"
+  }
+}

@@ -1,0 +1,63 @@
+id: MOTION-012
+category: MOTION
+title: 레이아웃 유발 속성 애니메이션 금지
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 요소를 움직이거나 크기를 바꾸는 애니메이션·전환은 transform으로 만들고, top·left·box-shadow 값을 애니메이션하지 않는다.
+measurement:
+  criteria: transition-property(또는 transition 단축 속성)와 @keyframes 안에 top, left, box-shadow가 없다. 위치·크기 변화는 transform(translate·scale·rotate)으로
+    구현돼 있다.
+  method: stylelint 플러그인으로 transition·@keyframes 속성을 검사한다.
+automation:
+  feasibility: partial
+  checks:
+  - tool: stylelint
+    rule: ux-baseline/no-animated-position-props
+    method: lint/plugins/ux-baseline.mjs — transition·transition-property 값과 @keyframes 안의 top·left·box-shadow 를
+      찾는다
+  note: 플러그인은 레이아웃·페인트 유발 속성 전체를 경고해 이 룰(top·left·box-shadow)보다 넓다. 이 룰 범위로 맞추려면 ignoreProperties로 조정. JS 애니메이션은
+    별도 검사.
+rationale: top·left 변경은 요소가 별도 레이어에 있어도 레이아웃 이동을 일으키고, box-shadow는 리레이아웃·페인트를 유발한다. transform 합성 애니메이션은 다른 요소에 영향을
+  주지 않아 CLS에 포함되지 않는다.
+sources:
+- ref: WEBDEV_OPT_CLS
+  locator: Animations 절
+  note: '''Avoid animating using these properties''(box-shadow, box-sizing, top, left), transform 합성 애니메이션은 CLS
+    미포함'
+scope:
+  level: global
+  targets:
+  - transition
+  - '@keyframes'
+exceptions: []
+relations:
+- type: refines
+  id: PERF-008
+  note: 애니메이션으로 생기는 레이아웃 이동을 막는 구현 규칙.
+examples:
+  good:
+  - lang: css
+    code: '.drawer { transition: transform var(--motion-duration-base) var(--motion-easing-standard); transform:
+      translateX(-100%); }
+
+      .drawer.is-open { transform: none; }'
+    note: 서랍 이동을 transform으로 구현했다.
+  bad:
+  - lang: css
+    code: '.drawer { transition: left var(--motion-duration-base) var(--motion-easing-standard); left: -320px; }
+
+      .drawer.is-open { left: 0; }'
+    note: left 값을 애니메이션해 레이아웃 이동이 생긴다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(web.dev Optimize CLS curl): ''Some values, such as box-shadow and box-sizing,
+  trigger re-layout, paint, and composite. Changing the top and left properties also cause layout shifts ... Avoid
+  animating using these properties.'', ''Composited animations using translate ... don''t count toward CLS'' 확인.
+  1단계 statement의 ''transform과 opacity로만'', width·height·margin 금지는 이 출처에 없어 뺐다 — web.dev ''How to create high-performance
+  CSS animations''(미등록)에 ''transform·opacity 외 레이아웃·페인트 유발 속성 회피''가 있어 new_sources 제안. 플러그인 규칙 이름은 npm README에서
+  확인. 카테고리 재검토: 성능 근거라 PERF가 맞아 보임.'
+korean_specific: false
+tags:
+- research-motion_perf

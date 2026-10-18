@@ -1,0 +1,195 @@
+id: floating-button
+title: 플로팅 버튼
+status: confirmed
+summary: 사용자가 화면에서 반복하는 주요 행동 하나를 스크롤과 관계없이 화면 오른쪽 아래에 늘 보여줄 때 쓴다.
+use_instead:
+- when: 자주 쓰는 주요 행동이 여러 개인 경우
+  use: 메뉴·탭바
+  rule: LAYOUT-022
+- when: 지도·캘린더·이미지 편집처럼 제스처 조작이 많은 화면
+  use: 화면 안의 일반 button
+  rule: LAYOUT-022
+- when: 만족도 평가 같은 사용자 피드백 요소
+  use: 본문 아래에 두는 피드백 컴포넌트(화면에 고정하지 않는다)
+  rule: STATE-004
+krds:
+  page: component_05_03.html
+anatomy:
+- part: 루트(컨테이너)
+  class: floating-button
+  element: a 또는 button(단일형), div(확장형)
+  required: true
+  note: 단일형은 화면 이동이면 a[href], 기능 실행이면 button 이다(NAV-047). 확장형은 트리거와 항목 목록을 담는 div 에 floating-button--expandable
+    을 더한다. position fixed 로 화면 오른쪽 아래에 두고 다른 콘텐츠보다 위 레이어에 놓는다(LAYOUT-023). 한 화면에 1개만 둔다(LAYOUT-024).
+- part: 아이콘
+  class: floating-button__icon
+  element: svg
+  required: true
+  note: 버튼 이름의 의미를 나타내는 장식 아이콘(aria-hidden). 모든 화면에서 같은 기능에 같은 아이콘을 쓴다(COPY-004).
+- part: 레이블
+  class: floating-button__label
+  element: span
+  required: true
+  note: 보이는 버튼 이름. 모든 화면에서 같은 기능에 같은 레이블을 쓴다(COPY-004).
+- part: 확장형 트리거
+  class: floating-button__trigger
+  element: button
+  note: 확장형에서만 쓴다. 루트 div 안에서 루트와 같은 모양(채움·원형)을 쓰고 aria-expanded·aria-controls 를 가진다. 펼치면 아이콘을 '+' 에서 'X' 로 바꾼다(KRDS
+    구조).
+- part: 확장 항목 목록
+  class: floating-button__menu
+  element: ul
+  note: 확장형에서만 쓴다. 항목은 3개 이하, 플로팅 버튼을 누른 뒤 한 번 더 눌러 실행한다(터치 깊이 2수준 이하, LAYOUT-024).
+- part: 확장 항목
+  class: floating-button__item
+  element: a 또는 button
+  note: 확장형의 개별 동작. 이동이면 a, 기능 실행이면 button(NAV-047).
+markup: |-
+  <a class="floating-button" href="/applications/new">
+    <svg class="floating-button__icon" aria-hidden="true" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"></path></svg>
+    <span class="floating-button__label">신청서 작성</span>
+  </a>
+css: |-
+  .floating-button {
+    position: fixed;
+    inset-inline-end: var(--space-scale-8);
+    inset-block-end: var(--space-scale-8);
+    z-index: 100;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-gap-2);
+    min-block-size: var(--size-height-7);
+    padding-inline: var(--space-padding-6);
+    border: var(--border-width-variable-regular) solid var(--color-button-primary-fill);
+    border-radius: var(--radius-max);
+    background-color: var(--color-button-primary-fill);
+    color: var(--color-text-inverse-static);
+    font-size: var(--font-size-label-medium);
+    font-weight: var(--font-weight-bold);
+    text-decoration-line: none;
+    box-shadow: var(--shadow-2);
+    transition: background-color var(--motion-duration-fast) var(--motion-easing-standard);
+  }
+  .floating-button:hover {
+    background-color: var(--color-button-primary-fill-hover);
+  }
+  .floating-button:active {
+    background-color: var(--color-button-primary-fill-pressed);
+  }
+  .floating-button:focus-visible,
+  .floating-button__item:focus-visible {
+    outline: var(--space-scale-2) solid var(--color-border-primary);
+    outline-offset: var(--space-scale-1);
+  }
+  .floating-button--expandable {
+    flex-direction: column;
+    align-items: flex-end;
+    padding: 0;
+    border-style: none;
+    background-color: transparent;
+    box-shadow: none;
+  }
+  .floating-button__trigger {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-gap-2);
+    min-block-size: var(--size-height-7);
+    padding-inline: var(--space-padding-6);
+    border: var(--border-width-variable-regular) solid var(--color-button-primary-fill);
+    border-radius: var(--radius-max);
+    background-color: var(--color-button-primary-fill);
+    color: var(--color-text-inverse-static);
+    font-size: var(--font-size-label-medium);
+    font-weight: var(--font-weight-bold);
+    box-shadow: var(--shadow-2);
+    cursor: pointer;
+  }
+  .floating-button__trigger:focus-visible {
+    outline: var(--space-scale-2) solid var(--color-border-primary);
+    outline-offset: var(--space-scale-1);
+  }
+  .floating-button__icon {
+    inline-size: var(--size-height-4);
+    block-size: var(--size-height-4);
+    flex-shrink: 0;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+  }
+  .floating-button__menu {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: var(--space-gap-3);
+    margin: 0 0 var(--space-gap-4);
+    padding: 0;
+    list-style: none;
+  }
+  .floating-button__item {
+    display: inline-flex;
+    align-items: center;
+    min-block-size: var(--size-height-6);
+    padding-inline: var(--space-padding-6);
+    border: var(--border-width-variable-regular) solid var(--color-button-tertiary-border);
+    border-radius: var(--radius-max);
+    background-color: var(--color-button-tertiary-fill);
+    color: var(--color-text-basic);
+    font-size: var(--font-size-label-medium);
+    box-shadow: var(--shadow-2);
+  }
+  html:has(.floating-button) {
+    scroll-padding-block-end: var(--space-scale-21);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .floating-button {
+      transition: none;
+    }
+  }
+states:
+- name: 확장형(닫힘)
+  markup_change: 루트를 div.floating-button.floating-button--expandable 컨테이너로 바꾸고 그 안에 button.floating-button__trigger(aria-expanded="false",
+    aria-controls=목록 id)와 hidden 을 준 ul.floating-button__menu 를 둔다. 트리거 아이콘은 '+', 레이블은 펼침 상태와 관계없이 같은 이름을 쓴다(COPY-004).
+  rule: LAYOUT-024
+- name: 확장형(열림)
+  markup_change: 트리거에 aria-expanded="true", 목록의 hidden 을 없애고 아이콘을 'X' 로 바꾼다. 항목은 3개 이하(LAYOUT-024).
+  rule: LAYOUT-024
+- name: 탭바가 있는 화면
+  markup_change: 마크업 변화 없음. inset-block-end 를 탭바 높이에 간격(space-scale-8)을 더한 값으로 바꿔 탭바 위 오른쪽 아래에 둔다(LAYOUT-023).
+  rule: LAYOUT-023
+keyboard:
+- key: Tab / Shift+Tab
+  action: 플로팅 버튼으로 초점을 옮긴다. 플로팅 버튼은 본문 마지막 콘텐츠 뒤의 순서로 둔다(DOM 에서 main 콘텐츠 다음).
+- key: Enter (a) / Enter·Space (button)
+  action: 단일형은 동작을 실행한다. 확장형 트리거는 항목 목록을 펼치거나 접는다.
+- key: Esc
+  action: 확장형 목록이 펼쳐져 있으면 접고 초점을 트리거로 옮긴다.
+behavior:
+- 사용자가 반복하는 주요 행동이 하나일 때만 쓰고, 주요 행동이 여럿이거나 제스처 중심 화면에서는 쓰지 않는다(LAYOUT-022).
+- 화면 오른쪽 아래에 고정하고, 하단 탭바가 있으면 탭바와 겹치지 않게 탭바 위에 둔다(LAYOUT-023).
+- 한 화면에 플로팅 버튼은 1개만 두고, 동작이 2개 이상이면 확장형 하나로 묶어 항목 3개 이하·터치 깊이 2수준 이하로 한다(LAYOUT-024).
+- 모든 화면에서 같은 주요 작업으로 연결하고 같은 레이블·아이콘을 쓴다(COPY-004).
+- 고정된 플로팅 버튼이 키보드 초점을 받은 다른 요소를 완전히 가리지 않도록 문서에 scroll-padding-block-end 를 둔다(LAYOUT-001). 탭바가 있으면 탭바 높이만큼 더한다.
+- 화면 이동이면 링크, 기능 실행이면 버튼 요소를 쓴다(NAV-047).
+- 확장형 트리거는 aria-expanded 로 펼침 상태를 보조기술에 알린다(A11Y-025).
+rules:
+- A11Y-011
+- A11Y-016
+- A11Y-025
+- COLOR-002
+- COLOR-011
+- COPY-004
+- LAYOUT-001
+- LAYOUT-002
+- LAYOUT-022
+- LAYOUT-023
+- LAYOUT-024
+- MOTION-004
+- NAV-047
+- SHAPE-004
+- STATE-004
+notes:
+- KRDS HTML 키트 v1.1.0 에는 플로팅 버튼 마크업 파일이 없어 KRDS 플로팅 버튼 페이지(구조 — 아이콘·컨테이너·레이블·오버레이·확장/닫기 버튼)와 확정 룰로 규격을 만들었다.
+- 플로팅 버튼 그림자는 shadow-2 다(SHAPE-004, CF-060).
+- scroll-padding-block-end 값(space-scale-21, 96px)은 플로팅 버튼 높이(48px)와 아래 간격(16px)을 덮는 가장 가까운 토큰이다. 탭바가 있으면 프로젝트에서
+  탭바 높이를 더한다.
+- 색은 KRDS 키트 primary 버튼 토큰을 따랐다.

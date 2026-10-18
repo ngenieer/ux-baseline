@@ -1,0 +1,57 @@
+id: A11Y-045
+category: A11Y
+title: 숨긴 텍스트 사용 범위
+stage: platformed
+status:
+  value: confirmed
+type: guide
+strength: MAY
+statement: 스크린 리더 전용 숨긴 텍스트는 비텍스트 콘텐츠의 복잡한 설명, 조작 방법 안내, 요소·화면의 상태 변화 정보 전달에 쓰고, 간결한 이미지 설명이나 요소의 접근 가능한 이름 전달에는
+  alt·label·aria-label을 쓴다.
+measurement:
+  criteria: '점검 질문: 숨긴 텍스트(.sr-only 등)가 이름 대신 쓰이고 있지 않은가? 간단한 이미지 설명을 alt 대신 숨긴 텍스트로 넣지 않았는가?'
+  method: 숨긴 텍스트 사용 위치를 목록화해 용도를 검토한다.
+automation:
+  feasibility: none
+  checks: []
+  note: 판정 불가(guide). 4단계에서 숨긴 텍스트 사용 위치를 뽑는 보조 스크립트만 가능.
+rationale: 이름·간단한 설명은 표준 속성이 더 안정적으로 전달된다. 숨긴 텍스트는 표준 속성으로 담기 어려운 정보에 쓴다.
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 숨긴 콘텐츠 > 용례 (가이드라인 PDF 2025.08 747쪽)
+  note: https://www.krds.go.kr/html/site/component/component_11_02.html
+scope:
+  level: component
+  targets:
+  - .sr-only
+  - 숨긴 콘텐츠
+exceptions: []
+relations:
+- type: depends
+  id: A11Y-001
+- type: depends
+  id: A11Y-025
+examples:
+  good:
+  - lang: html
+    code: '<img src="org.png" alt="조직도" aria-describedby="org-desc">
+
+      <div id="org-desc" class="sr-only">장관 아래 차관 2명, 각 차관 아래 실 3개…</div>
+
+      '
+    note: 복잡한 조직도 설명에만 숨긴 텍스트 사용
+  bad:
+  - lang: html
+    code: '<button><img src="search.svg" alt=""><span class="sr-only">검색</span></button>
+
+      <!-- KRDS 기준: 이름 전달은 숨긴 텍스트보다 alt·aria-label 사용 -->
+
+      '
+    note: 간단한 버튼 이름을 alt·aria-label 대신 숨긴 텍스트로 전달
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(WebFetch로 KRDS 페이지 재조회, 요약 모델 인용 확인): 용례 ''사용하기 적합한 경우''(복잡한 설명, 지시 사항·조작 방식,
+  상태 변화) / ''적합하지 않은 경우''(간결한 이미지 콘텐츠, 접근 가능한 이름 전달) 확인. 목록형 권고 → guide·MAY.'
+korean_specific: false
+tags:
+- krds
+- krds-component

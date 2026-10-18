@@ -1,0 +1,55 @@
+id: COPY-019
+category: COPY
+title: 링크 레이블 길이
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 문단 밖에 독립으로 놓이는 링크의 레이블은 프로젝트가 지원하는 모든 화면 너비에서 한 줄로 표시되는 길이로 쓴다.
+measurement:
+  criteria: 문단(p) 안 인라인 링크가 아닌 독립 링크(목록 항목·카드·버튼형 링크)의 getClientRects() 줄 상자 수가 프로젝트 지원 화면 너비(RESP 기준 중단점) 각각에서
+    1이다.
+  method: 지원 화면 너비마다 페이지를 렌더링해 독립 링크의 줄 수를 측정한다.
+automation:
+  feasibility: none
+  checks: []
+  note: '4단계 커스텀 검사(Playwright): 중단점별로 a:not(p a)의 getClientRects().length > 1 이면 실패.'
+rationale: 링크 레이블은 목적지를 설명할 만큼 구체적이어야 하지만 여러 줄로 줄바꿈될 만큼 길면 훑어보기 어렵다(KRDS 링크).
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 링크 > 사용성 가이드라인 (가이드라인 PDF 2025.08 503쪽)
+  note: https://www.krds.go.kr/html/site/component/component_05_01.html
+scope:
+  level: component
+  targets:
+  - a[href]:not(p a)
+  - 링크
+exceptions:
+- 문단 안 인라인 링크는 문장 흐름에 따라 줄바꿈될 수 있어 대상이 아니다(KRDS 원문은 인라인·독립을 구분하지 않음 — 이 체계의 판정 범위 설정).
+relations:
+- type: depends
+  id: COPY-002
+  note: 레이블은 목적지를 설명해야 한다(COPY-002) — 짧게 쓰되 목적을 잃지 않는다
+examples:
+  good:
+  - lang: html
+    code: '<ul class="links"><li><a href="/apply">장애아동수당 신청</a></li></ul>
+
+      '
+    note: 독립 링크 레이블이 짧아 모든 화면 너비에서 한 줄로 표시된다
+  bad:
+  - lang: html
+    code: '<ul class="links"><li><a href="/apply">2026년도 장애아동수당 및 장애수당 온라인 신청과 관련 증빙서류 제출 바로가기</a></li></ul>
+
+      '
+    note: 독립 링크 레이블이 길어 좁은 화면에서 여러 줄로 감긴다
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(curl로 KRDS 페이지 HTML을 받아 텍스트로 직접 읽음): 링크(component_05_01) ''레이블은 ... 구체적이고 설명적이어야
+  하지만 텍스트가 여러 줄로 줄바꿈될 정도로 길어지는 것은 피해야 한다'' 확인. 원문 ''피해야 한다'' → 강도: KRDS ''해야 한다·않는다'' 표현 → SHOULD + public-sector-must(정책
+  2). 인라인 링크를 범위에서 뺀 것과 ''지원 화면 너비 각각''을 판정 조건으로 둔 것은 이 체계의 판정 범위 설정.'
+korean_specific: false
+tags:
+- krds
+- krds-component
+- public-sector-must

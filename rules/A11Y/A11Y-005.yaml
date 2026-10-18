@@ -1,0 +1,50 @@
+id: A11Y-005
+category: A11Y
+title: 실시간 영상 자막
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: MUST
+statement: 실시간 동기화 미디어(생중계 영상)의 모든 오디오 내용에 자막을 제공한다.
+measurement:
+  criteria: 생중계 영상 플레이어에서 실시간 자막(문자통역·CART·자동 자막 후 교정 등)을 표시할 수 있고, 방송 중 대사가 자막으로 나온다.
+  method: 생중계 중 또는 리허설에서 자막 표시를 켜고 대사가 자막으로 나오는지 확인한다.
+automation:
+  feasibility: none
+  checks: []
+  note: 검사기 규칙 없음. 운영 절차로 확인.
+rationale: 생중계를 청각장애 사용자도 같은 시점에 이해할 수 있게 한다.
+sources:
+- ref: WCAG22
+  locator: SC 1.2.4 Captions (Live) (Level AA)
+  note: https://www.w3.org/TR/WCAG22/#captions-live
+- ref: WCAG22_UNDERSTANDING
+  locator: https://www.w3.org/WAI/WCAG22/Understanding/captions-live.html
+scope:
+  level: situation
+  targets:
+  - 실시간 동기화 미디어(생중계)
+exceptions: []
+relations: []
+examples:
+  good:
+  - lang: html
+    code: "<video controls src=\"live.m3u8\">\n  <track kind=\"captions\" src=\"live-captions.vtt\" srclang=\"ko\"\
+      \ label=\"실시간 자막\">\n</video>\n"
+    note: 생중계 플레이어에 실시간 자막 트랙 제공
+  bad:
+  - lang: html
+    code: '<video controls src="live.m3u8"></video>
+
+      <!-- 생중계 자막 없음 -->
+
+      '
+    note: 생중계 영상에 자막이 없음
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(sources/extracts/WCAG22-A-AA.yaml): statement·수치가 SC 원문과 일치함을 확인.'
+korean_specific: false
+tags:
+- wcag22
+- level-aa
+- new-in-2.0

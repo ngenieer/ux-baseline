@@ -1,0 +1,67 @@
+id: NAV-005
+category: NAV
+title: 일관된 도움 위치
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: MUST
+statement: 여러 페이지에 반복하는 도움 수단(담당자 연락처, 연락 수단, 자가 도움말, 자동 상담)은 사용자가 바꾸지 않는 한 다른 콘텐츠에 대해 같은 상대 순서에 둔다.
+measurement:
+  criteria: 같은 화면 변형(같은 브레이크포인트·확대 배율·방향)에서, 반복되는 도움 수단(연락처, 문의 양식·채팅 링크, FAQ·도움말 링크, 챗봇)의 직렬화(DOM) 순서상 위치가 다른 페이지
+    콘텐츠에 대해 페이지마다 같다. 도움 수단은 페이지에 직접 두거나 그 정보가 있는 페이지로 가는 직접 링크로 둘 수 있다.
+  method: 도움 수단이 있는 대표 페이지 5개 이상에서 도움 수단 앞뒤의 랜드마크·요소를 기록해 비교한다(수동).
+automation:
+  feasibility: none
+  note: '4단계 커스텀 검사 가능: 도움 수단에 data-help 속성을 붙이는 규격을 두고, 크롤 결과에서 랜드마크 대비 위치를 비교.'
+rationale: 도움이 필요한 순간에 사용자가 매번 위치를 다시 찾지 않아야 한다. 인지 장애 사용자에게 특히 중요하다.
+sources:
+- ref: WCAG22
+  locator: SC 3.2.6 Consistent Help (Level A)
+  note: https://www.w3.org/TR/WCAG22/#consistent-help
+- ref: WCAG22_UNDERSTANDING
+  locator: https://www.w3.org/WAI/WCAG22/Understanding/consistent-help.html
+- ref: KWCAG22
+  locator: 검사항목 7.2.2 찾기 쉬운 도움 정보
+  note: '''도움 정보가 제공되는 경우, 각 페이지에서 동일한 상대적인 순서로 접근할 수 있어야 한다.''(비공식 HTML 판)'
+scope:
+  level: global
+  targets:
+  - 연락처
+  - 문의·상담 링크
+  - FAQ·도움말 링크
+  - 챗봇
+exceptions:
+- 사용자가 직접 변경한 경우(WCAG 3.2.6 원문)
+- 도움 수단이 여러 페이지에 반복되지 않는 경우(조건부 기준)
+relations: []
+examples:
+  good:
+  - lang: html
+    code: '<!-- 모든 페이지에서 푸터 첫 그룹 -->
+
+      <footer><div class="contact">고객센터 110 · <a href="/faq">자주 묻는 질문</a></div>…</footer>
+
+      '
+    note: 모든 페이지에서 도움 수단이 푸터 첫 그룹이라는 같은 상대 위치에 있다.
+  bad:
+  - lang: html
+    code: '<!-- 신청 페이지: 헤더 안 -->
+
+      <header>…<a href="/faq">자주 묻는 질문</a></header>
+
+      <!-- 조회 페이지: 본문 중간 -->
+
+      <main>…<a href="/faq">자주 묻는 질문</a>…</main>
+
+      '
+    note: 페이지마다 고객센터 링크의 상대 위치가 다르다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(WCAG22-A-AA.yaml 3.2.6 원문·note 2개): 도움 수단 4종, ''same order relative to other
+  page content'', 직접 링크 허용, page variation 해석 모두 반영. KWCAG 7.2.2 문장은 비공식 HTML 판 기준 — 공식 원문 미대조.'
+korean_specific: false
+tags:
+- wcag22
+- level-a
+- new-in-2.2
+- kwcag22

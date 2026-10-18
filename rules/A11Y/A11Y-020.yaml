@@ -1,0 +1,58 @@
+id: A11Y-020
+category: A11Y
+title: 동작 기반 작동 대체
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: MUST
+statement: 기기를 흔들거나 기울이는 동작 또는 사용자 몸짓으로 실행되는 기능은 UI 컴포넌트로도 실행할 수 있게 하고, 동작 반응을 끌 수 있게 한다.
+measurement:
+  criteria: devicemotion·deviceorientation·카메라 몸짓 인식으로 실행되는 기능마다 (1) 같은 기능을 하는 버튼 등 UI 컴포넌트가 있고, (2) 동작 반응을 끄는 설정이
+    있다.
+  method: 코드에서 devicemotion·deviceorientation 리스너를 찾고, 해당 기능을 UI로 실행하고 동작 반응을 끌 수 있는지 확인한다.
+automation:
+  feasibility: none
+  checks: []
+  note: '검사기 규칙 없음. 4단계 커스텀 검사: eslint로 devicemotion·deviceorientation 리스너 사용 위치 표시.'
+rationale: 기기를 고정해 쓰거나 몸을 움직이기 어려운 사용자도 기능을 쓰고, 의도치 않은 실행을 막는다.
+sources:
+- ref: WCAG22
+  locator: SC 2.5.4 Motion Actuation (Level A)
+  note: https://www.w3.org/TR/WCAG22/#motion-actuation
+- ref: WCAG22_UNDERSTANDING
+  locator: https://www.w3.org/WAI/WCAG22/Understanding/motion-actuation.html
+- ref: KWCAG22
+  locator: 검사항목 6.5.4
+scope:
+  level: situation
+  targets:
+  - 기기 동작·몸짓 입력을 쓰는 기능
+exceptions:
+- 동작이 접근성 지원 인터페이스를 통해 기능을 조작하는 데 쓰이는 경우.
+- 동작이 기능에 본질적이어서 대체하면 활동이 무효가 되는 경우.
+relations: []
+examples:
+  good:
+  - lang: html
+    code: '<button type="button">실행 취소</button>
+
+      <label><input type="checkbox" id="shake-off"> 흔들어서 실행 취소 끄기</label>
+
+      '
+    note: 흔들기 기능을 버튼으로도 실행하고 동작 반응을 끌 수 있음
+  bad:
+  - lang: html
+    code: '<!-- 흔들기로만 실행 취소, 끄는 설정 없음 -->
+
+      '
+    note: 흔들기로만 실행되고 끌 수 없음
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(sources/extracts/WCAG22-A-AA.yaml): statement·수치가 SC 원문과 일치함을 확인. KWCAG 2.2
+  대응 항목 번호는 비공식 HTML 판 기준 매핑 — 공식 원문 대조 전(registry KWCAG22 verified=false). 룰의 요구·수치는 WCAG 원문만으로 성립.'
+korean_specific: false
+tags:
+- wcag22
+- level-a
+- new-in-2.1
+- kwcag22

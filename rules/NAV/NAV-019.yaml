@@ -1,0 +1,51 @@
+id: NAV-019
+category: NAV
+title: 본문 바로가기 목적지 범위
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 본문 바로가기 링크의 목적지 영역에 사이드 메뉴, 브레드크럼, 페이지 유틸리티 버튼·링크를 포함하지 않는다.
+measurement:
+  criteria: 본문 바로가기 href가 가리키는 요소의 하위에 사이드 메뉴 nav, 브레드크럼 nav, 페이지 유틸리티(공유·인쇄 등) 영역이 없다. 목적지가 그 영역들보다 DOM에서 뒤에 있다.
+  method: 목적지 요소를 개발자 도구에서 선택해 하위 요소에 해당 영역이 있는지 확인한다.
+automation:
+  feasibility: none
+  note: '4단계 커스텀 검사 가능: 목적지 요소.querySelector(''nav, [data-page-utility]'') === null 검사.'
+rationale: 본문 바로가기로 이동한 뒤에도 반복 영역을 다시 지나야 한다면 건너뛰기의 의미가 없다.
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 건너뛰기 링크 > 사용성 가이드라인 (가이드라인 PDF 2025.08 259쪽)
+  note: https://www.krds.go.kr/html/site/component/component_03_01.html — '건너뛰기 링크의 목적지에 반복되는 콘텐츠 영역이 포함되지 않도록 유의한다.'
+    / '본문 바로가기 링크에는 목적지 섹션에 사이드 메뉴, 브레드크럼, 페이지 유틸리티 버튼/ 링크가 포함되어 있어서는 안 된다.'
+scope:
+  level: component
+  targets:
+  - 건너뛰기 링크(본문 바로가기) 목적지
+exceptions: []
+relations:
+- type: refines
+  id: NAV-001
+  note: NAV-001의 건너뛰기 목적지를 구체화
+- type: depends
+  id: LAYOUT-017
+  note: '브레드크럼이 본문 제목 바로 위(main 안)에 있으면 목적지는 main이 아니라 브레드크럼 뒤 요소(예: h1을 감싼 영역)로 잡아야 함'
+examples:
+  good:
+  - lang: html
+    code: "<a class=\"skip-link\" href=\"#content\">본문 바로가기</a>\n<header>…</header>\n<main>\n  <nav aria-label=\"\
+      브레드크럼\">…</nav>\n  <div id=\"content\" tabindex=\"-1\"><h1>민원 신청</h1>…</div>\n</main>\n"
+    note: 본문 바로가기 목적지가 브레드크럼 뒤 본문 영역이다.
+  bad:
+  - lang: html
+    code: "<div id=\"content\">\n  <nav aria-label=\"사이드 메뉴\">…</nav>\n  <nav aria-label=\"브레드크럼\">…</nav>\n  <h1>민원\
+      \ 신청</h1>…\n</div>\n"
+    note: 목적지 안에 사이드 메뉴와 브레드크럼이 들어 있다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(KRDS component_03_01 WebFetch): ''포함되어 있어서는 안 된다'' 확인 → SHOULD + public-sector-must.'
+korean_specific: false
+tags:
+- krds
+- krds-component
+- public-sector-must

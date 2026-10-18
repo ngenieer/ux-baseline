@@ -1,0 +1,64 @@
+id: A11Y-026
+category: A11Y
+title: 마크업 오류 방지
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: MUST
+statement: 마크업에서 요소의 열고 닫음 불일치, 잘못된 중첩, 한 요소 안의 속성 중복, 문서 안의 id 중복을 없앤다.
+measurement:
+  criteria: 'HTML 검증기 결과 다음 오류가 0건이다: 닫히지 않았거나 짝이 맞지 않는 요소, 허용되지 않는 중첩(예: a 안의 a, p 안의 div), 같은 요소의 속성 중복, 문서 안
+    id 중복. HTML 명세가 허용하는 종료 태그 생략은 오류로 세지 않는다.'
+  method: 렌더링된 HTML(DOM 직렬화 포함)을 html-validate 또는 Nu HTML Checker로 검사한다.
+automation:
+  feasibility: full
+  checks:
+  - tool: html-validate
+    rule: close-order
+    method: 열고 닫음 불일치
+  - tool: html-validate
+    rule: element-permitted-content
+    method: 허용되지 않는 중첩
+  - tool: html-validate
+    rule: no-dup-attr
+    method: 속성 중복
+  - tool: html-validate
+    rule: no-dup-id
+    method: id 중복
+  note: html-validate 11 규칙(close-order·element-permitted-content·no-dup-attr·no-dup-id)으로 검사 — lint/.htmlvalidate.json.
+rationale: 마크업 오류는 보조기술이 구조를 잘못 해석하게 만든다. WCAG 2.2는 4.1.1을 삭제했지만 KWCAG 2.2는 검사항목으로 유지한다.
+sources:
+- ref: KWCAG22
+  locator: 검사항목 8.1.1
+  note: 공식 원문 docx 대조 완료(2026-10-18)
+scope:
+  level: global
+  targets: []
+exceptions:
+- HTML 명세가 종료 태그 생략을 허용하는 요소(p·li·dt·dd·option·tr·td·th 등)와 종료 태그가 없는 빈 요소(input·img·br 등)는 종료 태그가 없어도 열고 닫음 불일치로
+  보지 않는다(KWCAG 8.1.1 '표준에서 특별히 정한 경우를 제외하고').
+relations: []
+examples:
+  good:
+  - lang: html
+    code: '<label for="email">이메일</label><input id="email" type="email">
+
+      '
+    note: id가 고유하고 속성 중복이 없음
+  bad:
+  - lang: html
+    code: '<input id="name" class="a" class="b"><span id="name">이름</span>
+
+      '
+    note: 같은 요소에 class 속성 중복, 문서 안 id 중복
+needs_verification: false
+verification_note: '2026-10-18 공식 원문 대조(국립전파연구원 첨부 KS X OT0003:2022 docx, sha256 3b562083…): 8.1.1 ''마크업 언어의 요소는
+  열고 닫음, 중첩 관계 및 속성 선언에 오류가 없어야 한다''와 세부 4항목(열고 닫음 일치, 중첩 방지, 중복 속성 금지, id 중복 금지) 확인 — statement와 일치. WCAG 2.2는
+  SC 4.1.1 삭제, KWCAG 2.2는 유지(국내 기준이 더 엄격, 우선순위 1). 2026-10-18 독립 검토: 8.1.1 세부 ''표준에서 특별히 정한 경우를 제외하고''를 예외로 반영.'
+korean_specific: true
+tags:
+- kwcag22
+- kwcag-only
+decisions:
+- CF-020

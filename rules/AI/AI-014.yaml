@@ -1,0 +1,50 @@
+id: AI-014
+category: AI
+title: 모호한 요청의 해석 명시
+stage: platformed
+status:
+  value: confirmed
+type: guide
+strength: SHOULD
+statement: 사용자 요청이 여러 뜻으로 해석될 수 있고 해석에 따라 결과가 달라지면, 결과를 만들기 전에 해석 선택지를 보여주거나 어떤 해석으로 답했는지 결과 위쪽에 표시한다.
+measurement:
+  criteria: '점검 질문: (1) 대표적인 모호한 요청(평가용 프롬프트 목록)에 대해 시스템이 해석 선택지를 묻거나, 결과 상단에 ''○○로 이해하고 답합니다'' 같은 해석 표시를 하는가? (2)
+    해석 표시를 바꿔 다시 요청할 수 있는가?'
+  method: 모호한 요청 평가 세트로 수동 검토한다.
+automation:
+  feasibility: none
+  checks: []
+  note: 자동 검사 불가 — '모호함' 판정이 모델에 달려 있음.
+rationale: 시스템이 사용자의 의도를 잘못 짐작한 채 답하면 사용자는 틀린 줄 모르고 결과를 쓴다.
+sources:
+- ref: HAX_GUIDELINES_POSTER
+  locator: G10 Scope services when in doubt
+  note: '''Engage in disambiguation or gracefully degrade the AI system''s services when uncertain about a user''s
+    goals.'''
+scope:
+  level: situation
+  targets:
+  - AI 질의 응답
+exceptions: []
+relations:
+- type: refines
+  id: AI-012
+  note: 불확실할 때의 대응(G10) 중 해석 확인 경로.
+examples:
+  good:
+  - lang: html
+    code: <p class="ai-interpretation">'계약'을 <strong>입찰 공고의 계약 방법</strong>으로 이해하고 답합니다. <button type="button">다른
+      뜻으로 다시 묻기</button></p>
+    note: 어떤 뜻으로 이해했는지 결과 위쪽에 밝히고 다른 뜻으로 다시 묻는 경로를 준다.
+  bad:
+  - lang: html
+    code: "<article data-ai-output>\n  <p>계약 방법은 일반경쟁, 제한경쟁, 지명경쟁, 수의계약이 있습니다.</p>\n</article>\n<!-- '계약 알려 줘'를\
+      \ 어떤 뜻으로 읽었는지 밝히지 않음 -->"
+    note: 모호한 요청을 한 가지 뜻으로 골라 답하면서 그 해석을 밝히지 않는다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(HAX 포스터 PDF curl): G10 ''Scope services when in doubt. Engage in disambiguation
+  or gracefully degrade the AI system''s services when uncertain about a user''s goals.'' 확인. 모호성 판정이 사람·모델에 달려
+  결정적으로 판정할 수 없어 guide(정책 3), SHOULD.'
+korean_specific: false
+tags:
+- research-ai

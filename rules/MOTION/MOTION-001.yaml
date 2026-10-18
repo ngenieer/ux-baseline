@@ -1,0 +1,85 @@
+id: MOTION-001
+category: MOTION
+title: 움직이는 콘텐츠 정지
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: MUST
+statement: 자동으로 시작해 5초를 넘게 다른 콘텐츠와 함께 움직이거나 깜빡이거나 스크롤되는 콘텐츠와, 자동으로 시작해 다른 콘텐츠와 함께 표시되는 자동 갱신 콘텐츠에는 일시정지·정지·숨기기 수단(자동
+  갱신은 갱신 빈도 조절도 가능)을 제공한다.
+measurement:
+  criteria: (1) 자동 시작 후 5초를 넘게 움직이는·깜빡이는·스크롤되는 요소(자동 회전 캐러셀, 마키, 움직이는 배경 동영상, 5초를 넘는 애니메이션 GIF·CSS 무한 애니메이션 등)마다
+    일시정지·정지·숨기기 중 하나를 하는 컨트롤이 있고 키보드로 조작된다. (2) 자동 갱신 영역(실시간 피드, 주가·뉴스 티커 등)마다 일시정지·정지·숨기기 또는 갱신 빈도 조절 컨트롤이 있다.
+    (3) <blink>·<marquee> 요소가 없다. (4) 자동 회전 캐러셀은 정지 버튼이 캐러셀 안 첫 번째 상호작용 요소다(KRDS).
+  method: 페이지 로드 후 6초 동안 화면을 관찰해 움직이는·자동 갱신 요소 목록을 만들고, 각 요소에 대해 정지 컨트롤을 키보드로 조작해 움직임·갱신이 멈추는지 확인한다. (3)은 axe-core.
+automation:
+  feasibility: partial
+  checks:
+  - tool: axe-core
+    rule: blink
+    method: axe-core 실행 결과 위반 0건
+  - tool: axe-core
+    rule: marquee
+    method: axe-core 실행 결과 위반 0건
+  note: 'axe-core는 <blink>·<marquee>만 판정한다. 캐러셀·CSS 애니메이션·자동 갱신 영역의 정지 수단은 수동. 4단계 커스텀: document.getAnimations()에서
+    iterations=Infinity 또는 5초 초과 애니메이션을 찾아 같은 컴포넌트 안에 정지 컨트롤(규약 셀렉터)이 있는지 검사.'
+rationale: 움직이는 콘텐츠는 주의력 장애 사용자의 집중을 방해하고, 읽는 속도가 느린 사용자와 스크린 리더 사용자가 콘텐츠를 따라가지 못하게 한다.
+sources:
+- ref: WCAG22
+  locator: SC 2.2.2 Pause, Stop, Hide (Level A)
+  note: https://www.w3.org/TR/WCAG22/#pause-stop-hide
+- ref: WCAG22_UNDERSTANDING
+  locator: https://www.w3.org/WAI/WCAG22/Understanding/pause-stop-hide.html
+- ref: KWCAG22
+  locator: 검사항목 6.2.2
+- ref: KRDS
+  locator: 컴포넌트 > 캐러셀 > 접근성 가이드라인 (가이드라인 PDF 2025.08 427·441쪽)
+  note: https://www.krds.go.kr/html/site/component/component_04_09.html — 자동 회전 캐러셀 정지 컨트롤 "제공해야 한다", 정지 버튼은 "상호작용
+    가능한 첫 요소로 제공되어야 한다"
+scope:
+  level: global
+  targets:
+  - '[data-carousel][data-autoplay]'
+  - marquee
+  - blink
+  - video[autoplay]
+  - img[src$=".gif"]
+  - 자동 갱신 영역
+exceptions:
+- 움직임·깜빡임·스크롤이 필수인 활동의 일부인 경우(WCAG 2.2.2).
+- 사전 로딩 단계에서 모든 사용자가 상호작용할 수 없고 진행 표시가 없으면 멈춘 것으로 오인할 수 있는 애니메이션은 필수로 볼 수 있다(WCAG 2.2.2 Note).
+- 자동 갱신·스트리밍 콘텐츠는 일시정지 동안 생성·수신된 정보를 재개 시 보존·표시하지 않아도 된다(WCAG 2.2.2 Note).
+- 로딩 애니메이션이 화면의 유일한 콘텐츠이고 다른 콘텐츠가 함께 보이지 않는 경우 — Understanding 2.2.2 예시 'A "loading" animation'(The animation is
+  the only content on the page … not presented in parallel with other content)(CF-036).
+relations:
+- type: depends
+  id: A11Y-011
+  note: 정지 컨트롤은 키보드로 조작돼야 한다.
+examples:
+  good:
+  - lang: html
+    code: "<section aria-roledescription=\"carousel\" aria-label=\"주요 소식\">\n  <button type=\"button\" aria-pressed=\"\
+      false\">자동 넘김 정지</button>\n  <!-- 슬라이드 -->\n</section>"
+    note: 자동 회전 캐러셀 안 첫 번째 상호작용 요소로 정지 버튼을 둔다.
+  bad:
+  - lang: html
+    code: "<section aria-label=\"주요 소식\" data-autoplay=\"5000\">\n  <!-- 정지 버튼 없이 5초마다 자동 회전 -->\n</section>"
+    note: 5초마다 자동 회전하는데 멈출 수단이 없다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(sources/extracts/WCAG22-A-AA.yaml, Understanding 2.2.2 curl): statement·5초·예외(필수,
+  사전 로딩, 갱신 정보 보존 불요)가 SC 원문·Note와 일치. KRDS 캐러셀(component_04_09) curl로 정지 컨트롤·첫 요소 문장 확인. KWCAG 2.2 대응 항목 번호는 비공식
+  HTML 판 기준 매핑 — 공식 원문 대조 전(registry KWCAG22 verified=false). 룰의 요구·수치는 WCAG 원문만으로 성립. 1단계에 이 룰로 잘못 붙은 출처(WEBDEV_PRM·NNG_SKELETON·WCAG22_TECH_C39·MQ5의
+  reduced-motion 하위 요구, HAX G8·G17의 AI 생성 중단 버튼)는 같은 요구가 아니어서 떼어 내고 제안 파일에 새 룰 후보로 적었다. KRDS 추출본에서 이 룰로 병합된 항목 중
+  스피너 C:112(불확정 스피너 루프를 멈추지 않는다)·스플래시 D:137(중요 정보 금지)·캐러셀 B:85(초점·호버 시 자동 재생 멈춤)는 같은 요구가 아니어서 ''컴포넌트 (여러 페이지)''
+  출처를 떼고 제안 파일에 새 룰 후보로 적음. C:112는 2.2.2 사전 로딩 예외에 해당할 때만 양립 — conflicts 후보. 2026-10-18 독립 검토: Understanding 2.2.2
+  로딩 애니메이션 예시 문장을 다시 확인하고 예외를 ''화면의 유일한 콘텐츠, 다른 콘텐츠가 함께 보이지 않음''으로 좁힘(CF-036).'
+korean_specific: false
+tags:
+- wcag22
+- level-a
+- new-in-2.0
+- kwcag22
+- krds
+decisions:
+- CF-036

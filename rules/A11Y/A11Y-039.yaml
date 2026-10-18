@@ -1,0 +1,53 @@
+id: A11Y-039
+category: A11Y
+title: 태그 삭제 후 초점 이동
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 태그를 삭제하면 키보드 초점을 삭제한 태그의 이전 태그로 옮기고, 첫 번째 태그를 삭제했으면 새 첫 번째 태그로, 남은 태그가 없으면 태그 목록 컨테이너로 옮긴다.
+measurement:
+  criteria: 삭제 가능한 태그를 클릭 또는 Space·Enter(keyup)로 삭제한 직후 document.activeElement가 (a) 삭제한 태그의 이전 태그이거나, (b) 첫 번째 태그를
+    삭제했으면 새 첫 번째 태그이거나, (c) 목록에 태그가 하나도 남지 않았으면 태그 목록 컨테이너(tabindex="-1")다.
+  method: 태그 목록에서 마지막·중간·유일 태그를 각각 삭제하며 초점 위치를 확인한다.
+automation:
+  feasibility: none
+  checks: []
+  note: '4단계 커스텀 검사: Playwright 시나리오.'
+rationale: 삭제된 요소에 있던 초점이 문서 처음으로 돌아가면 키보드 사용자가 위치를 잃는다.
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 태그 > 상호작용 가이드라인 (가이드라인 PDF 2025.08 569쪽)
+  note: https://www.krds.go.kr/html/site/component/component_06_04.html
+scope:
+  level: component
+  targets:
+  - 삭제형 태그
+exceptions: []
+relations:
+- type: refines
+  id: A11Y-015
+examples:
+  good:
+  - lang: html
+    code: "<ul class=\"tag-list\" tabindex=\"-1\" aria-label=\"적용된 필터\">\n  <li><button type=\"button\">서울 <span\
+      \ class=\"sr-only\">필터 삭제</span></button></li>\n</ul>\n"
+    note: 삭제 후 초점을 이전 태그 또는 tabindex="-1" 목록으로 옮길 수 있는 구조
+  bad:
+  - lang: html
+    code: '<!-- 태그 삭제 후 초점이 body로 떨어짐 -->
+
+      '
+    note: 삭제 후 초점이 body로 떨어짐
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(WebFetch로 KRDS 페이지 재조회, 요약 모델 인용 확인): 상호작용 가이드라인 Click·Space 행 ''초점은 삭제된 태그의
+  이전 태그로 이동한다.'' ''만약 초점을 이동할 태그가 목록에 남아 있지 않다면 태그 목록을 표시하는 컨테이너 자체로 초점이 이동한다.'' 확인. 서술형 → SHOULD. 첫 태그를 지울 때(이전
+  태그 없음, 다음 태그 남음)는 원문이 정하지 않음 — 4단계 규격에서 결정.'
+korean_specific: false
+tags:
+- krds
+- krds-component
+- krds-descriptive
+decisions:
+- CF-060

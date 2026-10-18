@@ -1,0 +1,52 @@
+id: TYPO-026
+category: TYPO
+title: 루트 글꼴 크기 px 고정 금지
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: html(:root) 요소의 font-size를 px로 지정하지 않고, 지정이 필요하면 %로 지정해 사용자의 브라우저 기본 글자 크기 설정을 따르게 한다.
+measurement:
+  criteria: html, :root 셀렉터의 font-size 선언 값이 px·pt 등 절대 단위가 아니다(% 또는 미지정).
+  method: stylelint 커스텀(셀렉터 한정 단위 검사).
+automation:
+  feasibility: none
+  note: stylelint 기본 규칙은 셀렉터 한정이 안 됨 → 커스텀 플러그인. TYPO-027 전역 규칙을 켜면 이 룰도 함께 검사된다.
+rationale: px 글자 크기는 일부 브라우저에서 사용자가 글자 크기를 바꿀 수 없어 접근성이 없다(MDN). 루트에서 고정하면 페이지 전체 rem 값이 사용자 설정을 무시한다.
+sources:
+- ref: MDN_FONT_SIZE
+  locator: Pixels — Note
+  note: px 글자 크기는 일부 브라우저에서 사용자가 크기를 바꿀 수 없어 접근성이 없음
+- ref: WCAG22_UNDERSTANDING
+  locator: SC 1.4.4 Resize Text; C12, C13, C14
+  note: '% · named · em 글꼴 크기가 충족 기술. px 자체를 금지하진 않음'
+scope:
+  level: global
+  targets:
+  - html
+  - :root
+exceptions: []
+relations:
+- type: refines
+  id: TYPO-027
+  note: TYPO-027(font-size 상대 단위)의 루트 요소 적용 사례. 영향 범위가 페이지 전체라 따로 둔다.
+examples:
+  good:
+  - lang: css
+    code: :root{font-size:100%}
+    note: '% 지정이라 사용자의 브라우저 기본 글자 크기를 따른다'
+  bad:
+  - lang: css
+    code: :root{font-size:16px}
+    note: px 고정이라 사용자 글자 크기 설정이 무시된다
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(MDN font-size, WCAG Understanding 1.4.4 HTML): MDN Note ''Defining font sizes
+  in px is not accessible, because the user cannot change the font size in some browsers'' 확인. 1.4.4 충분 기법 C12(%),
+  C13(named), C14(em) 확인 — px 자체를 실패로 정하지 않으며 1.4.4는 브라우저 줌으로도 충족 가능 → SHOULD. 1단계 statement의 ''rem·em''은 루트에서는
+  초기값 기준이라 %와 같은 효과지만 원문 기법이 %·em이므로 %로 단순화.'
+korean_specific: false
+tags:
+- research-typo
+decisions:
+- CF-044

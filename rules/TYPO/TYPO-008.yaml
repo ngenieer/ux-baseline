@@ -1,0 +1,52 @@
+id: TYPO-008
+category: TYPO
+title: 밑줄은 링크에만
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 텍스트 밑줄은 링크에만 쓰고, 링크가 아닌 텍스트의 강조는 색이나 굵기로 표현한다.
+measurement:
+  criteria: a[href], [role=link] 및 그 자손이 아닌 텍스트 요소 중 계산값 text-decoration-line 에 underline 이 포함된 요소가 0건(브라우저 기본 밑줄
+    요소 u·ins·abbr[title]은 별도 검토 목록으로 보고).
+  method: '계산 스타일 수집 스크립트(커스텀). 소스 단계에서는 링크가 아닌 셀렉터의 text-decoration: underline 선언을 찾는다.'
+automation:
+  feasibility: none
+  note: '기존 규칙 없음. 4단계: 커스텀 계산 스타일 검사.'
+rationale: 밑줄은 웹에서 링크를 나타내는 관습이라 링크가 아닌 텍스트에 쓰면 사용자가 링크로 오인한다(KRDS).
+sources:
+- ref: KRDS
+  locator: 디자인 스타일 > 타이포그래피 > 사용 가이드 (가이드라인 PDF 2025.08 125쪽)
+  note: https://www.krds.go.kr/html/site/style/style_03.html
+- ref: KRDS
+  locator: 컴포넌트 (여러 페이지) (가이드라인 PDF 2025.08 285쪽)
+  note: '같은 요구를 다루는 KRDS 컴포넌트: 브레드크럼 — 상세는 sources/extracts/KRDS-components.yaml'
+scope:
+  level: global
+  targets:
+  - 링크가 아닌 텍스트
+exceptions: []
+relations: []
+examples:
+  good:
+  - lang: html
+    code: '<p>신청 기한은 <strong class="emph">10월 31일</strong>까지입니다.</p>
+
+      <style>.emph{font-weight:700;color:var(--palette-primary-60)}</style>'
+    note: 강조를 굵기와 색으로 표현해 링크와 혼동되지 않는다
+  bad:
+  - lang: html
+    code: '<p>신청 기한은 <span class="emph">10월 31일</span>까지입니다.</p>
+
+      <style>.emph{text-decoration:underline}</style>'
+    note: 링크가 아닌 강조에 밑줄을 써서 링크로 오인된다
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(KRDS https://www.krds.go.kr/html/site/style/style_03.html HTML을 curl로 받아 본문
+  확인): ''밑줄은 텍스트 링크에만 사용하며 강조하는 부분에서 사용하지 않는다. 강조 표현은 색상이나 굵기를 이용한다'' 확인. 반대로 ''링크에는 밑줄을 써야 한다''는 요구가 아님 — KRDS
+  링크 컴포넌트는 메뉴·푸터 등에서 밑줄 생략을 허용. 링크 식별은 COLOR-001·COLOR-011이 다룬다. u·ins·abbr 같은 의미 요소의 기본 밑줄 처리는 원문에 없어 예외로 넣지 않고
+  검토 목록으로만 둠. KRDS 컴포넌트 묶음(브레드크럼) 출처는 이번에 다시 열지 않음.'
+korean_specific: false
+tags:
+- krds
+- public-sector-must

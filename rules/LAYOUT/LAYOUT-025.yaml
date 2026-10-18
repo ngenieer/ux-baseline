@@ -1,0 +1,48 @@
+id: LAYOUT-025
+category: LAYOUT
+title: 구조화 목록
+stage: platformed
+status:
+  value: confirmed
+type: guide
+strength: SHOULD
+statement: 구조화 목록 항목에는 상세 페이지 콘텐츠 중 핵심 정보만 골라 논리적 순서와 위계가 드러나게 구성한다.
+measurement:
+  criteria: '점검 질문: 항목에 보이는 정보가 사용자가 다음 행동(상세 보기·실행)을 결정하는 데 필요한 것뿐인가? 제목·요약·속성의 시각 위계(글자 크기·굵기)가 중요도 순인가?'
+automation:
+  feasibility: none
+  checks: []
+  note: 정보 선택·위계 판단이 필요한 가이드.
+rationale: 목록 항목이 상세 정보를 그대로 담으면 훑어보기와 다음 행동 결정이 느려진다.
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 구조화 목록 > 개요 (가이드라인 PDF 2025.08 353쪽)
+  note: https://www.krds.go.kr/html/site/component/component_04_01.html
+scope:
+  level: component
+  targets:
+  - 구조화 목록
+exceptions: []
+relations:
+- type: depends
+  id: LAYOUT-028
+examples:
+  good:
+  - lang: text
+    code: '민원 목록 항목에 민원명·처리 상태·신청일만 표시하고, 담당 부서 연락처와 근거 법령은 상세 페이지에 둔다.
+
+      '
+    note: 다음 행동 결정에 필요한 핵심 정보만 위계대로 보여 준다.
+  bad:
+  - lang: text
+    code: '목록 항목마다 본문 요약·첨부파일 목록·담당자 전화번호까지 같은 글자 크기로 나열한다.
+
+      '
+    note: 핵심 정보를 고르지 않고 위계 없이 나열했다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(curl로 KRDS 페이지 HTML을 받아 본문 텍스트를 직접 확인): 구조화 목록(component_04_01) 개요 ''목록 내 정보는
+  상세 페이지에서 제공되는 복잡한 콘텐츠 중 핵심적이거나 흥미를 끌 수 있는 정보를 논리적 흐름에 따라 조직화하여 명확한 위계 구조를 반영해 제공해야 한다.'' 확인. 판정 불가 → guide·SHOULD.'
+korean_specific: false
+tags:
+- krds
+- krds-component

@@ -1,0 +1,57 @@
+id: SHAPE-002
+category: SHAPE
+title: 표준형 반경 공식
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: MAY
+statement: KRDS 표준형 반경은 컨테이너 높이 × 0.125를 반올림하고, 결과가 홀수면 바로 위 짝수로 올리며, 12px를 넘지 않게 한다.
+measurement:
+  criteria: '컴포넌트 높이 h(px)에 대해 반경 r = min(12, 짝수올림(반올림(h × 0.125))). 예: 12→2, 20→4, 40→6, 72→10, 96→12, 120→12.'
+  method: 컴포넌트별 높이와 반경 토큰 값을 표로 만들어 공식 결과와 비교한다.
+automation:
+  feasibility: none
+  checks: []
+  note: '4단계: 토큰 생성 스크립트에서 공식으로 반경 토큰을 계산·검증.'
+rationale: 높이에 비례한 반경은 크기가 달라도 같은 형태감을 유지하게 한다.
+sources:
+- ref: KRDS
+  locator: 디자인 스타일 > 형태 > 표준형 계산법 (가이드라인 PDF 2025.08 131~132쪽)
+  note: https://www.krds.go.kr/html/site/style/style_04.html
+scope:
+  level: situation
+  targets:
+  - KRDS 표준형 스타일을 쓰는 공공 서비스
+exceptions:
+- KRDS 확장형 스타일은 기관별 비율로 반경을 정할 수 있다(표준형 계층 구조를 참고해 일관성 유지).
+relations: []
+examples:
+  good:
+  - lang: css
+    code: '.btn { block-size: 40px; border-radius: var(--radius-medium1); } /* 40 × 0.125 = 5 → 홀수라 6px */
+
+      '
+    note: 높이 40px에 공식대로 6px 반경 토큰을 쓴다.
+  bad:
+  - lang: css
+    code: ':root { --radius-xlarge: 15px; } /* 배너 높이 120px × 0.125 = 15 그대로 — 상한 12px 초과 */
+
+      .banner { block-size: 120px; border-radius: var(--radius-xlarge1); }
+
+      '
+    note: 공식의 상한 12px를 넘는 반경을 정의했다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(curl로 KRDS 페이지 HTML을 받아 본문 텍스트를 직접 확인): style_04 ''표준형 스타일 래디어스 계산법: 컨테이너 높이
+  X 비율 1/8 (0.125) = radius, radius 결과 반올림, 반올림했을 때 홀수인 경우 숫자가 더 높은 짝수로 변경'', 예시(12→2, 20→4, 120→max 12)와 ''래디어스
+  최댓값을 12px로 설정'' 확인 — statement는 원문과 일치. 다만 같은 페이지 표와 공식 결과가 다르다: 56px(7→8)·64px(8) 공식 결과 8px인데 표는 6px. 토큰(medium3·4
+  = 8px)은 공식과 일치. 어느 쪽이 정본인지 KRDS 원문으로 결정할 수 없어 needs_verification 유지(BACKLOG 출처 내부 불일치). system-choice → MAY, 공공(KRDS
+  표준형) 범위. KRDS 가이드라인 PDF(2025.08, 1181쪽) 원문 대조 2026-10-18: 130쪽 표는 높이 40·48·56·64px 모두 6px(Medium 단계), 131쪽 계산법은
+  56·64px에서 8px — 같은 불일치. CF-057로 계산법과 토큰을 정본으로 확정.'
+korean_specific: false
+tags:
+- krds
+- system-choice
+- public-sector
+decisions:
+- CF-057

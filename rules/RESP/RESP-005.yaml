@@ -1,0 +1,56 @@
+id: RESP-005
+category: RESP
+title: 좁은 화면 헤더의 햄버거 메뉴
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: MAY
+statement: 헤더 너비가 메인 메뉴 1수준 항목 전체를 한 줄에 담지 못하면 메인 메뉴 막대를 숨기고 햄버거 메뉴 버튼과 메뉴 레이어로 메인 메뉴를 제공할 수 있다.
+measurement:
+  criteria: '햄버거 메뉴를 쓰는 경우: (1) 메뉴 막대를 숨기는 너비는 1수준 항목 전체 너비의 합이 헤더 메뉴 영역 너비를 넘는 너비 이하이다. (2) 햄버거 버튼은 <button>이고
+    접근 가능한 이름(예: ''전체 메뉴'')과 aria-expanded가 있으며, 누르면 1수준 메뉴 전체가 있는 메뉴 레이어가 열린다.'
+  method: 브레이크포인트 양쪽 너비에서 메뉴 막대·햄버거 버튼 표시 여부와 메뉴 레이어 내용을 확인한다.
+automation:
+  feasibility: none
+  checks: []
+  note: '4단계 커스텀: 브레이크포인트별로 메뉴 막대 overflow 여부와 햄버거 버튼 aria-expanded 존재를 Playwright로 검사.'
+rationale: 작은 화면에서 메뉴 막대를 숨기면 사용자가 본문 콘텐츠에 집중할 수 있다(KRDS).
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 헤더 > 플랫폼에 대한 고려 사항 (가이드라인 PDF 2025.08 244쪽)
+  note: https://www.krds.go.kr/html/site/component/component_02_03.html
+- ref: KRDS
+  locator: 컴포넌트 > 메인 메뉴 > 플랫폼에 대한 고려 사항 (가이드라인 PDF 2025.08 276쪽)
+  note: https://www.krds.go.kr/html/site/component/component_03_02.html — '모바일에서는 별도 페이지나 영역으로 메뉴를 숨기고 햄버거 아이콘을
+    눌러 메뉴를 확인할 수 있다'
+scope:
+  level: component
+  targets:
+  - 헤더
+  - 메인 메뉴
+  - header nav
+exceptions: []
+relations:
+- type: refines
+  id: RESP-007
+  note: RESP-007(넓을 때 전체 펼침)의 반대 조건.
+examples:
+  good:
+  - lang: html
+    code: '<button type="button" aria-expanded="false" aria-controls="gnb-layer">전체 메뉴</button>
+
+      <nav id="gnb-layer" aria-label="주 메뉴" hidden>…</nav>'
+    note: 접근 가능한 이름과 aria-expanded가 있는 햄버거 버튼이 메뉴 레이어를 연다.
+  bad:
+  - lang: html
+    code: <div class="hamburger" onclick="openMenu()">☰</div>
+    note: 이름 없는 div 아이콘이라 키보드·보조기술로 메뉴를 열 수 없다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(curl로 KRDS 페이지 HTML을 받아 텍스트로 직접 읽음): 헤더 ''화면 너비가 충분하지 않아 메인 메뉴를 표시할 수 없을 때
+  햄버거 메뉴 형태로 제공할 수 있다'', ''메인 메뉴 막대를 숨기고 햄버거 메뉴 버튼과 메뉴 레이어를 사용할 수 있다'' 확인 — ''할 수 있다'' → MAY. 원문은 전환 너비를 수치로 주지
+  않아 ''1수준 항목이 한 줄에 들어가지 않는 너비''라는 조건으로 바꿨다. 측정 기준 (2)의 button·aria-expanded는 A11Y-025(이름·역할·값) 적용을 명시한 것.'
+korean_specific: false
+tags:
+- krds
+- krds-component

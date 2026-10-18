@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/ngenieer/ux-baseline/schema/component.schema.json",
+  "title": "ux-baseline 컴포넌트 규격",
+  "description": "확정 룰을 한 컴포넌트에 모아 표준 마크업·CSS·상태·키보드로 옮긴 것. 마크업과 CSS 는 lint/ 검사기로 검증한다.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "title", "status", "summary", "anatomy", "markup", "css", "rules"],
+  "properties": {
+    "id": { "type": "string", "pattern": "^[a-z][a-z0-9-]*$", "description": "파일명과 같다. 루트 클래스 이름으로도 쓴다." },
+    "title": { "type": "string" },
+    "status": { "enum": ["draft", "confirmed"] },
+    "summary": { "type": "string", "description": "언제 쓰는 컴포넌트인지 한 문장" },
+    "use_instead": {
+      "type": "array",
+      "items": { "type": "object", "additionalProperties": false, "required": ["when", "use"],
+        "properties": { "when": { "type": "string" }, "use": { "type": "string" }, "rule": { "type": "string" } } },
+      "description": "이 컴포넌트 대신 다른 것을 쓰는 조건"
+    },
+    "krds": {
+      "type": "object", "additionalProperties": false,
+      "properties": {
+        "page": { "type": "string", "description": "KRDS 컴포넌트 페이지 파일명" },
+        "kit": { "type": "string", "description": "KRDS HTML 키트 v1.1.0 의 html/code/ 파일" },
+        "kit_classes": { "type": "object", "additionalProperties": { "type": "string" }, "description": "체계 클래스 → KRDS 키트 클래스" }
+      }
+    },
+    "anatomy": {
+      "type": "array", "minItems": 1,
+      "items": { "type": "object", "additionalProperties": false, "required": ["part", "class", "element"],
+        "properties": {
+          "part": { "type": "string" },
+          "class": { "type": "string", "pattern": "^[a-z][a-z0-9_-]*$" },
+          "element": { "type": "string" },
+          "required": { "type": "boolean" },
+          "note": { "type": "string" }
+        } }
+    },
+    "markup": { "type": "string", "description": "표준 마크업. html-validate·axe-core 로 검사한다." },
+    "css": { "type": "string", "description": "표준 CSS. 토큰 CSS 변수만 쓴다. stylelint 위반 0이어야 한다." },
+    "states": {
+      "type": "array",
+      "items": { "type": "object", "additionalProperties": false, "required": ["name", "markup_change"],
+        "properties": { "name": { "type": "string" }, "markup_change": { "type": "string" }, "rule": { "type": "string" } } }
+    },
+    "keyboard": {
+      "type": "array",
+      "items": { "type": "object", "additionalProperties": false, "required": ["key", "action"],
+        "properties": { "key": { "type": "string" }, "action": { "type": "string" } } }
+    },
+    "behavior": { "type": "array", "items": { "type": "string" }, "description": "스크립트 동작 요구 (룰 ID 포함)" },
+    "rules": { "type": "array", "minItems": 1, "items": { "type": "string", "pattern": "^[A-Z0-9]+-\\d{3}$" },
+      "description": "이 컴포넌트에 적용되는 확정 룰" },
+    "kit_differences": { "type": "array", "items": { "type": "string" }, "description": "KRDS 키트 마크업과 다른 점과 이유(룰 ID)" },
+    "notes": { "type": "array", "items": { "type": "string" } }
+  }
+}

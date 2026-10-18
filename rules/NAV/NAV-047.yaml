@@ -1,0 +1,76 @@
+id: NAV-047
+category: NAV
+title: 링크와 버튼 구분
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 다른 화면·같은 화면의 다른 섹션으로 이동하는 동작에는 a[href] 링크를, 폼 제출·대화상자 열기·기능 실행처럼 이동하지 않는 동작에는 button을 쓴다.
+measurement:
+  criteria: (1) 실행하면 다른 화면이나 같은 화면의 다른 섹션으로 이동하는 요소(location 변경, history.pushState, 프래그먼트 이동)는 href가 있는 a 요소다. (2)
+    이동하지 않고 동작만 수행하는 요소는 button 요소(또는 role="button")다. 같은 화면에 머물며 현재 화면 상태(필터·정렬·기간 같은 조회 조건)를 주소에 남기려고 history.replaceState
+    로 쿼리·해시만 바꾸는 것은 이동이 아니다 — 이런 조회 조건 컨트롤은 button 이다. (3) href="#" 또는 href="javascript:…"인 a에 클릭 핸들러로 동작을 붙이지 않는다.
+  method: 정적 검사로 (3)을 찾고, 수동으로 각 대화형 요소를 실행해 URL 변화 여부와 요소 종류를 대조한다.
+automation:
+  feasibility: partial
+  checks:
+  - tool: custom
+    method: '정적 HTML/JS 검사: a[href=''#''], a[href^=''javascript:''], href 없는 a에 click 핸들러가 있으면 실패. React 프로젝트면 eslint-plugin-jsx-a11y
+      anchor-is-valid 규칙이 같은 조건을 검사'
+  note: (1)(2) 동작과 요소 종류의 일치는 실행해 봐야 해서 수동.
+rationale: 링크와 버튼은 보조기술이 알리는 역할과 키보드 동작(링크 Enter, 버튼 Enter·Space)이 다르다. 겉모양·역할이 기능과 맞아야 사용자가 결과를 예측한다.
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 링크 > 용례 (사용하기 적합한 경우 / 적합하지 않은 경우) (가이드라인 PDF 2025.08 495쪽)
+  note: https://www.krds.go.kr/html/site/component/component_05_01.html
+- ref: ARIA_APG
+  locator: https://www.w3.org/WAI/ARIA/apg/patterns/button/ — Note
+  note: '''The types of actions performed by buttons are distinctly different from the function of a link … It is
+    important that both the appearance and role of a widget match the function it provides.'' 링크 모양이지만 버튼 동작이면 시각
+    디자인을 기능에 맞추는 것이 더 나은 해법이라고 함.'
+scope:
+  level: global
+  targets:
+  - a
+  - button
+  - '[role=button]'
+  - '[role=link]'
+exceptions: []
+relations:
+- type: depends
+  id: A11Y-025
+  note: 요소의 역할을 보조기술에 올바르게 전달(4.1.2)
+examples:
+  good:
+  - lang: html
+    code: |
+      <a href="/notice/123">공지 상세 보기</a>
+      <button type="button" aria-haspopup="dialog">삭제</button>
+    note: 이동은 a[href], 대화상자 열기는 button으로 구분했다.
+  - lang: html
+    code: |
+      <button type="button" class="button button--tertiary" aria-pressed="true" data-status="done">완료</button>
+      <script>
+        // 필터를 바꾸고 같은 화면 상태를 주소에 남긴다(뒤로 가기 기록을 만들지 않음) — 이동이 아니므로 button
+        history.replaceState(null, '', '?status=done');
+      </script>
+    note: replaceState 로 조회 조건만 주소에 남기는 필터는 button 이다.
+  bad:
+  - lang: html
+    code: |
+      <a href="#" onclick="openDialog()">삭제</a>
+      <button onclick="location.href='/notice/123'">공지 상세 보기</button>
+    note: 이동하지 않는 동작에 href="#" 링크를, 페이지 이동에 button을 썼다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(KRDS 페이지 curl 수신 후 텍스트 추출): KRDS 용례 ''다른 서비스/애플리케이션, 한 서비스 내의 다른 화면, 한 화면 내의
+  다른 섹션 등으로 이동이 필요한 경우 … 링크를 사용한다'', ''입력폼 제출, 대화창 실행, 기능 취소 등 … 버튼 컴포넌트를 사용하는 것이 적절하다'' 확인. APG button 패턴 Note를
+  curl로 확인. KRDS 강도는 용례 수준(MAY)이나 APG가 ''It is important''로 서술해 SHOULD. 1단계 statement의 ''새 탭·창을 여는 동작''은 원문에 없는
+  문구라 뺐다. (2026-10-18 시험 4 검토 반영) T7 상태 필터가 history.replaceState 로 쿼리만 바꾸는데 측정 기준 (1) ''URL 이 바뀌면 a[href]''에 걸려
+  판정이 갈렸다 → KRDS 용례가 링크를 ''다른 화면·다른 섹션으로 이동''에 쓰라고 하므로, 같은 화면 상태를 보존하려는 replaceState(쿼리·해시)는 이동이 아니라 button 대상으로
+  정했다. pushState 는 뒤로 가기 기록을 만드는 이동으로 남겼다.'
+korean_specific: false
+tags:
+- krds
+- krds-component
+- apg

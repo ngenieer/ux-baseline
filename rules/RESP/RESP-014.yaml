@@ -1,0 +1,50 @@
+id: RESP-014
+category: RESP
+title: 좁은 화면 언어 변경 위치
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 헤더가 햄버거 메뉴로 바뀌는 너비(RESP-005)에서는 언어 변경 컴포넌트를 햄버거 메뉴 레이어 안이나 푸터에 둔다.
+measurement:
+  criteria: 헤더 메뉴 막대가 숨겨지고 햄버거 버튼이 보이는 모든 뷰포트에서 언어 변경 컨트롤이 메뉴 레이어 안 또는 footer 안에 있고, 숨겨진 헤더 영역에만 있지 않다.
+  method: 햄버거 전환 너비 미만에서 언어 변경 컨트롤의 DOM 위치와 표시 여부를 확인한다.
+automation:
+  feasibility: none
+  checks: []
+  note: 4단계 커스텀 Playwright 검사.
+rationale: 헤더의 복잡도를 줄이면서 좁은 화면에서도 언어 변경을 찾을 수 있게 한다(KRDS).
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 언어 변경 > 플랫폼에 대한 고려 사항 (가이드라인 PDF 2025.08 724쪽)
+  note: https://www.krds.go.kr/html/site/component/component_10_01.html
+scope:
+  level: component
+  targets:
+  - 언어 변경
+exceptions:
+- 외국어 콘텐츠 이용 빈도가 높거나 언어 변경이 중요한 서비스는 언어 변경 버튼을 푸터에 두는 것이 좋다(KRDS 권장 — 별도 MAY 후보).
+relations:
+- type: depends
+  id: RESP-005
+  note: 햄버거 메뉴 전환 조건.
+examples:
+  good:
+  - lang: html
+    code: <nav id="gnb-layer" aria-label="주 메뉴">…<a href="/en" lang="en" hreflang="en">English</a></nav>
+    note: 좁은 화면에서 언어 변경 링크를 메뉴 레이어 안에 둔다.
+  bad:
+  - lang: css
+    code: "@media (max-width: 1023px) {\n  .header-util { display: none; } /* 언어 변경 링크가 이 안에만 있음 */\n}"
+    note: 햄버거 메뉴로 바뀌는 너비에서 언어 변경이 숨긴 헤더 영역에만 있다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(curl로 KRDS 페이지 HTML을 받아 텍스트로 직접 읽음): ''화면 너비가 충분하지 않은 경우, 언어 변경 컴포넌트를 햄버거 메뉴
+  내부나 푸터에 배치한다''(지시형), ''언어 변경이 중요한 서비스인 경우 … 푸터에 배치하여 … 좋다''(권장), ''일반적인 서비스에서는 … 헤더 컴포넌트 가이드라인을 참조하여 햄버거 메뉴 내부에''
+  확인. 강도가 다른 권장 부분(중요 서비스는 푸터)은 statement에서 빼 예외 칸에 원문 그대로 두고 제안 파일에 별도 MAY 후보로 적음. 너비 조건은 RESP-005(햄버거 전환)에 연결.
+  → SHOULD + public-sector-must.'
+korean_specific: false
+tags:
+- krds
+- krds-component
+- public-sector-must

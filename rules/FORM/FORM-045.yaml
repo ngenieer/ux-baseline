@@ -1,0 +1,23 @@
+id: FORM-045
+category: FORM
+title: 토글 스위치
+stage: collected
+status:
+  value: deprecated
+  reason: FORM-041로 병합
+  superseded_by: FORM-041
+statement: 부울 상태 전환이 아니거나 상호 배타 옵션이 셋 이상이면 토글 대신 라디오 버튼을 쓴다.
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 토글 스위치 > 용례
+  note: https://www.krds.go.kr/html/site/component/component_06_07.html
+scope:
+  level: component
+  targets:
+  - 토글 스위치
+needs_verification: true
+verification_note: '2026-10-18 2단계 정규화: FORM-041와 같은 요구라 병합. 출처는 FORM-041 sources에 옮겨 적음. statement 는
+  KRDS 컴포넌트 페이지를 요약 도구로 읽고 정리한 것 — 원문 강도 표현: "사용한다". 2단계에서 원문 대조.'
+tags:
+- krds
+- krds-component

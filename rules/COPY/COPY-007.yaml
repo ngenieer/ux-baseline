@@ -1,0 +1,55 @@
+id: COPY-007
+category: COPY
+title: 첨부파일 형식·크기 표시
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 첨부파일 링크는 파일 이름 바로 뒤에 '[파일 형식, 파일 크기]'를 KB·MB·GB 단위로 표시하고, 링크 텍스트나 바로 옆 텍스트에 '다운로드'라는 말을 넣어 링크를 누르면 파일을
+  받는다는 것을 알린다.
+measurement:
+  criteria: (1) 첨부파일 링크(파일을 내려받는 a[href], a[download])마다 파일 이름 뒤에 정규식 \[[A-Za-z0-9]+, ?[0-9]+(\.[0-9]+)? ?(KB|MB|GB)\]
+    형식의 텍스트가 있다. (2) 링크 텍스트 또는 같은 목록 항목·같은 줄의 텍스트에 '다운로드'가 있다.
+  method: 첨부파일 링크를 모두 뽑아 링크 텍스트와 주변 텍스트를 정규식으로 검사한다.
+automation:
+  feasibility: none
+  checks: []
+  note: '4단계 커스텀 검사: href 확장자가 문서·압축 형식(.hwp,.hwpx,.pdf,.docx,.xlsx,.zip 등)이거나 download 속성이 있는 링크의 텍스트·형제 텍스트를 정규식으로
+    검사.'
+rationale: 링크를 실행했을 때 다운로드가 일어난다는 것과 파일 형식·크기를 미리 알면 사용자가 열 수 있는 형식인지, 데이터 요금·시간이 드는지 판단할 수 있다(KRDS 첨부파일 패턴).
+sources:
+- ref: KRDS
+  locator: 기본 패턴 > 첨부파일 > 사용성 가이드라인 (가이드라인 PDF 2025.08 855쪽)
+  note: https://www.krds.go.kr/html/site/global/global_09.html
+scope:
+  level: component
+  targets:
+  - a[download]
+  - 첨부파일 링크
+exceptions: []
+relations:
+- type: depends
+  id: COPY-002
+  note: 링크 목적 요구(WCAG 2.4.4)를 첨부파일에 구체화
+examples:
+  good:
+  - lang: html
+    code: '<li>사회보장급여 신청(변경)서 [hwp, 328KB] <a href="/files/apply.hwp" download>다운로드</a></li>
+
+      '
+    note: 파일 이름 뒤 [형식, 크기]와 '다운로드'를 표시한다
+  bad:
+  - lang: html
+    code: '<li><a href="/files/apply.hwp">사회보장급여 신청(변경)서</a></li>
+
+      '
+    note: 형식·크기 표시와 '다운로드' 안내가 없다
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(curl로 KRDS 페이지 HTML을 받아 텍스트로 직접 읽음): 첨부파일 패턴(global_09) ''링크 주변에 다운로드라는 텍스트가
+  포함된 설명을 제공하거나 다운로드 링크를 제공'', ''인라인 링크와 목록 링크는 파일 이름 우측에 [파일 유형, 파일 크기]'', ''파일 크기는 KB, MB, GB 단위'' 확인, 예시 ''[hwp,
+  328KB]''. 원문 동사 ''예측할 수 있어야 한다'' → 강도: KRDS ''해야 한다·않는다'' 표현 → SHOULD + public-sector-must(정책 2).'
+korean_specific: false
+tags:
+- krds
+- public-sector-must

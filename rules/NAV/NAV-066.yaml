@@ -1,0 +1,70 @@
+id: NAV-066
+category: NAV
+title: 앱 내·시스템 뒤로가기 일치
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 같은 화면에서 앱 내 뒤로가기 버튼과 시스템 뒤로가기(브라우저 뒤로 버튼·뒤로 제스처)가 서로 다른 화면으로 이동하거나 서로 다른 동작(한쪽은 팝업 닫기, 다른 쪽은 페이지 이탈)을
+  하지 않게 한다.
+measurement:
+  criteria: 모든 화면·오버레이 상태에서 앱 내 뒤로가기 버튼을 눌렀을 때와 브라우저 history.back()을 실행했을 때 결과 화면 URL과 오버레이 열림 상태가 같다.
+  method: 'E2E: 화면·상태마다 두 방법을 각각 실행해 결과 URL과 열린 오버레이를 비교한다.'
+automation:
+  feasibility: none
+  checks: []
+  note: 기존 검사기 규칙 없음. E2E 커스텀 검사로 자동화 가능(오버레이를 history 항목으로 관리하는지 확인).
+rationale: 두 뒤로가기의 결과가 다르면 사용자가 이동을 예측할 수 없고 작업 맥락을 잃는다.
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 뒤로가기 버튼 > 사용성 가이드라인 (시스템 뒤로가기와 앱 내 뒤로가기는 최대한 동일하게 동작하여야 한다)
+  note: https://www.krds.go.kr/html/site/component/component_12_02.html
+scope:
+  level: global
+  targets:
+  - 뒤로가기 버튼
+  - 모달·바텀시트 등 오버레이 열린 상태
+exceptions: []
+relations:
+- type: depends
+  id: NAV-064
+  note: 앱 내 뒤로가기 버튼의 목적지 규칙
+examples:
+  good:
+  - lang: html
+    code: '<script>
+
+      // 모달을 열 때 history 항목을 추가해 브라우저 뒤로도 모달만 닫히게 함
+
+      openModal = () => { history.pushState({modal: true}, ''''); dialog.showModal(); };
+
+      addEventListener(''popstate'', () => dialog.open && dialog.close());
+
+      backBtn.onclick = () => history.back();
+
+      </script>
+
+      '
+    note: 모달을 history에 넣어 앱 뒤로가기와 브라우저 뒤로가기가 모두 모달만 닫는다.
+  bad:
+  - lang: html
+    code: '<script>
+
+      // 앱 뒤로 버튼은 모달만 닫지만 브라우저 뒤로는 페이지를 떠남
+
+      backBtn.onclick = () => dialog.open ? dialog.close() : history.back();
+
+      </script>
+
+      '
+    note: 앱 뒤로가기는 모달을 닫고 브라우저 뒤로가기는 페이지를 떠난다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(KRDS 페이지 curl 수신 후 텍스트 추출): ''같은 화면에서 상단 뒤로가기 버튼과 시스템 back/제스처를 사용했을 때, 서로
+  다른 화면으로 이동하거나, 하나는 팝업을 닫고 하나는 페이지를 이탈하는 등 상이한 결과를 초래해서는 안 된다'' 확인. 헤딩의 ''최대한''(모호어)은 빼고 본문의 금지 조건을 statement로
+  씀. 원문 지시형 문장을 의무로 읽어 SHOULD + public-sector-must.'
+korean_specific: false
+tags:
+- krds
+- krds-component
+- public-sector-must

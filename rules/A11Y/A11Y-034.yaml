@@ -1,0 +1,52 @@
+id: A11Y-034
+category: A11Y
+title: 라디오 그룹 방향키
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 라디오 그룹에서 ↑·← 를 누르면 이전 옵션으로, ↓·→ 를 누르면 다음 옵션으로 초점을 옮기고 그 값을 선택한다.
+measurement:
+  criteria: 라디오 그룹 안 옵션에 초점을 두고 ↓ 또는 → 를 누르면 다음 옵션이, ↑ 또는 ← 를 누르면 이전 옵션이 초점을 받고 checked(aria-checked="true")가 된다.
+  method: 각 라디오 그룹에서 방향키 4개를 눌러 초점과 선택 상태를 확인한다. 네이티브 input[type=radio]는 브라우저가 이 동작을 제공한다.
+automation:
+  feasibility: none
+  checks: []
+  note: '4단계 커스텀 검사: Playwright 키보드 시나리오(커스텀 라디오 구현만 대상으로 해도 됨).'
+rationale: 라디오 그룹은 하나의 Tab 정지점이고 그룹 안 이동·선택은 방향키로 하는 것이 표준 동작이다.
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 라디오 버튼 > 상호작용 가이드라인 (가이드라인 PDF 2025.08 537쪽)
+  note: https://www.krds.go.kr/html/site/component/component_06_01.html
+scope:
+  level: component
+  targets:
+  - input[type=radio]
+  - '[role=radiogroup]'
+  - 라디오 버튼
+exceptions: []
+relations:
+- type: refines
+  id: A11Y-011
+examples:
+  good:
+  - lang: html
+    code: "<fieldset><legend>수령 방법</legend>\n  <label><input type=\"radio\" name=\"r\" value=\"mail\"> 우편</label>\n\
+      \  <label><input type=\"radio\" name=\"r\" value=\"visit\"> 방문</label>\n</fieldset>\n"
+    note: 네이티브 라디오 그룹은 방향키로 이동하며 선택됨
+  bad:
+  - lang: html
+    code: "<div role=\"radiogroup\" aria-label=\"수령 방법\">\n  <span role=\"radio\" aria-checked=\"true\" tabindex=\"\
+      0\">우편</span>\n  <span role=\"radio\" aria-checked=\"false\" tabindex=\"0\">방문</span>\n</div>\n<!-- 방향키 keydown\
+      \ 처리 없음: 항목마다 Tab으로만 이동 -->\n"
+    note: 커스텀 라디오 그룹이 방향키에 반응하지 않음
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(WebFetch로 KRDS 페이지 재조회, 요약 모델 인용 확인): 상호작용 가이드라인 ''방향키 ↑/←, ↓/→를 눌렀을 때 다음/이전
+  라디오 버튼 양식으로 초점이 이동하고 값이 선택되어야 한다.'' 확인. ''해야'' → SHOULD + public-sector-must. (2026-10-18 KRDS PDF 대조) 원문 537쪽 표는
+  ''방향키 ↑, ↓''만 적는다 — ←·→는 웹 페이지 기준이며 네이티브 라디오 그룹 동작과 같아 statement는 유지.'
+korean_specific: false
+tags:
+- krds
+- krds-component
+- public-sector-must

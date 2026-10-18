@@ -1,0 +1,50 @@
+id: NAV-027
+category: NAV
+title: 브레드크럼을 두지 않는 경우
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: MAY
+statement: 메인 페이지·랜딩 페이지와, 탐색 계층이 1수준인 사이트에는 브레드크럼을 두지 않는다.
+measurement:
+  criteria: 사이트 메인(홈)·랜딩 페이지, 그리고 정보 구조의 최대 깊이가 1인 사이트의 모든 페이지에 브레드크럼 nav가 없다.
+  method: 정보 구조도에서 최대 깊이를 확인하고 해당 페이지들에 브레드크럼이 있는지 확인한다.
+automation:
+  feasibility: none
+  note: '4단계 커스텀 검사 가능: 홈 URL에 nav[aria-label=''브레드크럼'']이 있으면 경고.'
+rationale: 최상위 페이지나 얕은 사이트에는 탐색 경로가 없고, 메인 메뉴의 활성 표시만으로 위치를 알 수 있다.
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 브레드크럼 > 용례 (가이드라인 PDF 2025.08 280쪽)
+  note: https://www.krds.go.kr/html/site/component/component_03_03.html — '메인 페이지나 랜딩 페이지는 정보 구조의 최상위 수준이므로 브레드크럼을
+    사용하지 않는 것이 적절하다.' / 적합하지 않은 경우 '탐색 계층 구조가 1수준인 사이트' / '탐색 구조의 깊이가 2단계인 사이트에는 … 브레드크럼을 제공할 필요가 없다.'
+scope:
+  level: situation
+  targets:
+  - 메인·랜딩 페이지
+  - 정보 구조 깊이 1 사이트
+exceptions: []
+relations: []
+examples:
+  good:
+  - lang: html
+    code: '<!-- 홈: 브레드크럼 없음 -->
+
+      <main><h1>정부24</h1>…</main>
+
+      '
+    note: 홈 화면에 브레드크럼을 두지 않는다.
+  bad:
+  - lang: html
+    code: '<main><nav aria-label="브레드크럼"><ol><li><a href="/">홈</a></li></ol></nav><h1>정부24</h1>…</main>
+
+      '
+    note: 홈 화면에 의미 없는 브레드크럼을 둔다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(KRDS component_03_03 WebFetch): 용례 제목은 ''1수준'', 본문 설명은 ''2단계 사이트에는 제공할 필요가
+  없다'' — 본문 설명이 더 넓어 ''2수준 이하''로 정함(1수준 포함). 원문 강도 ''적절하다''·''필요가 없다''(금지 아님) → MAY. (2026-10-18 KRDS PDF 대조) 이전: 탐색 계층 2수준 이하 사이트 → 원문 280쪽: 용례 제목 ''탐색 계층 구조가 1수준인 사이트''와 본문 ''탐색 구조의 깊이가 1단계인 사이트에는 탐색 경로가 존재하지 않으며 … 브레드크럼을 제공할 필요가 없다''가 서로 맞는다. 웹 페이지(component_03_03, 2026-10-18 재수신)는 본문만 ''2단계''로 써 제목과 어긋나고 변경 내역은 2025-01-15 최초 등록뿐 — PDF(2025.08)의 1단계를 따라 1수준으로 고침. 메인·랜딩 화면 문장(280쪽)은 일치.'
+korean_specific: false
+tags:
+- krds
+- krds-component

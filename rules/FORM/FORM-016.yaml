@@ -1,0 +1,65 @@
+id: FORM-016
+category: FORM
+title: 오류 후 입력값 유지
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 검증 오류를 안내한 뒤에도 사용자가 입력하거나 선택한 값을 지우거나 초기화하지 않는다.
+measurement:
+  criteria: 클라이언트·서버 검증 오류가 난 뒤 화면의 모든 필드 값이 제출 직전 값과 같다(오류가 난 필드 포함). input[type=password]·input[type=file]은 브라우저·보안
+    제약이 있어 판정에서 제외.
+  method: 오류가 나는 값을 포함해 모든 필드를 채우고 제출한 뒤 각 필드 값을 제출 전 값과 비교한다(수동 또는 Playwright).
+automation:
+  feasibility: none
+  checks:
+  - tool: custom
+    method: Playwright로 폼을 채워 제출 전후 inputValue()·isChecked()를 비교
+  note: 4단계 E2E 검사 후보.
+rationale: 값을 지우면 사용자는 무엇이 잘못됐는지 확인할 수 없고 모든 값을 다시 입력해야 한다.
+sources:
+- ref: KRDS
+  locator: 기본 패턴 > 오류 > 접근성 가이드라인 (가이드라인 PDF 2025.08 831쪽)
+  note: https://www.krds.go.kr/html/site/global/global_07.html — '오류 발생을 안내한 후에도 사용자가 입력한 값이나 조작한 내용을 유지하여 ... 값을
+    수정할 수 있도록 해야 한다.'
+- ref: KRDS
+  locator: 기본 패턴 > 입력폼 > 사용성 가이드라인 (가이드라인 PDF 2025.08 845쪽)
+  note: https://www.krds.go.kr/html/site/global/global_08.html — '사용자가 잘못 입력/선택한 값을 자동으로 삭제하지 않는다.'
+- ref: GOVUK_VALIDATION
+  locator: Keep the user's data
+  note: 참고 사례 — 오류 후 입력값 유지(registry note)
+scope:
+  level: situation
+  targets:
+  - 검증 오류 표시 후 폼
+exceptions: []
+relations:
+- type: depends
+  id: FORM-003
+examples:
+  good:
+  - lang: html
+    code: '<label for="email">이메일</label>
+
+      <input id="email" type="email" autocomplete="email" value="hong@example" aria-invalid="true" aria-describedby="email-err">
+
+      <p id="email-err">이메일 주소에 도메인이 없습니다. ''hong@example.com''처럼 ''.''과 도메인을 포함해 입력하세요.</p>
+
+      '
+    note: 오류를 안내하면서 사용자가 입력한 값을 그대로 둔다.
+  bad:
+  - lang: js
+    code: 'if (!isValid(form)) { form.reset(); showErrors(form); }
+
+      '
+    note: 오류를 보여주면서 폼을 초기화해 입력한 값이 모두 지워진다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(KRDS global_07·global_08 HTML curl): ''유지하여 ... 해야 한다'', ''자동으로 삭제하지 않는다''
+  확인 → SHOULD + public-sector-must. 1단계에 붙어 있던 WCAG22_UNDERSTANDING(2.2.5)·WCAG22_TECHNIQUES(F12) 출처는 ''세션 만료 후
+  재인증 시 데이터 유지''라는 다른 요구(AAA 2.2.5)라 떼어 제안 파일 notes로 옮김. password·file 필드는 출처 예외가 아니라 측정 제약이라 exceptions에 넣지 않고
+  측정 기준에서만 제외 — 3단계 확인.'
+korean_specific: false
+tags:
+- krds
+- public-sector-must

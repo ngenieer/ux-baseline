@@ -1,0 +1,51 @@
+id: AI-015
+category: AI
+title: 스트리밍 응답에 assertive 금지
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 스트리밍으로 채워지는 AI 응답 요소와 그 조상 요소에 aria-live="assertive"나 role="alert"를 쓰지 않는다.
+measurement:
+  criteria: '[data-ai-output](스트리밍 응답 요소)과 그 모든 조상 요소에 aria-live="assertive"·role="alert"가 없다.'
+  method: 'DOM 질의: document.querySelectorAll(''[data-ai-output]'')의 각 요소에서 closest(''[aria-live=assertive],[role=alert]'')가
+    null인지 확인.'
+automation:
+  feasibility: none
+  checks: []
+  note: 기존 검사기 규칙 없음. 4단계 커스텀 DOM 검사(위 method) 또는 eslint 커스텀(JSX 속성 검사).
+rationale: assertive·alert는 스크린 리더의 현재 발화를 끊고 즉시 읽으므로, 계속 갱신되는 스트리밍 응답에 쓰면 사용자가 다른 작업을 할 수 없다.
+sources:
+- ref: MDN_ARIA_LIVE
+  locator: assertive
+  note: '''Because an interruption may disorient users or cause them to not complete their current task, don''t
+    use the assertive value unless the interruption is imperative.'''
+scope:
+  level: component
+  targets:
+  - '[data-ai-output]'
+  - AI 스트리밍 응답 영역
+exceptions:
+- 'AI 응답 영역 밖의 별도 알림 요소(예: 시간 제한 경고)는 이 룰의 대상이 아니다.'
+relations:
+- type: refines
+  id: STATE-001
+  note: AI 스트리밍 상태 알림은 STATE-001(role=status)로, 응답 본문은 assertive 금지.
+examples:
+  good:
+  - lang: html
+    code: "<div role=\"log\" aria-label=\"AI 대화\">\n  <article data-ai-output aria-busy=\"true\">…</article>\n</div>\n\
+      <p role=\"status\" class=\"sr-only\">응답 완료</p>"
+    note: 응답 본문은 role="log" 안에 두고 완료 알림만 role="status"로 한 번 알린다.
+  bad:
+  - lang: html
+    code: "<div aria-live=\"assertive\">\n  <article data-ai-output>…(토큰마다 갱신)</article>\n</div>"
+    note: 토큰마다 갱신되는 응답을 assertive로 감싸 화면 낭독기가 계속 끊긴다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(MDN aria-live curl): ''don''t use the assertive value unless the interruption
+  is imperative'' 확인. 1단계 메모의 ''AI 오류 메시지는 role=alert 허용'' 여부는 응답 요소 밖의 알림이면 이 룰 대상이 아니라는 예외로 정리. STATE 담당이 제안한
+  새 STATE 룰(진행·완료 문구에 alert·assertive 금지)이 생기면 이 룰과 refines로 연결.'
+korean_specific: false
+tags:
+- research-ai

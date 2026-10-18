@@ -1,0 +1,689 @@
+/* 민원 안내 문서 AI 요약 — 프로젝트 CSS.
+   tokens.css → base.css 다음에 불러온다. 값은 디자인 토큰(CSS 변수)만 쓴다. */
+
+/* ---------- 페이지 ---------- */
+.page {
+  max-inline-size: var(--layout-content-max);
+  margin-inline: auto;
+  padding-block: var(--space-padding-8);
+  padding-inline: var(--layout-screen-margin-small);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-gap-8);
+}
+
+@media (min-width: 768px) {
+  .page {
+    padding-inline: var(--layout-screen-margin-medium);
+  }
+}
+
+.page__header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-gap-3);
+}
+
+.page__title {
+  margin: 0;
+  color: var(--color-text-bolder);
+  font-size: var(--font-size-heading-large);
+  font-weight: var(--font-weight-bold);
+}
+
+.ai-notice {
+  margin: 0;
+  padding: var(--space-padding-4) var(--space-padding-6);
+  border-inline-start: var(--border-width-static-medium) solid var(--color-border-information);
+  background-color: var(--color-surface-information-subtler);
+  color: var(--color-text-basic);
+  font-size: var(--font-size-body-small);
+}
+
+h2,
+h3 {
+  margin: 0;
+  color: var(--color-text-bolder);
+  font-weight: var(--font-weight-bold);
+}
+
+h2 {
+  font-size: var(--font-size-heading-small);
+}
+
+h3 {
+  font-size: var(--font-size-heading-xsmall);
+}
+
+p {
+  margin: 0;
+}
+
+/* ---------- 시연 설정 ---------- */
+.demo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-gap-4);
+  padding: var(--padding-card-medium);
+  border: var(--border-width-static-regular) dashed var(--color-border-gray-dark);
+  border-radius: var(--radius-medium3);
+  background-color: var(--color-surface-gray-subtler);
+}
+
+.demo__hint {
+  color: var(--color-text-subtle);
+  font-size: var(--font-size-body-small);
+}
+
+/* ---------- 기능 범위 안내 ---------- */
+.intro {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-gap-3);
+}
+
+.intro__list {
+  margin: 0;
+  padding-inline-start: var(--space-padding-7);
+}
+
+.intro__limit {
+  color: var(--color-text-subtle);
+  font-size: var(--font-size-body-small);
+}
+
+/* ---------- 요청 폼 ---------- */
+.request {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-gap-5);
+}
+
+.request__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-gap-4);
+}
+
+/* ---------- 결과 ---------- */
+.result {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-gap-5);
+  padding: var(--padding-card-medium);
+  border: var(--border-width-static-regular) solid var(--color-border-gray);
+  border-radius: var(--radius-medium3);
+  background-color: var(--color-surface-white);
+}
+
+.result[hidden],
+.result__progress[hidden],
+.result__footer[hidden],
+.result__edit[hidden],
+.state-box[hidden],
+.version-nav[hidden] {
+  display: none;
+}
+
+.result__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-gap-3);
+}
+
+.result__title:focus-visible {
+  outline: var(--space-scale-2) solid var(--color-border-primary);
+  outline-offset: var(--space-scale-1);
+}
+
+.result__progress {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-gap-4);
+}
+
+.result__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-gap-5);
+}
+
+.result__output {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-gap-4);
+}
+
+.result__body[data-ai-status="error"] .result__output,
+.result__body[data-ai-status="empty"] .result__output,
+.result__body[data-ai-status="editing"] .result__output {
+  display: none;
+}
+
+.summary-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-gap-5);
+  margin: 0;
+  padding-inline-start: var(--space-padding-7);
+}
+
+.summary-list:empty {
+  display: none;
+}
+
+.summary-item {
+  padding-inline-start: var(--space-padding-3);
+}
+
+.summary-item--low {
+  border-inline-start: var(--border-width-static-medium) solid var(--color-border-warning);
+}
+
+.summary-item__text {
+  color: var(--color-text-basic);
+}
+
+.summary-item__flag {
+  margin-inline-start: var(--space-gap-2);
+}
+
+.summary-item__uncertain {
+  background-color: var(--color-surface-warning-subtler);
+  color: var(--color-text-bolder);
+  text-decoration-line: underline;
+  text-decoration-style: wavy;
+  text-decoration-color: var(--color-border-warning);
+}
+
+.summary-item__source {
+  margin-block-start: var(--space-gap-2);
+  padding: var(--space-padding-3) var(--space-padding-4);
+  border-radius: var(--radius-small2);
+  background-color: var(--color-surface-gray-subtler);
+  color: var(--color-text-subtle);
+  font-size: var(--font-size-body-small);
+}
+
+.summary-item__source-label {
+  color: var(--color-text-basic);
+  font-weight: var(--font-weight-bold);
+}
+
+.summary-item__source q {
+  color: var(--color-text-basic);
+}
+
+.result__stopped {
+  padding: var(--space-padding-3) var(--space-padding-4);
+  border: var(--border-width-static-regular) solid var(--color-border-gray-dark);
+  border-radius: var(--radius-small2);
+  color: var(--color-text-basic);
+  font-size: var(--font-size-body-small);
+  font-weight: var(--font-weight-bold);
+}
+
+.result__stopped[hidden] {
+  display: none;
+}
+
+/* 결과 고치기 */
+.result__edit {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-gap-5);
+}
+
+.result__edit-hint {
+  color: var(--color-text-subtle);
+  font-size: var(--font-size-body-small);
+}
+
+.result__edit-fields {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-gap-5);
+}
+
+/* 실패 상태: 서비스 오류와 답 없음을 서로 다른 모양으로 보인다 (AI-011, AI-012) */
+.state-box {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-gap-3);
+  padding: var(--padding-card-small);
+  border-radius: var(--radius-medium3);
+}
+
+.state-box--error {
+  border: var(--border-width-static-regular) solid var(--color-border-danger);
+  border-inline-start-width: var(--border-width-static-medium);
+  background-color: var(--color-surface-danger-subtler);
+}
+
+.state-box--empty {
+  border: var(--border-width-static-regular) solid var(--color-border-gray);
+  background-color: var(--color-surface-gray-subtler);
+}
+
+.state-box__text {
+  color: var(--color-text-basic);
+}
+
+.state-box__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-gap-4);
+}
+
+/* 결과 아래 */
+.result__footer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-gap-5);
+  padding-block-start: var(--space-padding-6);
+  border-block-start: var(--border-width-static-regular) solid var(--color-divider-gray);
+}
+
+.confidence-legend {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-gap-3);
+  margin: 0;
+  color: var(--color-text-subtle);
+  font-size: var(--font-size-body-small);
+}
+
+.confidence-legend__row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-gap-3);
+}
+
+.confidence-legend dt {
+  color: var(--color-text-basic);
+  font-weight: var(--font-weight-bold);
+}
+
+.confidence-legend dd {
+  margin: 0;
+}
+
+.result__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-gap-4);
+}
+
+.version-nav {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-gap-4);
+}
+
+.version-nav__count {
+  color: var(--color-text-basic);
+  font-size: var(--font-size-body-small);
+}
+
+/* ---------- 컴포넌트 규격: 버튼 (components/button.md) ---------- */
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-gap-2);
+  min-block-size: var(--size-height-8);
+  padding-inline: var(--space-padding-7);
+  border: var(--border-width-variable-regular) solid var(--color-button-primary-fill);
+  border-radius: var(--radius-medium3);
+  background-color: var(--color-button-primary-fill);
+  color: var(--color-text-inverse-static);
+  font-size: var(--font-size-label-large);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--font-line-height-none);
+  cursor: pointer;
+  transition: background-color var(--motion-duration-fast) var(--motion-easing-standard);
+}
+
+.button:focus-visible {
+  outline: var(--space-scale-2) solid var(--color-border-primary);
+  outline-offset: var(--space-scale-1);
+}
+
+.button--primary:hover {
+  background-color: var(--color-button-primary-fill-hover);
+}
+
+.button--primary:active {
+  background-color: var(--color-button-primary-fill-pressed);
+}
+
+.button--secondary {
+  border-color: var(--color-button-secondary-border);
+  background-color: var(--color-button-secondary-fill);
+  color: var(--color-text-primary);
+}
+
+.button--secondary:hover {
+  background-color: var(--color-button-secondary-fill-hover);
+}
+
+.button--secondary:active {
+  background-color: var(--color-button-secondary-fill-pressed);
+}
+
+.button--text {
+  min-block-size: var(--size-height-4);
+  padding-inline: var(--space-padding-1);
+  border-color: var(--color-button-text-border);
+  background-color: var(--color-button-text-fill);
+  color: var(--color-text-basic);
+}
+
+.button--text:hover {
+  background-color: var(--color-button-text-fill-hover);
+}
+
+.button--text:active {
+  background-color: var(--color-button-text-fill-pressed);
+}
+
+.button--small {
+  min-block-size: var(--size-height-6);
+  padding-inline: var(--space-padding-5);
+  border-radius: var(--radius-medium1);
+  font-size: var(--font-size-label-small);
+}
+
+.button--medium {
+  min-block-size: var(--size-height-7);
+  padding-inline: var(--space-padding-6);
+  border-radius: var(--radius-medium2);
+  font-size: var(--font-size-label-medium);
+}
+
+.button--text.button--small {
+  min-block-size: var(--size-height-4);
+  padding-inline: var(--space-padding-1);
+}
+
+.button:disabled,
+.button[aria-disabled="true"] {
+  border-color: var(--color-button-disabled-border);
+  background-color: var(--color-button-disabled-fill);
+  color: var(--color-text-disabled-on);
+  cursor: not-allowed;
+}
+
+.button--text:disabled {
+  border-color: var(--color-button-text-border);
+  background-color: var(--color-button-text-fill);
+  color: var(--color-text-disabled);
+}
+
+.button-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-gap-3);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .button {
+    transition: none;
+  }
+}
+
+/* ---------- 컴포넌트 규격: 텍스트 영역 (components/text-area.md) ---------- */
+.text-area {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-gap-3);
+}
+
+.text-area__label {
+  color: var(--color-text-basic);
+  font-size: var(--font-size-label-medium);
+  font-weight: var(--font-weight-bold);
+}
+
+.text-area__hint {
+  color: var(--color-text-subtle);
+  font-size: var(--font-size-body-small);
+}
+
+.text-area__input {
+  inline-size: 100%;
+  padding-block: var(--space-padding-4);
+  padding-inline: var(--space-padding-6);
+  border: var(--space-scale-1) solid var(--color-input-border);
+  border-radius: var(--radius-medium3);
+  background-color: var(--color-input-surface);
+  color: var(--color-text-basic);
+  font-family: inherit;
+  font-size: var(--font-size-body-medium);
+  line-height: var(--font-line-height-base);
+  resize: vertical;
+}
+
+.text-area__input:focus-visible {
+  outline: var(--space-scale-2) solid var(--color-input-border-active);
+  outline-offset: var(--space-scale-1);
+}
+
+.text-area--error .text-area__input {
+  border-color: var(--color-input-border-error);
+}
+
+.text-area__count {
+  align-self: flex-end;
+  color: var(--color-text-subtle);
+  font-size: var(--font-size-body-small);
+}
+
+.text-area__count-current {
+  color: var(--color-text-basic);
+  font-weight: var(--font-weight-bold);
+}
+
+.text-area__message {
+  color: var(--color-text-danger);
+  font-size: var(--font-size-body-small);
+}
+
+.text-area__message[hidden] {
+  display: none;
+}
+
+/* ---------- 컴포넌트 규격: 라디오 버튼 (components/radio-group.md) ---------- */
+.radio-group {
+  margin: 0;
+  padding: 0;
+  border-style: none;
+}
+
+.radio-group__legend {
+  margin-block-end: var(--space-gap-3);
+  padding: 0;
+  color: var(--color-text-basic);
+  font-size: var(--font-size-label-medium);
+  font-weight: var(--font-weight-bold);
+}
+
+.radio-group__options {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-gap-5);
+}
+
+.radio-group__option {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  column-gap: var(--space-gap-3);
+  row-gap: var(--space-gap-1);
+}
+
+.radio-group__input,
+.radio-group__indicator {
+  grid-area: 1 / 1;
+  inline-size: var(--size-height-4);
+  block-size: var(--size-height-4);
+  margin: 0;
+}
+
+.radio-group__input {
+  position: relative;
+  z-index: 1;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.radio-group__indicator {
+  display: grid;
+  place-items: center;
+  box-sizing: border-box;
+  border: var(--border-width-variable-medium) solid var(--color-element-gray-dark);
+  border-radius: var(--radius-max);
+  background-color: var(--color-element-inverse);
+}
+
+.radio-group__indicator::after {
+  content: "";
+  inline-size: var(--space-scale-7);
+  block-size: var(--space-scale-7);
+  border-radius: var(--radius-max);
+  background-color: transparent;
+}
+
+.radio-group__input:checked + .radio-group__indicator {
+  border-color: var(--color-element-primary);
+}
+
+.radio-group__input:checked + .radio-group__indicator::after {
+  background-color: var(--color-element-primary);
+}
+
+.radio-group__input:focus-visible + .radio-group__indicator {
+  outline: var(--space-scale-2) solid var(--color-border-primary);
+  outline-offset: var(--space-scale-1);
+}
+
+.radio-group__label {
+  grid-area: 1 / 2;
+  color: var(--color-text-bolder);
+  font-size: var(--font-size-label-medium);
+  cursor: pointer;
+}
+
+.radio-group__description {
+  grid-area: 2 / 2;
+  margin: 0;
+  color: var(--color-text-subtle);
+  font-size: var(--font-size-label-small);
+}
+
+/* ---------- 컴포넌트 규격: 배지 (components/badge.md) ---------- */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: var(--size-height-4);
+  padding-inline: var(--space-padding-3);
+  border-radius: var(--radius-small2);
+  background-color: var(--color-element-gray-light);
+  color: var(--color-text-subtle);
+  font-size: var(--font-size-label-small);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--font-line-height-base);
+  vertical-align: middle;
+}
+
+.badge[hidden] {
+  display: none;
+}
+
+.badge--warning {
+  background-color: var(--color-element-warning-lighter);
+  color: var(--color-text-warning);
+}
+
+.badge--information {
+  background-color: var(--color-element-information-lighter);
+  color: var(--color-text-information);
+}
+
+.badge--gray {
+  background-color: var(--color-element-gray-light);
+  color: var(--color-text-subtle);
+}
+
+/* ---------- 컴포넌트 규격: 스피너 (components/spinner.md) ---------- */
+.spinner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-gap-3);
+  color: var(--color-text-subtle);
+  font-size: var(--font-size-body-small);
+}
+
+.spinner__indicator {
+  display: inline-block;
+  flex-shrink: 0;
+  inline-size: var(--size-height-3);
+  block-size: var(--size-height-3);
+  appearance: none;
+  border: var(--border-width-variable-medium) solid var(--color-element-disabled-light);
+  border-block-start-color: var(--color-element-primary);
+  border-radius: var(--radius-max);
+  background-color: transparent;
+  color: transparent;
+  animation-name: spinner-rotate;
+  animation-duration: var(--motion-duration-max);
+  animation-timing-function: var(--motion-easing-linear);
+  animation-iteration-count: 10;
+}
+
+.spinner__indicator::-webkit-progress-bar,
+.spinner__indicator::-webkit-progress-value {
+  background-color: transparent;
+}
+
+.spinner__indicator::-moz-progress-bar {
+  background-color: transparent;
+}
+
+.spinner--small .spinner__indicator {
+  inline-size: var(--size-height-2);
+  block-size: var(--size-height-2);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spinner__indicator {
+    animation-name: none;
+  }
+}
+
+@keyframes spinner-rotate {
+  to {
+    transform: rotate(1turn);
+  }
+}
+
+/* ---------- 컴포넌트 규격: 숨긴 콘텐츠 (components/sr-only.md) ---------- */
+.sr-only {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  margin: calc(var(--space-scale-1) * -1);
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}

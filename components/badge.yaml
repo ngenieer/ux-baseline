@@ -1,0 +1,129 @@
+id: badge
+title: 배지
+status: confirmed
+summary: 목록 항목·카드·메뉴 같은 요소에 상태·분류·개수 같은 속성을 상호작용 없이 짧은 텍스트로 강조할 때 쓴다.
+use_instead:
+- when: 사용자가 설정한 필터·정렬 조건을 보여 주고 해제하게 하는 경우처럼 클릭·삭제가 필요한 경우
+  use: 태그
+  rule: NAV-052
+- when: 서비스 전체에 알려야 할 장애·재난·이용 중단 안내
+  use: critical-alert
+  rule: STATE-006
+krds:
+  page: component_04_06.html
+  kit: html/code/badge.html
+  kit_classes:
+    badge: krds-badge
+    badge--danger: bg-light-danger
+    badge--number: number
+anatomy:
+- part: 루트(레이블)
+  class: badge
+  element: span
+  required: true
+  note: a·button 이 아닌 span 이다. role·tabindex·click 핸들러를 주지 않는다(A11Y-030). 텍스트 레이블이 반드시 있다(COLOR-002).
+- part: 의미 색 변형
+  class: badge--danger
+  element: span
+  note: badge--danger·--warning·--success·--information·--point·--secondary·--gray 중 레이블 의미에 맞는 하나를 붙인다(COLOR-018). 주조색(primary) 변형은 없다(COLOR-017).
+- part: 숫자형 변형
+  class: badge--number
+  element: span
+  note: 개수를 표시한다. 상한을 넘으면 '999+' 처럼 '상한+' 로 쓴다(COPY-024).
+markup: |-
+  <ul class="badge-demo">
+    <li>전입 신고 <span class="badge badge--success">처리 완료</span></li>
+    <li>여권 재발급 <span class="badge badge--information">처리 중</span></li>
+    <li>사업자 등록 정정 <span class="badge badge--warning">보완 필요</span></li>
+    <li>건축 허가 <span class="badge badge--danger">반려</span></li>
+    <li>주민등록 등본 <span class="badge badge--gray">임시 저장</span></li>
+  </ul>
+  <p class="badge-demo">새 알림 <span class="badge badge--number">999+<span class="sr-only">건</span></span></p>
+css: |-
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    min-block-size: var(--size-height-4);
+    padding-inline: var(--space-padding-3);
+    border-radius: var(--radius-small2);
+    background-color: var(--color-element-gray-light);
+    color: var(--color-text-subtle);
+    font-size: var(--font-size-label-small);
+    font-weight: var(--font-weight-bold);
+    line-height: var(--font-line-height-base);
+    vertical-align: middle;
+  }
+  .badge--secondary {
+    background-color: var(--color-element-secondary-lighter);
+    color: var(--color-text-secondary);
+  }
+  .badge--point {
+    background-color: var(--color-element-point-lighter);
+    color: var(--color-text-point);
+  }
+  .badge--danger {
+    background-color: var(--color-element-danger-lighter);
+    color: var(--color-text-danger);
+  }
+  .badge--warning {
+    background-color: var(--color-element-warning-lighter);
+    color: var(--color-text-warning);
+  }
+  .badge--success {
+    background-color: var(--color-element-success-lighter);
+    color: var(--color-text-success);
+  }
+  .badge--information {
+    background-color: var(--color-element-information-lighter);
+    color: var(--color-text-information);
+  }
+  .badge--gray {
+    background-color: var(--color-element-gray-light);
+    color: var(--color-text-subtle);
+  }
+  .badge--number {
+    min-block-size: var(--size-height-3);
+    padding-inline: var(--space-padding-2);
+    border-radius: var(--radius-max);
+    background-color: var(--color-element-point);
+    color: var(--color-text-inverse-static);
+  }
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+states:
+- name: 숫자 상한 초과
+  markup_change: 값 n 이 상한 L(예 999)보다 크면 텍스트를 'L+'(예 999+)로 바꾼다. '+999' 처럼 기호를 앞에 두지 않는다(COPY-024).
+  rule: COPY-024
+behavior:
+- 배지는 대화형 요소가 아니다. a·button·role="link"·role="button"·0 이상의 tabindex·click 핸들러를 주지 않는다. 눌러서 무엇을 해야 하면 태그나 버튼을 쓴다(A11Y-030, NAV-052).
+- 한 요소(목록 항목·카드 등)에 배지를 1개만 붙인다(STATE-014).
+- 색은 레이블 의미에 맞춰 고른다 — 위험·반려는 danger, 주의·보완은 warning, 완료·성공은 success, 안내·진행은 information(COLOR-018). 의미는 레이블 텍스트로 전달하고 색은 보조 단서로만 쓴다(COLOR-001).
+- 배경색으로 주조색(채움 버튼 배경색 --color-button-primary-fill)을 쓰지 않는다(COLOR-017).
+- '문구는 기본 글자 크기에서 한 줄에 들어가는 길이로 쓰고, white-space: nowrap 으로 줄바꿈을 막지 않는다. 확대·좁은 화면에서는 줄바꿈된다(TYPO-014, CF-045).'
+- 모든 변형의 글자색:배경색 대비를 4.5:1 이상으로 유지한다(COLOR-002). 키트의 disabled 변형(text-disabled-on/element-disabled-light)은 이 기준에 못 미쳐 두지 않는다.
+- 숫자형 배지의 값만으로 의미가 모호하면 단위를 시각적으로 숨긴 텍스트(.sr-only)로 덧붙인다. 숨김은 display:none·크기 0 이 아닌 시각적 숨김으로 한다(A11Y-046, A11Y-047).
+rules:
+- A11Y-030
+- A11Y-046
+- A11Y-047
+- COLOR-001
+- COLOR-002
+- COLOR-017
+- COLOR-018
+- COPY-024
+- NAV-052
+- STATE-014
+- TYPO-014
+kit_differences:
+- KRDS 키트는 bg-primary·bg-light-primary·outline-primary 변형과 숫자형 배지의 bg-primary 예시를 제공한다 — 이 규격은 주조색 변형을 두지 않고 숫자형 배지를 point 색으로 쓴다(COLOR-017, CF-047).
+- KRDS 키트의 disabled 변형은 글자색과 배경의 대비가 4.5:1 미만이다 — 이 규격은 disabled 변형을 두지 않는다(COLOR-002).
+- KRDS 가이드 초안은 배지 텍스트가 줄바꿈되지 않게 하라고 한다 — 이 규격은 문구를 짧게 쓰되 nowrap 을 쓰지 않는다(TYPO-014, CF-045).
+notes:
+- markup 의 badge-demo 클래스는 예시를 묶는 용도이며 규격의 일부가 아니다.
+- .sr-only 는 프로젝트 공용 유틸리티다. A11Y-046·047 의 시각적 숨김 방식(1px·clip-path)을 따르며, 공용 정의가 이미 있으면 이 규격의 정의를 다시 넣지 않는다.

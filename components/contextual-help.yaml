@@ -1,0 +1,252 @@
+id: contextual-help
+title: 맥락적 도움말
+status: confirmed
+summary: 컴포넌트·레이블 바로 옆 도움 아이콘 버튼을 눌렀을 때만, 그 항목에 대한 짧은 설명과 관련 링크를 팝오버로 보여 준다.
+use_instead:
+- when: 아이콘 단독 버튼의 이름(레이블)만 보여 주면 되는 경우
+  use: 툴팁
+  rule: COPY-045
+- when: 작업을 마치는 데 반드시 알아야 하는 정보
+  use: 본문 인라인 텍스트 또는 도움 패널
+  rule: COPY-009
+- when: 같은 과업 흐름에 도움 패널을 이미 쓰는 경우
+  use: 도움 패널(둘을 섞지 않는다)
+  rule: NAV-062
+krds:
+  page: component_08_03.html
+  kit: html/code/contextual_help.html
+  kit_classes:
+    contextual-help: krds-contextual-help
+    contextual-help__trigger: tooltip-btn
+    contextual-help__popover: tooltip-popover
+    contextual-help__title: tooltip-title
+    contextual-help__text: tooltip-contents
+    contextual-help__close: tooltip-close
+anatomy:
+- part: 루트
+  class: contextual-help
+  element: div
+  required: true
+  note: 도움 대상 레이블과 도움 아이콘 버튼·팝오버를 한 줄로 묶고 팝오버 위치의 기준이 된다.
+- part: 도움 대상 레이블
+  class: contextual-help__label
+  element: h2·label 등
+  note: 도움 아이콘 버튼은 DOM 에서 이 요소의 바로 다음 형제다(LAYOUT-056).
+- part: 도움 아이콘 버튼
+  class: contextual-help__trigger
+  element: button
+  required: true
+  note: aria-expanded·aria-controls 로 팝오버를 가리킨다(APG 디스클로저). 아이콘 단독 버튼이므로 툴팁 규격의 말풍선(tooltip__bubble)을 aria-labelledby
+    로 이름으로 쓴다(A11Y-054, A11Y-025).
+- part: 팝오버
+  class: contextual-help__popover
+  element: div
+  required: true
+  note: DOM 에서 버튼 바로 다음에 둔다(A11Y-008). role="tooltip" 을 쓰지 않는다 — 안에 링크·버튼이 있기 때문이다(A11Y-055). role="group" 과 aria-labelledby
+    로 팝오버 제목을 이름으로 준다.
+- part: 팝오버 머리
+  class: contextual-help__header
+  element: div
+  required: true
+  note: 제목 → 닫기 버튼 순서로 마크업한다(DOM 순서 = 시각 순서, A11Y-008).
+- part: 팝오버 제목
+  class: contextual-help__title
+  element: h3
+  required: true
+- part: 닫기 버튼
+  class: contextual-help__close
+  element: button
+  required: true
+  note: 접근 가능한 이름 '도움말 닫기'.
+- part: 설명
+  class: contextual-help__text
+  element: p
+  required: true
+- part: 관련 링크
+  class: contextual-help__link
+  element: a
+  note: 새 탭으로 열고 링크 컴포넌트와 같은 새 창 아이콘(svg, aria-hidden="true")과 링크 안 숨긴 텍스트(.sr-only ' (새 창 열림)')을 넣는다(NAV-013, NAV-012,
+    CF-002).
+markup: |-
+  <div class="contextual-help">
+    <h2 class="contextual-help__label">본인 확인 방법</h2>
+    <button class="contextual-help__trigger" type="button" aria-labelledby="identity-help-name" aria-expanded="true" aria-controls="identity-help-popover">
+      <svg class="contextual-help__icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7h.01"/></svg>
+    </button>
+    <span class="tooltip__bubble" role="tooltip" id="identity-help-name" hidden>본인 확인 방법 도움말</span>
+    <div class="contextual-help__popover" id="identity-help-popover" role="group" aria-labelledby="identity-help-title">
+      <div class="contextual-help__header">
+        <h3 class="contextual-help__title" id="identity-help-title">본인 확인 방법</h3>
+        <button class="contextual-help__close" type="button" aria-label="도움말 닫기">
+          <svg class="contextual-help__close-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg>
+        </button>
+      </div>
+      <p class="contextual-help__text">공동인증서, 금융인증서, 간편인증 중 하나로 본인 확인을 할 수 있습니다.</p>
+      <a class="contextual-help__link" href="https://example.com/help/identity" target="_blank" rel="noopener">본인 확인 방법 자세히 보기<span class="sr-only"> (새 창 열림)</span><svg class="contextual-help__new-window" aria-hidden="true" viewBox="0 0 16 16"><path d="M6 3H3v10h10v-3M9 3h4v4M13 3L7 9"></path></svg></a>
+    </div>
+  </div>
+css: |-
+  .contextual-help {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-gap-2);
+  }
+  .contextual-help__label {
+    margin: 0;
+  }
+  .contextual-help__trigger {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-inline-size: var(--size-height-5);
+    min-block-size: var(--size-height-5);
+    padding: 0;
+    border: 0;
+    border-radius: var(--radius-small2);
+    background-color: var(--color-action-secondary);
+    color: var(--color-icon-information);
+  }
+  .contextual-help__icon,
+  .contextual-help__close-icon {
+    inline-size: var(--size-height-3);
+    block-size: var(--size-height-3);
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+  }
+  .contextual-help__popover {
+    position: absolute;
+    inset-block-start: calc(100% + var(--space-gap-3));
+    inset-inline-start: 0;
+    margin: 0;
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-gap-3);
+    inline-size: min(22.5rem, 100vw - var(--layout-screen-margin-small) * 2);
+    padding: var(--space-padding-6);
+    border: var(--border-width-variable-regular) solid var(--color-border-gray);
+    border-radius: var(--radius-xlarge2);
+    background-color: var(--color-surface-white-subtler);
+    box-shadow: var(--shadow-3);
+    color: var(--color-text-basic);
+    font-size: var(--font-size-body-small);
+    font-weight: var(--font-weight-regular);
+    line-height: var(--font-line-height-base);
+  }
+  .contextual-help__popover[hidden] {
+    display: none;
+  }
+  .contextual-help__header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--space-gap-3);
+  }
+  .contextual-help__title {
+    margin: 0;
+    color: var(--color-text-bolder);
+    font-size: var(--font-size-heading-xsmall);
+    font-weight: var(--font-weight-bold);
+  }
+  .contextual-help__close {
+    display: inline-flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    min-inline-size: var(--layout-target-min);
+    min-block-size: var(--layout-target-min);
+    padding: 0;
+    border: 0;
+    border-radius: var(--radius-small2);
+    background-color: transparent;
+    color: var(--color-icon-gray);
+  }
+  .contextual-help__text {
+    margin: 0;
+  }
+  .contextual-help__link {
+    color: var(--color-link-default);
+    text-decoration: underline;
+  }
+  .contextual-help__new-window {
+    inline-size: 1em;
+    block-size: 1em;
+    margin-inline-start: var(--space-gap-1);
+    flex-shrink: 0;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.5;
+  }
+  .contextual-help__trigger:focus-visible,
+  .contextual-help__close:focus-visible,
+  .contextual-help__link:focus-visible {
+    outline: var(--space-scale-2) solid var(--color-border-primary);
+    outline-offset: var(--space-scale-1);
+  }
+states:
+- name: 닫힘(기본)
+  markup_change: 팝오버에 hidden, 버튼은 aria-expanded="false". 사용자가 버튼을 누르기 전에는 표시하지 않는다.
+- name: 열림
+  markup_change: 버튼을 누르면 팝오버의 hidden 을 지우고 aria-expanded="true". 초점은 버튼에 그대로 둔다 — 다음 Tab 으로 팝오버 안 요소에 닿는다(팝오버가 DOM
+    에서 버튼 바로 다음에 있으므로). 예시 markup 은 열림 상태다.
+  rule: A11Y-025
+- name: 위치 뒤집기
+  markup_change: 팝오버가 뷰포트 밖으로 나가면 위·왼쪽·오른쪽 정렬로 옮긴다. 버튼과 안내 대상을 가리지 않는다.
+  rule: LAYOUT-057
+keyboard:
+- key: Enter / Space
+  action: 도움 아이콘 버튼에서 팝오버를 열고 닫는다. 닫기 버튼에서 팝오버를 닫고 초점을 도움 아이콘 버튼으로 옮긴다.
+- key: Esc
+  action: 초점이 버튼이나 팝오버 안에 있으면 팝오버를 닫고 초점을 도움 아이콘 버튼으로 옮긴다.
+- key: Tab
+  action: 버튼 → 팝오버 안 닫기 → 링크 → 페이지의 다음 요소 순서로 이동한다. 팝오버 밖으로 Tab 으로 나갈 수 있다(A11Y-012). 초점이 팝오버 밖으로 나가도 팝오버를 닫지 않는다.
+behavior:
+- 팝오버는 버튼을 눌렀을 때만 연다. 초점·호버만으로 열지 않는다(A11Y-024).
+- 팝오버는 한 번에 1개만 연다 — 다른 도움말을 열면 열려 있던 팝오버를 닫는다. 팝오버 안에서 다른 도움말 팝오버나 모달을 열지 않는다(STATE-027).
+- 버튼 바깥(문서의 다른 곳)을 누르면 닫는다. 닫힐 때 초점이 팝오버 안에 있었으면 도움 아이콘 버튼으로 옮긴다.
+- 도움 아이콘 버튼은 아이콘 단독이므로 툴팁 규격으로 이름('본인 확인 방법 도움말')을 보여 준다. 팝오버가 열려 있는 동안에는 그 툴팁을 표시하지 않는다(A11Y-054, A11Y-010).
+- 같은 기능의 도움 아이콘·이름은 모든 화면에서 같게 쓴다(COPY-004).
+- 팝오버 안 관련 화면·리소스 링크는 새 탭으로 열고 링크 컴포넌트와 같은 새 창 아이콘(svg, aria-hidden="true")과 링크 안 숨긴 텍스트(.sr-only ' (새 창 열림)')을
+  넣는다. title 만으로 알리지 않는다(NAV-013, NAV-012, CF-002, CF-043).
+- 팝오버는 모든 화면 너비에서 뷰포트 안에 전부 보이고 버튼·안내 대상을 가리지 않게 배치한다(LAYOUT-057).
+- 작업 완료에 반드시 필요한 정보는 팝오버에 숨기지 않고 본문·도움 패널로 제공한다. 팝오버에는 보충 설명만 둔다(COPY-045, COPY-009).
+- 한 화면에서 정보·물음표 아이콘 툴팁과 맥락적 도움말을 함께 쓰지 않고, 같은 과업 흐름에서 도움 패널과 섞지 않는다(COPY-048, NAV-062).
+rules:
+- A11Y-008
+- A11Y-010
+- A11Y-011
+- A11Y-012
+- A11Y-016
+- A11Y-024
+- A11Y-025
+- A11Y-054
+- A11Y-055
+- COLOR-003
+- COPY-004
+- COPY-009
+- COPY-045
+- COPY-048
+- LAYOUT-002
+- LAYOUT-056
+- LAYOUT-057
+- NAV-012
+- NAV-013
+- NAV-062
+- SHAPE-001
+- SHAPE-004
+- STATE-027
+kit_differences:
+- KRDS 키트는 링크·닫기 버튼이 든 팝오버에 role="tooltip" 을 쓴다 — 툴팁에는 대화형 요소를 넣을 수 없으므로 이 규격은 role="group" + aria-labelledby 로
+  바꾼다(A11Y-055, A11Y-025).
+- KRDS 키트 첫 예시 버튼에는 aria-expanded 가 없고 어느 예시에도 aria-controls 가 없다 — 이 규격은 둘 다 넣는다(A11Y-025).
+- KRDS 키트는 닫기 버튼을 팝오버의 마지막 요소로 두고 오른쪽 위에 배치한다 — 모달 규격과 같은 이유로 이 규격은 제목 바로 다음에 둔다(A11Y-008).
+- KRDS 키트 '바로가기' 링크는 href="#;" 이고 새 창 표시가 없다 — 이 규격은 실제 주소와 새 창 아이콘·숨긴 텍스트 '(새 창 열림)'을 쓴다(NAV-012, NAV-013).
+notes:
+- 팝오버 너비 22.5rem 은 KRDS 키트 contextual-help popover-width(36rem, 루트 62.5% 기준 360px)를 16px 루트로 옮긴 값이다. 버튼 배경 action-secondary·아이콘
+  icon-information 도 키트 값이다.
+- 팝오버 제목 수준(h3)은 도움 대상 레이블(h2) 아래 수준으로 맞춘다. 레이블이 label·h3 이면 한 단계씩 조정한다.
+- 도움 아이콘 버튼에 툴팁으로 이름을 보이는 것은 A11Y-054(아이콘 단독 기능 버튼) 적용이다. COPY-048 이 금지하는 것은 도움 콘텐츠를 여는 정보·물음표 아이콘 툴팁이며, 이름 툴팁은
+  해당하지 않는다고 보았다(아래 보고의 룰 문제 참고).

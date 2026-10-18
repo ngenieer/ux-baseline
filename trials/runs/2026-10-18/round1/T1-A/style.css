@@ -1,0 +1,806 @@
+/*
+  주민등록 등본 우편 발급 신청 — 화면 스타일
+  tokens.css 를 먼저 불러온다. 색·간격·글자·반경·모션 값은 토큰(CSS 변수)만 쓴다
+  (COLOR-022, SPACE-001, TYPO-032, SHAPE-001, MOTION-010).
+  컴포넌트 부분은 ux-baseline 컴포넌트 규격의 표준 CSS 를 그대로 옮겼다.
+*/
+
+/* ---------- 기본 ---------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background-color: var(--color-background-white);
+  color: var(--color-text-basic);
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-body-medium);
+  line-height: var(--font-line-height-base);
+}
+
+h1,
+h2,
+h3,
+p,
+ul,
+dl,
+dd {
+  margin: 0;
+}
+
+/* 한국어 어절 단위 줄바꿈, 긴 문자열은 아무 곳에서나 넘김(TYPO-017, TYPO-018, CF-052) */
+:lang(ko) :is(p, li, dt, dd, h1, h2, h3, legend, label) {
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+}
+
+/* 본문 한 줄 길이 제한(TYPO-031) */
+:lang(ko) main p {
+  max-inline-size: 40ic;
+}
+
+input,
+button,
+select {
+  font-family: inherit;
+}
+
+/* ---------- 페이지 레이아웃 ---------- */
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-gap-8);
+  max-inline-size: calc(var(--layout-content-max) / 2);
+  margin-inline: auto;
+  padding-block: var(--space-gap-9) var(--gap-layout-contents-footer);
+  padding-inline: var(--layout-screen-margin-small);
+}
+
+@media (min-width: 768px) {
+  .page {
+    padding-inline: var(--layout-screen-margin-medium);
+  }
+}
+
+.page__title {
+  color: var(--color-text-bolder);
+  font-size: var(--font-size-heading-large);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--font-line-height-base);
+}
+
+.page__intro {
+  color: var(--color-text-basic);
+  font-size: var(--font-size-body-medium);
+}
+
+/* ---------- 오류 요약(FORM-077·078, CF-008·041) ---------- */
+.error-summary {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-gap-3);
+  padding: var(--space-padding-8);
+  border: var(--border-width-variable-medium) solid var(--color-border-danger);
+  border-radius: var(--radius-large1);
+  background-color: var(--color-surface-danger-subtler);
+}
+
+.error-summary__title {
+  color: var(--color-text-bolder);
+  font-size: var(--font-size-heading-small);
+  font-weight: var(--font-weight-bold);
+}
+
+.error-summary__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-gap-2);
+  padding-inline-start: var(--space-padding-8);
+}
+
+.error-summary__link {
+  color: var(--color-text-danger);
+  font-size: var(--font-size-body-medium);
+  text-decoration: underline;
+}
+
+.error-summary__link:hover {
+  text-decoration-thickness: var(--border-width-static-medium);
+}
+
+.error-summary__link:focus-visible {
+  outline: var(--space-scale-2) solid var(--color-border-primary);
+  outline-offset: var(--space-scale-1);
+}
+
+/* ---------- 폼 구조 ---------- */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-gap-9);
+}
+
+/* 섹션 사이는 구분선으로 나눈다(LAYOUT-003) */
+.form__section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-gap-8);
+  padding-block-start: var(--space-gap-8);
+  border-block-start: var(--border-width-static-regular) solid var(--color-divider-gray-light);
+}
+
+.form__section-title {
+  color: var(--color-text-bolder);
+  font-size: var(--font-size-heading-medium);
+  font-weight: var(--font-weight-bold);
+}
+
+.form__actions {
+  display: flex;
+  padding-block-start: var(--space-gap-8);
+  border-block-start: var(--border-width-static-regular) solid var(--color-divider-gray-light);
+}
+
+.form__actions > .button {
+  flex: 1 1 auto;
+}
+
+@media (min-width: 768px) {
+  .form__actions > .button {
+    flex: 0 0 auto;
+    min-inline-size: calc(var(--size-height-11) * 2);
+  }
+}
+
+/* ---------- 텍스트 입력 필드(text-field 규격) ---------- */
+.text-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-gap-3);
+}
+.text-field__label {
+  color: var(--color-text-basic);
+  font-size: var(--font-size-label-medium);
+  font-weight: var(--font-weight-bold);
+}
+.text-field__hint {
+  color: var(--color-text-subtle);
+  font-size: var(--font-size-body-small);
+}
+.text-field__input {
+  inline-size: 100%;
+  min-block-size: var(--size-height-8);
+  padding-inline: var(--space-padding-6);
+  border: var(--space-scale-1) solid var(--color-input-border);
+  border-radius: var(--radius-medium3);
+  background-color: var(--color-input-surface);
+  color: var(--color-text-basic);
+  font-size: var(--font-size-body-medium);
+}
+.text-field__input:focus-visible {
+  outline: var(--space-scale-2) solid var(--color-input-border-active);
+  outline-offset: var(--space-scale-1);
+}
+.text-field__input:disabled {
+  border-color: var(--color-input-border-disabled);
+  background-color: var(--color-input-surface-disabled);
+  color: var(--color-text-disabled);
+}
+.text-field--error .text-field__input {
+  border-color: var(--color-input-border-error);
+}
+.text-field__message {
+  color: var(--color-text-danger);
+  font-size: var(--font-size-body-small);
+}
+
+/*
+  최대 길이를 예측할 수 있는 필드는 그 길이에 맞춰 너비를 둔다(FORM-056).
+  너비 = 글자 폭 + 좌우 안쪽 여백 + 좌우 테두리. 320px 화면에서도 잘리지 않는다(RESP-003).
+*/
+.text-field--name .text-field__input {
+  max-inline-size: calc(20ic + var(--space-padding-6) * 2 + var(--space-scale-1) * 2);
+}
+.text-field--phone .text-field__input {
+  max-inline-size: calc(15ch + var(--space-padding-6) * 2 + var(--space-scale-1) * 2);
+}
+.text-field__input--postcode {
+  flex: 0 0 auto;
+  inline-size: calc(7ch + var(--space-padding-6) * 2 + var(--space-scale-1) * 2);
+}
+
+/* ---------- 주소 묶음 ---------- */
+.address {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-gap-5);
+  min-inline-size: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+.address__legend {
+  margin-block-end: var(--space-gap-3);
+  padding: 0;
+  color: var(--color-text-basic);
+  font-size: var(--font-size-label-medium);
+  font-weight: var(--font-weight-bold);
+}
+.address__hint {
+  color: var(--color-text-subtle);
+  font-size: var(--font-size-body-small);
+}
+/* 우편번호와 찾기 버튼은 한 줄에 묶고 좁은 화면에서는 줄바꿈한다(FORM-010) */
+.address__postcode-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-gap-3);
+}
+
+/* ---------- 날짜 입력 필드(date-input 규격, 분할형) ---------- */
+.date-input {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-gap-3);
+  min-inline-size: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+.date-input__legend {
+  margin-block-end: var(--space-gap-3);
+  padding: 0;
+  color: var(--color-text-basic);
+  font-size: var(--font-size-label-medium);
+  font-weight: var(--font-weight-bold);
+}
+.date-input__label {
+  color: var(--color-text-basic);
+  font-size: var(--font-size-label-medium);
+  font-weight: var(--font-weight-bold);
+}
+.date-input--split .date-input__label,
+.date-input--range .date-input__label {
+  font-size: var(--font-size-label-small);
+  font-weight: var(--font-weight-regular);
+}
+.date-input__hint {
+  color: var(--color-text-subtle);
+  font-size: var(--font-size-body-small);
+}
+.date-input__group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-gap-4);
+}
+.date-input__field {
+  display: flex;
+  flex: 1 1 var(--size-height-11);
+  flex-direction: column;
+  gap: var(--space-gap-2);
+}
+.date-input__field--year {
+  flex-grow: 2;
+}
+.date-input__input {
+  flex: 1 1 auto;
+  inline-size: 100%;
+  min-inline-size: 0;
+  min-block-size: var(--size-height-8);
+  padding-inline: var(--space-padding-6);
+  border: var(--space-scale-1) solid var(--color-input-border);
+  border-radius: var(--radius-medium3);
+  background-color: var(--color-input-surface);
+  color: var(--color-text-basic);
+  font-size: var(--font-size-body-medium);
+}
+.date-input__input:focus-visible {
+  outline: var(--space-scale-2) solid var(--color-input-border-active);
+  outline-offset: var(--space-scale-1);
+}
+.date-input--error .date-input__input,
+.date-input__input[aria-invalid="true"] {
+  border-color: var(--color-input-border-error);
+}
+.date-input__message {
+  color: var(--color-text-danger);
+  font-size: var(--font-size-body-small);
+}
+
+/* ---------- 수량 토글(quantity-stepper 규격) ---------- */
+.quantity-stepper {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-gap-3);
+}
+.quantity-stepper__label {
+  color: var(--color-text-basic);
+  font-size: var(--font-size-label-medium);
+  font-weight: var(--font-weight-bold);
+}
+.quantity-stepper__hint {
+  color: var(--color-text-subtle);
+  font-size: var(--font-size-body-small);
+}
+.quantity-stepper__control {
+  display: flex;
+  align-items: center;
+  gap: var(--space-gap-3);
+}
+.quantity-stepper__button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: var(--size-height-6);
+  block-size: var(--size-height-6);
+  padding: 0;
+  border: var(--border-width-variable-regular) solid var(--color-button-tertiary-border);
+  border-radius: var(--radius-medium1);
+  background-color: var(--color-button-tertiary-fill);
+  color: var(--color-icon-gray);
+  cursor: pointer;
+}
+.quantity-stepper__button:hover {
+  background-color: var(--color-button-tertiary-fill-hover);
+}
+.quantity-stepper__button:active {
+  background-color: var(--color-button-tertiary-fill-pressed);
+}
+.quantity-stepper__button:focus-visible,
+.quantity-stepper__field:focus-visible {
+  outline: var(--space-scale-2) solid var(--color-border-primary);
+  outline-offset: var(--space-scale-1);
+}
+.quantity-stepper__button[aria-disabled="true"] {
+  border-color: var(--color-button-disabled-border);
+  background-color: var(--color-button-disabled-fill);
+  color: var(--color-icon-disabled);
+  cursor: not-allowed;
+}
+.quantity-stepper__icon {
+  inline-size: var(--size-height-3);
+  block-size: var(--size-height-3);
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+}
+.quantity-stepper__field {
+  appearance: textfield;
+  inline-size: var(--space-scale-18);
+  min-block-size: var(--size-height-6);
+  margin: 0;
+  padding-inline: var(--space-padding-3);
+  border: var(--border-width-variable-regular) solid var(--color-input-border);
+  border-radius: var(--radius-medium1);
+  background-color: var(--color-input-surface);
+  color: var(--color-text-basic);
+  font-size: var(--font-size-body-medium);
+  text-align: center;
+}
+.quantity-stepper__unit {
+  color: var(--color-text-basic);
+  font-size: var(--font-size-body-medium);
+}
+
+/* ---------- 파일 업로드(file-upload 규격) ---------- */
+.file-upload {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-gap-3);
+}
+.file-upload__label {
+  color: var(--color-text-basic);
+  font-size: var(--font-size-label-medium);
+  font-weight: var(--font-weight-bold);
+}
+.file-upload__hint {
+  color: var(--color-text-subtle);
+  font-size: var(--font-size-body-small);
+}
+.file-upload__dropzone {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-gap-4);
+  padding: var(--space-padding-8);
+  border: var(--space-scale-1) dashed var(--color-border-gray-dark);
+  border-radius: var(--radius-large1);
+  background-color: var(--color-surface-gray-subtler);
+  text-align: center;
+}
+.file-upload__dropzone--active {
+  border-color: var(--color-border-primary);
+  background-color: var(--color-surface-primary-subtler);
+}
+.file-upload__dropzone-text {
+  color: var(--color-text-basic);
+  font-size: var(--font-size-body-medium);
+}
+.file-upload__control {
+  display: grid;
+}
+.file-upload__input,
+.file-upload__button {
+  grid-area: 1 / 1;
+}
+.file-upload__input {
+  z-index: 1;
+  inline-size: 100%;
+  block-size: 100%;
+  opacity: 0;
+  cursor: pointer;
+}
+.file-upload__button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-block-size: var(--size-height-8);
+  padding-inline: var(--space-padding-7);
+  border: var(--space-scale-1) solid var(--color-button-secondary-border);
+  border-radius: var(--radius-medium3);
+  background-color: var(--color-button-secondary-fill);
+  color: var(--color-text-primary);
+  font-size: var(--font-size-label-medium);
+  font-weight: var(--font-weight-bold);
+}
+.file-upload__input:hover + .file-upload__button {
+  background-color: var(--color-button-secondary-fill-hover);
+}
+.file-upload__input:focus-visible + .file-upload__button {
+  outline: var(--space-scale-2) solid var(--color-input-border-active);
+  outline-offset: var(--space-scale-1);
+}
+.file-upload__count {
+  align-self: flex-end;
+  color: var(--color-text-subtle);
+  font-size: var(--font-size-body-small);
+}
+.file-upload__message {
+  color: var(--color-text-danger);
+  font-size: var(--font-size-body-small);
+}
+.file-upload__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-gap-3);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.file-item {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-gap-2) var(--space-gap-3);
+  padding: var(--space-padding-4) var(--space-padding-6);
+  border: var(--space-scale-1) solid var(--color-border-gray-light);
+  border-radius: var(--radius-medium3);
+}
+.file-item--error {
+  border-color: var(--color-border-danger);
+}
+.file-item__name {
+  flex: 1 1 0;
+  min-inline-size: 0;
+  overflow: hidden;
+  color: var(--color-text-basic);
+  font-size: var(--font-size-body-medium);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.file-item__name:focus-visible {
+  outline: var(--space-scale-2) solid var(--color-input-border-active);
+  outline-offset: var(--space-scale-1);
+}
+.file-item__meta {
+  flex: none;
+  color: var(--color-text-subtle);
+  font-size: var(--font-size-body-small);
+}
+.file-item__delete {
+  flex: none;
+  min-block-size: var(--size-height-6);
+  padding-inline: var(--space-padding-4);
+  border: 0;
+  border-radius: var(--radius-medium3);
+  background-color: var(--color-button-text-fill);
+  color: var(--color-text-basic);
+  font-size: var(--font-size-label-small);
+  text-decoration: underline;
+  cursor: pointer;
+}
+.file-item__delete:hover {
+  background-color: var(--color-button-text-fill-hover);
+}
+.file-item__delete:focus-visible {
+  outline: var(--space-scale-2) solid var(--color-input-border-active);
+  outline-offset: var(--space-scale-1);
+}
+.file-item__message {
+  flex-basis: 100%;
+  color: var(--color-text-danger);
+  font-size: var(--font-size-body-small);
+}
+
+/* ---------- 동의 안내 ---------- */
+.consent-detail {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-gap-4);
+  padding: var(--space-padding-8);
+  border: var(--border-width-static-regular) solid var(--color-border-gray-light);
+  border-radius: var(--radius-large1);
+  background-color: var(--color-surface-gray-subtler);
+}
+.consent-detail__title {
+  color: var(--color-text-bolder);
+  font-size: var(--font-size-heading-xsmall);
+  font-weight: var(--font-weight-bold);
+}
+.consent-detail__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-gap-3);
+}
+.consent-detail__row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-gap-1) var(--space-gap-4);
+}
+.consent-detail__row dt {
+  flex: 0 0 auto;
+  color: var(--color-text-basic);
+  font-size: var(--font-size-body-small);
+  font-weight: var(--font-weight-bold);
+}
+.consent-detail__row dd {
+  flex: 1 1 0;
+  min-inline-size: calc(var(--size-height-11) * 2);
+  color: var(--color-text-basic);
+  font-size: var(--font-size-body-small);
+}
+.consent-detail__note {
+  color: var(--color-text-subtle);
+  font-size: var(--font-size-body-small);
+}
+
+/* ---------- 라디오 버튼(radio-group 규격) ---------- */
+.radio-group {
+  margin: 0;
+  padding: 0;
+  border-style: none;
+}
+.radio-group__legend {
+  margin-block-end: var(--space-gap-3);
+  padding: 0;
+  color: var(--color-text-basic);
+  font-size: var(--font-size-label-medium);
+  font-weight: var(--font-weight-bold);
+}
+.radio-group__options {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-gap-5);
+}
+.radio-group__option {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  column-gap: var(--space-gap-3);
+  row-gap: var(--space-gap-1);
+}
+.radio-group__input,
+.radio-group__indicator {
+  grid-area: 1 / 1;
+  inline-size: var(--size-height-4);
+  block-size: var(--size-height-4);
+  margin: 0;
+}
+.radio-group__input {
+  position: relative;
+  z-index: 1;
+  opacity: 0;
+  cursor: pointer;
+}
+.radio-group__indicator {
+  display: grid;
+  place-items: center;
+  box-sizing: border-box;
+  border: var(--border-width-variable-medium) solid var(--color-element-gray-dark);
+  border-radius: var(--radius-max);
+  background-color: var(--color-element-inverse);
+}
+.radio-group__indicator::after {
+  content: "";
+  inline-size: var(--space-scale-7);
+  block-size: var(--space-scale-7);
+  border-radius: var(--radius-max);
+  background-color: transparent;
+}
+.radio-group__input:checked + .radio-group__indicator {
+  border-color: var(--color-element-primary);
+}
+.radio-group__input:checked + .radio-group__indicator::after {
+  background-color: var(--color-element-primary);
+}
+.radio-group__input:focus-visible + .radio-group__indicator {
+  outline: var(--space-scale-2) solid var(--color-border-primary);
+  outline-offset: var(--space-scale-1);
+}
+.radio-group__input:disabled + .radio-group__indicator {
+  border-color: var(--color-element-disabled-dark);
+  background-color: var(--color-element-disabled-light);
+}
+.radio-group__input:disabled:checked + .radio-group__indicator::after {
+  background-color: var(--color-element-disabled-dark);
+}
+.radio-group__input:disabled ~ .radio-group__label {
+  color: var(--color-text-disabled);
+}
+.radio-group__label {
+  grid-area: 1 / 2;
+  color: var(--color-text-bolder);
+  font-size: var(--font-size-label-medium);
+  cursor: pointer;
+}
+.radio-group__description {
+  grid-area: 2 / 2;
+  margin: 0;
+  color: var(--color-text-subtle);
+  font-size: var(--font-size-label-small);
+}
+.radio-group__message {
+  margin-block-start: var(--space-gap-3);
+  color: var(--color-text-danger);
+  font-size: var(--font-size-body-small);
+}
+
+/* ---------- 체크박스(checkbox 규격) ---------- */
+.checkbox {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  column-gap: var(--space-gap-3);
+  row-gap: var(--space-gap-1);
+}
+.checkbox__input,
+.checkbox__indicator {
+  grid-area: 1 / 1;
+  inline-size: var(--size-height-4);
+  block-size: var(--size-height-4);
+  margin: 0;
+}
+.checkbox__input {
+  position: relative;
+  z-index: 1;
+  opacity: 0;
+  cursor: pointer;
+}
+.checkbox__indicator {
+  display: grid;
+  place-items: center;
+  box-sizing: border-box;
+  border: var(--border-width-variable-medium) solid var(--color-element-gray-dark);
+  border-radius: var(--radius-small2);
+  background-color: var(--color-element-inverse);
+}
+.checkbox__icon {
+  inline-size: var(--size-height-2);
+  block-size: var(--size-height-2);
+  fill: none;
+  stroke: var(--color-element-inverse-static);
+  stroke-width: 3;
+}
+.checkbox__check,
+.checkbox__dash {
+  visibility: hidden;
+}
+.checkbox__input:checked + .checkbox__indicator,
+.checkbox__input:indeterminate + .checkbox__indicator {
+  border-color: var(--color-element-primary);
+  background-color: var(--color-element-primary);
+}
+.checkbox__input:checked + .checkbox__indicator .checkbox__check,
+.checkbox__input:indeterminate + .checkbox__indicator .checkbox__dash {
+  visibility: visible;
+}
+.checkbox__input:indeterminate + .checkbox__indicator .checkbox__check {
+  visibility: hidden;
+}
+.checkbox__input:focus-visible + .checkbox__indicator {
+  outline: var(--space-scale-2) solid var(--color-border-primary);
+  outline-offset: var(--space-scale-1);
+}
+.checkbox__input:disabled + .checkbox__indicator {
+  border-color: var(--color-element-disabled-dark);
+  background-color: var(--color-element-disabled-light);
+}
+.checkbox__input:disabled + .checkbox__indicator .checkbox__icon {
+  stroke: var(--color-element-disabled-dark);
+}
+.checkbox__input:disabled ~ .checkbox__label {
+  color: var(--color-text-disabled);
+}
+.checkbox__label {
+  grid-area: 1 / 2;
+  color: var(--color-text-bolder);
+  font-size: var(--font-size-label-medium);
+  cursor: pointer;
+}
+.checkbox__description {
+  grid-area: 2 / 2;
+  margin: 0;
+  color: var(--color-text-subtle);
+  font-size: var(--font-size-label-small);
+}
+
+/* ---------- 버튼(button 규격) ---------- */
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-gap-2);
+  min-block-size: var(--size-height-8);
+  padding-inline: var(--space-padding-7);
+  border: var(--border-width-variable-regular) solid var(--color-button-primary-fill);
+  border-radius: var(--radius-medium3);
+  background-color: var(--color-button-primary-fill);
+  color: var(--color-text-inverse-static);
+  font-size: var(--font-size-label-large);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--font-line-height-none);
+  cursor: pointer;
+  transition: background-color var(--motion-duration-fast) var(--motion-easing-standard);
+}
+.button:focus-visible {
+  outline: var(--space-scale-2) solid var(--color-border-primary);
+  outline-offset: var(--space-scale-1);
+}
+.button--primary:hover {
+  background-color: var(--color-button-primary-fill-hover);
+}
+.button--primary:active {
+  background-color: var(--color-button-primary-fill-pressed);
+}
+.button--tertiary {
+  border-color: var(--color-button-tertiary-border);
+  background-color: var(--color-button-tertiary-fill);
+  color: var(--color-text-basic);
+}
+.button--tertiary:hover {
+  background-color: var(--color-button-tertiary-fill-hover);
+}
+.button--tertiary:active {
+  background-color: var(--color-button-tertiary-fill-pressed);
+}
+.button:disabled,
+.button[aria-disabled="true"] {
+  border-color: var(--color-button-disabled-border);
+  background-color: var(--color-button-disabled-fill);
+  color: var(--color-text-disabled-on);
+  cursor: not-allowed;
+}
+@media (prefers-reduced-motion: reduce) {
+  .button {
+    transition: none;
+  }
+}
+
+/* ---------- 숨긴 콘텐츠(sr-only 규격) ---------- */
+.sr-only {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  margin: calc(var(--space-scale-1) * -1);
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}

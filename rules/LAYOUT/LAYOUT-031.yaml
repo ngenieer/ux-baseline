@@ -1,0 +1,49 @@
+id: LAYOUT-031
+category: LAYOUT
+title: 달력
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: MAY
+statement: 정기적으로 갱신되지 않는 정보나 한 달 이벤트가 2개 이하인 정보에는 달력 컴포넌트를 쓰지 않는다.
+measurement:
+  criteria: 달력 컴포넌트를 쓰는 화면마다 (1) 표시 데이터의 월별 이벤트 수 중 3개 이상인 달이 있고, (2) 데이터에 정기 갱신 일정(운영 계획상 주기)이 있다. 둘 중 하나라도 아니면
+    위반.
+  method: 달력 데이터 원천과 운영 계획을 확인한다.
+automation:
+  feasibility: none
+  checks: []
+  note: 데이터·운영 정보가 필요해 자동 검사 불가.
+rationale: 이벤트가 적거나 갱신되지 않는 정보에 달력을 쓰면 빈칸이 대부분이라 정보 밀도가 낮고 탐색이 늘어난다.
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 달력 > 용례 (가이드라인 PDF 2025.08 368쪽)
+  note: https://www.krds.go.kr/html/site/component/component_04_03.html
+scope:
+  level: component
+  targets:
+  - 달력
+exceptions: []
+relations: []
+examples:
+  good:
+  - lang: text
+    code: '매주 갱신되는 문화행사 일정(월 12건 안팎)을 달력 컴포넌트로 보여 준다.
+
+      '
+    note: 정기 갱신되고 월 이벤트가 3개 이상인 데이터에 달력을 쓴다.
+  bad:
+  - lang: text
+    code: '1년에 2번 있는 정기 시험 일정(월 0~1건)을 달력 컴포넌트로 보여 준다.
+
+      '
+    note: 월 이벤트가 2개 이하인 데이터에 달력을 썼다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(curl로 KRDS 페이지 HTML을 받아 본문 텍스트를 직접 확인): 달력(component_04_03) 용례 > 사용하기 적합하지
+  않은 경우 ''정기적으로 업데이트되는 정보가 아니거나 한 달에 2개 이하의 이벤트만 있는 경우'' 확인. 원문은 대안 컴포넌트를 명시하지 않음 — 1단계 statement의 ''목록으로 표시''(추출자
+  보충)를 지움. 적합성 표현 → MAY.'
+korean_specific: false
+tags:
+- krds
+- krds-component

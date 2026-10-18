@@ -1,0 +1,46 @@
+id: LAYOUT-049
+category: LAYOUT
+title: 태그
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 태그 그룹 전체에 동작하는 일괄 액션 버튼(전체 삭제 등)은 태그 그룹 바로 옆(태그 목록의 앞이나 뒤)에 두고, 태그 그룹과 버튼 사이에 다른 콘텐츠를 두지 않는다.
+measurement:
+  criteria: 일괄 액션 버튼이 태그 목록과 같은 부모 컨테이너 안에 있고, DOM에서 태그 목록의 바로 앞 또는 바로 뒤 형제다(사이에 다른 요소 없음). 화면에서도 버튼 경계 상자와 태그 목록 경계 상자 사이에 다른 콘텐츠 블록이 없다.
+  method: 태그 그룹이 있는 필터 화면에서 확인한다.
+automation:
+  feasibility: none
+  checks: []
+  note: 4단계 컴포넌트 규격으로 고정.
+rationale: 일괄 액션 위치가 일정해야 개별 태그 삭제와 혼동하지 않는다.
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 태그 > 구조 (가이드라인 PDF 2025.08 561쪽)
+  note: https://www.krds.go.kr/html/site/component/component_06_04.html
+scope:
+  level: component
+  targets:
+  - 태그 그룹
+exceptions: []
+relations: []
+examples:
+  good:
+  - lang: html
+    code: "<div class=\"tag-group\">\n  <ul class=\"tags\"><li>복지</li><li>청년</li></ul>\n  <button type=\"button\"\
+      \ class=\"tag-clear\">전체 삭제</button>\n</div>\n<!-- .tag-group { display: flex; align-items: center; gap: var(--space-gap-3);\
+      \ } — 버튼이 태그 오른쪽 -->\n"
+    note: 일괄 액션 버튼이 태그 그룹 바로 옆(오른쪽)에 있다. 웹 KRDS 구조 설명과 컴포넌트 규격(components/tag.yaml)은 오른쪽 배치를 쓴다.
+  bad:
+  - lang: html
+    code: "<div class=\"tag-group\">\n  <ul class=\"tags\"><li>복지</li><li>청년</li></ul>\n</div>\n<p>검색 결과 120건</p>\n<ul class=\"results\">…</ul>\n<button type=\"button\" class=\"tag-clear\">전체 삭제</button>\n"
+    note: 일괄 액션 버튼이 태그 그룹과 떨어져 결과 목록 아래에 있어 어느 태그에 동작하는지 알기 어렵다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(curl로 KRDS 페이지 HTML을 받아 본문 텍스트를 직접 확인): 태그(component_06_04) 구조 ''4.일괄 액션 버튼:
+  태그 그룹 우측에 배치되어 전체 그룹에 대해 한 번에 동일한 동작을 수행하는 데 사용되는 버튼'' 확인. 구조 서술 → SHOULD(krds-descriptive). (2026-10-18 KRDS PDF 대조) 이전: 태그 그룹의 오른쪽에 둔다 → 원문 561쪽: ''일괄 액션 버튼: 태그 그룹 주변에 배치되어 전체 그룹에 대해 한 번에 동일한 동작을 수행하는 데 사용되는 버튼''. 웹 페이지(component_06_04, 2026-10-18 재수신)는 여전히 ''우측''이고 변경 내역은 2025-02-04(삭제 버튼 크기)까지라 PDF(2025.08)가 더 새 판 — 위치 요구를 ''주변''(바로 옆)으로 넓혔다. 오른쪽 배치는 계속 충족.'
+korean_specific: false
+tags:
+- krds
+- krds-component
+- krds-descriptive

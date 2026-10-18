@@ -1,0 +1,12 @@
+id: CF-013
+rules:
+- LAYOUT-050
+- LAYOUT-051
+summary: 토글 레이블을 스위치 바로 옆에 두라(LAYOUT-050)는 요구와, KRDS가 예로 든 목록형 설정(레이블 왼쪽 끝·스위치 오른쪽 끝) 배치가 다르다.
+principle: 2
+decision: 행 전체를 클릭 영역으로 만든 목록형 설정 화면에서는 레이블을 왼쪽 끝, 스위치를 오른쪽 끝에 둘 수 있다. 그 밖에는 LAYOUT-050을 따른다.
+reason: 행 전체가 클릭 영역이면 레이블과 스위치의 연결이 끊기지 않아 과업에 지장이 없다(원칙 2).
+deviates_from_priority: false
+date: '2026-10-18'
+rule_changes:
+- 'LAYOUT-050: 예외 추가'

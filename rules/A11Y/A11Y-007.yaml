@@ -1,0 +1,122 @@
+id: A11Y-007
+category: A11Y
+title: 정보와 관계의 마크업
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: MUST
+statement: 시각적으로 표현한 정보·구조·관계(제목, 목록, 표, 입력 그룹, 레이블 연결 등)를 마크업으로 프로그램이 판별할 수 있게 하거나 텍스트로 제공한다.
+measurement:
+  criteria: '(1) 시각적 제목은 h1~h6 또는 role="heading"+aria-level이다. (2) 시각적 목록은 ul/ol/li 또는 dl/dt/dd이다. (3) 데이터 표는 table과
+    th(scope 또는 headers 연결)를 쓰고 caption 또는 aria-labelledby로 제목을 가진다. (4) 관련 입력 그룹은 fieldset+legend 또는 role="group"+aria-labelledby로
+    묶는다. (5) 입력의 레이블은 label[for]·aria-labelledby로 연결된다. (6) 굵게·크게만 처리한 p를 제목처럼 쓰지 않는다. (7) ARIA 역할의 필수 부모·자식 관계를
+    지킨다. (8) list-style: none 등으로 목록 기호를 없앤 ul·ol 에는 role="list"를 명시하고, 그 li에는 role을 넣지 않는다(KRDS 텍스트 목록: ''일부 모바일
+    디바이스 스크린 리더에서 요소의 역할을 탐지하지 못하는 문제'', CF-059).'
+  method: axe-core 실행 후, 스크린 리더 제목·목록·표 탐색 목록과 화면 구조를 비교하는 수동 점검.
+automation:
+  feasibility: partial
+  checks:
+  - tool: axe-core
+    rule: list
+    method: axe-core 실행 결과 위반 0건
+  - tool: axe-core
+    rule: listitem
+    method: axe-core 실행 결과 위반 0건
+  - tool: axe-core
+    rule: definition-list
+    method: axe-core 실행 결과 위반 0건
+  - tool: axe-core
+    rule: dlitem
+    method: axe-core 실행 결과 위반 0건
+  - tool: axe-core
+    rule: td-has-header
+    method: axe-core 실행 결과 위반 0건
+  - tool: axe-core
+    rule: td-headers-attr
+    method: axe-core 실행 결과 위반 0건
+  - tool: axe-core
+    rule: th-has-data-cells
+    method: axe-core 실행 결과 위반 0건
+  - tool: axe-core
+    rule: table-fake-caption
+    method: axe-core 실행 결과 위반 0건
+  - tool: axe-core
+    rule: p-as-heading
+    method: axe-core 실행 결과 위반 0건
+  - tool: axe-core
+    rule: aria-required-children
+    method: axe-core 실행 결과 위반 0건
+  - tool: axe-core
+    rule: aria-required-parent
+    method: axe-core 실행 결과 위반 0건
+  - tool: axe-core
+    rule: aria-hidden-body
+    method: axe-core 실행 결과 위반 0건
+  - tool: html-validate
+    rule: wcag/h63
+    method: th 의 scope (정적 HTML 검사, lint/.htmlvalidate.json)
+  - tool: ux-baseline-check
+    rule: list-role
+    method: 'ux-baseline check: 계산 list-style-type 이 none 인 ul·ol(항목도 기호 없음)에 role 속성이 없으면 오류 — 측정 기준 (8), CF-059'
+  note: axe-core는 마크업 오용 일부만 판정한다. 시각적으로 제목·목록·그룹인데 마크업이 없는 경우의 대부분은 화면과 접근성 트리를 비교하는 수동 점검.
+rationale: 스크린 리더 사용자는 제목·목록·표 구조로 페이지를 탐색하고 관계를 이해한다. 시각 표현에만 있는 구조는 전달되지 않는다.
+sources:
+- ref: WCAG22
+  locator: SC 1.3.1 Info and Relationships (Level A)
+  note: https://www.w3.org/TR/WCAG22/#info-and-relationships
+- ref: WCAG22_UNDERSTANDING
+  locator: https://www.w3.org/WAI/WCAG22/Understanding/info-and-relationships.html
+- ref: KWCAG22
+  locator: 검사항목 5.3.1
+- ref: KRDS
+  locator: 기본 패턴 > 상세 정보 확인 > 접근성 가이드라인 (가이드라인 PDF 2025.08 826쪽)
+  note: https://www.krds.go.kr/html/site/global/global_06.html — 제목·목록·표를 h2~h6, ul/ol/li, table 등으로 제공
+- ref: KRDS
+  locator: 컴포넌트 (여러 페이지) (가이드라인 PDF 2025.08 232·252·277·290·302·304·333·350·367·371·414·460·469~470·488·493·536·549·579·588·661·669·710쪽)
+  note: '같은 요구를 다루는 KRDS 컴포넌트: 긴급 공지, 날짜 입력 필드, 단계 표시기, 달력, 라디오 버튼, 메인 메뉴, 브레드크럼, 사이드 메뉴, 아코디언, 운영기관 식별자, 체크박스,
+    탭바, 텍스트 목록, 토글 스위치, 툴팁, 파일 업로드, 페이지네이션, 표, 푸터 — 상세는 sources/extracts/KRDS-components.yaml'
+- ref: KRDS
+  locator: '컴포넌트 > 텍스트 목록 > 접근성 가이드라인 ''list-style-type: none 스타일 지정으로 인한 접근성 문제에 유의한다'' (가이드라인 PDF 2025.08 493쪽)'
+  note: 목록에는 role="list", 항목에는 role="listitem" 명시 요구 — 이 체계는 목록의 role="list"만 따른다(CF-059)
+scope:
+  level: global
+  targets:
+  - h1-h6
+  - ul
+  - ol
+  - dl
+  - table
+  - fieldset
+  - label
+exceptions: []
+relations: []
+examples:
+  good:
+  - lang: html
+    code: "<h2>신청 자격</h2>\n<ul><li>만 19세 이상</li><li>서울시 거주</li></ul>\n<fieldset><legend>연락 방법</legend>\n  <label><input\
+      \ type=\"radio\" name=\"c\" value=\"sms\"> 문자</label>\n</fieldset>\n"
+    note: 제목은 h2, 목록은 ul, 라디오 묶음은 fieldset+legend
+  bad:
+  - lang: html
+    code: '<p class="title-lg">신청 자격</p>
+
+      <div>· 만 19세 이상</div><div>· 서울시 거주</div>
+
+      '
+    note: 제목·목록을 스타일만으로 표현해 구조가 마크업에 없음
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(sources/extracts/WCAG22-A-AA.yaml): statement·수치가 SC 원문과 일치함을 확인. KWCAG 2.2
+  대응 항목 번호는 비공식 HTML 판 기준 매핑 — 공식 원문 대조 전(registry KWCAG22 verified=false). 룰의 요구·수치는 WCAG 원문만으로 성립. 1단계에 이 룰로 병합된
+  KRDS 컴포넌트 항목(sources/extracts/KRDS-components.yaml)은 개별 페이지를 다시 열지 않았다 — 룰의 요구는 WCAG 원문 기준. KWCAG 5.3.1(표의 구성)은
+  이 SC의 표 부분에 해당. 2026-10-18 독립 검토: KRDS PDF 493쪽 텍스트 목록 문장 확인 — 원문은 ''일부 모바일 디바이스 스크린 리더''라고만 쓰므로 (8)의 특정 브라우저
+  지목을 원문 표현으로 바꿈. li role="listitem"을 따르지 않는 이유는 CF-059에 기록.'
+korean_specific: false
+tags:
+- wcag22
+- level-a
+- new-in-2.0
+- kwcag22
+- krds
+decisions:
+- CF-059

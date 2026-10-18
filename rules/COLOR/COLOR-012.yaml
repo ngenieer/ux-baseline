@@ -1,0 +1,45 @@
+id: COLOR-012
+category: COLOR
+title: 공식 배너 주목도
+stage: platformed
+status:
+  value: confirmed
+type: guide
+strength: SHOULD
+statement: 공식 배너는 헤더의 내비게이션·기능 버튼보다 시각적 주목도가 낮게 표현한다.
+measurement:
+  criteria: '점검 질문: 화면 상단에서 사용자의 시선이 공식 배너보다 헤더 내비게이션·기능 버튼에 먼저 가는가? 배너 배경색이 서비스 디자인 주제의 컨테이너 배경색 범위 안에 있는가?'
+  method: 수동 검토(디자인 리뷰).
+automation:
+  feasibility: none
+  note: 주목도는 결정적으로 판정할 수 없다 → guide.
+rationale: 화면 상단에서 사용자가 먼저 집중해야 할 정보는 헤더 내비게이션과 기능 버튼이므로, 신뢰 표시인 공식 배너가 주의를 빼앗지 않아야 한다(KRDS).
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 공식 배너 > 사용성 가이드라인 (가이드라인 PDF 2025.08 221·223쪽)
+  note: https://www.krds.go.kr/html/site/component/component_02_01.html
+scope:
+  level: component
+  targets:
+  - 공식 배너
+exceptions: []
+relations: []
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(KRDS https://www.krds.go.kr/html/site/component/component_02_01.html HTML을
+  curl로 받아 본문 확인): ''배너가 지나치게 주의를 끌지 않도록 표현한다'', ''서비스의 디자인 주제에 적합한 컨테이너 배경색을 사용한다. 화면 상단 영역에서 사용자가 가장 먼저 집중해야 하는
+  정보는 헤더 내부의 내비게이션과 기능 버튼이다'' 확인. 원문 강도 ''표현한다''(지시) → SHOULD + public-sector-must, 판정 불가라 guide.'
+korean_specific: false
+tags:
+- krds
+- krds-component
+- public-sector
+- public-sector-must
+examples:
+  good:
+  - lang: text
+    code: 공식 배너를 서비스 컨테이너 배경색(연회색) 위 작은 글자 한 줄로 두고, 그 아래 헤더의 메뉴와 '로그인' 버튼이 먼저 눈에 띈다.
+    note: 배너가 헤더 내비게이션·기능 버튼보다 주목도가 낮다
+  bad:
+  - lang: text
+    code: 공식 배너를 진한 주조색 배경과 굵은 큰 글자로 만들어 헤더 메뉴보다 먼저 시선이 간다.
+    note: 배너가 헤더보다 주의를 끈다

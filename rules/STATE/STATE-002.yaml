@@ -1,0 +1,76 @@
+id: STATE-002
+category: STATE
+title: 처리 중 표시
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 요청 후 1초 안에 끝나지 않는 처리에는 처리 중인 영역에 진행 표시(스피너 또는 진행 막대)와 처리 중임을 알리는 텍스트를 표시하고, 1초 안에 끝나는 처리에는 진행 표시를 띄우지
+  않는다.
+measurement:
+  criteria: (1) 응답을 2초 지연시켰을 때 요청 후 1초가 지난 시점에 처리 영역 안(또는 제출 버튼 안)에 스피너·진행 막대와 처리 중 텍스트(화면 표시 또는 role=status 영역의
+    텍스트)가 있다. (2) 응답이 1초 미만으로 끝나는 조건(지연 300ms)에서는 진행 표시 요소가 한 번도 렌더링되지 않는다.
+  method: 개발자 도구 네트워크 스로틀링 또는 목 서버로 응답 지연을 2초·300ms로 바꿔 같은 동작을 실행하고, 성능 패널 녹화 또는 MutationObserver로 진행 표시 요소의 출현
+    시점을 확인한다.
+automation:
+  feasibility: partial
+  checks:
+  - tool: ux-baseline-check
+    rule: progress-flash
+    method: 'ux-baseline check: states 단계를 실행하는 동안 진행 표시([role=progressbar]·progress·.spinner 또는 설정 progressSelector)가 보인 구간이 1초 미만이면 경고 — 측정 기준 (2). (1) 지연 2초 조건은 수동'
+  note: '4단계 커스텀 검사: Playwright route로 응답 지연을 주입하고 [role=progressbar], progress, .spinner(규격 클래스)의 출현 여부·시점을 검사.'
+rationale: 대기 중 아무 표시가 없으면 사용자는 시스템이 멈췄다고 판단하고 다시 누르거나 이탈한다. 반대로 1초 안에 끝나는 처리에 스피너를 깜빡이면 주의를 흩뜨린다(KRDS 스피너, NN/g).
+sources:
+- ref: KRDS
+  locator: 기본 패턴 > 입력폼 > 사용성 가이드라인 — '입력폼 처리에 시간이 걸릴 경우 피드백 메시지 및 인디케이터(예 - 스피너)를 사용하여 처리 중임을 안내하는 것이 바람직하다'
+  note: https://www.krds.go.kr/html/site/global/global_08.html
+- ref: KRDS
+  locator: 컴포넌트 > 스피너 > 용례 — '완료 상태로 변경되는 데 안정적으로 1초 미만의 시간이 걸리는 경우 스피너를 사용하지 않는다'
+  note: https://www.krds.go.kr/html/site/component/component_07_02.html
+- ref: KRDS
+  locator: 컴포넌트 (여러 페이지)
+  note: '같은 요구를 다루는 KRDS 컴포넌트: 스플래시 스크린, 스피너, 파일 업로드 — 상세는 sources/extracts/KRDS-components.yaml'
+- ref: NNG_PROGRESS
+  locator: 'Looped animation: ''For anything that takes less than 1 second to load, it is distracting to use a looped
+    animation'''
+- ref: NNG_SKELETON
+  locator: No Skeleton Screens or Spinners for Quick Page Loads — 'less than 1 second ... aren't necessary'
+- ref: NNG_RESPONSE_TIMES
+  locator: 1.0 second — 'no special feedback is necessary during delays of more than 0.1 but less than 1.0 second'
+scope:
+  level: situation
+  targets:
+  - 서버 요청·파일 처리 등 비동기 처리 대기
+  - form 제출
+exceptions: []
+relations:
+- type: depends
+  id: STATE-001
+  note: 처리 중·완료 텍스트는 상태 메시지로 보조기술에 전달
+- type: depends
+  id: PERF-018
+  note: 전체 페이지 로드에는 스피너 대신 스켈레톤을 쓸 수 있음 — 진행 표시 종류 선택은 PERF-018·STATE-020
+examples:
+  good:
+  - lang: html
+    code: "<button type=\"submit\" aria-describedby=\"submit-status\">\n  <span class=\"spinner spinner--sm\" aria-hidden=\"\
+      true\"></span> 신청\n</button>\n<p id=\"submit-status\" role=\"status\">신청서를 보내는 중입니다</p>\n"
+    note: 1초 넘게 걸리는 제출에 버튼 안 스피너와 처리 중 텍스트를 함께 표시한다.
+  bad:
+  - lang: html
+    code: '<!-- 2~5초 걸리는 제출인데 누른 뒤 아무 표시가 없다 -->
+
+      <button type="submit">신청</button>
+
+      '
+    note: 1초 넘는 처리에 진행 표시와 처리 중 텍스트가 없어 사용자가 다시 누르게 된다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(curl로 KRDS 페이지 HTML을 받아 텍스트로 직접 읽음): 입력폼 패턴 ''…처리 중임을 안내하는 것이 바람직하다''(MAY 강도),
+  스피너 용례 ''안정적으로 1초 미만…스피너를 사용하지 않는다'' 확인. NN/g 3개 페이지 curl로 1초 기준 문장 확인. 1단계의 ''기준 시간 없음'' 문제는 KRDS 스피너·NN/g의 1초로
+  해소. 강도: 표시 요구는 KRDS ''바람직하다''(MAY)지만 1초 미만 금지는 ''사용하지 않는다''(SHOULD), NN/g 권고 → SHOULD로 둠. public-sector-must 태그는
+  1초 미만 금지 부분에만 해당해 붙이지 않음.'
+korean_specific: false
+tags:
+- krds
+- krds-component

@@ -1,0 +1,63 @@
+id: A11Y-003
+category: A11Y
+title: 녹화 영상 자막
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: MUST
+statement: 사전 녹음된 동기화 미디어(영상+소리)의 모든 오디오 내용에 시간 동기화된 자막을 제공한다.
+measurement:
+  criteria: (1) 소리가 있는 사전 녹음 <video>마다 kind="captions" 또는 kind="subtitles" track이 있거나, 영상에 자막이 입혀져 있거나, 임베드 플레이어의
+    자막 기능이 켜질 수 있다. (2) 자막이 대사·화자(2명 이상일 때)·의미 있는 효과음을 포함하고 오디오와 시간 동기화되어 있다.
+  method: axe-core video-caption으로 track 존재를 검사하고, 각 영상을 재생해 자막 내용·화자·효과음·동기화를 수동 확인한다.
+automation:
+  feasibility: partial
+  checks:
+  - tool: axe-core
+    rule: video-caption
+    method: axe-core 실행 결과 위반 0건
+  note: video-caption은 <video>의 captions track 존재만 본다. 입힌 자막·iframe 임베드 플레이어·자막 품질은 수동.
+rationale: 청각장애 사용자와 소리를 켤 수 없는 환경의 사용자는 자막으로만 영상의 음성 정보를 얻는다.
+sources:
+- ref: WCAG22
+  locator: SC 1.2.2 Captions (Prerecorded) (Level A)
+  note: https://www.w3.org/TR/WCAG22/#captions-prerecorded
+- ref: WCAG22_UNDERSTANDING
+  locator: https://www.w3.org/WAI/WCAG22/Understanding/captions-prerecorded.html
+- ref: KWCAG22
+  locator: 검사항목 5.2.1
+- ref: KRDS
+  locator: 컴포넌트 (여러 페이지) (가이드라인 PDF 2025.08 738·739·743·746쪽)
+  note: '같은 요구를 다루는 KRDS 컴포넌트: 접근 가능한 미디어 — 상세는 sources/extracts/KRDS-components.yaml'
+scope:
+  level: component
+  targets:
+  - video
+  - iframe(영상 플레이어)
+exceptions:
+- 미디어가 텍스트의 미디어 대체물이고 그렇다고 명확히 표시된 경우.
+relations: []
+examples:
+  good:
+  - lang: html
+    code: "<video controls src=\"guide.mp4\">\n  <track kind=\"captions\" src=\"guide.ko.vtt\" srclang=\"ko\" label=\"\
+      한국어\" default>\n</video>\n"
+    note: kind="captions" 트랙으로 동기화 자막 제공
+  bad:
+  - lang: html
+    code: '<video controls src="guide.mp4"></video>
+
+      '
+    note: 소리 있는 녹화 영상에 자막 트랙이 없음
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(sources/extracts/WCAG22-A-AA.yaml): statement·수치가 SC 원문과 일치함을 확인. KWCAG 2.2
+  대응 항목 번호는 비공식 HTML 판 기준 매핑 — 공식 원문 대조 전(registry KWCAG22 verified=false). 룰의 요구·수치는 WCAG 원문만으로 성립. 1단계에 이 룰로 병합된
+  KRDS 컴포넌트 항목(sources/extracts/KRDS-components.yaml)은 개별 페이지를 다시 열지 않았다 — 룰의 요구는 WCAG 원문 기준.'
+korean_specific: false
+tags:
+- wcag22
+- level-a
+- new-in-2.0
+- kwcag22
+- krds

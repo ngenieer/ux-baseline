@@ -1,0 +1,72 @@
+id: PERF-005
+category: PERF
+title: 웹폰트 교체로 인한 레이아웃 이동 줄이기
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: MAY
+statement: '웹폰트가 교체될 때 생기는 레이아웃 이동을 줄이려면 font-display: optional을 쓰거나, 폴백 글꼴용 @font-face에 size-adjust·ascent-override·descent-override·line-gap-override로
+  웹폰트와 메트릭을 맞춘다.'
+measurement:
+  criteria: 웹폰트를 쓰는 font-family마다 (a) 그 웹폰트 @font-face의 font-display가 optional이거나, (b) font-family 목록에서 웹폰트 바로 뒤에
+    local() 시스템 글꼴을 src로 하는 폴백 @font-face가 있고 size-adjust·ascent-override·descent-override·line-gap-override 중 하나
+    이상을 지정한다.
+  method: CSS 파싱으로 (a)(b)를 검사하고, 효과는 Lighthouse CLS·웹 바이탈 CLS(PERF-008)로 확인한다.
+automation:
+  feasibility: none
+  checks: []
+  note: 선언 유무는 4단계 stylelint 커스텀으로 검사 가능. 조정 값의 적정성은 판정 불가 — 결과 지표(CLS)로만 확인.
+rationale: 폴백 글꼴로 먼저 배치된 텍스트는 웹폰트로 바뀔 때 글자 크기·행 높이 차이만큼 주변 콘텐츠를 밀어낸다. 숨긴 텍스트(FOIT)도 폴백 글꼴로 배치되므로 같은 이동이 생긴다.
+sources:
+- ref: WEBDEV_FONT_BP
+  locator: Reduce the shift between your fallback font and your webfont
+  note: size-adjust로 CLS 영향 감소
+- ref: WEBDEV_OPT_CLS
+  locator: Web fonts
+  note: '''font-display: optional can avoid a re-layout'', ''Minimize the size differences … using the new size-adjust,
+    ascent-override, descent-override, and line-gap-override APIs'''
+- ref: MDN_BCD
+  locator: css.at-rules.font-face.size-adjust
+  note: Chrome 92, Firefox 92, Safari 17(1단계 조회값)
+scope:
+  level: global
+  targets:
+  - '@font-face'
+  - font-family
+exceptions:
+- 'KRDS 표준형 서비스: font-display: optional 대신 폴백 글꼴 메트릭 맞춤을 쓴다(CF-014).'
+relations:
+- type: conflicts
+  id: TYPO-010
+  note: 'KRDS 표준형 서비스는 font-display: optional 대신 PERF-005의 두 번째 방법(폴백 글꼴 메트릭 맞춤)을 쓴다.'
+  decision: CF-014
+- type: refines
+  id: PERF-008
+  note: 웹폰트 교체로 생기는 CLS를 줄이는 구현.
+- type: depends
+  id: TYPO-030
+  note: 폴백 글꼴 목록 끝의 generic family는 TYPO-030.
+examples:
+  good:
+  - lang: css
+    code: '@font-face { font-family: "PG-fallback"; src: local("Apple SD Gothic Neo"), local("Malgun Gothic"); size-adjust:
+      102%; }
+
+      body { font-family: "Pretendard GOV", "PG-fallback", sans-serif; }'
+    note: 폴백 글꼴용 @font-face에 size-adjust를 지정해 메트릭을 맞췄다.
+  bad:
+  - lang: css
+    code: 'body { font-family: "Pretendard GOV", sans-serif; } /* swap + 메트릭 조정 없음 */'
+    note: swap 교체 시 메트릭 조정이 없어 레이아웃이 이동한다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(web.dev Best practices for fonts·Optimize CLS curl): ''To reduce the CLS impact,
+  you can use the size-adjust attributes'', ''font-display: optional can avoid a re-layout'', size-adjust·ascent-override·descent-override·line-gap-override
+  문장 확인. 출처가 ''can''(선택 도구)으로 써서 MAY. PERF-012(같은 요구: 폴백 메트릭 조정 또는 optional)를 이 룰로 병합(같은 guide 강도 → 번호 작은 PERF-005가
+  정본). PERF-012 앞부분(font-family 끝 generic family)은 TYPO-030과 같은 요구라 depends로 연결하고 출처 이동은 제안 파일 cross_merges. 한글
+  웹폰트와 시스템 한글 폴백(맑은 고딕·Apple SD Gothic Neo) 사이 size-adjust 적정 값 자료는 찾지 못함(예시의 102%는 형식 예시). MDN_BCD 지원 버전은 이번에 재조회하지
+  않음.'
+korean_specific: false
+tags:
+- research-typo
+- research-motion_perf

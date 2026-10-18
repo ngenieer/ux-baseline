@@ -1,0 +1,61 @@
+id: STATE-030
+category: STATE
+title: 코치마크 중 다른 레이어 금지
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 코치마크가 표시되는 동안 알림·배너·토스트 같은 다른 레이어를 띄우지 않고, 그동안 생긴 알림은 버리지 않고 코치마크가 닫힌 직후 표시한다. 시간 제한 경고와 오류·긴급 알림은 예외로
+  즉시 띄우고 코치마크를 닫는다.
+measurement:
+  criteria: (1) 코치마크가 보이는 동안 새로 나타나는 오버레이 레이어(토스트·스낵바·배너·모달·팝오버)가 0개다(시간 제한 경고·오류·긴급 알림 제외). (2) 코치마크 중 발생한 알림은
+    코치마크가 닫힌 직후 표시된다. (3) 시간 제한 경고·오류·긴급 알림이 발생하면 코치마크가 닫히고 그 알림이 즉시 표시된다.
+  method: 코치마크 진행 중 알림을 일으키는 조건(새 메시지 수신 등)을 만들어 레이어 출현 여부를 확인한다.
+automation:
+  feasibility: none
+  checks: []
+  note: 알림 큐가 코치마크 활성 상태를 확인하고 대기시키도록 구현하면 단위 테스트로 검사 가능.
+rationale: 다른 레이어가 끼어들면 코치마크가 안내하는 과업에 집중할 수 없다(KRDS).
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 코치마크 > 사용성 가이드라인 (가이드라인 PDF 2025.08 642쪽)
+  note: https://www.krds.go.kr/html/site/component/component_08_04.html
+scope:
+  level: component
+  targets:
+  - 코치마크
+exceptions:
+- '시간 제한 경고(A11Y-014: 만료 20초 이상 전 경고), 오류·긴급 알림 — 즉시 띄우고 코치마크를 닫는다(CF-001).'
+relations:
+- type: conflicts
+  id: A11Y-014
+  note: 양립. 코치마크 중 알림은 닫힌 뒤 표시하되, 시간 제한 경고는 즉시 띄운다(CF-001). 토스트 표시 시간은 CF-030을 따른다.
+  decision: CF-001
+examples:
+  good:
+  - lang: js
+    code: "// 일반 알림은 코치마크가 닫힐 때까지 보관하고, 시간 제한 경고·오류·긴급 알림은 코치마크를 닫고 즉시 띄운다\nfunction notify(message) {\n  if (!coachmark.active)\
+      \ return show(message);\n  if (message.type === 'timeout-warning' || message.type === 'error' || message.urgent)\
+      \ {\n    coachmark.close();\n    show(message);\n    return;\n  }\n  notifyQueue.hold(message);\n}\ncoachmark.addEventListener('close',\
+      \ () => notifyQueue.flush());\n"
+    note: 코치마크 동안 일반 알림은 보류했다가 닫힌 직후 표시하고, 시간 제한 경고·오류·긴급 알림은 코치마크를 닫고 즉시 표시한다.
+  bad:
+  - lang: html
+    code: '<!-- 코치마크 위에 이벤트 배너 팝업이 뜬다 -->
+
+      <div class="coachmark" role="dialog" aria-label="검색창 안내">…</div>
+
+      <div class="promo-popup" role="dialog" aria-label="이벤트 안내">…</div>
+
+      '
+    note: 코치마크 표시 중 다른 레이어가 겹친다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(curl로 KRDS 페이지 HTML을 받아 텍스트로 직접 읽음): 코치마크 component_08_04 ''코치마크가 표시된 상태에서
+  다른 메시지가 표시되지 않도록 한다 … 다른 알림이나 배너 등의 레이어가 실행되지 않도록 구성하여'' 확인. 2026-10-18 독립 검토(review) 반영: 시간 제한 경고를 보류하면 A11Y-014(만료
+  20초 전 경고, KWCAG 6.2.1)를 지킬 수 없어 예외를 넣음.'
+korean_specific: false
+tags:
+- krds
+- krds-component
+- public-sector-must

@@ -1,0 +1,48 @@
+id: NAV-006
+category: NAV
+title: 고정된 참조 위치 정보
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: MUST
+statement: 페이지 구분이 있는 전자출판문서 형식의 웹 페이지에는 각 페이지로 이동하는 기능과, 서식·플랫폼이 바뀌어도 유지되는 참조 위치 정보(페이지 번호 등)를 제공한다.
+measurement:
+  criteria: '원본에 페이지 구분이 있는 전자출판문서형 웹 페이지에서 (1) 원본 페이지 경계마다 페이지 번호를 나타내는 요소(예: id·텍스트 ''12쪽'')가 있고, (2) 페이지 번호 목록이나
+    입력으로 해당 페이지 위치로 이동할 수 있으며, (3) 글자 크기 200% 확대·화면 너비 320 CSS px에서도 (1)의 번호가 같은 원본 페이지 경계를 가리킨다.'
+  method: 원본 PDF·인쇄본의 임의 페이지 3곳을 골라 웹 페이지에서 이동 기능으로 찾아가고, 확대·좁은 화면에서 번호가 유지되는지 수동 확인한다.
+automation:
+  feasibility: none
+  note: 콘텐츠 유형 판별이 필요해 자동 검사 대상 아님.
+rationale: 교과서·보고서처럼 원본 쪽수로 인용·참조하는 문서를 화면에서 볼 때도 같은 위치를 찾아갈 수 있어야 한다.
+sources:
+- ref: KWCAG22
+  locator: 검사항목 6.4.4 고정된 참조 위치 정보
+  note: 공식 원문 docx 대조 완료(2026-10-18)
+scope:
+  level: situation
+  targets:
+  - 원본에 페이지 구분이 있는 전자출판문서(전자책·보고서 웹 뷰어 등)
+exceptions: []
+relations: []
+examples:
+  good:
+  - lang: html
+    code: '<nav aria-label="쪽 이동"><a href="#p12">12쪽</a> …</nav>
+
+      <span id="p12" class="page-break">12쪽</span>
+
+      '
+  bad:
+  - lang: html
+    code: '<!-- 화면 너비에 따라 다시 계산된 ''가상 페이지'' 번호만 있음 -->
+
+      '
+needs_verification: false
+verification_note: '2026-10-18 공식 원문 대조(KS X OT0003:2022 docx): 6.4.4 해설 ''참조 위치 정보(예: 페이지 번호와 같은 페이지 구분자)… 콘텐츠의
+  확대/축소 등으로 서식이 변경되거나 플랫폼이 변경되더라도 일관된 위치에 제공ㆍ유지'' 확인. 측정 기준의 200% 확대·320 CSS px는 원문의 ''확대/축소 등 서식 변경''을 판정하려고 WCAG
+  1.4.4·1.4.10 수치를 쓴 것(이 체계의 판정 조건).'
+korean_specific: true
+tags:
+- kwcag22
+- kwcag-only

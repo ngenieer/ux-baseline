@@ -1,0 +1,52 @@
+id: NAV-021
+category: NAV
+title: 메인 메뉴 드롭다운 높이
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 메인 메뉴 드롭다운 영역의 높이는 뷰포트 높이의 70% 이하로 하고, 넘치면 브라우저 기본 스크롤이 아니라 드롭다운 영역 자체의 스크롤로 탐색하게 한다.
+measurement:
+  criteria: 드롭다운 패널의 computed max-height ≤ 70vh(또는 0.7 × window.innerHeight)이고 overflow-y가 auto 또는 scroll이다.
+  method: 링크가 가장 많은 드롭다운을 열어 높이와 스크롤 동작을 확인한다.
+automation:
+  feasibility: partial
+  checks:
+  - tool: stylelint
+    method: '메인 메뉴 패널 클래스(기본 .main-menu__panel)에 max-height ≤ 70vh·overflow-y: auto|scroll 필수 (lint/plugins/ux-baseline.mjs)'
+    rule: ux-baseline/menu-panel-max-height
+  note: 렌더링 결과 높이는 Playwright로 다양한 뷰포트 높이에서 확인. 선택자 범위 규칙은 체계 기본 클래스 이름을 기준으로 하며, 프로젝트 클래스 이름이 다르면 classNames 옵션으로
+    바꾼다.
+rationale: 드롭다운이 화면을 넘으면 페이지 전체를 스크롤해야 해서 메뉴와 본문 위치를 함께 잃는다.
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 메인 메뉴 > 사용성 가이드라인 (가이드라인 PDF 2025.08 271·273쪽)
+  note: https://www.krds.go.kr/html/site/component/component_03_02.html — '드롭다운 영역의 최대 높이는 뷰포트의 70%를 초과하지 않도록 하고
+    최대 높이를 초과하는 경우에 스크롤이 생성되도록 제공한다.' / '브라우저 기본 스크롤이 아니라 드롭다운 영역 스크롤을 통해 메뉴를 탐색할 수 있도록 해야 한다.'
+scope:
+  level: component
+  targets:
+  - 메인 메뉴 드롭다운
+exceptions: []
+relations: []
+examples:
+  good:
+  - lang: css
+    code: '.gnb-dropdown { max-height: 70vh; overflow-y: auto; }
+
+      '
+    note: 드롭다운 최대 높이를 뷰포트의 70%로 제한하고 영역 자체를 스크롤한다.
+  bad:
+  - lang: css
+    code: '.gnb-dropdown { height: auto; }  /* 링크가 많으면 페이지 전체 스크롤 */
+
+      '
+    note: 높이 제한이 없어 링크가 많으면 페이지 전체가 스크롤된다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(KRDS component_03_02 WebFetch): 70% 수치·스크롤 문장 확인. ''해야 한다'' → SHOULD + public-sector-must. (2026-10-18 KRDS PDF 대조) 가이드라인 PDF 2025.08 271·273쪽은 ''드롭다운 영역의 최대 높이는 뷰포트를 초과하지 않도록'' — 70% 수치가 없다. 웹 페이지 component_03_02 를 다시 받아 확인: 같은 문장이 ''뷰포트의 70%를 초과하지 않도록''이고 변경 내역에 ''2026년 1월 13일 뷰포트 높이에 따른 메뉴 영역 최대 높이 조정''이 있어 PDF보다 새 판이다. 70%를 유지한다(70% 이하는 PDF 기준 100% 이하도 충족).'
+korean_specific: false
+tags:
+- krds
+- krds-component
+- public-sector-must

@@ -1,0 +1,62 @@
+id: PERF-018
+category: PERF
+title: 스켈레톤 사용 범위
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 스켈레톤 화면은 전체 페이지(화면) 로드에만 쓰고 실제 콘텐츠 배치를 본뜬 자리표시자를 포함하며, 다운로드·업로드·파일 변환 같은 처리 작업에는 스켈레톤 대신 진행 막대를 쓴다.
+measurement:
+  criteria: (1) 스켈레톤 컴포넌트는 화면 전체 로드 상태에서만 렌더링되고, 업로드·다운로드·변환 진행 상태에서는 progress 또는 role="progressbar"가 렌더링된다. (2)
+    스켈레톤에는 헤더·푸터·배경만이 아니라 본문 콘텐츠 블록(제목·텍스트 줄·이미지 자리)의 자리표시자가 있다.
+  method: 컴포넌트 규격 리뷰와 상태별 스토리(로드·업로드) 렌더링으로 확인한다.
+automation:
+  feasibility: none
+  checks: []
+  note: 자동 검사 불가 → 4단계 컴포넌트 규격(스켈레톤 사용 상태 제한).
+rationale: 스켈레톤은 페이지 구조를 미리 보여 줘 기다리는 동안 인지 부담을 줄이지만, 처리 작업에는 남은 양을 알려 주는 진행 막대가 맞다. 헤더·푸터만 그린 스켈레톤은 구조를 알려 주지 못해
+  스피너와 다를 바 없다.
+sources:
+- ref: NNG_SKELETON
+  locator: Are Skeleton Screens Better…; Progress Bars Are Best for Process-Related Indicators; Do Not Use a Frame-Display
+    Skeleton Screen
+  note: '''used exclusively for full-page loads'', ''Whenever some other process (e.g., download, upload, convert
+    a file) is involved … show a progress bar'', frame-display 비권장'
+scope:
+  level: component
+  targets:
+  - 스켈레톤
+  - '[aria-busy=true] 자리표시자'
+exceptions: []
+relations:
+- type: conflicts
+  id: STATE-020
+  note: '선택 순서: 화면(페이지) 로드 → 스켈레톤, 끝 지점을 아는 처리 → 확정 진행 표시, 끝을 모르는 처리 → 불확정 진행 표시.'
+  decision: CF-016
+- type: refines
+  id: PERF-011
+  note: 스켈레톤 자리를 실제 콘텐츠와 같은 크기로 두면 CLS 방지(web.dev placeholder or skeleton UI).
+examples:
+  good:
+  - lang: html
+    code: "<main aria-busy=\"true\">\n  <div class=\"sk sk-title\"></div><div class=\"sk sk-line\"></div><div class=\"\
+      sk sk-line\"></div><div class=\"sk sk-img\"></div>\n</main>"
+    note: 페이지 로드 스켈레톤에 제목·텍스트 줄·이미지 자리표시자가 있다.
+  bad:
+  - lang: html
+    code: '<!-- 파일 업로드 중 스켈레톤 표시 -->
+
+      <div class="upload"><div class="sk sk-line"></div></div>'
+    note: 파일 업로드 처리에 진행 막대 대신 스켈레톤을 쓴다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(NN/g Skeleton Screens 101 curl): ''This specific type of progress indicator
+  is used exclusively for full-page loads'', ''Whenever some other process (e.g., download, upload, convert a file)
+  is involved … show a progress bar'', ''Do Not Use a Frame-Display Skeleton Screen'' 확인. 1단계 statement의 ''(또는 페이지
+  영역)''은 원문이 단일 모듈에는 스피너를 권해 뺐다. NN/g의 1초 미만·10초 기준은 STATE-020과의 결합 규칙(BACKLOG)에서 다룸. Mejtoft 2018은 초록만 확인(verified=false)
+  — 근거로 쓰지 않음. 전문가 가이드 SHOULD. 2026-10-18 확정 시 미검증 출처 MEJTOFT_2018 제외(나머지 검증된 출처로 근거 성립).'
+korean_specific: false
+tags:
+- research-motion_perf
+decisions:
+- CF-063

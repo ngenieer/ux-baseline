@@ -1,0 +1,47 @@
+id: STATE-007
+category: STATE
+title: 긴급 공지 긴급도 분류
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: MAY
+statement: 긴급 공지에는 긴급도 레이블을 붙이고, 재난·재해 대응과 예고 없는 서비스 장애·이용 중단은 '상', 이용 중단 사전 예고는 '중', 서비스 이용에 중대한 영향은 없지만 대부분의 사용자가
+  알아야 하는 상황은 '하'로 분류한다.
+measurement:
+  criteria: 긴급 공지마다 레이블(텍스트) 1개가 있고 값이 상·중·하(또는 그에 대응하는 서비스 용어) 중 하나이며, 내용과 레이블의 대응이 위 분류와 일치한다.
+  method: 긴급 공지 목록을 내용별로 분류해 레이블과 대조한다.
+automation:
+  feasibility: none
+  checks: []
+  note: 컴포넌트 규격에서 level prop(high|medium|low)을 필수로 두면 타입 검사 가능.
+rationale: 긴급도에 따라 아이콘·레이블·강조 수준을 달리해 사용자가 상황의 심각성을 빠르게 파악하게 한다(KRDS 긴급 공지 구조).
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 긴급 공지 > 구조 (가이드라인 PDF 2025.08 361쪽)
+  note: https://www.krds.go.kr/html/site/component/component_04_02.html
+scope:
+  level: component
+  targets:
+  - 긴급 공지
+exceptions: []
+relations: []
+examples:
+  good:
+  - lang: html
+    code: "<section class=\"emergency-notice emergency-notice--high\" aria-labelledby=\"en-l\">\n  <strong id=\"\
+      en-l\">긴급도: 상</strong> 전산 장애로 민원 신청이 중단되었습니다.\n</section>\n"
+    note: 예고 없는 장애를 긴급도 상으로 표시한다.
+  bad:
+  - lang: html
+    code: "<section class=\"emergency-notice emergency-notice--high\" aria-labelledby=\"en-l\">\n  <strong id=\"\
+      en-l\">긴급도: 상</strong> 10월 20일 02:00~04:00 정기 점검으로 서비스를 중단합니다.\n</section>\n"
+    note: 사전 예고된 점검(중)을 상으로 잘못 분류한다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(curl로 KRDS 페이지 HTML을 받아 텍스트로 직접 읽음): 긴급 공지 component_04_02 구조 ''레이블 … 긴급한 정도는
+  다음 세 가지 상태를 가짐'' a.상/b.중/c.하 정의 확인. 원문은 구조 서술이고 강도어가 없어 MAY. 수집 때 ''같은 요구''로 붙은 GOV.UK 서비스 중단(503) 페이지 출처는 다른
+  요구라 빼고 제안 파일에 새 룰 후보로 옮김.'
+korean_specific: false
+tags:
+- krds
+- krds-component

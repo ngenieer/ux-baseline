@@ -1,0 +1,49 @@
+id: A11Y-044
+category: A11Y
+title: 자막 표시 조정 옵션
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: MAY
+statement: 자체 플레이어를 만들 때 사용자가 자막의 크기·색·위치를 바꾸는 옵션을 제공한다.
+measurement:
+  criteria: 자체 구현 플레이어의 설정 메뉴에 자막 크기·색·위치를 바꾸는 컨트롤이 있고, 바꾼 값이 자막 표시에 반영된다.
+  method: 플레이어 설정에서 세 항목을 바꿔 자막 표시를 확인한다.
+automation:
+  feasibility: none
+  checks: []
+  note: 자동 검사 불가.
+rationale: 저시력·난독 사용자는 자막 크기·색을 자신에게 맞게 바꿔야 읽을 수 있다.
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 접근 가능한 미디어 > 상호작용 (가이드라인 PDF 2025.08 745쪽)
+  note: https://www.krds.go.kr/html/site/component/component_11_01.html
+scope:
+  level: component
+  targets:
+  - 자체 구현 영상 플레이어
+exceptions: []
+relations:
+- type: refines
+  id: A11Y-003
+examples:
+  good:
+  - lang: html
+    code: '<label>자막 크기 <select id="cue-size"><option>보통</option><option>크게</option></select></label>
+
+      '
+    note: 자체 플레이어에 자막 크기 조정 옵션 제공
+  bad:
+  - lang: html
+    code: '<!-- 자막 스타일이 고정되어 바꿀 수 없음 -->
+
+      '
+    note: 자막 스타일을 바꿀 수 없음
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(WebFetch로 KRDS 페이지 재조회, 요약 모델 인용 확인): ''가능한 경우, 사용자가 자막의 크기, 색상, 위치를 조정할 수
+  있는 옵션을 제공하면 … 편의성을 높일 수 있다.'' 확인. 권장 표현 → MAY. 원문 ''가능한 경우''는 ''자체 플레이어를 만들 때''로 범위를 좁혀 바꿈(모호 표현 제거).'
+korean_specific: false
+tags:
+- krds
+- krds-component

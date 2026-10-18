@@ -1,0 +1,278 @@
+id: bottom-sheet
+title: 바텀시트
+status: confirmed
+summary: 현재 화면을 유지한 채 옵션 선택·부가 정보 확인 같은 짧은 상호작용을 화면 아래에서 올라오는 시트로 처리할 때 쓴다.
+use_instead:
+- when: 오래 검토해야 하는 정보, 항상 보여야 하는 정보·도구, 서비스 절차의 한 단계
+  use: 본문 영역 또는 별도 화면
+  rule: STATE-035
+- when: 반드시 확인·결정해야 하는 내용
+  use: 모달
+  rule: STATE-003
+krds:
+  page: component_12_03.html
+  kit: html/code/modal.html
+  kit_classes:
+    bottom-sheet: krds-modal[data-type=bottom-sheet] modal-content
+    bottom-sheet__header: modal-header
+    bottom-sheet__title: modal-title
+    bottom-sheet__close: btn-close
+    bottom-sheet__body: modal-conts
+    bottom-sheet__footer: modal-btn btn-wrap
+anatomy:
+- part: 루트(시트)
+  class: bottom-sheet
+  element: dialog
+  required: true
+  note: dialog.showModal() 로 열어 시트 밖을 inert 로 만들고 ::backdrop 딤드를 한 겹 그린다(SHAPE-005). aria-labelledby 로 제목을 연결한다.
+- part: 손잡이
+  class: bottom-sheet__handle
+  element: span
+  note: 끌어서 닫기·높이 조절을 알리는 장식. aria-hidden="true". 끌기로 하는 기능은 모두 버튼으로도 할 수 있어야 한다(A11Y-017, A11Y-021).
+- part: 헤더
+  class: bottom-sheet__header
+  element: div
+  required: true
+  note: 제목 → 닫기 버튼 순서로 마크업한다. 닫기 버튼은 시트 상단(헤더)에 둔다(STATE-033). DOM 순서 = 시각 순서(A11Y-008).
+- part: 제목
+  class: bottom-sheet__title
+  element: h2
+  required: true
+- part: 닫기 버튼
+  class: bottom-sheet__close
+  element: button
+  required: true
+  note: 접근 가능한 이름 '닫기'. 스와이프와 별도로 항상 둔다(STATE-033). 선택을 확정하는 시트에서는 취소와 같다(STATE-011).
+- part: 본문
+  class: bottom-sheet__body
+  element: div
+  required: true
+  note: 넘치면 이 영역만 세로 스크롤한다. 스크롤바를 숨기지 않는다.
+- part: 푸터
+  class: bottom-sheet__footer
+  element: div
+  note: 선택을 확정하는 버튼을 둔다. 즉시 적용형 시트(목록에서 고르면 바로 닫힘)에는 생략한다.
+- part: 액션 버튼
+  class: bottom-sheet__action
+  element: button
+- part: 겹침 단계 표시
+  class: bottom-sheet__step
+  element: p
+  note: 불가피하게 시트를 겹칠 때만 넣는다(STATE-034). 예 '2/3 단계'.
+markup: |-
+  <button class="bottom-sheet__trigger" type="button" aria-haspopup="dialog" aria-controls="sort-sheet">정렬 기준 변경</button>
+  <dialog class="bottom-sheet" id="sort-sheet" aria-labelledby="sort-sheet-title" open>
+    <span class="bottom-sheet__handle" aria-hidden="true"></span>
+    <div class="bottom-sheet__header">
+      <h2 class="bottom-sheet__title" id="sort-sheet-title">정렬 기준</h2>
+      <button class="bottom-sheet__close" type="button" aria-label="닫기">
+        <svg class="bottom-sheet__close-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+    </div>
+    <div class="bottom-sheet__body">
+      <form id="sort-sheet-form" method="dialog">
+        <fieldset class="bottom-sheet__options">
+          <legend class="bottom-sheet__legend">목록 정렬 기준을 선택해 주세요.</legend>
+          <label class="bottom-sheet__option"><input type="radio" name="sort" value="latest" checked> 최신순</label>
+          <label class="bottom-sheet__option"><input type="radio" name="sort" value="oldest"> 오래된순</label>
+          <label class="bottom-sheet__option"><input type="radio" name="sort" value="name"> 이름순</label>
+        </fieldset>
+      </form>
+    </div>
+    <div class="bottom-sheet__footer">
+      <button class="bottom-sheet__action" type="submit" form="sort-sheet-form">적용</button>
+    </div>
+  </dialog>
+css: |-
+  .bottom-sheet__trigger {
+    min-block-size: var(--size-height-6);
+    padding-inline: var(--space-padding-6);
+    border: var(--border-width-variable-regular) solid var(--color-button-tertiary-border);
+    border-radius: var(--radius-medium3);
+    background-color: var(--color-button-tertiary-fill);
+    color: var(--color-text-basic);
+    font-size: var(--font-size-label-medium);
+  }
+  .bottom-sheet {
+    inline-size: 100%;
+    max-inline-size: 100%;
+    max-block-size: 90dvh;
+    margin: auto 0 0;
+    padding: 0;
+    border: var(--border-width-variable-regular) solid var(--color-border-gray);
+    border-block-end: 0;
+    border-start-start-radius: var(--radius-xlarge1);
+    border-start-end-radius: var(--radius-xlarge1);
+    background-color: var(--color-surface-white-subtler);
+    box-shadow: var(--shadow-4);
+    color: var(--color-text-basic);
+  }
+  .bottom-sheet[open] {
+    display: flex;
+    flex-direction: column;
+  }
+  .bottom-sheet::backdrop {
+    background-color: var(--color-background-dim);
+  }
+  .bottom-sheet__handle {
+    align-self: center;
+    inline-size: var(--space-scale-16);
+    block-size: var(--space-scale-3);
+    margin-block-start: var(--space-gap-3);
+    border-radius: var(--radius-max);
+    background-color: var(--color-element-gray);
+  }
+  .bottom-sheet__header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-gap-5);
+    padding: var(--space-padding-6);
+  }
+  .bottom-sheet__title {
+    flex: 1;
+    margin: 0;
+    font-size: var(--font-size-heading-small);
+    font-weight: var(--font-weight-bold);
+    line-height: var(--font-line-height-base);
+  }
+  .bottom-sheet__close {
+    display: inline-flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    min-inline-size: var(--size-height-6);
+    min-block-size: var(--size-height-6);
+    padding: 0;
+    border: 0;
+    border-radius: var(--radius-medium3);
+    background-color: transparent;
+    color: var(--color-icon-gray);
+  }
+  .bottom-sheet__close-icon {
+    inline-size: var(--size-height-4);
+    block-size: var(--size-height-4);
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+  }
+  .bottom-sheet__body {
+    flex: 1;
+    min-block-size: 0;
+    overflow-y: auto;
+    padding: 0 var(--space-padding-6);
+    font-size: var(--font-size-body-medium);
+  }
+  .bottom-sheet__options {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-gap-3);
+    margin: 0;
+    padding: 0;
+    border: 0;
+  }
+  .bottom-sheet__legend {
+    margin-block-end: var(--space-gap-3);
+    padding: 0;
+    color: var(--color-text-subtle);
+    font-size: var(--font-size-body-small);
+  }
+  .bottom-sheet__option {
+    display: flex;
+    align-items: center;
+    gap: var(--space-gap-3);
+    min-block-size: var(--size-height-6);
+  }
+  .bottom-sheet__step {
+    margin: 0;
+    color: var(--color-text-subtle);
+    font-size: var(--font-size-label-small);
+  }
+  .bottom-sheet__footer {
+    display: flex;
+    gap: var(--space-gap-3);
+    padding: var(--space-padding-10) var(--space-padding-6) var(--space-padding-6);
+  }
+  .bottom-sheet__action {
+    flex: 1;
+    min-block-size: var(--size-height-7);
+    padding-inline: var(--space-padding-6);
+    border: var(--border-width-variable-regular) solid var(--color-button-primary-fill);
+    border-radius: var(--radius-medium3);
+    background-color: var(--color-button-primary-fill);
+    color: var(--color-text-basic-inverse);
+    font-size: var(--font-size-label-large);
+  }
+  .bottom-sheet__trigger:focus-visible,
+  .bottom-sheet__close:focus-visible,
+  .bottom-sheet__action:focus-visible,
+  .bottom-sheet__option input:focus-visible {
+    outline: var(--space-scale-2) solid var(--color-border-primary);
+    outline-offset: var(--space-scale-1);
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .bottom-sheet[open] {
+      animation-name: bottom-sheet-enter;
+      animation-duration: var(--motion-duration-base);
+      animation-timing-function: var(--motion-easing-enter);
+    }
+  }
+  @keyframes bottom-sheet-enter {
+    from {
+      transform: translateY(100%);
+    }
+  }
+states:
+- name: 열림
+  markup_change: 열기 버튼을 누르면 dialog.showModal() 을 호출한다. 예시 markup 의 open 속성은 검사용 정적 표현이다.
+  rule: SHAPE-005
+- name: 겹친 시트(불가피한 경우)
+  markup_change: 맨 위 시트 헤더 아래에 bottom-sheet__step('2/3 단계' 등)을 넣고, 닫기 버튼을 '이 시트 닫기'(현재 시트만)와 '전체 닫기' 두 개로 나눈다. 아래 시트의 ::backdrop 은 숨겨 딤드를 맨 위 시트 아래 한 겹만 보인다(CF-017).
+  rule: STATE-034
+- name: 즉시 적용형
+  markup_change: 푸터를 빼고 옵션을 고르면 바로 적용하고 시트를 닫는다. 이때 옵션은 라디오가 아니라 button 목록으로 만든다(라디오 값 변경만으로 시트가 닫히면 FORM-002 위반).
+  rule: FORM-002
+keyboard:
+- key: Tab / Shift+Tab
+  action: 시트 안에서만 초점이 순환한다(모달과 같음). 순서는 닫기 → 본문 → 푸터.
+- key: Esc
+  action: 시트를 닫는다(닫기 버튼과 같은 동작).
+- key: ↑ / ↓ / ← / →
+  action: 라디오 그룹 안에서 이전·다음 옵션을 선택한다(브라우저 기본 동작).
+behavior:
+- 사용자가 버튼을 실행했을 때만 연다(A11Y-058). 열면 초점을 선택된 옵션(없으면 첫 옵션)으로 옮기고, 닫으면 연 버튼으로 돌려놓는다.
+- 끌어 내려 닫기·끌어 올려 높이 키우기는 보조 수단이다. 같은 결과를 닫기 버튼과 버튼 조작으로 낼 수 있어야 한다(A11Y-017, A11Y-021, STATE-033).
+- 닫기·Esc·끌어 내리기는 선택을 적용하지 않고 닫는다 — 취소와 같다(STATE-011). 적용은 '적용' 버튼으로만 한다.
+- 시트는 한 번에 1개만 띄운다. 겹칠 수밖에 없으면 단계 표시와 '현재 시트만 닫기'·'전체 닫기'를 넣고, 딤드는 맨 위 시트 아래 한 겹만 표시한다(STATE-034, SHAPE-005, CF-017).
+- 브라우저 뒤로가기는 앱 안 뒤로가기와 같은 결과를 낸다 — 시트를 열 때 history 항목을 추가했다면 뒤로가기는 시트만 닫는다(NAV-066).
+- 시트에는 짧은 상호작용만 둔다. 절차의 한 단계·장문 안내를 넣지 않는다(STATE-035).
+rules:
+- A11Y-008
+- A11Y-011
+- A11Y-012
+- A11Y-015
+- A11Y-016
+- A11Y-017
+- A11Y-021
+- A11Y-025
+- A11Y-029
+- A11Y-058
+- COLOR-003
+- FORM-002
+- LAYOUT-002
+- MOTION-004
+- MOTION-010
+- MOTION-011
+- NAV-066
+- SHAPE-001
+- SHAPE-004
+- SHAPE-005
+- STATE-011
+- STATE-033
+- STATE-034
+- STATE-035
+kit_differences:
+- KRDS 키트 바텀시트는 모달(krds-modal data-type=bottom-sheet)과 같은 마크업이라 닫기 버튼이 DOM 마지막에 있고 aria-modal 이 없다 — 이 규격은 닫기 버튼을 헤더 안 제목 다음에 두고(STATE-033, A11Y-008) showModal() 로 연다(A11Y-029).
+- KRDS 키트는 bottom 값을 -100%→0 으로 바꿔 시트를 올린다 — 이 규격은 transform 으로 움직이고 모션 줄이기 설정에서는 끈다(MOTION-004, MOTION-010).
+notes:
+- KRDS 바텀시트 페이지(component_12_03)는 이번 작업에서 내려받지 못했다(연결 재설정). 규격은 sources/extracts 의 KRDS 바텀시트 항목, 확정 룰, 키트 CSS(component.css 의 data-type=bottom-sheet 부분, max-height 90%·상단 반경 xlarge1)로 만들었다.
+- 손잡이 크기(3rem × 0.25rem)는 KRDS 키트에 값이 없어 체계가 고른 선호 값이다.

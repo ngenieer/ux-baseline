@@ -1,0 +1,58 @@
+id: NAV-038
+category: NAV
+title: 콘텐츠 내 탐색 사용 조건
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: MAY
+statement: 계층 구조가 있는 본문이 섹션 3개 이상이거나 높이가 뷰포트 높이의 3배를 넘으면 콘텐츠 내 탐색(목차)을 둔다.
+measurement:
+  criteria: 본문(main) 안의 섹션 제목(h2 기준) 수가 3 이상이거나 본문 높이가 window.innerHeight × 3을 넘는 페이지에 콘텐츠 내 탐색 링크 목록이 있다.
+  method: 스크립트로 main 안 h2 개수와 main.scrollHeight / window.innerHeight 비율을 구하고, 조건을 만족하는 페이지에 콘텐츠 내 탐색 컴포넌트가 있는지 확인한다.
+automation:
+  feasibility: none
+  checks: []
+  note: 기존 검사기 규칙 없음. 4단계에서 페이지 단위 커스텀 스크립트(h2 수·높이 비율 측정 + 목차 컴포넌트 존재 확인)로 만들 수 있다. 섹션 단위를 h2로 볼지는 체계 선택.
+rationale: 긴 구조화 문서에서 사용자가 전체 구성을 파악하고 원하는 섹션으로 바로 이동하게 한다. 스크롤이 거의 없는 짧은 화면에는 필요 없다.
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 콘텐츠 내 탐색 > 용례 (사용하기 적합한 경우) (가이드라인 PDF 2025.08 308쪽)
+  note: https://www.krds.go.kr/html/site/component/component_03_05.html
+scope:
+  level: situation
+  targets:
+  - 계층 구조가 있는 긴 본문 페이지
+exceptions:
+- '스크롤 동작이 거의 필요하지 않은 짧은 화면(원문: 제공되지 않아도 된다)'
+- '계층 구조가 없는 본문(원문: 사용할 수 없다)'
+relations:
+- type: depends
+  id: NAV-014
+  note: 둘 경우의 배치는 NAV-014
+- type: depends
+  id: NAV-039
+  note: 무한 스크롤·필터 목록·정보 구조 탐색에는 쓰지 않음(NAV-039)이 이 룰보다 먼저 적용
+examples:
+  good:
+  - lang: html
+    code: "<main>\n  <nav aria-labelledby=\"toc-title\"><h2 id=\"toc-title\">이 페이지의 구성</h2>\n    <ol><li><a href=\"\
+      #s1\">신청 대상</a></li><li><a href=\"#s2\">신청 방법</a></li><li><a href=\"#s3\">제출 서류</a></li></ol>\n  </nav>\n\
+      \  <section id=\"s1\"><h2>신청 대상</h2>…</section>\n  <section id=\"s2\"><h2>신청 방법</h2>…</section>\n  <section\
+      \ id=\"s3\"><h2>제출 서류</h2>…</section>\n</main>\n"
+    note: h2 섹션 3개인 본문에 콘텐츠 내 탐색(목차)이 있다.
+  bad:
+  - lang: html
+    code: '<!-- h2 섹션이 5개인 긴 안내 페이지에 목차가 없음 -->
+
+      <main><section><h2>…</h2></section> … <section><h2>…</h2></section></main>
+
+      '
+    note: h2 섹션 5개인 긴 본문에 목차가 없다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(KRDS 페이지 curl 수신 후 텍스트 추출): ''세 개 이상의 개별 콘텐츠 섹션 또는 세 개 이상의 뷰포트 높이를 초과하는 콘텐츠가
+  포함된 본문의 탐색에 사용하기 적합하다'' 확인. 예외 2건도 같은 용례 절. 원문이 용례·유형 서술(사용하기 적합/사용한다)이라 MAY. ''섹션=h2'' 해석은 이 체계의 판정용 선택.'
+korean_specific: false
+tags:
+- krds
+- krds-component

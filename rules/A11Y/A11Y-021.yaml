@@ -1,0 +1,56 @@
+id: A11Y-021
+category: A11Y
+title: 드래그 대체
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: MUST
+statement: 드래그로 하는 모든 기능을 드래그 없는 단일 포인터 조작(클릭·탭)으로도 할 수 있게 한다.
+measurement:
+  criteria: 드래그 앤 드롭·슬라이더 손잡이 끌기·정렬 끌기·파일 드롭 영역마다 클릭·탭만으로 같은 결과를 내는 수단(위/아래 이동 버튼, 트랙 클릭, 값 입력, 파일 선택 버튼 등)이 있다.
+  method: draggable·dragstart·pointermove 기반 기능을 목록화하고 마우스 버튼을 누른 채 움직이지 않고 같은 작업을 수행해 본다.
+automation:
+  feasibility: none
+  checks: []
+  note: '검사기 규칙 없음. 4단계 커스텀 검사: draggable 속성·drag 이벤트 사용 위치 표시.'
+rationale: 드래그는 누른 채 정확히 움직여야 해서 운동 장애 사용자에게 어렵다.
+sources:
+- ref: WCAG22
+  locator: SC 2.5.7 Dragging Movements (Level AA)
+  note: https://www.w3.org/TR/WCAG22/#dragging-movements
+- ref: WCAG22_UNDERSTANDING
+  locator: https://www.w3.org/WAI/WCAG22/Understanding/dragging-movements.html
+- ref: KRDS
+  locator: 컴포넌트 (여러 페이지) (가이드라인 PDF 2025.08 711쪽)
+  note: '같은 요구를 다루는 KRDS 컴포넌트: 범위 슬라이드, 파일 업로드 — 상세는 sources/extracts/KRDS-components.yaml'
+scope:
+  level: situation
+  targets:
+  - 드래그 앤 드롭
+  - 범위 슬라이더
+  - 파일 업로드 드롭 영역
+exceptions:
+- 드래그가 본질적인 경우.
+- 기능을 사용자 에이전트가 결정하고 작성자가 바꾸지 않은 경우.
+relations: []
+examples:
+  good:
+  - lang: html
+    code: "<div class=\"dropzone\">파일을 끌어 놓거나\n  <label>파일 선택 <input type=\"file\"></label>\n</div>\n"
+    note: 드롭 영역에 파일 선택 버튼을 함께 제공
+  bad:
+  - lang: html
+    code: '<div class="dropzone">파일을 끌어 놓으세요</div>
+
+      '
+    note: 파일을 드래그해서만 올릴 수 있음
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(sources/extracts/WCAG22-A-AA.yaml): statement·수치가 SC 원문과 일치함을 확인. 1단계에 이 룰로
+  병합된 KRDS 컴포넌트 항목(sources/extracts/KRDS-components.yaml)은 개별 페이지를 다시 열지 않았다 — 룰의 요구는 WCAG 원문 기준.'
+korean_specific: false
+tags:
+- wcag22
+- level-aa
+- new-in-2.2
+- krds

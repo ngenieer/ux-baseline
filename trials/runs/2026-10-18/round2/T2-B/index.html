@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>공지사항(3/24페이지) | 알림마당 | ○○구청</title>
+  <link rel="stylesheet" href="tokens.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- 건너뛰기 링크: 키보드 첫 Tab 에서 화면에 나타나고, Enter 시 본문(#content)으로 이동 -->
+  <a class="skip-link" href="#content">본문 바로가기</a>
+
+  <header class="site-header">
+    <div class="container site-header__inner">
+      <a class="site-logo" href="/">○○구청</a>
+    </div>
+  </header>
+
+  <main id="content" class="container">
+    <nav class="breadcrumb" aria-label="현재 위치">
+      <ol>
+        <li><a href="/">홈</a></li>
+        <li><a href="/notice/">알림마당</a></li>
+        <li><a href="/notice/board/" aria-current="page">공지사항</a></li>
+      </ol>
+    </nav>
+
+    <h1 class="page-title">공지사항</h1>
+
+    <!-- 검색: GET 방식으로 제출(/notice/board/?target=…&q=…).
+         검색어 입력 후 Enter 또는 [검색] 버튼으로 제출. 결과는 1페이지로 이동하며 분류(category) 선택은 유지(hidden). -->
+    <search class="board-search">
+      <form action="/notice/board/" method="get" class="board-search__form">
+        <input type="hidden" name="category" value="all">
+        <div class="field">
+          <label class="field__label" for="search-target">검색 대상</label>
+          <select class="field__control field__control--select" id="search-target" name="target">
+            <option value="title" selected>제목</option>
+            <option value="content">내용</option>
+            <option value="dept">작성 부서</option>
+          </select>
+        </div>
+        <div class="field field--grow">
+          <label class="field__label" for="search-q">검색어</label>
+          <input class="field__control" id="search-q" name="q" type="search"
+                 enterkeyhint="search" autocomplete="off" spellcheck="false">
+        </div>
+        <button class="btn btn--primary" type="submit">
+          <svg class="icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
+          검색
+        </button>
+      </form>
+    </search>
+
+    <!-- 분류 필터: 스크립트 없는 링크 목록(ARIA 탭이 아님). 선택하면 ?category=… 로 이동하고 1페이지부터 표시.
+         현재 분류는 aria-current="page" 로 알리고, 색 외에 굵기·밑줄 막대로도 구분한다. -->
+    <nav class="category-filter" aria-label="공지 분류">
+      <ul>
+        <li><a href="/notice/board/?category=all" aria-current="page">전체</a></li>
+        <li><a href="/notice/board/?category=general">일반</a></li>
+        <li><a href="/notice/board/?category=recruit">채용</a></li>
+        <li><a href="/notice/board/?category=bid">입찰</a></li>
+      </ul>
+    </nav>
+
+    <p class="board-summary">
+      전체 <strong>237</strong>건, 현재 <strong>3</strong>/24페이지
+    </p>
+
+    <!-- 좁은 화면에서는 표를 가로로 스크롤한다. 키보드로도 스크롤할 수 있도록 tabindex="0" 영역으로 둔다. -->
+    <section class="table-scroll" aria-labelledby="board-caption" tabindex="0">
+      <table class="board-table">
+        <caption id="board-caption">
+          공지사항 목록
+          <span class="visually-hidden">: 번호, 분류, 제목, 작성 부서, 등록일, 첨부, 조회수 순. 맨 위 1건은 상단 고정 공지입니다.</span>
+        </caption>
+        <thead>
+          <tr>
+            <th scope="col" class="col-num">번호</th>
+            <th scope="col" class="col-cat">분류</th>
+            <th scope="col" class="col-title">제목</th>
+            <th scope="col" class="col-dept">작성 부서</th>
+            <th scope="col" class="col-date">등록일</th>
+            <th scope="col" class="col-file">첨부</th>
+            <th scope="col" class="col-views">조회수</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- 상단 고정 공지: 모든 페이지 맨 위에 반복 표시. 번호 대신 '공지' 글자로 표시(색만으로 구분하지 않음). -->
+          <tr class="is-pinned">
+            <td class="col-num"><span class="badge badge--pinned">공지</span></td>
+            <td class="col-cat">일반</td>
+            <th scope="row" class="col-title">
+              <a href="/notice/board/view/2381">2026년 하반기 구청 누리집 개편에 따른 서비스 일시 중단 안내(10.25. 00시~06시)</a>
+            </th>
+            <td class="col-dept">정보통신과</td>
+            <td class="col-date"><time datetime="2026-10-14">2026.10.14.</time></td>
+            <td class="col-file">
+              <svg class="icon icon--file" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M21 11.5 12.5 20a5 5 0 0 1-7-7L14 4.5a3.3 3.3 0 0 1 4.7 4.7L10.2 17.7a1.7 1.7 0 0 1-2.4-2.4L15.5 7.6"/></svg>
+              <span class="visually-hidden">첨부 있음</span>
+            </td>
+            <td class="col-views">4,512</td>
+          </tr>
+          <tr>
+            <td class="col-num">217</td>
+            <td class="col-cat">채용</td>
+            <th scope="row" class="col-title">
+              <a href="/notice/board/view/2402">2026년 제5회 기간제 근로자(주민센터 행정보조) 채용 공고</a>
+              <span class="badge badge--new">새 글</span>
+            </th>
+            <td class="col-dept">총무과</td>
+            <td class="col-date"><time datetime="2026-10-17">2026.10.17.</time></td>
+            <td class="col-file">
+              <svg class="icon icon--file" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M21 11.5 12.5 20a5 5 0 0 1-7-7L14 4.5a3.3 3.3 0 0 1 4.7 4.7L10.2 17.7a1.7 1.7 0 0 1-2.4-2.4L15.5 7.6"/></svg>
+              <span class="visually-hidden">첨부 있음</span>
+            </td>
+            <td class="col-views">86</td>
+          </tr>
+          <tr>
+            <td class="col-num">216</td>
+            <td class="col-cat">입찰</td>
+            <th scope="row" class="col-title"><a href="/notice/board/view/2398">○○근린공원 산책로 정비공사 입찰 공고(전자입찰)</a></th>
+            <td class="col-dept">공원녹지과</td>
+            <td class="col-date"><time datetime="2026-10-13">2026.10.13.</time></td>
+            <td class="col-file">
+              <svg class="icon icon--file" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M21 11.5 12.5 20a5 5 0 0 1-7-7L14 4.5a3.3 3.3 0 0 1 4.7 4.7L10.2 17.7a1.7 1.7 0 0 1-2.4-2.4L15.5 7.6"/></svg>
+              <span class="visually-hidden">첨부 있음</span>
+            </td>
+            <td class="col-views">203</td>
+          </tr>
+          <tr>
+            <td class="col-num">215</td>
+            <td class="col-cat">일반</td>
+            <th scope="row" class="col-title"><a href="/notice/board/view/2395">가을철 산불 예방 강조 기간 운영 안내</a></th>
+            <td class="col-dept">안전총괄과</td>
+            <td class="col-date"><time datetime="2026-10-10">2026.10.10.</time></td>
+            <td class="col-file"><span class="no-file" aria-hidden="true">-</span><span class="visually-hidden">첨부 없음</span></td>
+            <td class="col-views">341</td>
+          </tr>
+          <tr>
+            <td class="col-num">214</td>
+            <td class="col-cat">일반</td>
+            <th scope="row" class="col-title"><a href="/notice/board/view/2391">2026년 정기분 주민세(사업소분) 납부 안내</a></th>
+            <td class="col-dept">세무1과</td>
+            <td class="col-date"><time datetime="2026-10-08">2026.10.08.</time></td>
+            <td class="col-file">
+              <svg class="icon icon--file" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M21 11.5 12.5 20a5 5 0 0 1-7-7L14 4.5a3.3 3.3 0 0 1 4.7 4.7L10.2 17.7a1.7 1.7 0 0 1-2.4-2.4L15.5 7.6"/></svg>
+              <span class="visually-hidden">첨부 있음</span>
+            </td>
+            <td class="col-views">1,027</td>
+          </tr>
+          <tr>
+            <td class="col-num">213</td>
+            <td class="col-cat">채용</td>
+            <th scope="row" class="col-title"><a href="/notice/board/view/2387">구립 도서관 시간선택제 임기제 공무원 채용 시험 최종 합격자 발표</a></th>
+            <td class="col-dept">교육지원과</td>
+            <td class="col-date"><time datetime="2026-10-06">2026.10.06.</time></td>
+            <td class="col-file"><span class="no-file" aria-hidden="true">-</span><span class="visually-hidden">첨부 없음</span></td>
+            <td class="col-views">612</td>
+          </tr>
+          <tr>
+            <td class="col-num">212</td>
+            <td class="col-cat">입찰</td>
+            <th scope="row" class="col-title"><a href="/notice/board/view/2384">2027년 구청사 청소 용역 협상에 의한 계약 제안서 평가 결과 공개</a></th>
+            <td class="col-dept">재무과</td>
+            <td class="col-date"><time datetime="2026-10-02">2026.10.02.</time></td>
+            <td class="col-file">
+              <svg class="icon icon--file" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M21 11.5 12.5 20a5 5 0 0 1-7-7L14 4.5a3.3 3.3 0 0 1 4.7 4.7L10.2 17.7a1.7 1.7 0 0 1-2.4-2.4L15.5 7.6"/></svg>
+              <span class="visually-hidden">첨부 있음</span>
+            </td>
+            <td class="col-views">158</td>
+          </tr>
+          <tr>
+            <td class="col-num">211</td>
+            <td class="col-cat">일반</td>
+            <th scope="row" class="col-title"><a href="/notice/board/view/2380">추석 연휴 쓰레기 배출 일정 및 생활폐기물 수거 안내</a></th>
+            <td class="col-dept">청소행정과</td>
+            <td class="col-date"><time datetime="2026-09-24">2026.09.24.</time></td>
+            <td class="col-file"><span class="no-file" aria-hidden="true">-</span><span class="visually-hidden">첨부 없음</span></td>
+            <td class="col-views">2,304</td>
+          </tr>
+          <tr>
+            <td class="col-num">210</td>
+            <td class="col-cat">일반</td>
+            <th scope="row" class="col-title"><a href="/notice/board/view/2376">제31회 구민의 날 기념 행사 교통 통제 안내</a></th>
+            <td class="col-dept">문화체육과</td>
+            <td class="col-date"><time datetime="2026-09-22">2026.09.22.</time></td>
+            <td class="col-file">
+              <svg class="icon icon--file" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M21 11.5 12.5 20a5 5 0 0 1-7-7L14 4.5a3.3 3.3 0 0 1 4.7 4.7L10.2 17.7a1.7 1.7 0 0 1-2.4-2.4L15.5 7.6"/></svg>
+              <span class="visually-hidden">첨부 있음</span>
+            </td>
+            <td class="col-views">877</td>
+          </tr>
+          <tr>
+            <td class="col-num">209</td>
+            <td class="col-cat">채용</td>
+            <th scope="row" class="col-title"><a href="/notice/board/view/2371">2026년 하반기 청년 인턴(행정 분야) 모집 공고</a></th>
+            <td class="col-dept">일자리정책과</td>
+            <td class="col-date"><time datetime="2026-09-19">2026.09.19.</time></td>
+            <td class="col-file">
+              <svg class="icon icon--file" aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M21 11.5 12.5 20a5 5 0 0 1-7-7L14 4.5a3.3 3.3 0 0 1 4.7 4.7L10.2 17.7a1.7 1.7 0 0 1-2.4-2.4L15.5 7.6"/></svg>
+              <span class="visually-hidden">첨부 있음</span>
+            </td>
+            <td class="col-views">1,945</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- 페이지네이션: 각 항목은 ?page=N 링크(분류·검색 조건 유지). 현재 페이지는 aria-current="page" 이며 링크가 아닌 강조 표시.
+         페이지 묶음은 5개 단위(1~5). 이전/다음은 한 페이지씩, 처음/마지막은 1·24페이지로 이동. -->
+    <nav class="pagination" aria-label="공지사항 목록 페이지">
+      <ul>
+        <li><a class="pagination__step" href="/notice/board/?category=all&amp;page=1">처음<span class="visually-hidden"> 페이지</span></a></li>
+        <li><a class="pagination__step" href="/notice/board/?category=all&amp;page=2" rel="prev">이전<span class="visually-hidden"> 페이지</span></a></li>
+        <li><a class="pagination__page" href="/notice/board/?category=all&amp;page=1">1<span class="visually-hidden">페이지</span></a></li>
+        <li><a class="pagination__page" href="/notice/board/?category=all&amp;page=2">2<span class="visually-hidden">페이지</span></a></li>
+        <li><a class="pagination__page" href="/notice/board/?category=all&amp;page=3" aria-current="page">3<span class="visually-hidden">페이지, 현재 페이지</span></a></li>
+        <li><a class="pagination__page" href="/notice/board/?category=all&amp;page=4">4<span class="visually-hidden">페이지</span></a></li>
+        <li><a class="pagination__page" href="/notice/board/?category=all&amp;page=5">5<span class="visually-hidden">페이지</span></a></li>
+        <li class="pagination__gap" aria-hidden="true">…</li>
+        <li><a class="pagination__page" href="/notice/board/?category=all&amp;page=24">24<span class="visually-hidden">페이지</span></a></li>
+        <li><a class="pagination__step" href="/notice/board/?category=all&amp;page=4" rel="next">다음<span class="visually-hidden"> 페이지</span></a></li>
+        <li><a class="pagination__step" href="/notice/board/?category=all&amp;page=24">마지막<span class="visually-hidden"> 페이지</span></a></li>
+      </ul>
+    </nav>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>○○구청 · 대표전화 <a href="tel:02-000-0000">02-000-0000</a></p>
+    </div>
+  </footer>
+</body>
+</html>

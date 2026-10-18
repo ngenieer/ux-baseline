@@ -1,0 +1,64 @@
+id: TYPO-004
+category: TYPO
+title: 본문 행간 150% 이상
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 본문 텍스트의 행간(line-height)을 글자 크기의 1.5배 이상으로 한다.
+measurement:
+  criteria: '본문 텍스트 요소의 계산값 line-height(px) ÷ font-size(px) ≥ 1.5. line-height: normal 은 실패로 본다.'
+  method: 계산 스타일 수집 스크립트로 main 안 문단·목록 요소의 비율을 계산한다. 소스 단계에서는 stylelint 커스텀으로 본문 셀렉터의 line-height 값이 1.5(또는 150%)
+    미만인지 검사.
+automation:
+  feasibility: none
+  note: '기존 규칙 없음. 4단계: line-height 토큰 값 검사 + 계산 스타일 검사(커스텀).'
+rationale: 줄 간격이 좁으면 시각적 피로가 늘고 저시력·난독증 사용자의 읽기가 어려워진다(KRDS). WCAG 1.4.8(AAA)도 문단 안 줄 간격을 1.5 이상으로 요구한다.
+sources:
+- ref: KRDS
+  locator: 디자인 스타일 > 타이포그래피 > 줄 간격 (가이드라인 PDF 2025.08 105·124쪽)
+  note: https://www.krds.go.kr/html/site/style/style_03.html
+- ref: WCAG22_UNDERSTANDING
+  locator: SC 1.4.8 Visual Presentation; C21
+  note: '문단 안 줄 간격 1.5 이상(AAA, 사용자 수단으로도 충족 가능) — 같은 요구: 본문 행간(line-height)을 단위 없는 값 1.5 이상으로 지정한다.'
+- ref: KRDS
+  locator: 스타일 가이드 > 타이포그래피 > 줄 간격 (가이드라인 PDF 2025.08 105쪽)
+  note: '최소 150% 이상, px 아닌 em·% 등 상대 단위 — 같은 요구: 본문 행간(line-height)을 단위 없는 값 1.5 이상으로 지정한다.'
+- ref: KLREQ
+  locator: 7.4.1 Line Spacing
+  note: 줄 간격 표현 4방식(비율·고정값·여백·최소값)만 기술. 160%는 예시이고 권장값 없음 — 이 룰 수치의 근거 아님(참고).
+- ref: SHIN_PARK_2003
+  locator: 결과 — 줄 간격
+  note: 50%/100%/200% 중 100%(1줄 간격)가 가장 빠르고 선호도 최고. 기준 크기 미정의라 line-height로 환산 불가 — 이 룰 수치의 근거 아님(참고).
+scope:
+  level: global
+  targets:
+  - main p
+  - main li
+  - main dd
+exceptions: []
+relations:
+- type: conflicts
+  id: TYPO-002
+  note: 양립. TYPO-004는 기본값, TYPO-002는 사용자가 값을 바꿨을 때의 손실 금지다. 둘 다 적용한다.
+  decision: CF-018
+examples:
+  good:
+  - lang: css
+    code: main p{font-size:1.0625rem;line-height:1.5}
+    note: 행간이 글자 크기의 1.5배다
+  bad:
+  - lang: css
+    code: main p{font-size:1.0625rem;line-height:1.2}
+    note: 행간이 1.2배로 1.5배 미만이다
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(KRDS https://www.krds.go.kr/html/site/style/style_03.html HTML을 curl로 받아 본문
+  확인): ''줄 간격(line-height)은 … 최소 150% 이상으로 설정'' 및 사용 가이드 ''150% 이상으로 설정한다'' 확인. WCAG Understanding 1.4.8 ''Line
+  spacing (leading) is at least space-and-a-half within paragraphs'', 기법 C21 확인(AAA라 SHOULD). KLREQ 7.4.1은 줄 간격
+  표현 4방식만 기술하고 160%는 그림 예시 — 이 수치의 근거 아님. SHIN_PARK_2003은 기준 크기 미정의로 환산 불가 — 근거 아님. JUNG_1997_THESIS(verified:false,
+  초록만)는 150% 지지하나 미검증. 수치 근거는 KRDS·WCAG 1.4.8로 충분. 2026-10-18 확정 시 미검증 출처 JUNG_1997_THESIS 제외(수치 근거는 KRDS·WCAG 1.4.8).'
+korean_specific: false
+tags:
+- krds
+- public-sector-must

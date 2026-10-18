@@ -1,0 +1,82 @@
+id: A11Y-022
+category: A11Y
+title: 페이지 기본 언어
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: MUST
+statement: 각 페이지의 기본 언어를 html 요소의 lang 속성에 유효한 BCP 47 언어 태그로 지정한다(한국어 페이지는 lang="ko").
+measurement:
+  criteria: <html>에 비어 있지 않은 lang 속성이 있고, 값이 유효한 BCP 47 태그이며, 페이지 본문의 주 언어와 같다(한국어 페이지는 ko 또는 ko-KR). xml:lang이
+    있으면 lang과 같다.
+  method: axe-core 실행 후, lang 값이 본문 주 언어와 같은지 수동 확인한다.
+automation:
+  feasibility: partial
+  checks:
+  - tool: axe-core
+    rule: html-has-lang
+    method: axe-core 실행 결과 위반 0건
+  - tool: axe-core
+    rule: html-lang-valid
+    method: axe-core 실행 결과 위반 0건
+  - tool: axe-core
+    rule: html-xml-lang-mismatch
+    method: axe-core 실행 결과 위반 0건
+  note: 'axe-core는 존재·형식만 판정한다. 값이 본문 언어와 맞는지(예: 한국어 페이지에 lang="en")는 수동 또는 4단계 커스텀 검사(본문 문자 분포로 추정).'
+rationale: 스크린 리더 발음 규칙, 브라우저의 언어별 줄바꿈·글꼴 선택(CSS Text·Fonts의 content language), 자막 표시가 lang에 따라 정해진다.
+sources:
+- ref: WCAG22
+  locator: SC 3.1.1 Language of Page (Level A)
+  note: https://www.w3.org/TR/WCAG22/#language-of-page
+- ref: WCAG22_UNDERSTANDING
+  locator: https://www.w3.org/WAI/WCAG22/Understanding/language-of-page.html
+- ref: KWCAG22
+  locator: 검사항목 7.1.1
+- ref: CSS_TEXT_3
+  locator: 1.3 Languages and Typesetting
+  note: '언어별 조판 맞춤은 content language가 선언된 경우에만 적용 — 같은 요구: 한국어 페이지의 html 요소에 lang="ko"(유효한 BCP 47 태그)를 지정해 언어별 줄바꿈·양쪽
+    맞춤·글꼴 선택과 스크린 리더 발음 규칙이 적용되게 한다.'
+- ref: CSS_FONTS_4
+  locator: 2.1.5 Generic font families; 6.2 (OpenType language system)
+  note: 'generic family는 content language에 따라 다른 글꼴로 합성될 수 있음, OpenType 언어 시스템을 content language에서 추론해야 함(required)
+    — 같은 요구: 한국어 페이지의 html 요소에 lang="ko"(유효한 BCP 47 태그)를 지정해 언어별 줄바꿈·양쪽 맞춤·글꼴 선택과 스크린 리더 발음 규칙이 적용되게 한다.'
+- ref: WCAG22_UNDERSTANDING
+  locator: SC 3.1.1 Intent
+  note: '스크린 리더 발음 규칙, 브라우저의 문자 표시, 자막 표시 — 같은 요구: 한국어 페이지의 html 요소에 lang="ko"(유효한 BCP 47 태그)를 지정해 언어별 줄바꿈·양쪽 맞춤·글꼴
+    선택과 스크린 리더 발음 규칙이 적용되게 한다.'
+- ref: MDN_LANG
+  locator: Values, Inheritance
+  note: 'lang=""이면 unknown, 상속됨 — 같은 요구: 한국어 페이지의 html 요소에 lang="ko"(유효한 BCP 47 태그)를 지정해 언어별 줄바꿈·양쪽 맞춤·글꼴 선택과 스크린
+    리더 발음 규칙이 적용되게 한다.'
+scope:
+  level: global
+  targets:
+  - html
+exceptions: []
+relations: []
+examples:
+  good:
+  - lang: html
+    code: '<html lang="ko">
+
+      '
+    note: 한국어 페이지에 lang="ko" 지정
+  bad:
+  - lang: html
+    code: '<html>
+
+      <html lang="">
+
+      '
+    note: lang 속성이 없거나 비어 있음
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(sources/extracts/WCAG22-A-AA.yaml): statement·수치가 SC 원문과 일치함을 확인. KWCAG 2.2
+  대응 항목 번호는 비공식 HTML 판 기준 매핑 — 공식 원문 대조 전(registry KWCAG22 verified=false). 룰의 요구·수치는 WCAG 원문만으로 성립. CSS_TEXT_3·CSS_FONTS_4·MDN_LANG
+  출처는 1단계 메모 기준(이번에 다시 열지 않음) — 한국어 조판·글꼴 근거로 보조 인용.'
+korean_specific: true
+tags:
+- wcag22
+- level-a
+- new-in-2.0
+- kwcag22

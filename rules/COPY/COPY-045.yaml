@@ -1,0 +1,63 @@
+id: COPY-045
+category: COPY
+title: 맥락적 도움말 사용 조건
+stage: platformed
+status:
+  value: confirmed
+type: guide
+strength: SHOULD
+statement: 아이콘 단독 컨트롤의 레이블을 보여줄 때는 맥락적 도움말 대신 툴팁을 쓰고, 작업 완료에 반드시 필요한 정보는 맥락적 도움말 팝오버에 숨기지 않고 인라인 도움말이나 도움 패널로 제공한다.
+measurement:
+  criteria: '점검 질문: (1) 맥락적 도움말 팝오버가 아이콘 버튼의 이름(레이블)만 담고 있지 않은가(그렇다면 툴팁 대상)? (2) 팝오버 안에만 있는 정보 중 작업 완료에 필수인 정보가
+    없는가(필수 정보 판정은 COPY-009 절차)?'
+  method: 맥락적 도움말 팝오버 내용을 모두 뽑아 점검 질문으로 분류한다.
+automation:
+  feasibility: none
+  checks: []
+  note: 콘텐츠 성격 판단은 사람이 한다.
+rationale: 사용자가 맥락적 도움말을 발견하지 못할 수 있으므로 필수 정보를 그 안에 숨기면 안 되고, 레이블 표시는 더 가벼운 툴팁이 맞다(KRDS 맥락적 도움말).
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 맥락적 도움말 > 용례 (가이드라인 PDF 2025.08 620쪽)
+  note: https://www.krds.go.kr/html/site/component/component_08_03.html
+scope:
+  level: component
+  targets:
+  - 맥락적 도움말
+exceptions: []
+relations:
+- type: refines
+  id: COPY-009
+  note: COPY-009(필수 정보는 숨김 수단에만 두지 않음)를 맥락적 도움말에 구체화하고, 아이콘 레이블은 툴팁으로 보내는 조건을 더함
+- type: depends
+  id: A11Y-054
+  note: 아이콘 단독 버튼에는 툴팁(A11Y-054)
+examples:
+  good:
+  - lang: html
+    code: '<button type="button" aria-describedby="tip-print"><svg aria-hidden="true">…</svg><span class="sr-only">인쇄</span></button><div
+      role="tooltip" id="tip-print">인쇄</div>
+
+      '
+    note: 아이콘 버튼 이름은 툴팁으로 보여준다
+  bad:
+  - lang: html
+    code: '<label for="docs">제출 서류</label>
+
+      <button type="button" aria-expanded="false" aria-controls="docs-help">제출 서류 도움말</button>
+
+      <div id="docs-help" class="popover" hidden>주민등록등본 1부(3개월 이내 발급)를 반드시 제출해야 합니다.</div>
+
+      <input type="file" id="docs">
+
+      '
+    note: 필수 제출 서류 정보를 닫힌 팝오버 안에만 둔다
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(curl로 KRDS 페이지 HTML을 받아 텍스트로 직접 읽음): 맥락적 도움말(component_08_03) 용례 ''텍스트 레이블
+  없는 아이콘 단독 컨트롤 요소에 레이블을 표시하고자 하는 경우에는 툴팁을 사용하는 것이 적절하다'', ''사용자가 반드시 확인해야 하는 중요한 정보를 도움말 팝오버에 숨겨서는 안 된다. 중요한 정보를
+  전달하는 데는 인라인 도움말이나 도움 패널이 적합하다'' 확인. 둘째 요구는 ''숨겨서는 안 된다''라 SHOULD로 둠(첫째 요구는 ''적절하다'' 수준). 필수 정보 요구는 COPY-009와 일부
+  겹침 — 병합하지 않고 depends로 연결(정책 1).'
+korean_specific: false
+tags:
+- krds
+- krds-component

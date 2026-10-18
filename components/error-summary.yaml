@@ -1,0 +1,96 @@
+id: error-summary
+title: 오류 요약
+status: confirmed
+summary: 폼을 제출했는데 검증 오류가 1개 이상일 때 본문 제목 바로 아래에 오류 목록을 보여 주고, 각 항목에서 해당 입력 필드로 이동하게 한다.
+use_instead:
+- when: 모달 안 폼이거나 입력 필드가 1개인 폼
+  use: 오류 요약 없이 첫 오류 필드로 초점 이동
+  rule: FORM-015
+anatomy:
+- part: 루트
+  class: error-summary
+  element: section
+  required: true
+  note: 본문 제목(h1) 바로 다음, 본문의 첫 요소로 둔다(FORM-077, CF-008·041). 제목으로 이름을 주어 region 으로 만들고, 스크립트로 초점을 옮길 수 있게 tabindex="-1"
+    을 준다.
+- part: 제목
+  class: error-summary__title
+  element: h2
+  required: true
+  note: 오류가 있다는 사실과 할 일을 한 문장으로 쓴다(COPY-005).
+- part: 오류 목록
+  class: error-summary__list
+  element: ul
+  required: true
+  note: 항목마다 해당 입력 필드 id 로 가는 링크. 문구는 필드 옆 오류 메시지와 같은 문장으로 쓴다(COPY-053).
+markup: |-
+  <section class="error-summary" aria-labelledby="error-summary-title" tabindex="-1">
+    <h2 class="error-summary__title" id="error-summary-title">입력 내용을 확인해 주세요</h2>
+    <ul class="error-summary__list">
+      <li><a class="error-summary__link" href="#applicant-name">이름을 입력해 주세요.</a></li>
+      <li><a class="error-summary__link" href="#applicant-phone">휴대전화 번호를 010-1234-5678 형식으로 입력해 주세요.</a></li>
+    </ul>
+  </section>
+css: |-
+  .error-summary {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-gap-3);
+    padding: var(--space-padding-6);
+    border: var(--space-scale-1) solid var(--color-border-danger);
+    border-inline-start-width: var(--space-scale-3);
+    border-radius: var(--radius-medium3);
+    background-color: var(--color-surface-danger-subtler);
+  }
+  .error-summary:focus-visible,
+  .error-summary:focus {
+    outline: var(--space-scale-2) solid var(--color-border-primary);
+    outline-offset: var(--space-scale-1);
+  }
+  .error-summary__title {
+    margin: 0;
+    color: var(--color-text-basic);
+    font-size: var(--font-size-heading-xsmall);
+    font-weight: var(--font-weight-bold);
+  }
+  .error-summary__list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-gap-2);
+    margin: 0;
+    padding-inline-start: var(--space-padding-6);
+  }
+  .error-summary__link {
+    color: var(--color-text-danger);
+    text-decoration-line: underline;
+  }
+  .error-summary__link:focus-visible {
+    outline: var(--space-scale-2) solid var(--color-border-primary);
+    outline-offset: var(--space-scale-1);
+  }
+states:
+- name: 표시
+  markup_change: '제출 검증에 실패하면 서버가 다시 그린 페이지(또는 스크립트)가 이 요소를 본문 제목 바로 다음에 넣고, <title> 맨 앞에 ''오류: '' 를 붙인다(FORM-079).'
+  rule: FORM-077
+keyboard:
+- key: Tab
+  action: 오류 요약 안의 링크를 차례로 지난다. 초점 표시가 보인다(A11Y-016).
+- key: Enter
+  action: 링크가 가리키는 입력 필드로 초점을 옮긴다(href="#필드 id" — 입력 필드 id 로 가면 브라우저가 초점을 옮긴다).
+behavior:
+- 오류 요약을 표시한 직후 키보드 초점을 오류 요약(tabindex="-1")으로 옮긴다(FORM-077). KRDS 를 적용하는 공공 프로젝트는 오류 요약은 표시하되 초점은 첫 번째 오류 필드로 옮긴다(CF-007,
+  FORM-015).
+- 초점을 받은 오류 요약과 링크로 이동한 입력 필드에서 outline 을 없애지 않는다 — 프로그램으로 옮긴 초점도 눈에 보여야 사용자가 위치를 안다(A11Y-016).
+- role="alert" 를 함께 쓰지 않는다 — 초점 이동으로 이미 읽히므로 두 번 읽힌다.
+- 각 입력 필드 옆에도 같은 문장의 오류 메시지를 aria-describedby 로 연결해 둔다(FORM-003, COPY-053, components/text-field).
+rules:
+- A11Y-016
+- COPY-005
+- COPY-053
+- FORM-003
+- FORM-015
+- FORM-077
+- FORM-079
+notes:
+- div 에 aria-labelledby 를 주면 역할이 없어 이름이 무시된다(html-validate aria-label-misuse). 이름이 필요하면 section 처럼 이름을 받을 수 있는 요소를
+  쓴다.

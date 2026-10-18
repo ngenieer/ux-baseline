@@ -1,0 +1,51 @@
+id: TYPO-029
+category: TYPO
+title: 자간 단위 em
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: MAY
+statement: letter-spacing을 0이 아닌 값으로 지정할 때는 em 단위로 지정한다.
+measurement:
+  criteria: 스타일시트의 letter-spacing 선언 중 normal·0이 아닌 값의 단위가 모두 em.
+  method: stylelint declaration-property-unit-allowed-list.
+automation:
+  feasibility: full
+  checks:
+  - tool: stylelint
+    rule: declaration-property-unit-allowed-list
+    method: '{ "letter-spacing": ["em"] }'
+  note: ''
+rationale: em으로 지정하면 글자 크기가 바뀌어도 자간 비율이 유지된다. TYPO-005(행간 상대 단위)와 같은 원리를 자간에 적용한 체계 선택이다.
+sources:
+- ref: CSS_TEXT_3
+  locator: 7.2 letter-spacing
+  note: length 값 허용(단위 지정 없음)
+- ref: UXB_SYSTEM_CHOICE
+  locator: CF-052
+  note: em 단위 강제는 체계 선호. 표준·연구 근거 없음.
+scope:
+  level: global
+  targets:
+  - letter-spacing 선언 전체
+exceptions: []
+relations: []
+examples:
+  good:
+  - lang: css
+    code: .display{letter-spacing:0.025em}
+    note: 0이 아닌 자간을 em으로 지정해 글자 크기에 비례한다
+  bad:
+  - lang: css
+    code: .display{letter-spacing:1px}
+    note: px 자간은 글자 크기가 바뀌어도 그대로다
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(CSS Text 3 §7.2 HTML): letter-spacing 값은 normal | <length>(단위 지정 없음) 확인 — em을
+  요구하는 근거 아님. 근거 없는 체계 선호 → PREFERENCE 추가, MAY. KRDS 표는 Display·Heading 자간을 1px로 표기 — 토큰 변환 시 1px÷글자 크기 em으로 환산
+  필요(예: 40px 제목은 0.025em). 2026-10-18 CF-052로 체계 선택을 기록하고 PREFERENCE를 UXB_SYSTEM_CHOICE로 바꿈.'
+korean_specific: false
+tags:
+- research-typo
+decisions:
+- CF-052

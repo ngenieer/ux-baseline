@@ -1,0 +1,49 @@
+id: LAYOUT-039
+category: LAYOUT
+title: 캐러셀
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 캐러셀 슬라이드는 5개 이하로 두고, 항목이 더 많으면 캐러셀 대신 목록을 쓴다.
+measurement:
+  criteria: 캐러셀 하나의 슬라이드(항목) 수 ≤ 5.
+  method: 캐러셀 데이터·DOM의 슬라이드 수를 센다.
+automation:
+  feasibility: full
+  checks:
+  - tool: custom
+    method: 캐러셀 컴포넌트별 슬라이드 요소 수 ≤ 5 DOM 카운트
+  note: 캐러셀 컴포넌트 규격화 후(4단계).
+rationale: 슬라이드가 많으면 인지 부하가 커지고, 사용자는 대개 3~4개만 보고 탐색을 멈춘다(KRDS).
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 캐러셀 > 사용성 가이드라인 (가이드라인 PDF 2025.08 430·431쪽)
+  note: https://www.krds.go.kr/html/site/component/component_04_09.html
+scope:
+  level: component
+  targets:
+  - 캐러셀
+exceptions: []
+relations: []
+examples:
+  good:
+  - lang: html
+    code: "<section class=\"carousel\" aria-label=\"주요 소식\">\n  <ul class=\"slides\"><li>소식 1</li><li>소식 2</li><li>소식\
+      \ 3</li><li>소식 4</li></ul>\n</section>\n"
+    note: 슬라이드가 5개 이하다.
+  bad:
+  - lang: html
+    code: "<section class=\"carousel\" aria-label=\"주요 소식\">\n  <ul class=\"slides\"><li>소식 1</li><li>소식 2</li><li>소식\
+      \ 3</li><li>소식 4</li><li>소식 5</li><li>소식 6</li><li>소식 7</li></ul>\n</section>\n"
+    note: 슬라이드 7개를 캐러셀에 넣었다(목록으로 바꿔야 함).
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(curl로 KRDS 페이지 HTML을 받아 본문 텍스트를 직접 확인): 캐러셀(component_04_09) ''슬라이드 수를 5개 이내로
+  사용한다.'', ''항목 수가 많은 경우에는 캐러셀 대신 목록을 사용해야 한다.'' 확인. ''해야 한다'' → SHOULD + public-sector-must. ''3~4개 확인 후 중단'' 근거
+  연구는 원문에 인용 없음.'
+korean_specific: false
+tags:
+- krds
+- krds-component
+- public-sector-must

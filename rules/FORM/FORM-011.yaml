@@ -1,0 +1,67 @@
+id: FORM-011
+category: FORM
+title: 모달 입력 개수 제한
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 모달 안에서 데이터를 입력받을 때는 입력 컴포넌트를 5개 이하로 두고, 모달 안에 탭·아코디언·다단계 절차를 넣지 않는다.
+measurement:
+  criteria: '입력 컴포넌트가 1개 이상 있는 dialog 요소 또는 role=dialog·alertdialog 안에서 (1) 입력 컴포넌트 수가 5 이하이고(셈 단위: input(type=hidden·submit·button·reset
+    제외)·select·textarea 각 1개, 같은 name의 라디오 그룹 1개, fieldset 하나로 묶인 체크박스 그룹 1개), (2) role=tablist, 아코디언(aria-expanded를
+    가진 펼침 버튼 묶음), 단계 표시기(다단계 절차)가 없다.'
+  method: 모달을 연 상태에서 DOM을 세거나 브라우저 콘솔 스크립트로 센다.
+automation:
+  feasibility: full
+  checks:
+  - tool: custom
+    method: 열린 [role=dialog], dialog[open] 중 입력 컴포넌트가 1개 이상 있는 것만 대상으로, 입력 컴포넌트를 위 셈 단위로 세어 5 초과면 실패하고 role=tablist·aria-expanded
+      펼침 버튼 묶음·단계 표시기가 있으면 실패 (Playwright/DOM 스크립트)
+  note: 셈 단위는 이 체계가 정한 해석(원문 '입력 관련 컴포넌트의 수')
+rationale: 모달은 현재 화면 위에서 짧은 과업에 집중하게 하는 용도라, 입력이 많아지면 맥락을 잃고 실수가 늘어난다.
+sources:
+- ref: KRDS
+  locator: 기본 패턴 > 입력폼 > 유형(모달을 활용한 데이터 입력) (가이드라인 PDF 2025.08 834쪽)
+  note: https://www.krds.go.kr/html/site/global/global_08.html — '모달에서 데이터를 입력받는 경우 콘텐츠의 수, 즉 입력 관련 컴포넌트의 수를 5개
+    이내로 구성하는 것이 바람직하다.'
+- ref: KRDS
+  locator: 컴포넌트 > 모달 > 사용성 가이드라인 (가이드라인 PDF 2025.08 395쪽)
+  note: https://www.krds.go.kr/html/site/component/component_04_05.html — '모달 내부에 액션 버튼 외에 상호작용이 필요한 다른 컴포넌트를 사용하는
+    것을 피해야 한다. 탭, 아코디언, 입력폼 같은 컴포넌트가 ...' — 입력폼 패턴 페이지와 상충(BACKLOG). 같은 페이지 구조 설명은 '본문에 입력폼을 제공하는 경우'를 허용.
+scope:
+  level: situation
+  targets:
+  - dialog
+  - '[role=dialog]'
+  - 모달 입력폼
+exceptions: []
+relations:
+- type: depends
+  id: STATE-013
+  note: 다단계 프로세스·복잡한 플로는 모달 밖에서 진행 — 입력이 5개를 넘으면 개별 화면으로 옮기는 근거
+examples:
+  good:
+  - lang: html
+    code: "<dialog open aria-labelledby=\"dlg-title\">\n  <h2 id=\"dlg-title\">연락처 변경</h2>\n  <form method=\"dialog\"\
+      >\n    <label for=\"d-tel\">휴대 전화번호</label><input id=\"d-tel\" type=\"tel\" autocomplete=\"tel\">\n    <label\
+      \ for=\"d-email\">이메일</label><input id=\"d-email\" type=\"email\" autocomplete=\"email\">\n    <button value=\"\
+      cancel\">취소</button><button value=\"save\">변경하기</button>\n  </form>\n</dialog>\n"
+    note: 모달 안 입력 컴포넌트가 2개로 5개 이하다.
+  bad:
+  - lang: html
+    code: "<dialog open aria-labelledby=\"dlg-title\">\n  <h2 id=\"dlg-title\">회원 정보 변경</h2>\n  <!-- 이름·생년월일·우편번호·주소·휴대\
+      \ 전화번호·이메일 입력 필드 6개를 모두 레이블과 함께 둠 -->\n</dialog>\n"
+    note: 모달 안 입력 컴포넌트가 6개로 5개를 넘는다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(KRDS global_08·component_04_05 HTML curl): ''5개 이내로 구성하는 것이 바람직하다'' 확인 → MAY.
+  모달 컴포넌트 페이지는 모달 안 입력폼 자체를 ''피해야 한다''고 써 KRDS 내부에서 상충(BACKLOG ''FORM-011 vs KRDS 모달''). 3단계 결정 전까지 상한 5개만 둔다. 1단계에서
+  같은 출처로 묶였던 ''모달에서 다중 파일 업로드를 쓰지 않는다''(component_09_04)는 다른 요구라 제안 파일 notes로 분리. 2026-10-18 측정 기준을 3단계 결정(statement
+  변경)에 맞춰 고침. 2026-10-18 독립 검토: 모달 페이지 ''피해야 한다''(SHOULD) 기준으로 강도 MAY → SHOULD, public-sector-must 추가. 입력 5개 상한은
+  입력폼 패턴 ''바람직하다''(MAY)보다 엄격한 체계 선택(CF-028).'
+korean_specific: false
+tags:
+- krds
+- public-sector-must
+decisions:
+- CF-028

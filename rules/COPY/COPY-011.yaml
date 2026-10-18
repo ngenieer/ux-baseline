@@ -1,0 +1,63 @@
+id: COPY-011
+category: COPY
+title: 툴팁 분량
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 툴팁에는 한 문장(공백 포함 150자) 이하의 보조 정보만 넣고, 그보다 긴 설명은 맥락적 도움말·도움 패널·별도 도움말 페이지로 제공한다.
+measurement:
+  criteria: 툴팁([role=tooltip]) 텍스트가 (1) 문장 종결 부호(. ? !) 1개 이하, (2) 공백 포함 150자 이하이고, (3) 줄바꿈 요소(br, p 2개 이상)가 없다.
+  method: 툴팁 텍스트를 모두 뽑아 문장 수와 글자 수(공백 포함)를 센다.
+automation:
+  feasibility: none
+  checks: []
+  note: '4단계 커스텀 검사: [role=tooltip] textContent의 종결 부호 수와 블록 요소 수 검사.'
+rationale: 툴팁은 호버·초점 동안만 잠깐 보이는 보조 수단이라 긴 내용을 읽기 어렵고, 터치 환경에서는 보이지 않을 수 있다(KRDS 도움 패턴·툴팁).
+sources:
+- ref: KRDS
+  locator: 기본 패턴 > 도움 > 툴팁 (가이드라인 PDF 2025.08 787쪽)
+  note: https://www.krds.go.kr/html/site/global/global_02.html
+- ref: KRDS
+  locator: 컴포넌트 (여러 페이지) (가이드라인 PDF 2025.08 649쪽)
+  note: '같은 요구를 다루는 KRDS 컴포넌트: 툴팁 — 상세는 sources/extracts/KRDS-components.yaml'
+- ref: KRDS
+  locator: 컴포넌트 > 툴팁 > 용례 — '150자 내외의 짧은 설명' (가이드라인 PDF 2025.08 649쪽)
+  note: https://www.krds.go.kr/html/site/component/component_08_05.html
+scope:
+  level: component
+  targets:
+  - '[role=tooltip]'
+  - 툴팁
+exceptions: []
+relations:
+- type: depends
+  id: COPY-009
+  note: 툴팁에는 필수 정보를 두지 않는다(COPY-009)
+examples:
+  good:
+  - lang: html
+    code: '<button type="button" aria-describedby="t1"><svg aria-hidden="true">…</svg><span class="sr-only">인쇄</span></button>
+
+      <div role="tooltip" id="t1">인쇄</div>
+
+      '
+    note: 툴팁에 한 단어 보조 정보만 넣었다
+  bad:
+  - lang: html
+    code: '<div role="tooltip" id="t2">이 서류는 3개월 이내에 발급받아야 합니다. 발급은 정부24에서 할 수 있습니다. 수수료는 무료입니다.</div>
+
+      '
+    note: 툴팁에 세 문장 설명을 넣었다 — 도움말로 옮길 내용이다
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(curl로 KRDS 페이지 HTML을 받아 텍스트로 직접 읽음): 도움 패턴(global_02) ''도움 정보가 1~2단어로 구성되어
+  있거나 한 문장으로 간결한 경우에는 툴팁을 사용한다'', 툴팁 컴포넌트(component_08_05) 용례 ''150자 내외의 짧은 설명을 제공할 때 사용하기 적합 ... 더 긴 설명은 맥락적 도움말,
+  도움 패널, 별도 도움말 페이지'' 확인. 측정 기준은 기본 패턴의 ''한 문장''만 쓰고, 컴포넌트 페이지의 ''150자 내외''를 상한으로 더할지는 BACKLOG ''COPY-011 vs KRDS
+  툴팁 컴포넌트''(3단계)에서 결정. 강도: KRDS 단정형 서술(''~한다'') → SHOULD. ''해야 한다'' 표현이 아니므로 public-sector-must 태그는 붙이지 않음. 2026-10-18
+  측정 기준을 3단계 결정(statement 변경)에 맞춰 고침.'
+korean_specific: false
+tags:
+- krds
+decisions:
+- CF-029

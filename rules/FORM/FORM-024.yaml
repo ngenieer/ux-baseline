@@ -1,0 +1,120 @@
+id: FORM-024
+category: FORM
+title: 동의 항목 구성
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 약관·개인정보 동의 목록에서는 항목마다 '동의함'과 '동의하지 않음' 선택지를 함께 두고, 항목 제목에 '필수' 또는 '선택'을 텍스트로 표시하며, 필수 항목을 목록 위쪽에 모아 선택
+  항목보다 먼저 둔다.
+measurement:
+  criteria: 동의 목록의 각 항목에 (1) '동의함'·'동의하지 않음'(또는 '동의 안 함') 라디오 2개가 있다(확인만 받는 항목은 '확인함' 체크박스 1개 허용), (2) 항목 제목 텍스트에
+    '필수' 또는 '선택'이 들어 있다, (3) DOM 순서와 화면 순서에서 모든 필수 항목이 첫 선택 항목보다 앞에 있다, (4) 응답하지 않은 채 제출된 동의 항목을 '동의함'으로 처리·저장·표시하지
+    않는다 — 선택 항목의 미응답은 '동의하지 않음'과 같게 처리하고 그렇게 표시할 수 있다(CF-067). 동의 항목에 '선택 안 함' 옵션을 따로 두지 않는다(FORM-033 대상 아님). 동의
+    판단에 필요한 정보의 표시 위치는 COPY-009(CF-069)로 판정한다.
+  method: 동의 화면의 마크업과 화면 순서를 확인하고(수동, 동의 컴포넌트 규격이 있으면 DOM 검사), 선택 항목에 응답하지 않고 제출해 저장·결과 화면 값을 확인한다.
+automation:
+  feasibility: partial
+  checks:
+  - tool: custom
+    method: 동의 목록 컴포넌트(규격화 후)에서 항목 제목의 '[필수]'·'[선택]' 표시와 필수→선택 순서를 DOM 검사
+  note: 확인 전용 항목 판별과 '동의하지 않음' 문구 의미 확인은 수동.
+rationale: 동의하지 않을 선택지가 있어야 동의가 의미 있는 선택이 되고, 필수·선택 구분과 묶음 배치가 있어야 서비스 이용에 꼭 필요한 동의만 골라 할 수 있다.
+sources:
+- ref: KRDS
+  locator: 기본 패턴 > 동의 > 사용성 가이드라인 (가이드라인 PDF 2025.08 794쪽)
+  note: 'https://www.krds.go.kr/html/site/global/global_03.html — ''동의하지 않음 옵션을 제공한다.'' / ''필수 항목과 선택 항목 정보를 제공하고
+    명확하게 구분될 수 있도록 표현한다. ... 동의 항목의 제목에 ''필수'', ''선택'' 텍스트를 표시하고 필수 항목은 동의 항목 목록의 상단에 그루핑하여 배치한다.'' 예시: [선택] 항목은
+    ''확인함'' 체크박스.'
+- ref: KR_PIPA
+  locator: 제22조 제1항·제5항
+  note: '''각각의 동의 사항을 구분하여 정보주체가 이를 명확하게 인지할 수 있도록 알리고 동의를 받아야 한다'', 선택 동의를 하지 않았다는 이유로 서비스 제공 거부 금지 — 동의는 명시적 표시로만
+    성립하므로 미응답을 ''동의함''으로 처리할 수 없다(측정 기준 (4)).'
+- ref: KR_PIPA_DECREE
+  locator: 제17조 제1항 제4호·제4항
+  note: '''동의 여부를 명확하게 표시할 수 있는 방법을 정보주체에게 제공할 것'', ''동의 여부를 선택할 수 있다는 사실을 명확하게 알 수 있도록 표시''.'
+scope:
+  level: component
+  targets:
+  - 동의 목록
+exceptions:
+- 내용을 확인했다는 사실만 받는 항목(KRDS 예시의 '확인함')은 '동의하지 않음' 선택지 없이 체크박스 1개로 둘 수 있다 — KRDS 예시 기준
+relations:
+- type: depends
+  id: FORM-025
+  note: 일괄 동의 체크박스와 개별 항목의 상태 연동
+- type: depends
+  id: LAYOUT-047
+  note: 동의함·동의하지 않음 라디오의 레이블은 양식 오른쪽(KRDS 동의 접근성 가이드라인에도 같은 문장)
+- type: conflicts
+  id: FORM-032
+  note: 동의 항목도 가나다순 — '동의하지 않음' → '동의함'(KRDS 동의 패턴 예시 화면과 같다, CF-066).
+  decision: CF-066
+- type: conflicts
+  id: FORM-033
+  note: 동의 항목은 FORM-033('선택 안 함' 옵션) 대상이 아니다. 응답하지 않은 동의 항목은 '동의하지 않음'과 같게 처리한다.
+  decision: CF-067
+- type: depends
+  id: COPY-009
+  note: 동의 항목의 수집·이용 목적, 수집 항목, 보유·이용 기간, 거부 권리·불이익은 접히지 않은 본문에 둔다(CF-069).
+examples:
+  good:
+  - lang: html
+    code: |
+      <fieldset>
+        <legend>[필수] 개인정보의 수집 및 이용</legend>
+        <label><input type="radio" name="c1" value="n" required> 동의하지 않음</label>
+        <label><input type="radio" name="c1" value="y"> 동의함</label>
+      </fieldset>
+      <fieldset>
+        <legend>[선택] 마케팅 정보 수신</legend>
+        <label><input type="radio" name="c2" value="n"> 동의하지 않음</label>
+        <label><input type="radio" name="c2" value="y"> 동의함</label>
+      </fieldset>
+      <script>
+        // 선택 항목에 응답하지 않았으면 동의하지 않은 것으로 저장한다(CF-067)
+        const marketing = form.elements.c2.value === 'y';
+      </script>
+    note: 항목마다 동의하지 않음·동의함(가나다순 = KRDS 예시 순서, CF-066)을 두고 '필수'·'선택'을 표시했으며 필수 항목이 먼저 온다. 미응답 선택 항목은 동의하지 않음으로 처리한다.
+  bad:
+  - lang: html
+    code: |
+      <fieldset>
+        <legend>[선택] 마케팅 정보 수신</legend>
+        <label><input type="radio" name="c2" value="n" required> 동의하지 않음</label>
+        <label><input type="radio" name="c2" value="y"> 동의함</label>
+      </fieldset>
+      <fieldset>
+        <legend>[필수] 개인정보의 수집 및 이용</legend>
+        <label><input type="radio" name="c1" value="n" required> 동의하지 않음</label>
+        <label><input type="radio" name="c1" value="y"> 동의함</label>
+      </fieldset>
+    note: 선택 항목이 필수 항목보다 앞에 있다.
+  - lang: html
+    code: |
+      <fieldset>
+        <legend>[선택] 마케팅 정보 수신</legend>
+        <label><input type="radio" name="c2" value="y"> 동의함</label>
+        <label><input type="radio" name="c2" value="n"> 동의하지 않음</label>
+        <label><input type="radio" name="c2" value=""> 선택 안 함</label>
+      </fieldset>
+      <script>
+        const marketing = form.elements.c2.value !== 'n'; // 미응답이 '동의함'이 된다
+      </script>
+    note: 동의 항목에 '선택 안 함'을 따로 두고, 응답하지 않은 항목을 동의한 것으로 처리한다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(KRDS global_03 HTML curl): ''제공한다'', ''구분되어야 한다'', ''표시하고 ... 배치한다'' 확인 → SHOULD
+  + public-sector-must. 1단계 메모의 법규 근거(개인정보 보호법 동의 방법)는 확인하지 못함 — 법 조문을 근거로 쓰려면 새 출처 등록 필요(제안 파일 notes). 이 룰의 statement는
+  KRDS만 근거. (2026-10-18 시험 4 검토 반영) (가) 선택 동의 항목이 FORM-033(''선택 안 함'' 옵션) 대상이 되는지, (나) 아무것도 고르지 않은 선택 항목을 ''동의하지
+  않음''으로 표시해도 되는지(미응답을 응답 값으로 기록) 판정이 갈렸다 → CF-067: 동의 항목은 FORM-033 대상이 아니고, 미응답은 ''동의하지 않음''과 같게 처리·표시할 수 있으며 ''동의함''으로
+  처리하면 실패(측정 기준 (4)). 근거: 개인정보 보호법 제22조 제1항·시행령 제17조 제1항 제4호(동의는 명확한 표시로만 성립) — 2026-10-18 국가법령정보센터 조문 원문 확인. 동의
+  판단 정보를 접힌 영역에만 두는 문제는 COPY-009 측정 기준으로 정했다(CF-069). 좋은 예의 옵션 순서를 CF-066(''동의함'' → ''동의하지 않음'')에 맞췄다 — KRDS global_03
+  예시 화면은 ''동의안함''·''동의함'' 순서다 — CF-066 재검토 후보. (2026-10-18 CF-066 정정) 좋은 예의 선택지 순서를 KRDS 동의 패턴 예시 화면과 같은 ''동의하지
+  않음'' → ''동의함''(가나다순)으로 되돌렸다.'
+korean_specific: true
+tags:
+- krds
+- public-sector-must
+decisions:
+- CF-069

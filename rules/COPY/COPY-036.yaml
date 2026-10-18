@@ -1,0 +1,23 @@
+id: COPY-036
+category: COPY
+title: 언어 변경
+stage: collected
+status:
+  value: deprecated
+  reason: 'COPY-015로 병합(같은 요구: 언어 이름을 그 언어로 표기)'
+  superseded_by: COPY-015
+statement: '언어 변경 링크 레이블은 전환될 언어의 이름을 그 언어로 쓴다(예: English, 日本語).'
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 언어 변경 > 사용성 가이드라인
+  note: https://www.krds.go.kr/html/site/component/component_10_01.html
+scope:
+  level: component
+  targets:
+  - 언어 변경
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(curl로 KRDS 페이지 HTML을 받아 텍스트로 직접 읽음): 언어 변경(component_10_01) ''링크 레이블은 전환되는 언어의 이름을 해당 언어로 작성한다'' 확인. 헤더 페이지의 같은 요구(COPY-015)와 같은 대상·같은 조건이라 번호가 작은 COPY-015를 정본으로 병합하고
+  출처를 옮겼다(정책 1). 폐기 룰의 stage는 그대로 둔다.'
+tags:
+- krds
+- krds-component

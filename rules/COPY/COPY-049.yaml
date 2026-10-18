@@ -1,0 +1,54 @@
+id: COPY-049
+category: COPY
+title: 터치 환경을 고려한 툴팁 아이콘
+stage: platformed
+status:
+  value: confirmed
+type: guide
+strength: SHOULD
+statement: 터치가 주 입력인 환경에서는 툴팁이 뜨지 않을 수 있으므로, 툴팁을 다는 아이콘 버튼에는 툴팁 없이도 메뉴·기능의 의미를 알 수 있는 아이콘을 고른다.
+measurement:
+  criteria: '점검 질문: 툴팁이 붙은 아이콘 버튼마다, 툴팁을 보지 않고 아이콘만 봤을 때 기능을 맞힐 수 있는가(공통 인지 아이콘 목록, COPY-020)?'
+  method: 터치 기기에서 툴팁 없이 아이콘만 보여 주고 기능을 맞히게 하는 점검(또는 사용성 테스트)으로 확인한다.
+automation:
+  feasibility: none
+  checks: []
+  note: 의미 인지 판단은 사람이 한다.
+rationale: 툴팁은 마우스·키보드·펜 인터페이스로만 실행되므로, 터치 사용자는 툴팁의 보조 정보를 받지 못한다(KRDS 툴팁 플랫폼 고려 사항).
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 툴팁 > 플랫폼 고려 사항 (가이드라인 PDF 2025.08 659쪽)
+  note: https://www.krds.go.kr/html/site/component/component_08_05.html
+scope:
+  level: situation
+  targets:
+  - 툴팁이 있는 아이콘 버튼
+  - 터치 환경
+exceptions: []
+relations:
+- type: depends
+  id: COPY-020
+  note: 아이콘 단독 버튼의 공통 인지 아이콘 목록(COPY-020)
+examples:
+  good:
+  - lang: html
+    code: '<button type="button" aria-describedby="t-home"><svg aria-hidden="true"><!-- 집 --></svg><span class="sr-only">처음으로</span></button><div
+      role="tooltip" id="t-home">처음으로</div>
+
+      '
+    note: 툴팁 없이도 의미를 아는 집 아이콘을 '처음으로'에 쓴다
+  bad:
+  - lang: html
+    code: '<button type="button" aria-describedby="t-x"><svg aria-hidden="true"><!-- 추상 도형 --></svg><span class="sr-only">민원
+      이력</span></button><div role="tooltip" id="t-x">민원 이력</div>
+
+      '
+    note: 의미를 짐작할 수 없는 추상 도형 아이콘에 툴팁으로만 의미를 붙였다
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(curl로 KRDS 페이지 HTML을 받아 텍스트로 직접 읽음): 툴팁(component_08_05) 플랫폼 고려 사항 ''툴팁은 마우스,
+  키보드, 펜 인터페이스로만 실행할 수 있기 때문에 ... 메뉴/기능의 의미를 명확하게 보여줄 수 있는 아이콘을 선택해야 한다'' 확인. ''선택해야 한다''이므로 SHOULD, 의미 판단이 필요해
+  type: guide. 원문의 다른 요구(터치 감지 시 활성화 버튼 Click으로 팝오버 토글)는 이 룰에 넣지 않음 — 동작 규칙이라 별도 룰 후보(제안 파일 notes).'
+korean_specific: false
+tags:
+- krds
+- krds-component

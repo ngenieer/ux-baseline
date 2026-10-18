@@ -1,0 +1,56 @@
+id: LAYOUT-042
+category: LAYOUT
+title: 탭
+stage: platformed
+status:
+  value: confirmed
+type: rule
+strength: SHOULD
+statement: 탭을 중첩하지 않고, 중첩이 불가피하면 수준별 탭 스타일을 서로 다르게 한다.
+measurement:
+  criteria: '[role=tabpanel] 안에 [role=tablist]가 있으면, 안쪽 탭의 스타일(배경·테두리·글자 크기·인디케이터 모양 중 하나 이상)이 바깥 탭과 다르다.'
+  method: 중첩 탭이 있는 화면에서 두 수준의 탭 스타일 계산값을 비교한다.
+automation:
+  feasibility: partial
+  checks:
+  - tool: custom
+    method: querySelectorAll('[role=tabpanel] [role=tablist]')로 중첩 탐지
+  note: 스타일 차이는 수동 확인.
+rationale: 탭 중첩은 숨은 콘텐츠를 여러 번 판단하게 해 인지 부담을 키우고, 같은 스타일이면 어느 수준인지 구분할 수 없다.
+sources:
+- ref: KRDS
+  locator: 컴포넌트 > 탭 > 사용성 가이드라인 (가이드라인 PDF 2025.08 452쪽)
+  note: https://www.krds.go.kr/html/site/component/component_04_10.html
+scope:
+  level: component
+  targets:
+  - '[role=tablist]'
+exceptions: []
+relations: []
+examples:
+  good:
+  - lang: css
+    code: '.tabs--line [role=tab][aria-selected=true] { border-block-end: 2px solid var(--palette-primary-60); }
+      /* 바깥 탭: 밑줄형 */
+
+      [role=tabpanel] .tabs--pill [role=tab][aria-selected=true] { background: var(--color-surface-gray-subtle);
+      border-radius: var(--radius-max); } /* 안쪽 탭: 채움형 */
+
+      '
+    note: 중첩된 안쪽 탭의 스타일이 바깥 탭과 다르다.
+  bad:
+  - lang: css
+    code: '[role=tab][aria-selected=true] { border-block-end: 2px solid var(--palette-primary-60); } /* 바깥·안쪽 탭이
+      같은 밑줄형 */
+
+      '
+    note: 중첩된 두 수준의 탭 스타일이 같아 수준을 구분할 수 없다.
+needs_verification: false
+verification_note: '2026-10-18 원문 대조(curl로 KRDS 페이지 HTML을 받아 본문 텍스트를 직접 확인): 탭(component_04_10) ''여러 개의 탭을 중첩하는
+  것은 바람직하지 않다. 그러나 불가피하게 탭을 중첩해야 하는 경우 중첩된 탭의 스타일이 시각적으로 분명하게 구분되어야 한다.'' 확인. 중첩 회피는 ''바람직하지 않다''(MAY 수준), 중첩 시
+  구분은 ''되어야 한다''(SHOULD + public-sector-must) — 더 강한 쪽을 룰 강도로 둠. 3단계에서 분리 검토.'
+korean_specific: false
+tags:
+- krds
+- krds-component
+- public-sector-must
