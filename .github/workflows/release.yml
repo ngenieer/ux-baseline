@@ -44,5 +44,5 @@ jobs:
           V=${{ steps.v.outputs.version }}
           npm pack
           awk -v v="$V" '$0 ~ "^## "v" " {f=1; next} /^## / {f=0} f' CHANGELOG.md > notes.md
-          printf '\n설치: `npm i -D github:ngenieer/ux-baseline#v%s` 또는 첨부한 .tgz (`npm i -D ./sizlon-ux-baseline-%s.tgz`). 사용법: docs/adoption.md\n' "$V" "$V" >> notes.md
-          gh release create "v$V" "sizlon-ux-baseline-$V.tgz" --target "$GITHUB_SHA" --title "v$V" --notes-file notes.md
+          printf '\n설치: `npm i -D github:ngenieer/ux-baseline#v%s` 또는 첨부한 .tgz (`npm i -D ./ux-baseline-%s.tgz`). 사용법: docs/adoption.md\n' "$V" "$V" >> notes.md
+          gh release create "v$V" "ux-baseline-$V.tgz" --target "$GITHUB_SHA" --title "v$V" --notes-file notes.md

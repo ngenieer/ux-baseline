@@ -31,7 +31,7 @@ examples:
   - lang: html
     code: '<!-- 민간 서비스: 공식 배너 없이 자체 헤더로 시작 -->
 
-      <header><a href="/">시즐론 서비스</a></header>
+      <header><a href="/">예시 서비스</a></header>
 
       '
     note: 민간 서비스가 공식 배너 없이 자체 헤더로 시작한다

@@ -1,4 +1,4 @@
-# 도입 안내 — `@sizlon/ux-baseline`
+# 도입 안내 — `ux-baseline`
 
 ux-baseline 의 확정 룰을 다른 웹프로젝트에 적용하는 방법. 사람과 AI 코딩 에이전트가 같은 검사 결과를 보고 고치는 것을 전제로 한다.
 
@@ -10,7 +10,7 @@ npx playwright-core install chromium     # 브라우저 검사용. 이미 있는
 npx ux-baseline init
 ```
 
-- CI 에서도 같은 명령으로 설치한다. 네트워크 제한으로 GitHub 에서 받지 못하면 릴리스의 `.tgz` 를 내려받아 `npm i -D ./sizlon-ux-baseline-<버전>.tgz` 로 설치한다.
+- CI 에서도 같은 명령으로 설치한다. 네트워크 제한으로 GitHub 에서 받지 못하면 릴리스의 `.tgz` 를 내려받아 `npm i -D ./ux-baseline-<버전>.tgz` 로 설치한다.
 - 버전은 태그로 고정한다(`#v0.2.1`). 올릴 때는 [CHANGELOG.md](../CHANGELOG.md) 를 먼저 본다.
 
 ## AI 에게 웹페이지를 만들게 하기
@@ -35,8 +35,8 @@ npx ux-baseline init
 | 파일 | 성격 | 내용 |
 |---|---|---|
 | `ux-baseline.config.json` | 프로젝트가 고친다 | 검사할 `html`·`css` glob, 제외할 `ignore`, 개발 서버 `urls`, 상태 재현 `states`, 토큰 위치 `cssDir`, 설치 버전 |
-| `stylelint.config.mjs` | 프로젝트가 고친다 | `extends: ["@sizlon/ux-baseline/stylelint"]` + `ignoreFiles`. 이미 있으면 건드리지 않는다 |
-| `.htmlvalidate.json` | 프로젝트가 고친다 | 플러그인 `@sizlon/ux-baseline/html-validate` + 프리셋 `ux-baseline:recommended`. 이미 있으면 건드리지 않는다 |
+| `stylelint.config.mjs` | 프로젝트가 고친다 | `extends: ["ux-baseline/stylelint"]` + `ignoreFiles`. 이미 있으면 건드리지 않는다 |
+| `.htmlvalidate.json` | 프로젝트가 고친다 | 플러그인 `ux-baseline/html-validate` + 프리셋 `ux-baseline:recommended`. 이미 있으면 건드리지 않는다 |
 | `vendor/ux-baseline/tokens.css`, `base.css` | 관리 파일 | 디자인 토큰(CSS 변수)과 기본 스타일. `update` 가 다시 쓴다 |
 | `AGENTS.md` 의 `ux-baseline` 구역 | 관리 구역 | 검사→고침 루프 지침 + MUST 룰 요약. 구역 밖의 내용은 건드리지 않는다 |
 | `CLAUDE.md` | 한 줄 추가 | `@AGENTS.md` (Claude Code 가 AGENTS.md 를 읽게) — 없으면 만들고, 있으면 줄만 더한다 |
@@ -45,7 +45,7 @@ npx ux-baseline init
 
 관리 파일·구역은 손으로 고치지 않는다. 룰이 프로젝트에 맞지 않으면 룰 저장소(ngenieer/ux-baseline)에 고칠 내용을 올린다.
 
-페이지는 `tokens.css` → `base.css` → 프로젝트 CSS 순서로 불러온다. 번들러를 쓰면 `@import "@sizlon/ux-baseline/tokens.css";` 처럼 패키지에서 바로 가져와도 된다(그때는 `cssDir` 사본을 쓰지 않아도 된다).
+페이지는 `tokens.css` → `base.css` → 프로젝트 CSS 순서로 불러온다. 번들러를 쓰면 `@import "ux-baseline/tokens.css";` 처럼 패키지에서 바로 가져와도 된다(그때는 `cssDir` 사본을 쓰지 않아도 된다).
 
 ## 3. `check`
 

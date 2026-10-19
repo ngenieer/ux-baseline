@@ -81,5 +81,5 @@ description: 웹 UI(HTML/CSS/컴포넌트)를 만들거나 고치거나 검토�
    - `references/components/tutorial-panel.md` — 따라하기 패널
 4. 룰끼리 부딪혀 보이면 룰에 적힌 결정(CF-###)을 따른다.
 5. 결과물은 자동 검사기로 확인하고 위반을 고친 뒤, 실행한 검사와 결과를 보고한다.
-   프로젝트에 `@sizlon/ux-baseline` 이 설치돼 있으면 `npx ux-baseline check` 가 모든 검사를 한 번에 돌리고
+   프로젝트에 `ux-baseline` 이 설치돼 있으면 `npx ux-baseline check` 가 모든 검사를 한 번에 돌리고
    위반을 룰 ID 와 함께 보고한다. 오류가 0이 될 때까지 고치고 다시 돌린다.

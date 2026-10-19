@@ -798,7 +798,7 @@ sources:
   - id: UXB_CHARTER
     title: ux-baseline 프로젝트 지침 (claude.ai 프로젝트 "웹프로젝트 를 위한 UI/UX")
     type: guide
-    publisher: 시즐론 (sizlon)
+    publisher: ngenieer
     url: https://github.com/ngenieer/ux-baseline/blob/main/docs/charter.md
     verified: true
     accessed: '2026-10-18'
@@ -806,7 +806,7 @@ sources:
   - id: UXB_SYSTEM_CHOICE
     title: ux-baseline 체계 선택 결정 기록 (conflicts/CF-###.yaml)
     type: preference
-    publisher: 시즐론 (sizlon)
+    publisher: ngenieer
     url: https://github.com/ngenieer/ux-baseline/tree/main/conflicts
     verified: true
     accessed: '2026-10-18'

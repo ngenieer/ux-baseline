@@ -76,7 +76,7 @@ HTML·CSS·컴포넌트를 만들거나 고칠 때 이 구역을 따른다.
 6. 검사 결과가 틀렸다고 판단되면(오탐) 검사 규칙을 끄거나 \`stylelint-disable\` 로 덮지 말고 사람에게 알린다.
 
 ### 파일
-- 페이지는 \`${cfg.cssDir}/tokens.css\` → \`${cfg.cssDir}/base.css\` → 프로젝트 CSS 순서로 불러온다. 번들러를 쓰면 \`@import "@sizlon/ux-baseline/tokens.css";\` 로 가져와도 된다.
+- 페이지는 \`${cfg.cssDir}/tokens.css\` → \`${cfg.cssDir}/base.css\` → 프로젝트 CSS 순서로 불러온다. 번들러를 쓰면 \`@import "ux-baseline/tokens.css";\` 로 가져와도 된다.
 - 카테고리별 상세 룰과 컴포넌트 규격(표준 마크업·CSS): \`${SKILL_DIR}/\` — \`SKILL.md\` 부터 읽는다.
 
 ${core.trim()}
@@ -89,7 +89,7 @@ function installManaged(cfg) {
   const cssDir = join(CWD, cfg.cssDir);
   mkdirSync(cssDir, { recursive: true });
   for (const [src, name] of [["tokens/build/tokens.css", "tokens.css"], ["tokens/base.css", "base.css"]]) {
-    const header = `/* @sizlon/ux-baseline v${VERSION} — npx ux-baseline update 가 다시 쓴다. 손으로 고치지 않는다. */\n`;
+    const header = `/* ux-baseline v${VERSION} — npx ux-baseline update 가 다시 쓴다. 손으로 고치지 않는다. */\n`;
     writeFileSync(join(cssDir, name), header + readFileSync(join(PKG_DIR, src), "utf8"));
     log(`  갱신  ${cfg.cssDir}/${name}`);
   }
@@ -114,7 +114,7 @@ function installManaged(cfg) {
 function init(args) {
   const force = args.includes("--force");
   const cssDirArg = argValue(args, "--css-dir");
-  log(`@sizlon/ux-baseline v${VERSION} 설치 → ${CWD}`);
+  log(`ux-baseline v${VERSION} 설치 → ${CWD}`);
   const existing = readConfig({ required: false });
   const cfg = existing || { ...DEFAULT_CONFIG, ...(cssDirArg ? { cssDir: cssDirArg } : {}) };
   if (cssDirArg && existing) cfg.cssDir = cssDirArg;
@@ -125,13 +125,13 @@ function init(args) {
 
   writeIfAbsent("stylelint.config.mjs", `// ux-baseline 검사 설정. 프로젝트 규칙은 rules 에 더한다. 외부 키트 CSS 는 ignoreFiles 로 뺀다(CF-049).
 export default {
-  extends: ["@sizlon/ux-baseline/stylelint"],
+  extends: ["ux-baseline/stylelint"],
   ignoreFiles: ${JSON.stringify(cfg.ignore)},
 };
 `, { force });
   writeIfAbsent(".htmlvalidate.json", JSON.stringify({
     root: true,
-    plugins: ["@sizlon/ux-baseline/html-validate"],
+    plugins: ["ux-baseline/html-validate"],
     extends: ["ux-baseline:recommended"],
   }, null, 2) + "\n", { force });
 
@@ -164,7 +164,7 @@ export default {
 function update() {
   const cfg = readConfig();
   const from = cfg.version;
-  log(`@sizlon/ux-baseline ${from ? `v${from} → ` : ""}v${VERSION}`);
+  log(`ux-baseline ${from ? `v${from} → ` : ""}v${VERSION}`);
   cfg.version = VERSION;
   writeFileSync(join(CWD, CONFIG_FILE), JSON.stringify(cfg, null, 2) + "\n");
   installManaged(cfg);
@@ -255,7 +255,7 @@ async function check(args) {
     result = await runChecks({ deps, ruleMap, axeConfig, browser, css, html, urls, states, progressSelector: cfg.progressSelector, resolvePage: (pg) => join(CWD, pg), stylelintOptions: { cwd: CWD }, label: rel });
   } catch (e) {
     if (browser) await browser.close();
-    if (/No configuration provided/i.test(e.message)) fail("stylelint 설정이 없다. npx ux-baseline init 을 실행하거나 stylelint.config.mjs 에 extends: [\"@sizlon/ux-baseline/stylelint\"] 를 넣는다.");
+    if (/No configuration provided/i.test(e.message)) fail("stylelint 설정이 없다. npx ux-baseline init 을 실행하거나 stylelint.config.mjs 에 extends: [\"ux-baseline/stylelint\"] 를 넣는다.");
     throw e;
   }
   if (browser) await browser.close();

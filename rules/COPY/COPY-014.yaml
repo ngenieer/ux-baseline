@@ -31,7 +31,7 @@ examples:
   - lang: html
     code: '<!-- 민간 서비스 푸터: 사업자 정보만 표시 -->
 
-      <footer><p>주식회사 시즐론 · 사업자등록번호 000-00-00000</p></footer>
+      <footer><p>주식회사 예시 · 사업자등록번호 000-00-00000</p></footer>
 
       '
     note: 민간 서비스 푸터에 사업자 정보만 표시한다
@@ -39,7 +39,7 @@ examples:
   - lang: html
     code: '<!-- 민간 서비스인데 정부 식별자 문구 사용 -->
 
-      <div class="identifier"><p>이 누리집은 시즐론에서 운영하는 누리집입니다.</p></div>
+      <div class="identifier"><p>이 누리집은 주식회사 예시에서 운영하는 누리집입니다.</p></div>
 
       '
     note: 민간 서비스가 운영기관 식별자 문구를 쓴다

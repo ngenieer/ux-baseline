@@ -17,10 +17,10 @@
 
 ## 다른 프로젝트에 도입하기
 
-이 저장소는 npm 패키지 `@sizlon/ux-baseline` 으로 설치한다. 아직 npm 레지스트리에 올리지 않았으므로 GitHub 태그나 릴리스의 .tgz 로 설치한다.
+GitHub 저장소 `ngenieer/ux-baseline` 의 태그나 릴리스의 .tgz 로 설치한다(아직 npm 레지스트리에 올리지 않았다). 설치된 패키지 이름은 `ux-baseline` 이다.
 
 ```sh
-npm i -D github:ngenieer/ux-baseline#v0.2.1     # 또는 릴리스의 .tgz: npm i -D ./sizlon-ux-baseline-0.2.1.tgz
+npm i -D github:ngenieer/ux-baseline#v0.2.1     # 또는 릴리스의 .tgz: npm i -D ./ux-baseline-0.2.1.tgz
 npx playwright-core install chromium          # 브라우저 검사용 (한 번)
 npx ux-baseline init                          # 설정·토큰·AI 지침(AGENTS.md)·Claude 스킬 설치
 npx ux-baseline check                         # 모든 검사 → 위반을 룰 ID 와 함께 보고 (오류 있으면 종료 코드 1)

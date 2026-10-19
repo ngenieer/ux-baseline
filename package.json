@@ -1,5 +1,5 @@
 {
-  "name": "@sizlon/ux-baseline",
+  "name": "ux-baseline",
   "version": "0.2.1",
   "description": "웹 UI/UX 기준 — 디자인 토큰, 기본 스타일, 검사기 설정(stylelint·html-validate·axe-core), AI 에이전트용 지침·스킬, 검사 명령(ux-baseline check)",
   "type": "module",
